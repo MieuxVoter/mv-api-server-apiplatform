@@ -8,6 +8,7 @@
 
 use App\Entity\LimajuPoll;
 use App\Entity\LimajuPollOption;
+use App\Entity\User;
 
 
 /**
@@ -99,12 +100,12 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) citizens? in the database$/u
-     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) citoyen(?:⋅?ne)?s? dans la base de données$/u
+     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/u
+     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) utilisateur(?:⋅?e)?s? dans la base de données$/ui
      */
-    public function thereShouldBeSomeCitizensInTheDatabase($thatMuch)
+    public function thereShouldBeSomeUsersInTheDatabase($thatMuch)
     {
-        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, 'Citizen');
+        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, User::class);
     }
 
 
@@ -114,7 +115,7 @@ class MainFeatureContext extends BaseFeatureContext
      */
     public function thereShouldBeSomeLimajuPollsInTheDatabase($thatMuch)
     {
-        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, 'LimajuPoll');
+        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, LimajuPoll::class);
     }
 
 

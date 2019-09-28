@@ -361,7 +361,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     {
         $count = $this->getEntityManager()->createQueryBuilder()
             ->select('COUNT(e)')
-            ->from(sprintf('App:%s', $what), 'e')
+            ->from(sprintf('%s', $what), 'e')
             ->getQuery()
             ->execute()[0][1];
 
