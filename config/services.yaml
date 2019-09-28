@@ -14,14 +14,49 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
+        public: true
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude:
+            - '../src/{Features,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+            - '../src/Tally/Output'
+
+    # Override the test client to get pretty responses for CLI, and perhaps store some config like URL prefixes.
+    test.client:
+        # Try removing the public: true for a very confusing error message about framework.test
+        public: true
+        class: App\Features\ApiTesterClient
+
+
+    # The services we need in the feature suite
+    App\Features\:
+        public: true
+        resource: '../src/Features/{Actors.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+
+    MsgPhp\User\Infrastructure\Doctrine\Repository\UserRepository:
+        # Public only because of the test-suite.  Remove this if you can.
+        public: true
+        arguments:
+            - "App\\Entity\\User"
+            - "@doctrine.orm.default_entity_manager"
+            - "credential.email"
+
+    App\Translator\TwiggyTranslator:
+        decorates: translator
+        arguments:
+            # Translation domains to enable Twig for (other domains _should_ behave like usual)
+            - ['messages', 'features', '', ]
+            # Pass the old service as an argument, it has all the I18N config
+            # This service id only exists because we're decorating the translator
+            - '@App\Translator\TwiggyTranslator.inner'
+            # Twig also has the extensions and global vars available
+            - "@twig"
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

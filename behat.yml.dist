@@ -1,0 +1,39 @@
+# You need to copy this file to `behat.yaml`.
+# We should automate this copy with a hook on Composer.  NIH
+
+default:
+  suites:
+    rest:
+      contexts:
+        - MainFeatureContext:
+            actors: '@App\Features\Actors'
+        - HookFeatureContext:
+            actors: '@App\Features\Actors'
+        - ToolFeatureContext:
+            actors: '@App\Features\Actors'
+        - PoetryFeatureContext:
+            actors: '@App\Features\Actors'
+        - ApiRegistrationFeatureContext:
+            actors: '@App\Features\Actors'
+        - ApiRestFeatureContext:
+            actors: '@App\Features\Actors'
+#    graphql:
+#      contexts:
+#        - MainFeatureContext:
+#            actors: '@App\Features\Actors'
+#        - HookFeatureContext:
+#            actors: '@App\Features\Actors'
+#        - ToolFeatureContext:
+#            actors: '@App\Features\Actors'
+#        - PoetryFeatureContext:
+#            actors: '@App\Features\Actors'
+#        - ApiRegistrationFeatureContext:
+#            actors: '@App\Features\Actors'
+#        - ApiGraphFeatureContext:
+#            actors: '@App\Features\Actors'
+
+  extensions:
+    Behat\Symfony2Extension:
+      kernel:
+        bootstrap: features/bootstrap/bootstrap.php
+        class: App\Kernel

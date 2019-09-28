@@ -14,3 +14,8 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    # Enable annotations (for API Platform)
+    # https://api-platform.com/docs/core/serialization/#configuration
+    serializer:
+        enable_annotations: true

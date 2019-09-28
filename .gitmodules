@@ -1,0 +1,3 @@
+[submodule "features/gherkin/fr"]
+	path = features/gherkin/fr
+	url = https://framagit.org/limaju/limaju-server-features-fr.git

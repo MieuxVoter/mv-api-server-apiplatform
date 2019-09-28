@@ -1,0 +1,44 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: { memory: null }
+        msgphp_user:
+            id: MsgPhp\User\Infrastructure\Security\UserIdentityProvider
+
+    encoders:
+        App\Entity\User: auto
+        MsgPhp\User\Infrastructure\Security\UserIdentity: auto
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER: ROLE_ADMIN
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api_documentation_sandbox:
+            pattern:  ^/api/docs?(?:[.](?:html|xml|json|ya?ml))?$
+            security: false
+
+        main:
+#            anonymous: true
+            pattern:   ^/api
+            provider: msgphp_user
+            stateless: true
+            security: true
+            http_basic:
+                realm: "Limaju's Authentication Desk"
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

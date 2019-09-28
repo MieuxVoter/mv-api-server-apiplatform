@@ -1,0 +1,23 @@
+# https://api-platform.com/docs/core/configuration/
+
+api_platform:
+    # The title of the API.
+    title: 'Limaju API'
+
+    # The description of the API.
+    description: |
+        *Limaju* is a **deliberation service** using (liquid) **majority judgment** polling.
+        It's **libre software** made and maintained by nobodies.
+        You're browsing the API documentation.
+
+        For more, head over to [Gitlab](https://framagit.org/limaju).
+
+    # The version of the API.
+    version: '0.0.0-dev'
+
+    # Set this to false if you want Webby to disappear.
+    show_webby: true
+
+    # The shenanigans
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
