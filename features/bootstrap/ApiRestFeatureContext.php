@@ -10,6 +10,20 @@
 class ApiRestFeatureContext extends BaseFeatureContext
 {
 
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? créer? un compte utilisateur avec le courriel "(.*)" et le mot de passe "(.*)"$/ui
+     */
+    public function actorRegistersWithEmailAndPassword($actor, $email, $password)
+    {
+        $this->actor($actor, true)->api(
+            'POST',"/users",
+            [
+                'username' => $email,
+                'password' => $password,
+            ], [], !empty($try)
+        );
+    }
+
 //    /**
 //     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? dél[éè]gu(?:e[szr]?|ons|ent)(?: finalement)? ses votes à (?P<delegate>.+)$/ui
 //     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? delegate? (?:my|her|his|their) votes to (?P<delegate>.+)$/ui
