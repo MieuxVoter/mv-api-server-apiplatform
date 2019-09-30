@@ -16,11 +16,11 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public function actorRegistersWithEmailAndPassword($actor, $try, $email, $password)
     {
         $this->actor($actor, true)->api(
-            'POST',"/users", null,
+            'POST',"/users",
             [
                 'email' => $email,
-                'password' => ['plain' => $password], // weird, eh?
-            ], !empty($try)
+                'password' => $password,
+            ], [], !empty($try)
         );
     }
 

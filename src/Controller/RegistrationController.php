@@ -15,6 +15,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Register a new User.
+ * This documentation never appears anywhere, does it?
+ * See App\Entity\UserDocumentation
+ *
  * @Route("/api/users", name="api_register", methods={"POST"})
  */
 final class RegistrationController
@@ -26,22 +30,21 @@ final class RegistrationController
         EntityManagerInterface $em
     ): Response {
         $data = [];
-//        if (\is_string($token = $request->query->get('token')) && null !== $invitation = $em->find(UserInvitation::class, $token)) {
-//            $data['email'] = $invitation->getEmail();
-//        }
+
+        $this->adaptRequest($request);
 
         $form = $formFactory->createNamed('', RegistrationType::class, $data, ['csrf_protection' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-//            $data['invitation_token'] = $token;
             $bus->dispatch(new CreateUser($data));
 
             return new JsonResponse([
                 'message' => "api.registration.success",
                 'data' => $data,  // maybe instead output the user, with id?
-            ], Response::HTTP_OK);
+            ], JsonResponse::HTTP_CREATED);
+            // also provide ['Location' => $locationUrl]
         }
 
         $error = "api.registration.failure.message";
@@ -55,5 +58,33 @@ final class RegistrationController
         }
 
         return new JsonResponse(['error' => $error], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Since ApiPlatform generated doc recommends usage of the Content instead of POST vars,
+     * let's convert what's in the content to POST vars before feeding it to the form.
+     * Whe also handle here the password['plain'] array quirk.
+     *
+     * This mutates the $request.
+     *
+     * @param Request $request
+     */
+    protected function adaptRequest(Request $request)
+    {
+        $content = $request->getContent();
+        if ( ! empty($content)) {
+            try {
+                $content = json_decode($content, true, 3, JSON_BIGINT_AS_STRING&JSON_OBJECT_AS_ARRAY);
+            }
+            catch (\JsonException $e) { return; }
+            catch (\Exception $e) { return; }
+
+            if (isset($content["email"])) {
+                $request->request->set('email', $content["email"]);
+            }
+            if (isset($content["password"])) {
+                $request->request->set('password', ['plain' => $content["password"]]);
+            }
+        }
     }
 }
