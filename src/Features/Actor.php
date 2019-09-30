@@ -305,6 +305,7 @@ class Actor
      *
      * @param string $method Where are the constants for this?
      * @param string $route
+     * @param null $content
      * @param array $parameters
      * @param bool $only_trying
      * @return Transaction

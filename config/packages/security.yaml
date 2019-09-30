@@ -22,6 +22,11 @@ security:
             pattern:  ^/api/docs?(?:[.](?:html|xml|json|ya?ml))?$
             security: false
 
+        api_registration:
+            pattern:  ^/api/users$
+            methods: [POST]
+            security: false
+
         main:
 #            anonymous: true
             pattern:   ^/api

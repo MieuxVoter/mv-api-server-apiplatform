@@ -15,8 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * A Liquid Majority Judgment Poll.
  *
- * @ApiResource(
- *     denormalizationContext={"groups"={"create"}},
  *     itemOperations={
  *         "post"={
  *             "denormalization_context"={"groups"={"create"}},
@@ -25,6 +23,13 @@ use Doctrine\ORM\Mapping as ORM;
  *         "put",
  *         "delete",
  *     },
+ *     denormalizationContext = { "groups" = { "create" } },
+ * @ApiResource(
+ *     collectionOperations = {
+ *         "post"={
+ *             "denormalization_context"={"groups"={"create"}},
+ *         },
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\LimajuPollRepository")
  */

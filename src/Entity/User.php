@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MsgPhp\Domain\DomainCollection;
+use MsgPhp\Domain\GenericDomainCollection;
 use MsgPhp\User\User as BaseUser;
 use MsgPhp\User\UserId;
 use MsgPhp\Domain\Event\DomainEventHandler;
@@ -13,13 +15,16 @@ use MsgPhp\User\Model\ResettablePassword;
 use MsgPhp\User\Model\RolesField;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * ApiResource()
+ * We ditched FosUserBundle for the new MsgPhp\User
+ *
  * @ORM\Entity()
+ * @UniqueEntity(fields={"name"}, message="There is already an account with this name")
  */
 class User extends BaseUser implements DomainEventHandler, UserInterface
 {
@@ -37,14 +42,15 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
 
     /**
      * @Groups({ "create", "read", "update" })
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $name;
+    public $name;
 
-    public function __construct(UserId $id, string $name, string $email, string $password)
+
+    public function __construct(UserId $id, string $email, string $password)
     {
         $this->id = $id;
-        $this->name = $name;
+//        $this->name = $name;
         $this->credential = new EmailPassword($email, $password);
     }
 
@@ -76,8 +82,5 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
+    public function eraseCredentials() {}
 }
