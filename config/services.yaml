@@ -32,21 +32,21 @@ services:
         public: true
         resource: '../src/Features/{Actors.php}'
 
-    # controllers are imported separately to make sure services can be injected
+    # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-
+    # Override to make public, only because of the test-suite.  Remove this if you can.
     MsgPhp\User\Infrastructure\Doctrine\Repository\UserRepository:
-        # Public only because of the test-suite.  Remove this if you can.
         public: true
         arguments:
             - "App\\Entity\\User"
             - "@doctrine.orm.default_entity_manager"
             - "credential.email"
 
+    # Who doesn't need Twig in translations strings?
     App\Translator\TwiggyTranslator:
         decorates: translator
         arguments:
