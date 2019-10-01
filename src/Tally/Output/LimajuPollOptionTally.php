@@ -226,7 +226,7 @@ class LimajuPollOptionTally
             if (isset($tally[$mention])) {
                 $count += (int) $tally[$mention];
             } else {
-                trigger_error("Mention `$mention' is not available in the tally.", E_ERROR);
+                trigger_error("Mention `$mention' is not available in the tally.", E_USER_ERROR);
             }
         }
 
