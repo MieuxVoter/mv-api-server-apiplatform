@@ -24,4 +24,14 @@ class LimajuPollTally
     {
         $this->options = $options;
     }
+
+    public function countVotes()
+    {
+        $count = 0;
+        foreach ($this->options as $option) {
+            $count += $option->countVotes();
+        }
+
+        return $count;
+    }
 }
