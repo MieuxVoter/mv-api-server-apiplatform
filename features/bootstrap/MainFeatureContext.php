@@ -34,7 +34,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Given /^a citizen named (?P<name>.+)$/ui
-     * @Given /^un(?:⋅?e)? citoyen(?:⋅?ne)?(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      */
     public function givenCitizenNamed($name)
     {

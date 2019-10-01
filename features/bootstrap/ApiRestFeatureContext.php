@@ -41,7 +41,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? vot(?:e[szr]?|ent) sur le scrutin au jugement majoritaire titré "(?P<title>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin au jugement majoritaire titré "(?P<title>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<title>.+)" *:$/ui
      */
     public function actorVotesOnTheLimajuPollTitled($actor, $try, $title, $pystring)
@@ -66,7 +66,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de|) cré(?:e[szr]?|ent) (?:le|un) scrutin au jugement majoritaire (?:comme suit|suivant) *:$/u
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) cré(?:e[szr]?|ent) (?:le|un) scrutin au jugement majoritaire (?:comme suit|suivant) *:$/u
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) creates? the following majority judgment poll:$/ui
      */
     public function actorSubmitsTheLimajuPollLikeSo($actor, $try, $pystring)
@@ -90,6 +90,29 @@ class ApiRestFeatureContext extends BaseFeatureContext
                 'options' => $options,
             ], [], !empty($try)
         );
+    }
+
+
+    public $that_tally;
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent) le scrutin titré "(?P<title>.+)"$/ui
+     * When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? tall(?:y|ies) the majority judgment poll titled "(?P<title>.+)"$/ui
+     */
+    public function actorTalliesTheLimajuPollTitled($actor, $try, $title)
+    {
+        $poll = $this->findOneLimajuPollFromTitle($title);
+
+        $tx = $this->actor($actor)->api(
+            'GET',"/limaju_poll_tally/".$poll->getId(),
+            [], [], !empty($try)
+        );
+
+        if ($tx->getResponse()->isSuccessful()) {
+            $this->that_tally = json_decode($tx->getResponse()->getContent());
+        } else {
+            $this->that_tally = null;
+        }
     }
 
 }
