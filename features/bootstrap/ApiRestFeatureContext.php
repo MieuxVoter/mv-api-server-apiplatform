@@ -96,7 +96,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public $that_tally;
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent) le scrutin titré "(?P<title>.+)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent)(?: (?:de|à) nouveau)? le scrutin titré "(?P<title>.+)"$/ui
      * When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? tall(?:y|ies) the majority judgment poll titled "(?P<title>.+)"$/ui
      */
     public function actorTalliesTheLimajuPollTitled($actor, $try, $title)

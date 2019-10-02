@@ -237,7 +237,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Then /^(?P<actor>.+?) should (?:(?P<ok>succeed)|(?P<ko>fail))$/
-     * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions) (?:(?P<ok>réussir)|(?P<ko>échouer))$/u
+     * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? (?:(?P<ok>réussir)|(?P<ko>échouer))$/u
      */
     public function actorShouldSucceedOrFail($actor, $ok=null, $ko=null)
     {
