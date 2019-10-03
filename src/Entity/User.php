@@ -2,19 +2,17 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use MsgPhp\Domain\DomainCollection;
-use MsgPhp\Domain\GenericDomainCollection;
-use MsgPhp\User\User as BaseUser;
-use MsgPhp\User\UserId;
 use MsgPhp\Domain\Event\DomainEventHandler;
 use MsgPhp\Domain\Event\DomainEventHandlerTrait;
 use MsgPhp\User\Credential\EmailPassword;
 use MsgPhp\User\Model\EmailPasswordCredential;
 use MsgPhp\User\Model\ResettablePassword;
 use MsgPhp\User\Model\RolesField;
-
-use ApiPlatform\Core\Annotation\ApiResource;
+use MsgPhp\User\User as BaseUser;
+use MsgPhp\User\UserId;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -46,12 +44,21 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
      */
     public $name;
 
+    /**
+     * Authored Limaju Polls.
+     *
+     * @Groups({ "never" })
+     * @ORM\OneToMany(targetEntity="App\Entity\LimajuPoll", mappedBy="author")
+     */
+    private $limajuPolls;
+
 
     public function __construct(UserId $id, string $email, string $password)
     {
         $this->id = $id;
 //        $this->name = $name;
         $this->credential = new EmailPassword($email, $password);
+        $this->limajuPolls = new ArrayCollection();
     }
 
     public function getId(): UserId
@@ -83,4 +90,35 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
      * the plain-text password is stored on this object.
      */
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|LimajuPoll[]
+     */
+    public function getLimajuPolls(): Collection
+    {
+        return $this->limajuPolls;
+    }
+
+    public function addLimajuPoll(LimajuPoll $limajuPoll): self
+    {
+        if (!$this->limajuPolls->contains($limajuPoll)) {
+            $this->limajuPolls[] = $limajuPoll;
+            $limajuPoll->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLimajuPoll(LimajuPoll $limajuPoll): self
+    {
+        if ($this->limajuPolls->contains($limajuPoll)) {
+            $this->limajuPolls->removeElement($limajuPoll);
+            // set the owning side to null (unless already changed)
+            if ($limajuPoll->getAuthor() === $this) {
+                $limajuPoll->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
 }

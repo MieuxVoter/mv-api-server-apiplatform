@@ -4,12 +4,27 @@
 namespace App\Entity;
 
 
-use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *         "get"={
+ *             "normalization_context"={"groups"={"vote:read"}},
+ *         },
+ *         "delete"={
+ *             "access_control"="is_granted('can_delete', object)",
+ *         },
+ *     },
+ *     collectionOperations = {
+ *         "post"={
+ *             "denormalization_context"={"groups"={"vote:create"}},
+ *             "normalization_context"={"groups"={"vote:read"}},
+ *         },
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\LimajuPollOptionVoteRepository")
  */
 class LimajuPollOptionVote
@@ -25,7 +40,7 @@ class LimajuPollOptionVote
     /**
      * The Majority Judgment Poll Option the author is giving a mention to.
      *
-     * @Groups({ "create", "read" })
+     * @Groups({ "vote:create", "vote:read" })
      * @ORM\ManyToOne(targetEntity="App\Entity\LimajuPollOption", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -38,7 +53,7 @@ class LimajuPollOptionVote
      * This is optional, and some polls may require all participants to be logged in.
      * For anonymous votes, this may be null.
      *
-     * @Groups({ "read" })
+     * @Groups({ "none" })
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPollOptionVotes")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -48,7 +63,7 @@ class LimajuPollOptionVote
     /**
      * The name of the author of the vote, if any was specified.
      *
-     * @Groups({ "create", "read", "update" })
+     * @Groups({ "vote:create", "vote:read", "vote:update" })
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -57,7 +72,7 @@ class LimajuPollOptionVote
     /**
      * The mention attributed by the author to the option.
      *
-     * @Groups({ "create", "read", "update" })
+     * @Groups({ "vote:create", "vote:read", "vote:update" })
      * @ORM\Column(type="string", length=16)
      */
     private $mention;

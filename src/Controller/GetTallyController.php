@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\LimajuPollTally;
 use App\Repository\LimajuPollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +34,7 @@ final class GetTallyController
         $this->container = $container;
     }
 
+
     public function __invoke(
         string $id,
         Request $request,
@@ -43,9 +45,10 @@ final class GetTallyController
 
         $poll = $pollRepository->find($id);
 
-        $tally = "standard";
+        $tally = new LimajuPollTally();
 
-        $tallyBot = $this->getTallyBot($tally);
+        $tallyType = "standard";
+        $tallyBot = $this->getTallyBot($tallyType);
         $tallyOutput = $tallyBot->tallyVotesOnLimajuPoll($poll);
 
         $votesCount = $tallyOutput->countVotes();
@@ -55,7 +58,9 @@ final class GetTallyController
             return new JsonResponse(['error' => $error], Response::HTTP_BAD_REQUEST);
         }
 
-        return new JsonResponse($tallyOutput, Response::HTTP_OK);
+        $tally->standard = $tallyOutput;
+
+        return new JsonResponse($tally, Response::HTTP_OK);
     }
 
     /**

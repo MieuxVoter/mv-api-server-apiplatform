@@ -111,7 +111,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
-     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) scrutins? au jugement majoritaire dans la base de données$/ui
+     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? y avoir (?P<thatMuch>.+) scrutins? au jugement majoritaire dans la base de données$/ui
      */
     public function thereShouldBeSomeLimajuPollsInTheDatabase($thatMuch)
     {
@@ -123,7 +123,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
-     * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
+     * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
      */
     public function actorShouldHaveSomeLimajuPollOptionVotesForPoll($actor, $thatMuch, $title)
     {

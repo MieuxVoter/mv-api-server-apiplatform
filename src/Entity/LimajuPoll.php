@@ -4,27 +4,26 @@
 namespace App\Entity;
 
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * A Liquid Majority Judgment Poll.
  *
- *     itemOperations={
- *         "post"={
- *             "denormalization_context"={"groups"={"create"}},
- *         },
- *         "get",
- *         "put",
- *         "delete",
- *     },
- *     denormalizationContext = { "groups" = { "create" } },
  * @ApiResource(
+ *     itemOperations={
+ *         "get"={
+ *             "normalization_context"={"groups"={"read"}},
+ *         },
+ *         "delete"={
+ *             "access_control"="is_granted('can_delete', object)",
+ *         },
+ *     },
  *     collectionOperations = {
  *         "post"={
  *             "denormalization_context"={"groups"={"create"}},
@@ -35,7 +34,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class LimajuPoll
 {
-
 
     const MENTION_EXCELLENT  = 'bonega';
     const MENTION_VERY_GOOD  = 'trebona';
@@ -71,6 +69,13 @@ class LimajuPoll
      * )
      */
     private $options;
+
+    /**
+     * @Groups({ "none" })
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPolls")
+     */
+    private $author;
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -125,6 +130,18 @@ class LimajuPoll
                 $option->setPoll(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
