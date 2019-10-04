@@ -9,6 +9,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use MsgPhp\User\Infrastructure\Security\UserIdentity;
 use MsgPhp\User\Repository\UserRepository;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -49,6 +50,11 @@ class Application
     protected $iriConverter;
 
     /**
+     * @var MessageBusInterface
+     */
+    private $messageBus;
+
+    /**
      * Application constructor.
      * This is going to get almost ALL services. Smelly smelly!
      *
@@ -61,13 +67,15 @@ class Application
         Security $security,
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
-        IriConverterInterface $iriConverter
+        IriConverterInterface $iriConverter,
+        MessageBusInterface $messageBus
     )
     {
         $this->security = $security;
         $this->entityManager = $entityManager;
         $this->iriConverter = $iriConverter;
         $this->userRepository = $userRepository;
+        $this->messageBus = $messageBus;
     }
 
 
@@ -106,6 +114,15 @@ class Application
     public function iri($item)
     {
         return $this->getIriConverter()->getIriFromItem($item);
+    }
+
+
+    /**
+     * @return MessageBusInterface
+     */
+    public function getMessageBus(): MessageBusInterface
+    {
+        return $this->messageBus;
     }
 
 }

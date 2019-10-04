@@ -9,6 +9,7 @@
 use App\Entity\LimajuPoll;
 use App\Entity\LimajuPollOption;
 use App\Entity\User;
+use MsgPhp\User\Command\AddUserRole;
 
 
 /**
@@ -57,6 +58,25 @@ class MainFeatureContext extends BaseFeatureContext
         $actor = $this->actor($actor, true);
         $actor->setUser($userAndToken['user']);
         $actor->setPassword($userAndToken['token']);
+    }
+
+
+    /**
+     * @Given /^a moderator named (?P<name>.+)$/ui
+     * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     */
+    public function givenModeratorNamed($name)
+    {
+        $userAndToken = $this->createUser($name);
+
+        $actor = $this->actor($name, true);
+        $actor->setUser($userAndToken['user']);
+        $actor->setPassword($userAndToken['token']);
+
+        $userId = $actor->getUser()->getId();
+        $roleName = 'ROLE_ADMIN';
+        $context = [];
+        $this->app()->getMessageBus()->dispatch(new AddUserRole($userId, $roleName, $context));
     }
 
 
@@ -111,7 +131,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
-     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? y avoir (?P<thatMuch>.+) scrutins? au jugement majoritaire dans la base de données$/ui
+     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? y avoir (?P<thatMuch>.+) scrutins?(?: au jugement majoritaire)? dans la base de données$/ui
      */
     public function thereShouldBeSomeLimajuPollsInTheDatabase($thatMuch)
     {
