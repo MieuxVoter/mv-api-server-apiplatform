@@ -41,7 +41,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin au jugement majoritaire titré "(?P<title>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<title>.+)" *:$/ui
      */
     public function actorVotesOnTheLimajuPollTitled($actor, $try, $title, $pystring)
