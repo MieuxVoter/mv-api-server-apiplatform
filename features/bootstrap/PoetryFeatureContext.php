@@ -29,4 +29,11 @@ class PoetryFeatureContext extends BaseFeatureContext
      */
     public function whenActorDoesNotDecideOnThings() {}
 
+
+    /**
+     * @When /^(?P<actor>.+?) does not like it$/ui
+     * @When /^(?P<actor>.+?) n'aime pas ça$/ui
+     */
+    public function whenActorDoesNotLikeIt() {}
+
 }

@@ -6,6 +6,7 @@ namespace App\Security;
 
 use App\Application;
 use App\Entity\LimajuPoll;
+use App\Repository\LimajuPollOptionVoteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -26,10 +27,16 @@ class PollBouncer extends Voter
      * @var AuthorizationCheckerInterface
      */
     private $authorizationChecker;
+
     /**
      * @var Application
      */
     private $app;
+
+    /**
+     * @var LimajuPollOptionVoteRepository
+     */
+    private $voteRepository;
 
 
     /**
@@ -39,10 +46,12 @@ class PollBouncer extends Voter
      */
     public function __construct(
         Application $app,
+        LimajuPollOptionVoteRepository $voteRepository,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->app = $app;
+        $this->voteRepository = $voteRepository;
     }
 
     public function canCurrentUserEditPoll(LimajuPoll $poll, string $password='') : bool
@@ -101,6 +110,10 @@ class PollBouncer extends Voter
             if ($subject instanceof LimajuPoll) {
                 if (in_array('ROLE_ADMIN', $roles)) {
                     return true;
+                }
+
+                if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
+                    return false;
                 }
 
                 if ($subject->getAuthor() === $this->app->getAuthenticatedUser()) {

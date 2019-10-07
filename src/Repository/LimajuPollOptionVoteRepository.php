@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\LimajuPoll;
 use App\Entity\LimajuPollOptionVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -17,6 +18,18 @@ class LimajuPollOptionVoteRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LimajuPollOptionVote::class);
+    }
+
+
+    public function countVotesOnPoll(LimajuPoll $poll)
+    {
+        $count = 0;
+        foreach ($poll->getOptions() as $option) {
+            $count += $this->count([
+                'option' => $option->getId(),
+            ]);
+        }
+        return $count;
     }
 
     // /**
