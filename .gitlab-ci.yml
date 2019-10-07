@@ -9,6 +9,9 @@ test:
     paths:
       - vendor/
 
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
   before_script:
     - apt-get update
     - apt-get install -y unzip
