@@ -5,17 +5,12 @@ namespace App\Tally\Bot;
 
 
 use App\Application;
-use App\Entity\Citizen;
 use App\Entity\LimajuPoll;
 use App\Entity\LimajuPollOptionVote;
-use App\Entity\Work;
-use App\Entity\WorkVote;
 use App\Repository\LimajuPollOptionRepository;
 use App\Repository\LimajuPollOptionVoteRepository;
-use App\Repository\WorkVoteRepository;
 use App\Tally\Output\LimajuPollOptionTally;
 use App\Tally\Output\LimajuPollTally;
-use App\Tally\Output\Tally;
 
 
 /**
