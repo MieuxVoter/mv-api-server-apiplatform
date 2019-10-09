@@ -7,7 +7,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Application;
 use App\Entity\LimajuPoll;
-use App\Entity\LimajuPollOptionVote;
+use App\Entity\LimajuPollCandidateVote;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * This is how we hook in API Platform to set the author, during creation, of
  * - LimajuPoll
- * - LimajuPollOptionVote
+ * - LimajuPollCandidateVote
  *
  * This only works for REST
  * https://github.com/api-platform/api-platform/issues/734
@@ -75,8 +75,8 @@ final class SetAuthorOfEntityIfNeeded implements EventSubscriberInterface
             $entity->setAuthor($this->application->getAuthenticatedUser());
         }
 
-        if ($entity instanceof LimajuPollOptionVote) {
-            $entity->setAuthor($this->application->getAuthenticatedUser());
+        if ($entity instanceof LimajuPollCandidateVote) {
+            $entity->setElector($this->application->getAuthenticatedUser());
         }
     }
 }

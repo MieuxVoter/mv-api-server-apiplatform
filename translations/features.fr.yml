@@ -7,7 +7,7 @@ balloting:
 keys:
   poll:
     title: 'titre'
-    options: 'options'
+    candidates: 'candidats'
 
 value:
   majority_judgment_poll:
@@ -38,19 +38,19 @@ test:
   failure:
     not_equal: |
       La valeur obtenue ({{ actual }}) diffère de la valeur attendue ({{ expected }}).
-    option_tallies_dont_match: |
-      Sur l'option `{{ option.title }}' ({{ option.id }}),
+    candidate_tallies_dont_match: |
+      Sur le candidat `{{ candidate.title }}' ({{ candidate.id }}),
       on obtient la mention `{{ actual_mention }}' mais la mention attendue est `{{ expected_mention }}'.
-    option_position_mismatch: |
-      Sur l'option `{{ option.title }}' ({{ option.id }}),
+    candidate_position_mismatch: |
+      Sur le candidat `{{ candidate.title }}' ({{ candidate.id }}),
       on obtient la position `{{ actual_position }}' mais sa position attendue est `{{ expected_position }}'.
-    options_left_unprocessed: |
-      Des options sont dans les spécifications mais n'ont jamais été comparées au dépouillement:
-      {% for option in options %}
-      - {{ option.title }} ({{ option.id }})
+    candidates_left_unprocessed: |
+      Des candidats sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
+      {% for candidate in candidates %}
+      - {{ candidate.title }} ({{ candidate.id }})
       {% endfor %}
     no_majority_judgment_poll_found_for_title: |
       Aucun scrutin au jugement majoritaure ayant le titre `{{ title }}' n'a été trouvé dans la base de données.
-    no_majority_judgment_poll_option_found_for_title: |
-      Aucune option ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
+    no_majority_judgment_poll_candidate_found_for_title: |
+      Aucun candidat ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
       n'a été trouvée dans la base de données.

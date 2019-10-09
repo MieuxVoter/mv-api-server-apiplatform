@@ -7,7 +7,7 @@
 
 
 use App\Entity\LimajuPoll;
-use App\Entity\LimajuPollOption;
+use App\Entity\LimajuPollCandidate;
 use App\Entity\User;
 use MsgPhp\User\Command\AddUserRole;
 
@@ -87,7 +87,7 @@ class MainFeatureContext extends BaseFeatureContext
     public function givenLimajuPoll($pystring)
     {
         $titleKey = $this->t('keys.poll.title');
-        $optionsKey = $this->t('keys.poll.options');
+        $candidatesKey = $this->t('keys.poll.candidates');
         $data = $this->yaml($pystring);
 
         $poll = new LimajuPoll();
@@ -99,15 +99,15 @@ class MainFeatureContext extends BaseFeatureContext
         $poll->setTitle($data[$titleKey]);
         $this->persist($poll);
 
-        if ( ! isset($data[$optionsKey])) {
-            $this->fail("At least one option is required in '${optionsKey}:'.");
+        if ( ! isset($data[$candidatesKey])) {
+            $this->fail("At least one candidate is required in '${candidatesKey}:'.");
         }
 
-        foreach ($data[$optionsKey] as $optionTitle) {
-            $option = new LimajuPollOption();
-            $option->setTitle($optionTitle);
-            $poll->addOption($option);
-            $this->persist($option);
+        foreach ($data[$candidatesKey] as $candidateTitle) {
+            $candidate = new LimajuPollCandidate();
+            $candidate->setTitle($candidateTitle);
+            $poll->addCandidate($candidate);
+            $this->persist($candidate);
         }
 
         $this->flush();
@@ -145,15 +145,15 @@ class MainFeatureContext extends BaseFeatureContext
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
      */
-    public function actorShouldHaveSomeLimajuPollOptionVotesForPoll($actor, $thatMuch, $title)
+    public function actorShouldHaveSomeLimajuPollCandidateVotesForPoll($actor, $thatMuch, $title)
     {
         $actor = $this->actor($actor);
         $thatMuch = $this->number($thatMuch);
         $poll = $this->findOneLimajuPollFromTitle($title);
         // fixme: for poll
 
-        $votes = $this->getLimajuPollOptionVoteRepository()->findBy([
-            'author' => $actor->getUser()->getId(),
+        $votes = $this->getLimajuPollCandidateVoteRepository()->findBy([
+            'elector' => $actor->getUser()->getId(),
 //            'poll' => $poll,
         ]);
         $actual = count($votes);
@@ -183,11 +183,11 @@ class MainFeatureContext extends BaseFeatureContext
         $positionAtom = 'position';
 
         $expected = [];
-        $pollOptions = [];
-        foreach ($expectedRaw as $optionTitle => $localizedMentionOrData) {
-            $pollOption = $this->findOneLimajuPollOptionFromTitleAndPoll($optionTitle, $poll);
-            $pollOptionId = $pollOption->getId()->toString();
-            $pollOptions[$pollOptionId] = $pollOption;
+        $pollcandidates = [];
+        foreach ($expectedRaw as $candidateTitle => $localizedMentionOrData) {
+            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
+            $pollCandidateId = $pollCandidate->getId()->toString();
+            $pollcandidates[$pollCandidateId] = $pollCandidate;
 
             if ( ! is_array($localizedMentionOrData)) {
                 $localizedMentionOrData = [
@@ -196,7 +196,7 @@ class MainFeatureContext extends BaseFeatureContext
             }
 
             $localizedMentionOrData[$mentionAtom] = $this->unlocalizeLimajuPollMention($localizedMentionOrData[$mentionAtom]);
-            $expected[$pollOptionId] = $localizedMentionOrData;
+            $expected[$pollCandidateId] = $localizedMentionOrData;
         }
 
         $tallyBot = $this->getTallyBot($tally);
@@ -205,31 +205,31 @@ class MainFeatureContext extends BaseFeatureContext
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);
 
-        foreach ($actual->options as $optionTally) {
+        foreach ($actual->candidates as $candidateTally) {
 
-            $optionId = $optionTally->poll_option_id->toString();
+            $candidateId = $candidateTally->poll_candidate_id->toString();
 
-            if (isset($expected[$optionId])) {
+            if (isset($expected[$candidateId])) {
                 $assertedSomething = true;
-                $expectationsLeftToProcess = array_diff($expectationsLeftToProcess, [$optionId]);
+                $expectationsLeftToProcess = array_diff($expectationsLeftToProcess, [$candidateId]);
 
-                $pollOption = $this->findOneLimajuPollOptionFromId($optionId);
-                if ($expected[$optionId][$mentionAtom] !== $optionTally->mention) {
-                    dump("Actual option tally", $optionTally);
-                    $this->failTrans("option_tallies_dont_match", [
-                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$optionId][$mentionAtom]),
-                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$optionTally->mention),
-                        'option' => $pollOption,
+                $pollCandidate = $this->findOneLimajuPollCandidateFromId($candidateId);
+                if ($expected[$candidateId][$mentionAtom] !== $candidateTally->mention) {
+                    dump("Actual candidate tally", $candidateTally);
+                    $this->failTrans("candidate_tallies_dont_match", [
+                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$candidateId][$mentionAtom]),
+                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$candidateTally->mention),
+                        'candidate' => $pollCandidate,
                     ]);
                 }
 
-                if (isset($expected[$optionId][$positionAtom])) {
-                    if ($expected[$optionId][$positionAtom] !== $optionTally->position) {
+                if (isset($expected[$candidateId][$positionAtom])) {
+                    if ($expected[$candidateId][$positionAtom] !== $candidateTally->position) {
                         dump("Actual poll tally", $actual);
-                        $this->failTrans('option_position_mismatch', [
-                            'expected_position' => $expected[$optionId][$positionAtom],
-                            'actual_position' => $optionTally->position,
-                            'option' => $pollOption,
+                        $this->failTrans('candidate_position_mismatch', [
+                            'expected_position' => $expected[$candidateId][$positionAtom],
+                            'actual_position' => $candidateTally->position,
+                            'candidate' => $pollCandidate,
                         ]);
                     }
                 }
@@ -238,12 +238,12 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         if (0 < count($expectationsLeftToProcess)) {
-            $optionsLeft = array_map(function($e) use ($pollOptions) {
-                return $pollOptions[$e];
+            $candidatesLeft = array_map(function($e) use ($pollcandidates) {
+                return $pollcandidates[$e];
             }, $expectationsLeftToProcess);
-            $this->failTrans("options_left_unprocessed", [
+            $this->failTrans("candidates_left_unprocessed", [
                 'expected' => $expected,
-                'options' => $optionsLeft,
+                'candidates' => $candidatesLeft,
             ]);
         }
 

@@ -8,13 +8,13 @@ use App\Entity\LimajuPoll;
 use Ramsey\Uuid\UuidInterface;
 
 
-class LimajuPollOptionTally
+class LimajuPollCandidateTally
 {
     /**
      * @var UuidInterface
-     * UUID of the LimajuPollOption that this tally belongs to.
+     * UUID of the LimajuPollCandidate that this tally belongs to.
      */
-    public $poll_option_id;
+    public $poll_candidate_id;
 
     /**
      * @var string
@@ -25,9 +25,9 @@ class LimajuPollOptionTally
 
     /**
      * @var integer
-     * The position of this option in its poll, after tallying.
-     * The position starts at 1 and ends at <NUMBER_OF_OPTIONS>.
-     * Two options MAY have the same position, in extreme cases.
+     * The position of this candidate in its poll, after tallying.
+     * The position starts at 1 and ends at <NUMBER_OF_CANDIDATES>.
+     * Two candidates MAY have the same position, in extreme cases.
      */
     public $position;
 
@@ -52,17 +52,17 @@ class LimajuPollOptionTally
     /**
      * @return UuidInterface
      */
-    public function getPollOptionId(): UuidInterface
+    public function getPollCandidateId(): UuidInterface
     {
-        return $this->poll_option_id;
+        return $this->poll_candidate_id;
     }
 
     /**
-     * @param UuidInterface $poll_option_id
+     * @param UuidInterface $poll_candidate_id
      */
-    public function setPollOptionId(UuidInterface $poll_option_id): void
+    public function setPollCandidateId(UuidInterface $poll_candidate_id): void
     {
-        $this->poll_option_id = $poll_option_id;
+        $this->poll_candidate_id = $poll_candidate_id;
     }
 
     /**
@@ -202,7 +202,7 @@ class LimajuPollOptionTally
 
     /**
      * Yields the mapping of the mentions to their "worth", an integer between 0 and `mentionsCount-1`.
-     * Helps when sorting the options during tallying.
+     * Helps when sorting the candidates during tallying.
      *
      * @return array of MENTION_XXX => N
      */
@@ -239,9 +239,9 @@ class LimajuPollOptionTally
      * Every politician's wet dream that banksters made a reality.
      *
      * May be used during tallying, on copies of tallies,
-     * to help with options of similar mentions.
+     * to help with candidates of similar mentions.
      * @param $mention
-     * @return LimajuPollOptionTally
+     * @return LimajuPollCandidateTally
      */
     public function removeOneVoteForMention($mention): self
     {
@@ -258,7 +258,7 @@ class LimajuPollOptionTally
      *
      * @param int $count
      * @param $mention
-     * @return LimajuPollOptionTally
+     * @return LimajuPollCandidateTally
      */
     public function addVotesForMention(int $count, $mention): self
     {

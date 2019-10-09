@@ -6,10 +6,10 @@ namespace App\Tally\Bot;
 
 use App\Application;
 use App\Entity\LimajuPoll;
-use App\Entity\LimajuPollOptionVote;
-use App\Repository\LimajuPollOptionRepository;
-use App\Repository\LimajuPollOptionVoteRepository;
-use App\Tally\Output\LimajuPollOptionTally;
+use App\Entity\LimajuPollCandidateVote;
+use App\Repository\LimajuPollCandidateRepository;
+use App\Repository\LimajuPollCandidateVoteRepository;
+use App\Tally\Output\LimajuPollCandidateTally;
 use App\Tally\Output\LimajuPollTally;
 
 
@@ -31,30 +31,30 @@ class StandardTallyBot implements TallyBotInterface
     protected $application;
 
     /**
-     * @var LimajuPollOptionRepository
+     * @var LimajuPollCandidateRepository
      */
-    protected $limajuPollOptionRepository;
+    protected $limajuPollCandidateRepository;
 
     /**
-     * @var LimajuPollOptionVoteRepository
+     * @var LimajuPollCandidateVoteRepository
      */
-    protected $limajuPollOptionVoteRepository;
+    protected $limajuPollCandidateVoteRepository;
 
 
     /**
      * StandardTallyBot constructor.
-     * @param LimajuPollOptionRepository $limajuPollOptionRepository
-     * @param LimajuPollOptionVoteRepository $limajuPollOptionVoteRepository
+     * @param LimajuPollCandidateRepository $limajuPollCandidateRepository
+     * @param LimajuPollCandidateVoteRepository $limajuPollCandidateVoteRepository
      * @param Application $application
      */
     public function __construct(
-        LimajuPollOptionRepository $limajuPollOptionRepository,
-        LimajuPollOptionVoteRepository $limajuPollOptionVoteRepository,
+        LimajuPollCandidateRepository $limajuPollCandidateRepository,
+        LimajuPollCandidateVoteRepository $limajuPollCandidateVoteRepository,
         Application $application)
     {
         $this->application = $application;
-        $this->limajuPollOptionRepository = $limajuPollOptionRepository;
-        $this->limajuPollOptionVoteRepository = $limajuPollOptionVoteRepository;
+        $this->limajuPollCandidateRepository = $limajuPollCandidateRepository;
+        $this->limajuPollCandidateVoteRepository = $limajuPollCandidateVoteRepository;
     }
 
 
@@ -63,18 +63,18 @@ class StandardTallyBot implements TallyBotInterface
      */
     public function tallyVotesOnLimajuPoll(LimajuPoll $poll): LimajuPollTally
     {
-        /** @var LimajuPollOptionTally[] $optionsTallies */
-        $optionsTallies = array();
+        /** @var LimajuPollCandidateTally[] $candidatesTallies */
+        $candidatesTallies = array();
 
-        $positions = (new LimajuPollOptionTally())->getMentionsPositions();
+        $positions = (new LimajuPollCandidateTally())->getMentionsPositions();
 
         $maxVotesCount = 0;
 
         // First loop: collect data
-        foreach ($poll->getOptions() as $option) {
+        foreach ($poll->getCandidates() as $candidate) {
 
-            $votes = $this->limajuPollOptionVoteRepository->findBy([
-                'option' => $option->getId(),
+            $votes = $this->limajuPollCandidateVoteRepository->findBy([
+                'candidate' => $candidate->getId(),
             ]);
 
             $votesCount = count($votes);
@@ -83,12 +83,12 @@ class StandardTallyBot implements TallyBotInterface
 
             if ($votesCount) {
 
-                usort($votes, function(LimajuPollOptionVote $a, LimajuPollOptionVote $b) use ($positions) {
+                usort($votes, function(LimajuPollCandidateVote $a, LimajuPollCandidateVote $b) use ($positions) {
                     return $positions[$a->getMention()] - $positions[$b->getMention()];
                 });
 
                 foreach ($positions as $mentionToTally => $whoCares) {
-                    $votesForMention = array_filter($votes, function(LimajuPollOptionVote $v) use ($mentionToTally) {
+                    $votesForMention = array_filter($votes, function(LimajuPollCandidateVote $v) use ($mentionToTally) {
                         return $v->getMention() === $mentionToTally;
                     });
                     $mentionsTally[$mentionToTally] = count($votesForMention);
@@ -96,28 +96,28 @@ class StandardTallyBot implements TallyBotInterface
 
             }
 
-            $optionTally = new LimajuPollOptionTally();
-            $optionTally->setPollOptionId($option->getId());
-            $optionTally->setMentionsTally($mentionsTally);
+            $candidateTally = new LimajuPollCandidateTally();
+            $candidateTally->setPollCandidateId($candidate->getId());
+            $candidateTally->setMentionsTally($mentionsTally);
             // Setting these later once we have all the tallies
-            //$optionTally->setMention(?);
-            //$optionTally->setPosition(?);
+            //$candidateTally->setMention(?);
+            //$candidateTally->setPosition(?);
 
-            $optionsTallies[] = $optionTally;
+            $candidatesTallies[] = $candidateTally;
         }
 
         // Second loop: equalize the votes count and compute the mention
-        foreach ($optionsTallies as $optionTally) {
-            // Fill up option tallies that have less votes, with TO_REJECT mentions
+        foreach ($candidatesTallies as $candidateTally) {
+            // Fill up candidate tallies that have less votes, with TO_REJECT mentions
             // so that all tallies have the same number of mentions in the end.
             // The goal here is to enforce the Rule about TO_REJECT being the default mention.
-            $optionTally->addVotesForMention($maxVotesCount - $optionTally->countVotes(), LimajuPoll::MENTION_TO_REJECT);
+            $candidateTally->addVotesForMention($maxVotesCount - $candidateTally->countVotes(), LimajuPoll::MENTION_TO_REJECT);
             // Once this is done, we can now compute the final mention from the median
-            $optionTally->setMention($optionTally->getMedian());
+            $candidateTally->setMention($candidateTally->getMedian());
         }
 
-        // Sort the options using majority judgment on the median
-        usort($optionsTallies, function(LimajuPollOptionTally $a, LimajuPollOptionTally $b) use ($positions) {
+        // Sort the candidates using majority judgment on the median
+        usort($candidatesTallies, function(LimajuPollCandidateTally $a, LimajuPollCandidateTally $b) use ($positions) {
             // From https://en.wikipedia.org/wiki/Majority_judgment
             // If more than one candidate has the same highest median-grade,
             // the MJ winner is discovered by removing (one-by-one) any grades equal
@@ -150,19 +150,19 @@ class StandardTallyBot implements TallyBotInterface
                 }
 
                 // All the votes were the exact same.  Banana condition.
-                // Right now we're sorting in the order of the options, I think. To test.
+                // Right now we're sorting in the order of the candidates, I think. To test.
                 return 0;
             }
 
             return $positions[$b->getMedian()] - $positions[$a->getMedian()];
         });
 
-        foreach ($optionsTallies as $k => $optionTally) {
-            // In the future, two options may have the same position ; this code will perhaps change.
-            $optionTally->setPosition($k+1);
+        foreach ($candidatesTallies as $k => $candidateTally) {
+            // In the future, two candidates may have the same position ; this code will perhaps change.
+            $candidateTally->setPosition($k+1);
         }
 
-        $tally = new LimajuPollTally($optionsTallies);
+        $tally = new LimajuPollTally($candidatesTallies);
 
         return $tally;
     }

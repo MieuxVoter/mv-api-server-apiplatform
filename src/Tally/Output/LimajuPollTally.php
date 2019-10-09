@@ -12,24 +12,24 @@ namespace App\Tally\Output;
 class LimajuPollTally
 {
     /**
-     * @var array|LimajuPollOptionTally[]
+     * @var array|LimajuPollCandidateTally[]
      */
-    public $options;
+    public $candidates;
 
     /**
      * Tally constructor.
-     * @param array $options
+     * @param array $candidates
      */
-    public function __construct(array $options)
+    public function __construct(array $candidates)
     {
-        $this->options = $options;
+        $this->candidates = $candidates;
     }
 
     public function countVotes()
     {
         $count = 0;
-        foreach ($this->options as $option) {
-            $count += $option->countVotes();
+        foreach ($this->candidates as $candidate) {
+            $count += $candidate->countVotes();
         }
 
         return $count;

@@ -71,13 +71,13 @@ class LimajuPoll
      * @Groups({ "create", "read", "update" })
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\LimajuPollOption",
+     *     targetEntity="LimajuPollCandidate",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
      * )
      */
-    private $options;
+    private $candidates;
 
     /**
      * @Groups({ "none" })
@@ -90,7 +90,7 @@ class LimajuPoll
 
     public function __construct()
     {
-        $this->options = new ArrayCollection();
+        $this->candidates = new ArrayCollection();
     }
 
     public function getId(): ?UuidInterface
@@ -113,30 +113,30 @@ class LimajuPoll
 
 
     /**
-     * @return Collection|LimajuPollOption[]
+     * @return Collection|LimajuPollCandidate[]
      */
-    public function getOptions(): Collection
+    public function getCandidates(): Collection
     {
-        return $this->options;
+        return $this->candidates;
     }
 
-    public function addOption(LimajuPollOption $option): self
+    public function addCandidate(LimajuPollCandidate $candidate): self
     {
-        if (!$this->options->contains($option)) {
-            $this->options[] = $option;
-            $option->setPoll($this);
+        if (!$this->candidates->contains($candidate)) {
+            $this->candidates[] = $candidate;
+            $candidate->setPoll($this);
         }
 
         return $this;
     }
 
-    public function removeOption(LimajuPollOption $option): self
+    public function removeCandidate(LimajuPollCandidate $candidate): self
     {
-        if ($this->options->contains($option)) {
-            $this->options->removeElement($option);
+        if ($this->candidates->contains($candidate)) {
+            $this->candidates->removeElement($candidate);
             // set the owning side to null (unless already changed)
-            if ($option->getPoll() === $this) {
-                $option->setPoll(null);
+            if ($candidate->getPoll() === $this) {
+                $candidate->setPoll(null);
             }
         }
 

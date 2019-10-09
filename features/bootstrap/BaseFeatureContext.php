@@ -2,31 +2,26 @@
 
 
 use App\Application;
-use App\Entity\User;
 use App\Entity\LimajuPoll;
-use App\Entity\LimajuPollOption;
+use App\Entity\LimajuPollCandidate;
 use App\Features\Actor;
 use App\Features\Actors;
-use App\Features\CliPrinter;
-use App\Features\Transaction;
-use App\Repository\LimajuPollOptionRepository;
-use App\Repository\LimajuPollOptionVoteRepository;
+use App\Repository\LimajuPollCandidateRepository;
+use App\Repository\LimajuPollCandidateVoteRepository;
 use App\Repository\LimajuPollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
-//use FOS\UserBundle\Model\UserManager;
 use Doctrine\ORM\EntityRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use MsgPhp\User\Command\CreateUser;
 use MsgPhp\User\Infrastructure\Doctrine\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Yaml\Yaml;
 
-use MsgPhp\User\Command\CreateUser;
-use Symfony\Component\Messenger\MessageBusInterface;
+//use FOS\UserBundle\Model\UserManager;
 
 
 /**
@@ -188,19 +183,19 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
     /**
-     * @return LimajuPollOptionRepository
+     * @return LimajuPollCandidateRepository
      */
-    protected function getLimajuPollOptionRepository()
+    protected function getLimajuPollCandidateRepository()
     {
-        return $this->get(LimajuPollOptionRepository::class);
+        return $this->get(LimajuPollCandidateRepository::class);
     }
 
     /**
-     * @return LimajuPollOptionVoteRepository
+     * @return LimajuPollCandidateVoteRepository
      */
-    protected function getLimajuPollOptionVoteRepository()
+    protected function getLimajuPollCandidateVoteRepository()
     {
-        return $this->get(LimajuPollOptionVoteRepository::class);
+        return $this->get(LimajuPollCandidateVoteRepository::class);
     }
 
 
@@ -391,29 +386,29 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollOptionFromId($id, $lenient = false) : ?LimajuPollOption
+    protected function findOneLimajuPollCandidateFromId($id, $lenient = false) : ?LimajuPollCandidate
     {
-        $pollOption = $this->getRepository(LimajuPollOption::class)->findOneById($id);
-        if (( ! $lenient) && (null == $pollOption)) {
-            $this->fail("No LimajuPollOption with Id `$id' could be found.");
+        $pollCandidate = $this->getRepository(LimajuPollCandidate::class)->findOneById($id);
+        if (( ! $lenient) && (null == $pollCandidate)) {
+            $this->fail("No LimajuPollCandidate with Id `$id' could be found.");
         }
 
-        return $pollOption;
+        return $pollCandidate;
     }
 
 
-    protected function findOneLimajuPollOptionFromTitleAndPoll($title, $poll, $lenient = false) : ?LimajuPollOption
+    protected function findOneLimajuPollCandidateFromTitleAndPoll($title, $poll, $lenient = false) : ?LimajuPollCandidate
     {
-        /** @var LimajuPollOption $pollOption */
-        $pollOption = $this->getRepository(LimajuPollOption::class)->findOneBy([
+        /** @var LimajuPollCandidate $pollCandidate */
+        $pollCandidate = $this->getRepository(LimajuPollCandidate::class)->findOneBy([
             'title' => $title,
             'poll' => $poll,
         ]);
-        if (( ! $lenient) && (null == $pollOption)) {
-            $this->failTrans("no_majority_judgment_poll_option_found_for_title", ['title' => $title]);
+        if (( ! $lenient) && (null == $pollCandidate)) {
+            $this->failTrans("no_majority_judgment_poll_candidate_found_for_title", ['title' => $title]);
         }
 
-        return $pollOption;
+        return $pollCandidate;
     }
 
 

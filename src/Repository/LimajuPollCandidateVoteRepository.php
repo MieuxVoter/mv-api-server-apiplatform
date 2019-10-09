@@ -3,37 +3,37 @@
 namespace App\Repository;
 
 use App\Entity\LimajuPoll;
-use App\Entity\LimajuPollOptionVote;
+use App\Entity\LimajuPollCandidateVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method LimajuPollOptionVote|null find($id, $lockMode = null, $lockVersion = null)
- * @method LimajuPollOptionVote|null findOneBy(array $criteria, array $orderBy = null)
- * @method LimajuPollOptionVote[]    findAll()
- * @method LimajuPollOptionVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LimajuPollCandidateVote|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LimajuPollCandidateVote|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LimajuPollCandidateVote[]    findAll()
+ * @method LimajuPollCandidateVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LimajuPollOptionVoteRepository extends ServiceEntityRepository
+class LimajuPollCandidateVoteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LimajuPollOptionVote::class);
+        parent::__construct($registry, LimajuPollCandidateVote::class);
     }
 
 
     public function countVotesOnPoll(LimajuPoll $poll)
     {
         $count = 0;
-        foreach ($poll->getOptions() as $option) {
+        foreach ($poll->getCandidates() as $candidate) {
             $count += $this->count([
-                'option' => $option->getId(),
+                'candidate' => $candidate->getId(),
             ]);
         }
         return $count;
     }
 
     // /**
-    //  * @return LimajuPollOptionVote[] Returns an array of LimajuPollOptionVote objects
+    //  * @return LimajuPollCandidateVote[] Returns an array of LimajuPollCandidateVote objects
     //  */
     /*
     public function findByExampleField($value)
@@ -50,7 +50,7 @@ class LimajuPollOptionVoteRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?LimajuPollOptionVote
+    public function findOneBySomeField($value): ?LimajuPollCandidateVote
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

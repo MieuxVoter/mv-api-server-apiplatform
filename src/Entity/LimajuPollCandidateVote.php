@@ -31,9 +31,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\LimajuPollOptionVoteRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\LimajuPollCandidateVoteRepository")
  */
-class LimajuPollOptionVote
+class LimajuPollCandidateVote
 {
     /**
      * @var UuidInterface
@@ -48,26 +48,26 @@ class LimajuPollOptionVote
 
 
     /**
-     * The Majority Judgment Poll Option the author is giving a mention to.
+     * The Majority Judgment Poll Candidate the author is giving a mention to.
      *
      * @Groups({ "vote:create", "vote:read" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\LimajuPollOption", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="LimajuPollCandidate", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $option;
+    private $candidate;
 
 
     /**
-     * The author of the vote, the one that chooses the given mention.
+     * The elector of the vote, the one that chooses the given mention.
      * (if there is such a thing as choice)
      * This is optional, and some polls may require all participants to be logged in.
      * For anonymous votes, this may be null.
      *
      * @Groups({ "none" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPollOptionVotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPollCandidateVotes")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $author;
+    private $elector;
 
 
     /**
@@ -80,7 +80,7 @@ class LimajuPollOptionVote
 
 
     /**
-     * The mention attributed by the author to the option.
+     * The mention attributed by the author to the candidate.
      *
      * @Groups({ "vote:create", "vote:read" })
      * @ORM\Column(type="string", length=16)
@@ -95,26 +95,26 @@ class LimajuPollOptionVote
         return $this->id;
     }
 
-    public function getOption(): ?LimajuPollOption
+    public function getCandidate(): ?LimajuPollCandidate
     {
-        return $this->option;
+        return $this->candidate;
     }
 
-    public function setOption(?LimajuPollOption $option): self
+    public function setCandidate(?LimajuPollCandidate $candidate): self
     {
-        $this->option = $option;
+        $this->candidate = $candidate;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getElector(): ?User
     {
-        return $this->author;
+        return $this->elector;
     }
 
-    public function setAuthor(?User $author): self
+    public function setElector(?User $elector): self
     {
-        $this->author = $author;
+        $this->elector = $elector;
 
         return $this;
     }

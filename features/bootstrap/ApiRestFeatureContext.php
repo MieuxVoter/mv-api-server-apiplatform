@@ -49,15 +49,15 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOneLimajuPollFromTitle($title);
         $data = $this->yaml($pystring);
 
-        foreach ($data as $optionTitle => $localizedMention) {
-            $pollOption = $this->findOneLimajuPollOptionFromTitleAndPoll($optionTitle, $poll);
+        foreach ($data as $candidateTitle => $localizedMention) {
+            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
             $mention = $this->unlocalizeLimajuPollMention($localizedMention);
             $this->actor($actor)->api(
-                'POST',"/limaju_poll_option_votes",
+                'POST',"/limaju_poll_candidate_votes",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
-                    'option' => $this->iri($pollOption),
+                    'candidate' => $this->iri($pollCandidate),
                     'mention' => $mention,
                 ], [], !empty($try)
             );
@@ -73,13 +73,13 @@ class ApiRestFeatureContext extends BaseFeatureContext
     {
         $data = $this->yaml($pystring);
 
-        $options = [];
-        if (isset($data[$this->t('keys.poll.options')])) {
-            foreach ($data[$this->t('keys.poll.options')] as $optionDatum) {
-                if (is_string($optionDatum)) {
-                    $optionDatum = ['title' => $optionDatum];
+        $candidates = [];
+        if (isset($data[$this->t('keys.poll.candidates')])) {
+            foreach ($data[$this->t('keys.poll.candidates')] as $candidateDatum) {
+                if (is_string($candidateDatum)) {
+                    $candidateDatum = ['title' => $candidateDatum];
                 }
-                $options[] = $optionDatum;
+                $candidates[] = $candidateDatum;
             }
         }
 
@@ -87,7 +87,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
             'POST',"/limaju_polls",
             [
                 'title' => $data[$this->t('keys.poll.title')],
-                'options' => $options,
+                'candidates' => $candidates,
             ], [], !empty($try)
         );
     }

@@ -100,7 +100,7 @@ QUERY;
 
 
     /**
-     * This step makes multiple HTTP queries, one per poll option.
+     * This step makes multiple HTTP queries, one per poll candidate.
      * Use:
      *     Then <actor> prints the last <count> transactions
      *
@@ -115,20 +115,20 @@ QUERY;
         $pollId = $poll->getId();
 
         $opinions = [];
-        foreach ($data as $optionTitle => $localizedMention) {
-            $pollOption = $this->findOneLimajuPollOptionFromTitleAndPoll($optionTitle, $poll);
+        foreach ($data as $candidateTitle => $localizedMention) {
+            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
             $mention = $this->unlocalizeLimajuPollMention($localizedMention);
-            $opinions[(string)$pollOption->getId()] = $mention;
+            $opinions[(string)$pollCandidate->getId()] = $mention;
 
             $query = <<<'QUERY'
-mutation voteOnLimajuPoll($optionIri: String!, $mention: String!) {
-    createLimajuPollOptionVote(input: { option: $optionIri, mention: $mention }) {
-        LimajuPollOptionVote { id, author { id } }
+mutation voteOnLimajuPoll($candidateIri: String!, $mention: String!) {
+    createLimajuPollCandidateVote(input: { candidate: $candidateIri, mention: $mention }) {
+        LimajuPollCandidateVote { id, author { id } }
     }
 }
 QUERY;
             $variables = array(
-                'optionIri' => $this->iri($pollOption),
+                'candidateIri' => $this->iri($pollCandidate),
                 'mention' => $mention,
             );
             $this->actor($actor)->gqlNew($query, $variables, !empty($try));
@@ -150,13 +150,13 @@ QUERY;
     {
         $data = $this->yaml($pystring);
 
-        $options = [];
-        if (isset($data[$this->t('keys.poll.options')])) {
-            foreach ($data[$this->t('keys.poll.options')] as $optionDatum) {
-                if (is_string($optionDatum)) {
-                    $optionDatum = ['title' => $optionDatum];
+        $candidates = [];
+        if (isset($data[$this->t('keys.poll.candidates')])) {
+            foreach ($data[$this->t('keys.poll.candidates')] as $candidateDatum) {
+                if (is_string($candidateDatum)) {
+                    $candidateDatum = ['title' => $candidateDatum];
                 }
-                $options[] = $optionDatum;
+                $candidates[] = $candidateDatum;
             }
         }
 
@@ -174,23 +174,23 @@ QUERY;
         $variables = [
             'input' => [
                 'title' => $data[$this->t('keys.poll.title')],
-//                'options' => $options,
+//                'candidates' => $candidates,
             ],
         ];
         $tx = $this->actor($actor)->gqlNew($query, $variables, !empty($try));
 
-        // Since we can't manage to post options as well in one single request,
+        // Since we can't manage to post candidates as well in one single request,
         // even though we configured the graphql denormalization just like REST.
         // Maybe we're missing something… Time will tell.
-        // Anyhow, we're posting the options afterwards, and we use the returned poll's IRI.
+        // Anyhow, we're posting the candidates afterwards, and we use the returned poll's IRI.
         $response = json_decode($tx->getResponse()->getContent());
         $pollIri = $response->data->createLimajuPoll->LimajuPoll->id;
 
-        foreach ($options as $option) {
+        foreach ($candidates as $candidate) {
             $query = <<<'QUERY'
-mutation createLimajuPollOption($input: createLimajuPollOptionInput!) {
-    createLimajuPollOption(input: $input) {
-        LimajuPollOption {
+mutation createLimajuPollCandidate($input: createLimajuPollCandidateInput!) {
+    createLimajuPollCandidate(input: $input) {
+        LimajuPollCandidate {
             id
             title
         }
@@ -199,7 +199,7 @@ mutation createLimajuPollOption($input: createLimajuPollOptionInput!) {
 QUERY;
             $variables = [
                 'input' => [
-                    'title' => $option['title'],
+                    'title' => $candidate['title'],
                     'poll' => $pollIri,
                 ],
             ];

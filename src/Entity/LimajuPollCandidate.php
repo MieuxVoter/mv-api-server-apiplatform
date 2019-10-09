@@ -8,17 +8,34 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * @ApiResource()
- * @ORM\Entity(repositoryClass="App\Repository\LimajuPollOptionRepository")
+ * A Candidate of a Liquid Majority Judgment Poll whom any Elector can give a Mention to.
+ *
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     itemOperations={
+ *         "get"={
+ *             "normalization_context"={"groups"={"read"}},
+ *         },
+ *     },
+ *     collectionOperations={
+ *         "post"={
+ *             "denormalization_context"={"groups"={"create"}},
+ *         },
+ *     }
+ * )
+ * @ORM\Entity(
+ *     repositoryClass="App\Repository\LimajuPollCandidateRepository",
+ * )
  */
-class LimajuPollOption
+class LimajuPollCandidate
 {
     /**
-     * @var \Ramsey\Uuid\UuidInterface
+     * @var UuidInterface
      *
      * @Groups({ "read" })
      * @ORM\Id
@@ -29,22 +46,22 @@ class LimajuPollOption
     private $id;
 
     /**
-     * @Groups({ "create", "read", "update" })
+     * @Groups({ "create", "read" })
      * @ORM\Column(type="string", length=142)
      */
     private $title;
 
     /**
-     * The poll this option is attached to.
+     * The poll this candidate is attached to.
      *
      * @Groups({ "create" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\LimajuPoll", inversedBy="options")
+     * @ORM\ManyToOne(targetEntity="App\Entity\LimajuPoll", inversedBy="candidates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
 
 //    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\LimajuOptionVote", mappedBy="option", orphanRemoval=true)
+//     * @ORM\OneToMany(targetEntity="App\Entity\LimajuCandidateVote", mappedBy="candidate", orphanRemoval=true)
 //     */
 //    private $votes;
 
@@ -83,30 +100,30 @@ class LimajuPollOption
     }
 
     /**
-     * @return Collection|LimajuPollOptionVote[]
+     * @return Collection|LimajuPollCandidateVote[]
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    public function addVote(LimajuPollOptionVote $vote): self
+    public function addVote(LimajuPollCandidateVote $vote): self
     {
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
-            $vote->setOption($this);
+            $vote->setCandidate($this);
         }
 
         return $this;
     }
 
-    public function removeVote(LimajuPollOptionVote $vote): self
+    public function removeVote(LimajuPollCandidateVote $vote): self
     {
         if ($this->votes->contains($vote)) {
             $this->votes->removeElement($vote);
             // set the owning side to null (unless already changed)
-            if ($vote->getOption() === $this) {
-                $vote->setOption(null);
+            if ($vote->getCandidate() === $this) {
+                $vote->setCandidate(null);
             }
         }
 
