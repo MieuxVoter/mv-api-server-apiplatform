@@ -15,8 +15,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A Liquid Majority Judgment Poll.
+ * A poll is not editable after creation.
+ * A poll cannot be deleted without privileges.
  *
  * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
  *     itemOperations={
  *         "get"={
  *             "normalization_context"={"groups"={"read"}},
@@ -25,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "access_control"="is_granted('can_delete', object)",
  *         },
  *     },
- *     collectionOperations = {
+ *     collectionOperations={
  *         "post"={
  *             "denormalization_context"={"groups"={"create"}},
  *         },

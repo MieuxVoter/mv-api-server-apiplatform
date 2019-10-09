@@ -9,7 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
+ * A Vote on a Candidate of a Majority Judgment Poll.
+ * A Vote is immutable.
+ * A Vote cannot be deleted.
+ *
  * @ApiResource(
  *     itemOperations={
  *         "get"={
@@ -33,7 +38,7 @@ class LimajuPollOptionVote
     /**
      * @var UuidInterface
      *
-     * @Groups({ "read" })
+     * @Groups({ "read", "vote:read" })
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
@@ -68,7 +73,7 @@ class LimajuPollOptionVote
     /**
      * The name of the author of the vote, if any was specified.
      *
-     * @Groups({ "vote:create", "vote:read", "vote:update" })
+     * @Groups({ "vote:create", "vote:read" })
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -77,7 +82,7 @@ class LimajuPollOptionVote
     /**
      * The mention attributed by the author to the option.
      *
-     * @Groups({ "vote:create", "vote:read", "vote:update" })
+     * @Groups({ "vote:create", "vote:read" })
      * @ORM\Column(type="string", length=16)
      */
     private $mention;
