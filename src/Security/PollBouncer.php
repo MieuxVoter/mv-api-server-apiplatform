@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * This bouncer's job is to tell who can get in and who can't.
  *
- *
  * Class Bouncer
  * @package App\Security
  */

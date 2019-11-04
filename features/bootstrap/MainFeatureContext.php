@@ -21,21 +21,8 @@ class MainFeatureContext extends BaseFeatureContext
 {
 
     /**
-     * @Given a dummy authentication desk that validates any AAT
-     * @Given /^un bureau d'authentification un peu simplet qui validerait n'importe quel (?:JAA|jeton)$/iu
-     */
-    public function givenDummyAuthenticationDesk()
-    {
-        // todo
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    /**
      * @Given /^a citizen named (?P<name>.+)$/ui
-     * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      */
     public function givenCitizenNamed($name)
     {
