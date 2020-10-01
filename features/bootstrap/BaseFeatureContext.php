@@ -2,7 +2,7 @@
 
 
 use App\Application;
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use App\Entity\LimajuPollCandidate;
 use App\Features\Actor;
 use App\Features\Actors;
@@ -375,7 +375,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollFromTitle($title, $lenient = false) : ?LimajuPoll
+    protected function findOneLimajuPollFromTitle($title, $lenient = false) : ?Poll
     {
         $work = $this->getLimajuPollRepository()->findOneByTitle($title);
         if (( ! $lenient) && (null == $work)) {

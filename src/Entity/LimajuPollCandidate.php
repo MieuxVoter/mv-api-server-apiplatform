@@ -55,7 +55,7 @@ class LimajuPollCandidate
      * The poll this candidate is attached to.
      *
      * @Groups({ "create" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\LimajuPoll", inversedBy="candidates")
+     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="candidates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
@@ -87,12 +87,12 @@ class LimajuPollCandidate
         return $this;
     }
 
-    public function getPoll(): ?LimajuPoll
+    public function getPoll(): ?Poll
     {
         return $this->poll;
     }
 
-    public function setPoll(?LimajuPoll $poll): self
+    public function setPoll(?Poll $poll): self
     {
         $this->poll = $poll;
 

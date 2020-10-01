@@ -6,7 +6,7 @@
  */
 
 
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use App\Entity\LimajuPollCandidate;
 use App\Entity\User;
 use MsgPhp\User\Command\AddUserRole;
@@ -77,7 +77,7 @@ class MainFeatureContext extends BaseFeatureContext
         $candidatesKey = $this->t('keys.poll.candidates');
         $data = $this->yaml($pystring);
 
-        $poll = new LimajuPoll();
+        $poll = new Poll();
 
         if ( ! isset($data[$titleKey])) {
             $this->fail("Set poll title with '${titleKey}:'.");
@@ -122,7 +122,7 @@ class MainFeatureContext extends BaseFeatureContext
      */
     public function thereShouldBeSomeLimajuPollsInTheDatabase($thatMuch)
     {
-        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, LimajuPoll::class);
+        $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, Poll::class);
     }
 
 

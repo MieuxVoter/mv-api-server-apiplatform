@@ -4,7 +4,7 @@
 namespace App\Tally\Output;
 
 
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use Ramsey\Uuid\UuidInterface;
 
 
@@ -19,7 +19,7 @@ class LimajuPollCandidateTally
     /**
      * @var string
      * Final mention tallied, for example the median mention in the standard tally.
-     * One of LimajuPoll::MENTION_XXX
+     * One of Poll::MENTION_XXX
      */
     public $mention;
 
@@ -33,7 +33,7 @@ class LimajuPollCandidateTally
 
     /**
      * @var array
-     * LimajuPoll::MENTION_XXX => integer
+     * Poll::MENTION_XXX => integer
      * Count of votes for each mention.
      */
     public $mentions_tally;
@@ -41,7 +41,7 @@ class LimajuPollCandidateTally
 
     /**
      * @var array|string[]
-     * The list of LimajuPoll::MENTION_XXX this tally uses.
+     * The list of Poll::MENTION_XXX this tally uses.
      * The order matters, and must be from worse to best.
      */
     protected $mentions_list;
@@ -126,7 +126,7 @@ class LimajuPollCandidateTally
 
 
     /**
-     * Get the median mention. (one of `LimajuPoll::MENTION_XXX`)
+     * Get the median mention. (one of `Poll::MENTION_XXX`)
      * When the count of votes is even, the lower|worse median is privileged.
      *
      * There are many ways to write such a method.
@@ -135,7 +135,7 @@ class LimajuPollCandidateTally
      *
      * @param bool $low In case of an even number of votes,
      *                  should we pick the lower median (default) or the higher median?
-     * @return string Mention slug in esperanto (one of `LimajuPoll::MENTION_XXX`).
+     * @return string Mention slug in esperanto (one of `Poll::MENTION_XXX`).
      */
     public function getMedian($low=true): string
     {
@@ -176,13 +176,13 @@ class LimajuPollCandidateTally
             // Let's initialize here the list of mentions.
             // What should we do with these? => Inject from Config?
             $this->mentions_list = [
-                LimajuPoll::MENTION_TO_REJECT,
-                LimajuPoll::MENTION_MEDIOCRE,
-                LimajuPoll::MENTION_INADEQUATE,
-                LimajuPoll::MENTION_PASSABLE,
-                LimajuPoll::MENTION_GOOD,
-                LimajuPoll::MENTION_VERY_GOOD,
-                LimajuPoll::MENTION_EXCELLENT,
+                Poll::MENTION_TO_REJECT,
+                Poll::MENTION_MEDIOCRE,
+                Poll::MENTION_INADEQUATE,
+                Poll::MENTION_PASSABLE,
+                Poll::MENTION_GOOD,
+                Poll::MENTION_VERY_GOOD,
+                Poll::MENTION_EXCELLENT,
             ];
         }
 

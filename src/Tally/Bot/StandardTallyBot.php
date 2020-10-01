@@ -5,7 +5,7 @@ namespace App\Tally\Bot;
 
 
 use App\Application;
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use App\Entity\LimajuPollCandidateVote;
 use App\Repository\LimajuPollCandidateRepository;
 use App\Repository\LimajuPollCandidateVoteRepository;
@@ -61,7 +61,7 @@ class StandardTallyBot implements TallyBotInterface
     /**
      * @inheritDoc
      */
-    public function tallyVotesOnLimajuPoll(LimajuPoll $poll): LimajuPollTally
+    public function tallyVotesOnLimajuPoll(Poll $poll): LimajuPollTally
     {
         /** @var LimajuPollCandidateTally[] $candidatesTallies */
         $candidatesTallies = array();
@@ -111,7 +111,7 @@ class StandardTallyBot implements TallyBotInterface
             // Fill up candidate tallies that have less votes, with TO_REJECT mentions
             // so that all tallies have the same number of mentions in the end.
             // The goal here is to enforce the Rule about TO_REJECT being the default mention.
-            $candidateTally->addVotesForMention($maxVotesCount - $candidateTally->countVotes(), LimajuPoll::MENTION_TO_REJECT);
+            $candidateTally->addVotesForMention($maxVotesCount - $candidateTally->countVotes(), Poll::MENTION_TO_REJECT);
             // Once this is done, we can now compute the final mention from the median
             $candidateTally->setMention($candidateTally->getMedian());
         }

@@ -48,7 +48,7 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
      * Authored Limaju Polls.
      *
      * @Groups({ "never" })
-     * @ORM\OneToMany(targetEntity="App\Entity\LimajuPoll", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="Poll", mappedBy="author")
      */
     private $limajuPolls;
 
@@ -92,14 +92,14 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
     public function eraseCredentials() {}
 
     /**
-     * @return Collection|LimajuPoll[]
+     * @return Collection|Poll[]
      */
     public function getLimajuPolls(): Collection
     {
         return $this->limajuPolls;
     }
 
-    public function addLimajuPoll(LimajuPoll $limajuPoll): self
+    public function addLimajuPoll(Poll $limajuPoll): self
     {
         if (!$this->limajuPolls->contains($limajuPoll)) {
             $this->limajuPolls[] = $limajuPoll;
@@ -109,7 +109,7 @@ class User extends BaseUser implements DomainEventHandler, UserInterface
         return $this;
     }
 
-    public function removeLimajuPoll(LimajuPoll $limajuPoll): self
+    public function removeLimajuPoll(Poll $limajuPoll): self
     {
         if ($this->limajuPolls->contains($limajuPoll)) {
             $this->limajuPolls->removeElement($limajuPoll);

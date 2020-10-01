@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\LimajuPollRepository")
  */
-class LimajuPoll
+class Poll
 {
 
     const MENTION_EXCELLENT  = 'bonega';

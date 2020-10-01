@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use App\Entity\LimajuPollCandidateVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -21,7 +21,7 @@ class LimajuPollCandidateVoteRepository extends ServiceEntityRepository
     }
 
 
-    public function countVotesOnPoll(LimajuPoll $poll)
+    public function countVotesOnPoll(Poll $poll)
     {
         $count = 0;
         foreach ($poll->getCandidates() as $candidate) {

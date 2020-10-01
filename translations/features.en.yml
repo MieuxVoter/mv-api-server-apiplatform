@@ -25,7 +25,7 @@ value:
 
 majority_judgment_poll:
   mention:
-    # Keys are LimajuPoll::MENTION_XXX
+    # Keys are Poll::MENTION_XXX
     # Values are the actual translation, lowercase.
     # Not too fond of the couple inadequate/mediocre.
     # If you think you have better mentions, please do share!

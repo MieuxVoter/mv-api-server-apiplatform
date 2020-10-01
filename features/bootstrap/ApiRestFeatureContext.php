@@ -84,7 +84,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         }
 
         $this->actor($actor)->api(
-            'POST',"/limaju_polls",
+            'POST',"/polls",
             [
                 'title' => $data[$this->t('keys.poll.title')],
                 'candidates' => $candidates,
@@ -125,7 +125,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOneLimajuPollFromTitle($title);
 
         $this->actor($actor)->api(
-            'DELETE',"/limaju_polls/".$poll->getId(),
+            'DELETE',"/polls/".$poll->getId(),
             [], [], !empty($try)
         );
     }

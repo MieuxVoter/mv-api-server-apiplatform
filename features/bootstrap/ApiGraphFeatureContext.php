@@ -163,7 +163,7 @@ QUERY;
         $query = <<<'QUERY'
 mutation createLimajuPoll($input: createLimajuPollInput!) {
     createLimajuPoll(input: $input) {
-        LimajuPoll {
+        Poll {
             id
             title
         }

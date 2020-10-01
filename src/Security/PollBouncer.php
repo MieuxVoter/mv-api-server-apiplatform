@@ -5,7 +5,7 @@ namespace App\Security;
 
 
 use App\Application;
-use App\Entity\LimajuPoll;
+use App\Entity\Poll;
 use App\Repository\LimajuPollCandidateVoteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -53,7 +53,7 @@ class PollBouncer extends Voter
         $this->voteRepository = $voteRepository;
     }
 
-    public function canCurrentUserEditPoll(LimajuPoll $poll, string $password='') : bool
+    public function canCurrentUserEditPoll(Poll $poll, string $password='') : bool
     {
         if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             return true;
@@ -82,7 +82,7 @@ class PollBouncer extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        if ( ! $subject instanceof LimajuPoll) {
+        if ( ! $subject instanceof Poll) {
             return false;
         }
 
@@ -106,7 +106,7 @@ class PollBouncer extends Voter
     {
         $roles = $token->getRoleNames();
         if (self::CAN_DELETE == $attribute) {
-            if ($subject instanceof LimajuPoll) {
+            if ($subject instanceof Poll) {
                 if (in_array('ROLE_ADMIN', $roles)) {
                     return true;
                 }

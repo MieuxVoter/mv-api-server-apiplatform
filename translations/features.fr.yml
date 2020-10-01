@@ -24,7 +24,7 @@ value:
 
 majority_judgment_poll:
   mention:
-    # Keys are LimajuPoll::MENTION_XXX
+    # Keys are Poll::MENTION_XXX
     # Values are the actual translation, lowercase.
     bonega:     'excellent'
     trebona:    'très bien'
