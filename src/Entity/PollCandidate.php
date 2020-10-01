@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     repositoryClass="App\Repository\LimajuPollCandidateRepository",
  * )
  */
-class LimajuPollCandidate
+class PollCandidate
 {
     /**
      * @var UuidInterface

@@ -7,7 +7,7 @@
 
 
 use App\Entity\Poll;
-use App\Entity\LimajuPollCandidate;
+use App\Entity\PollCandidate;
 use App\Entity\User;
 use MsgPhp\User\Command\AddUserRole;
 
@@ -91,7 +91,7 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         foreach ($data[$candidatesKey] as $candidateTitle) {
-            $candidate = new LimajuPollCandidate();
+            $candidate = new PollCandidate();
             $candidate->setTitle($candidateTitle);
             $poll->addCandidate($candidate);
             $this->persist($candidate);

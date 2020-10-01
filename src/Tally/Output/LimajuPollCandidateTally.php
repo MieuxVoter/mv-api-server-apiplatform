@@ -12,7 +12,7 @@ class LimajuPollCandidateTally
 {
     /**
      * @var UuidInterface
-     * UUID of the LimajuPollCandidate that this tally belongs to.
+     * UUID of the PollCandidate that this tally belongs to.
      */
     public $poll_candidate_id;
 

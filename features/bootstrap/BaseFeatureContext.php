@@ -3,7 +3,7 @@
 
 use App\Application;
 use App\Entity\Poll;
-use App\Entity\LimajuPollCandidate;
+use App\Entity\PollCandidate;
 use App\Features\Actor;
 use App\Features\Actors;
 use App\Repository\LimajuPollCandidateRepository;
@@ -386,21 +386,21 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollCandidateFromId($id, $lenient = false) : ?LimajuPollCandidate
+    protected function findOneLimajuPollCandidateFromId($id, $lenient = false) : ?PollCandidate
     {
-        $pollCandidate = $this->getRepository(LimajuPollCandidate::class)->findOneById($id);
+        $pollCandidate = $this->getRepository(PollCandidate::class)->findOneById($id);
         if (( ! $lenient) && (null == $pollCandidate)) {
-            $this->fail("No LimajuPollCandidate with Id `$id' could be found.");
+            $this->fail("No PollCandidate with Id `$id' could be found.");
         }
 
         return $pollCandidate;
     }
 
 
-    protected function findOneLimajuPollCandidateFromTitleAndPoll($title, $poll, $lenient = false) : ?LimajuPollCandidate
+    protected function findOneLimajuPollCandidateFromTitleAndPoll($title, $poll, $lenient = false) : ?PollCandidate
     {
-        /** @var LimajuPollCandidate $pollCandidate */
-        $pollCandidate = $this->getRepository(LimajuPollCandidate::class)->findOneBy([
+        /** @var PollCandidate $pollCandidate */
+        $pollCandidate = $this->getRepository(PollCandidate::class)->findOneBy([
             'title' => $title,
             'poll' => $poll,
         ]);

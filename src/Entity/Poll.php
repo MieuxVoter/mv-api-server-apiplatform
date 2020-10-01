@@ -71,7 +71,7 @@ class Poll
      * @Groups({ "create", "read", "update" })
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="LimajuPollCandidate",
+     *     targetEntity="PollCandidate",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
@@ -113,14 +113,14 @@ class Poll
 
 
     /**
-     * @return Collection|LimajuPollCandidate[]
+     * @return Collection|PollCandidate[]
      */
     public function getCandidates(): Collection
     {
         return $this->candidates;
     }
 
-    public function addCandidate(LimajuPollCandidate $candidate): self
+    public function addCandidate(PollCandidate $candidate): self
     {
         if (!$this->candidates->contains($candidate)) {
             $this->candidates[] = $candidate;
@@ -130,7 +130,7 @@ class Poll
         return $this;
     }
 
-    public function removeCandidate(LimajuPollCandidate $candidate): self
+    public function removeCandidate(PollCandidate $candidate): self
     {
         if ($this->candidates->contains($candidate)) {
             $this->candidates->removeElement($candidate);

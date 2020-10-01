@@ -51,7 +51,7 @@ class LimajuPollCandidateVote
      * The Majority Judgment Poll Candidate the author is giving a mention to.
      *
      * @Groups({ "vote:create", "vote:read" })
-     * @ORM\ManyToOne(targetEntity="LimajuPollCandidate", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="PollCandidate", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $candidate;
@@ -95,12 +95,12 @@ class LimajuPollCandidateVote
         return $this->id;
     }
 
-    public function getCandidate(): ?LimajuPollCandidate
+    public function getCandidate(): ?PollCandidate
     {
         return $this->candidate;
     }
 
-    public function setCandidate(?LimajuPollCandidate $candidate): self
+    public function setCandidate(?PollCandidate $candidate): self
     {
         $this->candidate = $candidate;
 
