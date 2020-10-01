@@ -3,21 +3,21 @@
 namespace App\Repository;
 
 use App\Entity\Poll;
-use App\Entity\LimajuPollCandidateVote;
+use App\Entity\PollCandidateVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method LimajuPollCandidateVote|null find($id, $lockMode = null, $lockVersion = null)
- * @method LimajuPollCandidateVote|null findOneBy(array $criteria, array $orderBy = null)
- * @method LimajuPollCandidateVote[]    findAll()
- * @method LimajuPollCandidateVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PollCandidateVote|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PollCandidateVote|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PollCandidateVote[]    findAll()
+ * @method PollCandidateVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LimajuPollCandidateVoteRepository extends ServiceEntityRepository
+class PollCandidateVoteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LimajuPollCandidateVote::class);
+        parent::__construct($registry, PollCandidateVote::class);
     }
 
 
@@ -33,7 +33,7 @@ class LimajuPollCandidateVoteRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return LimajuPollCandidateVote[] Returns an array of LimajuPollCandidateVote objects
+    //  * @return PollCandidateVote[] Returns an array of PollCandidateVote objects
     //  */
     /*
     public function findByExampleField($value)
@@ -50,7 +50,7 @@ class LimajuPollCandidateVoteRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?LimajuPollCandidateVote
+    public function findOneBySomeField($value): ?PollCandidateVote
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

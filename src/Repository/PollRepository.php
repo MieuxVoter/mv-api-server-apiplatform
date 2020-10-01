@@ -12,7 +12,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Poll[]    findAll()
  * @method Poll[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LimajuPollRepository extends ServiceEntityRepository
+class PollRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

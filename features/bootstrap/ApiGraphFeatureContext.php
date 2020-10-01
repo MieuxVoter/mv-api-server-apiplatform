@@ -123,7 +123,7 @@ QUERY;
             $query = <<<'QUERY'
 mutation voteOnLimajuPoll($candidateIri: String!, $mention: String!) {
     createLimajuPollCandidateVote(input: { candidate: $candidateIri, mention: $mention }) {
-        LimajuPollCandidateVote { id, author { id } }
+        PollCandidateVote { id, author { id } }
     }
 }
 QUERY;

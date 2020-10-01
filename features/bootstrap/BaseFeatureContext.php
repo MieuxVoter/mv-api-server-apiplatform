@@ -6,9 +6,9 @@ use App\Entity\Poll;
 use App\Entity\PollCandidate;
 use App\Features\Actor;
 use App\Features\Actors;
-use App\Repository\LimajuPollCandidateRepository;
-use App\Repository\LimajuPollCandidateVoteRepository;
-use App\Repository\LimajuPollRepository;
+use App\Repository\PollCandidateRepository;
+use App\Repository\PollCandidateVoteRepository;
+use App\Repository\PollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -175,27 +175,27 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
     /**
-     * @return LimajuPollRepository
+     * @return PollRepository
      */
     protected function getLimajuPollRepository()
     {
-        return $this->get(LimajuPollRepository::class);
+        return $this->get(PollRepository::class);
     }
 
     /**
-     * @return LimajuPollCandidateRepository
+     * @return PollCandidateRepository
      */
     protected function getLimajuPollCandidateRepository()
     {
-        return $this->get(LimajuPollCandidateRepository::class);
+        return $this->get(PollCandidateRepository::class);
     }
 
     /**
-     * @return LimajuPollCandidateVoteRepository
+     * @return PollCandidateVoteRepository
      */
     protected function getLimajuPollCandidateVoteRepository()
     {
-        return $this->get(LimajuPollCandidateVoteRepository::class);
+        return $this->get(PollCandidateVoteRepository::class);
     }
 
 

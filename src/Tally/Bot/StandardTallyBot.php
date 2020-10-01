@@ -6,9 +6,9 @@ namespace App\Tally\Bot;
 
 use App\Application;
 use App\Entity\Poll;
-use App\Entity\LimajuPollCandidateVote;
-use App\Repository\LimajuPollCandidateRepository;
-use App\Repository\LimajuPollCandidateVoteRepository;
+use App\Entity\PollCandidateVote;
+use App\Repository\PollCandidateRepository;
+use App\Repository\PollCandidateVoteRepository;
 use App\Tally\Output\LimajuPollCandidateTally;
 use App\Tally\Output\LimajuPollTally;
 
@@ -31,25 +31,25 @@ class StandardTallyBot implements TallyBotInterface
     protected $application;
 
     /**
-     * @var LimajuPollCandidateRepository
+     * @var PollCandidateRepository
      */
     protected $limajuPollCandidateRepository;
 
     /**
-     * @var LimajuPollCandidateVoteRepository
+     * @var PollCandidateVoteRepository
      */
     protected $limajuPollCandidateVoteRepository;
 
 
     /**
      * StandardTallyBot constructor.
-     * @param LimajuPollCandidateRepository $limajuPollCandidateRepository
-     * @param LimajuPollCandidateVoteRepository $limajuPollCandidateVoteRepository
+     * @param PollCandidateRepository $limajuPollCandidateRepository
+     * @param PollCandidateVoteRepository $limajuPollCandidateVoteRepository
      * @param Application $application
      */
     public function __construct(
-        LimajuPollCandidateRepository $limajuPollCandidateRepository,
-        LimajuPollCandidateVoteRepository $limajuPollCandidateVoteRepository,
+        PollCandidateRepository $limajuPollCandidateRepository,
+        PollCandidateVoteRepository $limajuPollCandidateVoteRepository,
         Application $application)
     {
         $this->application = $application;
@@ -83,12 +83,12 @@ class StandardTallyBot implements TallyBotInterface
 
             if ($votesCount) {
 
-                usort($votes, function(LimajuPollCandidateVote $a, LimajuPollCandidateVote $b) use ($positions) {
+                usort($votes, function(PollCandidateVote $a, PollCandidateVote $b) use ($positions) {
                     return $positions[$a->getMention()] - $positions[$b->getMention()];
                 });
 
                 foreach ($positions as $mentionToTally => $whoCares) {
-                    $votesForMention = array_filter($votes, function(LimajuPollCandidateVote $v) use ($mentionToTally) {
+                    $votesForMention = array_filter($votes, function(PollCandidateVote $v) use ($mentionToTally) {
                         return $v->getMention() === $mentionToTally;
                     });
                     $mentionsTally[$mentionToTally] = count($votesForMention);

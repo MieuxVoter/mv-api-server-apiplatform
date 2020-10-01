@@ -31,9 +31,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\LimajuPollCandidateVoteRepository")
+ * @ORM\Entity(repositoryClass="PollCandidateVoteRepository")
  */
-class LimajuPollCandidateVote
+class PollCandidateVote
 {
     /**
      * @var UuidInterface

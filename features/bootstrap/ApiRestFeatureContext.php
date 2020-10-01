@@ -53,7 +53,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
             $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
             $mention = $this->unlocalizeLimajuPollMention($localizedMention);
             $this->actor($actor)->api(
-                'POST',"/limaju_poll_candidate_votes",
+                'POST',"/poll_candidate_votes",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
@@ -104,7 +104,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOneLimajuPollFromTitle($title);
 
         $tx = $this->actor($actor)->api(
-            'GET',"/limaju_poll_tally/".$poll->getId(),
+            'GET',"/poll_tally/".$poll->getId(),
             [], [], !empty($try)
         );
 

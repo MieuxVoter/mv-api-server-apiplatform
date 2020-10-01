@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     }
  * )
  * @ORM\Entity(
- *     repositoryClass="App\Repository\LimajuPollCandidateRepository",
+ *     repositoryClass="App\Repository\PollCandidateRepository",
  * )
  */
 class PollCandidate
@@ -100,14 +100,14 @@ class PollCandidate
     }
 
     /**
-     * @return Collection|LimajuPollCandidateVote[]
+     * @return Collection|PollCandidateVote[]
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    public function addVote(LimajuPollCandidateVote $vote): self
+    public function addVote(PollCandidateVote $vote): self
     {
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
@@ -117,7 +117,7 @@ class PollCandidate
         return $this;
     }
 
-    public function removeVote(LimajuPollCandidateVote $vote): self
+    public function removeVote(PollCandidateVote $vote): self
     {
         if ($this->votes->contains($vote)) {
             $this->votes->removeElement($vote);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\PollTally;
-use App\Repository\LimajuPollRepository;
+use App\Repository\PollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/limaju_poll_tally/{id}", name="api_limaju_poll_tally_get", methods={"GET"})
+ * @Route("/api/poll_tally/{id}", name="api_poll_tally_get", methods={"GET"})
  */
 final class GetTallyController
 {
@@ -39,7 +39,7 @@ final class GetTallyController
         string $id,
         Request $request,
         MessageBusInterface $bus,
-        LimajuPollRepository $pollRepository,
+        PollRepository $pollRepository,
         EntityManagerInterface $em
     ): Response {
 
