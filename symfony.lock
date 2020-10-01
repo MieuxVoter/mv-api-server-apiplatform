@@ -155,25 +155,6 @@
     "monolog/monolog": {
         "version": "1.25.1"
     },
-    "msgphp/domain": {
-        "version": "v0.13.0"
-    },
-    "msgphp/user": {
-        "version": "v0.13.0"
-    },
-    "msgphp/user-bundle": {
-        "version": "0.10",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "0.10",
-            "ref": "4067ee796789a8828ec72f82c76508a76875bcf8"
-        },
-        "files": [
-            "config/packages/msgphp_user.php",
-            "src/Entity/User.php"
-        ]
-    },
     "myclabs/deep-copy": {
         "version": "1.9.3"
     },
@@ -508,6 +489,9 @@
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.18.1"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"

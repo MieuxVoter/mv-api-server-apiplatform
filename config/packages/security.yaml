@@ -2,12 +2,9 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: null }
-        msgphp_user:
-            id: MsgPhp\User\Infrastructure\Security\UserIdentityProvider
 
     encoders:
         App\Entity\User: auto
-        MsgPhp\User\Infrastructure\Security\UserIdentity: auto
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
@@ -30,7 +27,7 @@ security:
         main:
 #            anonymous: true
             pattern:   ^/api
-            provider: msgphp_user
+            # provider: msgphp_user
             stateless: true
             security: true
             http_basic:
