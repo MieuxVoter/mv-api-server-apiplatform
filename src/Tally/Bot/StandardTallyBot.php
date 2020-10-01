@@ -9,8 +9,8 @@ use App\Entity\Poll;
 use App\Entity\PollCandidateVote;
 use App\Repository\PollCandidateRepository;
 use App\Repository\PollCandidateVoteRepository;
-use App\Tally\Output\LimajuPollCandidateTally;
-use App\Tally\Output\LimajuPollTally;
+use App\Tally\Output\PollCandidateTally;
+use App\Tally\Output\PollTally;
 
 
 /**
@@ -61,12 +61,12 @@ class StandardTallyBot implements TallyBotInterface
     /**
      * @inheritDoc
      */
-    public function tallyVotesOnLimajuPoll(Poll $poll): LimajuPollTally
+    public function tallyVotesOnLimajuPoll(Poll $poll): PollTally
     {
-        /** @var LimajuPollCandidateTally[] $candidatesTallies */
+        /** @var PollCandidateTally[] $candidatesTallies */
         $candidatesTallies = array();
 
-        $positions = (new LimajuPollCandidateTally())->getMentionsPositions();
+        $positions = (new PollCandidateTally())->getMentionsPositions();
 
         $maxVotesCount = 0;
 
@@ -96,7 +96,7 @@ class StandardTallyBot implements TallyBotInterface
 
             }
 
-            $candidateTally = new LimajuPollCandidateTally();
+            $candidateTally = new PollCandidateTally();
             $candidateTally->setPollCandidateId($candidate->getId());
             $candidateTally->setMentionsTally($mentionsTally);
             // Setting these later once we have all the tallies
@@ -117,7 +117,7 @@ class StandardTallyBot implements TallyBotInterface
         }
 
         // Sort the candidates using majority judgment on the median
-        usort($candidatesTallies, function(LimajuPollCandidateTally $a, LimajuPollCandidateTally $b) use ($positions) {
+        usort($candidatesTallies, function(PollCandidateTally $a, PollCandidateTally $b) use ($positions) {
             // From https://en.wikipedia.org/wiki/Majority_judgment
             // If more than one candidate has the same highest median-grade,
             // the MJ winner is discovered by removing (one-by-one) any grades equal
@@ -162,7 +162,7 @@ class StandardTallyBot implements TallyBotInterface
             $candidateTally->setPosition($k+1);
         }
 
-        $tally = new LimajuPollTally($candidatesTallies);
+        $tally = new PollTally($candidatesTallies);
 
         return $tally;
     }

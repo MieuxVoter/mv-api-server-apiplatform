@@ -5,7 +5,7 @@ namespace App\Entity;
 
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Tally\Output\LimajuPollTally as TallyOutput;
+use App\Tally\Output\PollTally as TallyOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

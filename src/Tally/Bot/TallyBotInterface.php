@@ -5,7 +5,7 @@ namespace App\Tally\Bot;
 
 
 use App\Entity\Poll;
-use App\Tally\Output\LimajuPollTally;
+use App\Tally\Output\PollTally;
 
 
 /**
@@ -19,5 +19,5 @@ use App\Tally\Output\LimajuPollTally;
  */
 interface TallyBotInterface
 {
-    public function tallyVotesOnLimajuPoll(Poll $poll) : LimajuPollTally;
+    public function tallyVotesOnLimajuPoll(Poll $poll) : PollTally;
 }

@@ -8,7 +8,7 @@ use App\Entity\Poll;
 use Ramsey\Uuid\UuidInterface;
 
 
-class LimajuPollCandidateTally
+class PollCandidateTally
 {
     /**
      * @var UuidInterface
@@ -241,7 +241,7 @@ class LimajuPollCandidateTally
      * May be used during tallying, on copies of tallies,
      * to help with candidates of similar mentions.
      * @param $mention
-     * @return LimajuPollCandidateTally
+     * @return PollCandidateTally
      */
     public function removeOneVoteForMention($mention): self
     {
@@ -258,7 +258,7 @@ class LimajuPollCandidateTally
      *
      * @param int $count
      * @param $mention
-     * @return LimajuPollCandidateTally
+     * @return PollCandidateTally
      */
     public function addVotesForMention(int $count, $mention): self
     {

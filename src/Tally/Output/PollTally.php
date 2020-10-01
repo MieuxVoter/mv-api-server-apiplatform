@@ -9,10 +9,10 @@ namespace App\Tally\Output;
  * The value are floats instead of integers because we may have complex tallybots with transitivity friction|entropy.
  * The purpose of a TallyBot is to generate and output an instance of this.
  */
-class LimajuPollTally
+class PollTally
 {
     /**
-     * @var array|LimajuPollCandidateTally[]
+     * @var array|PollCandidateTally[]
      */
     public $candidates;
 
