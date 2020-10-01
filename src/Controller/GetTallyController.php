@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\LimajuPollTally;
+use App\Entity\PollTally;
 use App\Repository\LimajuPollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +45,7 @@ final class GetTallyController
 
         $poll = $pollRepository->find($id);
 
-        $tally = new LimajuPollTally();
+        $tally = new PollTally();
 
         $tallyType = "standard";
         $tallyBot = $this->getTallyBot($tallyType);
