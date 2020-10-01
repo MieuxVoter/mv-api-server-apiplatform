@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     }
  * )
- * @ORM\Entity(repositoryClass="PollRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PollRepository")
  */
 class Poll
 {
