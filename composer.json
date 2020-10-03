@@ -28,7 +28,9 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "behat/behat": "^3.7",
         "behat/symfony2-extension": "2.1.*",
+        "behatch/contexts": "^3.3",
         "daraeman/wordtonumber": "dev-i18n-french",
         "doctrine/doctrine-fixtures-bundle": "3.1.*",
         "liip/functional-test-bundle": "~2.0@alpha",

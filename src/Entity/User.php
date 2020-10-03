@@ -88,8 +88,7 @@ class User implements UserInterface
      * @SerializedName("password")
      */
     private $plainPassword;
-
-
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Poll", mappedBy="author")
      * @Groups({"User:read"})
@@ -101,6 +100,12 @@ class User implements UserInterface
      * @Groups({"User:read"})
      */
     private $votes;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"User:create", "User:read", "User:edit"})
+     */
+    private $username;
 
     public function __construct()
     {
@@ -254,6 +259,13 @@ class User implements UserInterface
                 $vote->setElector(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }
