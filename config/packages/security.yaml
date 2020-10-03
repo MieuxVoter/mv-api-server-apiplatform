@@ -38,7 +38,7 @@ security:
                 realm: "Limaju's Authentication Desk"
             json_login:
                 check_path: /api/authentication_token
-                username_path: email
+                username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure

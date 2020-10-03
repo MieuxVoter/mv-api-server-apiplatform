@@ -21,16 +21,12 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * {@inheritdoc }
+     * @inheritdoc
      */
     public function loadUserByUsername($usernameOrEmail)
     {
-        return $this->createQuery(
-                'SELECT u
-                FROM App\Entity\User u
-                WHERE u.username = :query
-                OR u.email = :query'
-            )
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :query or u.email = :query')
             ->setParameter('query', $usernameOrEmail)
             ->getQuery()
             ->getOneOrNullResult();

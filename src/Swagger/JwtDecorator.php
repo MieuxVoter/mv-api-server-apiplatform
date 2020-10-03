@@ -38,7 +38,7 @@ final class JwtDecorator implements NormalizerInterface
         $docs['components']['schemas']['Credentials'] = [
             'type' => 'object',
             'properties' => [
-                'email' => [
+                'username' => [
                     'type' => 'string',
                     'example' => 'api',
                 ],
