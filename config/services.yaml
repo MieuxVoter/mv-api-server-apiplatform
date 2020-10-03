@@ -53,11 +53,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # Should be autowired :/
-    App\DataPersister\UserDataPersister: ~
-        # Uncomment only if autoconfiguration is disabled
-        #tags: [ 'api_platform.data_persister' ]
-
     App\Swagger\JwtDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments: ['@App\Swagger\JwtDecorator.inner']
