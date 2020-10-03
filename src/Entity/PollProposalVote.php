@@ -3,9 +3,10 @@
 
 namespace App\Entity;
 
-
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -36,20 +37,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class PollProposalVote
 {
     /**
-     * @var UuidInterface
+     * @var int|null
+     * @ApiProperty(identifier=false)
      *
-     * @Groups({"ProllProposalVote:read", "ProllProposalVote:read"})
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
+     * @var UuidInterface|null
+     * @ApiProperty(identifier=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"ProllProposalVote:read"})
+     */
+    public $uuid;
+
+    /**
      * The Majority Judgment Poll Proposal the author is giving a mention to.
      *
-     * @Groups({"ProllProposalVote:create", "voProllProposalVotete:read"})
+     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
      * @ORM\ManyToOne(targetEntity="PollProposal", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -77,12 +85,19 @@ class PollProposalVote
      */
     private $elector;
 
+    public function __construct()
+    {
+        $this->uuid = Uuid::uuid4();
+    }
 
-
-
-    public function getId(): ?UuidInterface
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): ?UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function getProposal(): ?PollProposal

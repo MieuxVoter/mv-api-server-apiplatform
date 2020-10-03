@@ -3,12 +3,13 @@
 
 namespace App\Entity;
 
-
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -49,17 +50,22 @@ class Poll
 
 
     /**
-     * @var UuidInterface
+     * @var int|null
+     * @ApiProperty(identifier=false)
      *
-     * @Groups({"Poll:read"})
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var UuidInterface|null
+     * @ApiProperty(identifier=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"Poll:read"})
+     */
+    public $uuid;
 
     /**
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
@@ -87,11 +93,17 @@ class Poll
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
+        $this->uuid = Uuid::uuid4();
     }
 
-    public function getId(): ?UuidInterface
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): ?UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function getTitle(): ?string

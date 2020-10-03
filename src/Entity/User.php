@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -53,13 +56,23 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * )
  */
 class User implements UserInterface
-{
+{    
     /**
+     * @var int|null
+     * @ApiProperty(identifier=false)
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id;    
+
+    /**
+     * @var UuidInterface|null
+     * @ApiProperty(identifier=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"User:read"})
+     */
+    public $uuid;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -68,6 +81,12 @@ class User implements UserInterface
      * @Assert\NotBlank(groups={"register", "edit"})
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"User:create", "User:read", "User:edit"})
+     */
+    private $username;
 
     /**
      * @ORM\Column(type="json")
@@ -101,22 +120,22 @@ class User implements UserInterface
      */
     private $votes;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"User:create", "User:read", "User:edit"})
-     */
-    private $username;
-
     public function __construct()
     {
         $this->polls = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->uuid = Uuid::uuid4();
     }
 
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): ?UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function getEmail(): ?string
@@ -132,13 +151,19 @@ class User implements UserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
      *
      * @see UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->username;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -197,8 +222,7 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     /**
@@ -259,13 +283,6 @@ class User implements UserInterface
                 $vote->setElector(null);
             }
         }
-
-        return $this;
-    }
-
-    public function setUsername(?string $username): self
-    {
-        $this->username = $username;
 
         return $this;
     }

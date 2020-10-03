@@ -13,6 +13,7 @@
         "api-platform/api-pack": "1.2.*",
         "api-platform/core": "2.4.*",
         "lexik/jwt-authentication-bundle": "^2.8",
+        "ramsey/uuid": "^3 || ^4",
         "ramsey/uuid-doctrine": "1.5.*",
         "sensio/framework-extra-bundle": "5.3.*",
         "stof/doctrine-extensions-bundle": "1.3.*",
