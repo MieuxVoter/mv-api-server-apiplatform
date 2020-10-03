@@ -17,6 +17,12 @@ Get [Composer](https://getcomposer.org).
 
     composer install
 
+### References
+* JWT : https://api-platform.com/docs/core/jwt/#jwt-authentication
+* docker-compose : https://github.com/dunglas/symfony-docker
+* Some others :
+    * https://symfonycasts.com/screencast/api-platform-security/encode-user-password
+
 
 ## Browse generated doc
 
