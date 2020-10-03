@@ -11,14 +11,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Vote on a Candidate of a Majority Judgment Poll.
+ * A Vote on a Proposal of a Majority Judgment Poll.
  * A Vote is immutable.
  * A Vote cannot be deleted.
  *
  * @ApiResource(
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"vote:read"}},
+ *             "normalization_context"={"groups"={"PollProposalVote:read"}},
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -26,19 +26,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations = {
  *         "post"={
- *             "denormalization_context"={"groups"={"vote:create"}},
- *             "normalization_context"={"groups"={"vote:read"}},
+ *             "denormalization_context"={"groups"={"PollProposalVote:create"}},
+ *             "normalization_context"={"groups"={"PollProposalVote:read"}},
  *         },
  *     }
  * )
- * @ORM\Entity(repositoryClass="PollCandidateVoteRepository")
+ * @ORM\Entity(repositoryClass="PollProposalVoteRepository")
  */
-class PollCandidateVote
+class PollProposalVote
 {
     /**
      * @var UuidInterface
      *
-     * @Groups({ "read", "vote:read" })
+     * @Groups({"ProllProposalVote:read", "ProllProposalVote:read"})
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
@@ -46,46 +46,36 @@ class PollCandidateVote
      */
     private $id;
 
-
     /**
-     * The Majority Judgment Poll Candidate the author is giving a mention to.
+     * The Majority Judgment Poll Proposal the author is giving a mention to.
      *
-     * @Groups({ "vote:create", "vote:read" })
-     * @ORM\ManyToOne(targetEntity="PollCandidate", inversedBy="votes")
+     * @Groups({"ProllProposalVote:create", "voProllProposalVotete:read"})
+     * @ORM\ManyToOne(targetEntity="PollProposal", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $candidate;
-
-
-    /**
-     * The elector of the vote, the one that chooses the given mention.
-     * (if there is such a thing as choice)
-     * This is optional, and some polls may require all participants to be logged in.
-     * For anonymous votes, this may be null.
-     *
-     * @Groups({ "none" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPollCandidateVotes")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $elector;
-
+    private $proposal;
 
     /**
      * The name of the author of the vote, if any was specified.
      *
-     * @Groups({ "vote:create", "vote:read" })
+     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
 
 
     /**
-     * The mention attributed by the author to the candidate.
+     * The mention attributed by the author to the proposal.
      *
-     * @Groups({ "vote:create", "vote:read" })
+     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
      * @ORM\Column(type="string", length=16)
      */
     private $mention;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
+     */
+    private $elector;
 
 
 
@@ -95,30 +85,18 @@ class PollCandidateVote
         return $this->id;
     }
 
-    public function getCandidate(): ?PollCandidate
+    public function getProposal(): ?PollProposal
     {
-        return $this->candidate;
+        return $this->proposal;
     }
 
-    public function setCandidate(?PollCandidate $candidate): self
+    public function setProposal(?PollProposal $proposal): self
     {
-        $this->candidate = $candidate;
+        $this->proposal = $proposal;
 
         return $this;
     }
-
-    public function getElector(): ?User
-    {
-        return $this->elector;
-    }
-
-    public function setElector(?User $elector): self
-    {
-        $this->elector = $elector;
-
-        return $this;
-    }
-
+    
     public function getMention(): ?string
     {
         return $this->mention;
@@ -139,6 +117,18 @@ class PollCandidateVote
     public function setAuthorName(?string $author_name): self
     {
         $this->author_name = $author_name;
+
+        return $this;
+    }
+
+    public function getElector(): ?User
+    {
+        return $this->elector;
+    }
+
+    public function setElector(?User $elector): self
+    {
+        $this->elector = $elector;
 
         return $this;
     }

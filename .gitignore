@@ -7,6 +7,8 @@
 /.env.local
 /.env.local.php
 /.env.*.local
+/config/jwt/private.pem
+/config/jwt/public.pem
 /public/bundles/
 /var/
 /vendor/
@@ -24,3 +26,7 @@ behat.yml
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

@@ -38,14 +38,6 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # Override to make public, only because of the test-suite.  Remove this if you can.
-    MsgPhp\User\Infrastructure\Doctrine\Repository\UserRepository:
-        public: true
-        arguments:
-            - "App\\Entity\\User"
-            - "@doctrine.orm.default_entity_manager"
-            - "credential.email"
-
     # Who doesn't need Twig in translations strings?
     App\Translator\TwiggyTranslator:
         decorates: translator
@@ -60,3 +52,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Should be autowired :/
+    App\DataPersister\UserDataPersister: ~
+        # Uncomment only if autoconfiguration is disabled
+        #tags: [ 'api_platform.data_persister' ]
+
+    App\Swagger\JwtDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: ['@App\Swagger\JwtDecorator.inner']
+        autoconfigure: false

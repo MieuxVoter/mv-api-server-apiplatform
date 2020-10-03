@@ -20,6 +20,3 @@ framework:
             event_bus:
                 default_middleware: allow_no_handlers
 
-services:
-    msgphp.messenger.command_bus: '@command_bus'
-    msgphp.messenger.event_bus: '@event_bus'

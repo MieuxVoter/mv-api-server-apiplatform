@@ -60,7 +60,7 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=true
       - MYSQL_USER=limaju
     volumes:
-      - ./docker/db/data:/var/lib/mysql:rw
+      - ./var/db/data:/var/lib/mysql:rw
     ports:
       - 3308
 

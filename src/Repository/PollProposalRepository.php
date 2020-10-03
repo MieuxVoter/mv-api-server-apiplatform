@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PollCandidate;
+use App\Entity\PollProposal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PollCandidate|null find($id, $lockMode = null, $lockVersion = null)
- * @method PollCandidate|null findOneBy(array $criteria, array $orderBy = null)
- * @method PollCandidate[]    findAll()
- * @method PollCandidate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PollProposal|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PollProposal|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PollProposal[]    findAll()
+ * @method PollProposal[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PollCandidateRepository extends ServiceEntityRepository
+class PollProposalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PollCandidate::class);
+        parent::__construct($registry, PollProposal::class);
     }
 
     // /**
-    //  * @return PollCandidate[] Returns an array of PollCandidate objects
+    //  * @return PollProposal[] Returns an array of PollProposal objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PollCandidateRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PollCandidate
+    public function findOneBySomeField($value): ?PollProposal
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

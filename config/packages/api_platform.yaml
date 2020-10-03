@@ -21,3 +21,11 @@ api_platform:
     # The shenanigans
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+    
+    enable_profiler: true
+    
+    swagger:
+         api_keys:
+             apiKey:
+                name: Authorization
+                type: header

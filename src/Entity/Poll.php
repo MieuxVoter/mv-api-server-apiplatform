@@ -19,10 +19,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A poll cannot be deleted without privileges.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
+ *     normalizationContext={"groups"={"Poll:read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"read"}},
+ *             "normalization_context"={"groups"={"Poll:read"}},
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "denormalization_context"={"groups"={"create"}},
+ *             "denormalization_context"={"groups"={"Poll:create"}},
  *         },
  *     }
  * )
@@ -51,7 +51,7 @@ class Poll
     /**
      * @var UuidInterface
      *
-     * @Groups({ "read" })
+     * @Groups({"Poll:read"})
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
@@ -62,35 +62,31 @@ class Poll
     private $id;
 
     /**
-     * @Groups({ "create", "read", "update" })
+     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
 
     /**
-     * @Groups({ "create", "read", "update" })
+     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="PollCandidate",
+     *     targetEntity="PollProposal",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
      * )
      */
-    private $candidates;
+    private $proposals;
 
     /**
-     * @Groups({ "none" })
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="limajuPolls")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="polls")
      */
     private $author;
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     public function __construct()
     {
-        $this->candidates = new ArrayCollection();
+        $this->proposals = new ArrayCollection();
     }
 
     public function getId(): ?UuidInterface
@@ -113,30 +109,30 @@ class Poll
 
 
     /**
-     * @return Collection|PollCandidate[]
+     * @return Collection|PollProposal[]
      */
-    public function getCandidates(): Collection
+    public function getProposals(): Collection
     {
-        return $this->candidates;
+        return $this->proposals;
     }
 
-    public function addCandidate(PollCandidate $candidate): self
+    public function addProposal(PollProposal $proposal): self
     {
-        if (!$this->candidates->contains($candidate)) {
-            $this->candidates[] = $candidate;
-            $candidate->setPoll($this);
+        if (!$this->proposals->contains($proposal)) {
+            $this->proposals[] = $proposal;
+            $proposal->setPoll($this);
         }
 
         return $this;
     }
 
-    public function removeCandidate(PollCandidate $candidate): self
+    public function removeProposal(PollProposal $proposal): self
     {
-        if ($this->candidates->contains($candidate)) {
-            $this->candidates->removeElement($candidate);
+        if ($this->proposals->contains($proposal)) {
+            $this->proposals->removeElement($proposal);
             // set the owning side to null (unless already changed)
-            if ($candidate->getPoll() === $this) {
-                $candidate->setPoll(null);
+            if ($proposal->getPoll() === $this) {
+                $proposal->setPoll(null);
             }
         }
 
@@ -155,6 +151,7 @@ class Poll
         return $this;
     }
 
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Should we do it like this in the end?
 

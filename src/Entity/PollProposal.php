@@ -13,31 +13,31 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Candidate of a Liquid Majority Judgment Poll whom any Elector can give a Mention to.
+ * An Proposal of a Poll whom any Elector can give a Mention to.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
+ *     normalizationContext={"groups"={"PollProposal:read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"read"}},
+ *             "normalization_context"={"groups"={"PollProposal:read"}},
  *         },
  *     },
  *     collectionOperations={
  *         "post"={
- *             "denormalization_context"={"groups"={"create"}},
+ *             "denormalization_context"={"groups"={"PollProposal:create"}},
  *         },
  *     }
  * )
  * @ORM\Entity(
- *     repositoryClass="App\Repository\PollCandidateRepository",
+ *     repositoryClass="App\Repository\PollProposalRepository",
  * )
  */
-class PollCandidate
+class PollProposal
 {
     /**
      * @var UuidInterface
      *
-     * @Groups({ "read" })
+     * @Groups({"PollProposal:read"})
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
@@ -46,24 +46,24 @@ class PollCandidate
     private $id;
 
     /**
-     * @Groups({ "create", "read" })
+     * @Groups({"PollProposal:create", "PollProposal:read"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
 
     /**
-     * The poll this candidate is attached to.
+     * The poll this proposal is attached to.
      *
-     * @Groups({ "create" })
-     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="candidates")
+     * @Groups({"PollProposal:create"})
+     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="proposals")
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\LimajuCandidateVote", mappedBy="candidate", orphanRemoval=true)
-//     */
-//    private $votes;
+   /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PollProposalVote", mappedBy="proposal", orphanRemoval=true)
+    */
+   private $votes;
 
     public function __construct()
     {
@@ -100,30 +100,30 @@ class PollCandidate
     }
 
     /**
-     * @return Collection|PollCandidateVote[]
+     * @return Collection|PollProposalVote[]
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    public function addVote(PollCandidateVote $vote): self
+    public function addVote(PollProposalVote $vote): self
     {
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
-            $vote->setCandidate($this);
+            $vote->setProposal($this);
         }
 
         return $this;
     }
 
-    public function removeVote(PollCandidateVote $vote): self
+    public function removeVote(PollProposalVote $vote): self
     {
         if ($this->votes->contains($vote)) {
             $this->votes->removeElement($vote);
             // set the owning side to null (unless already changed)
-            if ($vote->getCandidate() === $this) {
-                $vote->setCandidate(null);
+            if ($vote->getProposal() === $this) {
+                $vote->setProposal(null);
             }
         }
 

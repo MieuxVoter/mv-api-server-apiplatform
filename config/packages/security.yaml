@@ -1,10 +1,19 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        #in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
 
     encoders:
-        App\Entity\User: auto
+        App\Entity\User: 
+            algorithm: 'argon2i'
+            # maximum memory (in KiB) that may be used to compute the Argon2 hash
+            memory_cost: 1024
+            #  number of times the Argon2 hash algorithm will be run
+            time_cost: 3
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
@@ -19,19 +28,24 @@ security:
             pattern:  ^/api/docs?(?:[.](?:html|xml|json|ya?ml))?$
             security: false
 
-        api_registration:
-            pattern:  ^/api/users$
-            methods: [POST]
-            security: false
-
         main:
-#            anonymous: true
             pattern:   ^/api
-            # provider: msgphp_user
+            provider: app_user_provider
             stateless: true
             security: true
+            # Any one can request api
+            anonymous: true 
             http_basic:
                 realm: "Limaju's Authentication Desk"
+            json_login:
+                check_path: /api/authentication_token
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
