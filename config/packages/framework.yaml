@@ -19,3 +19,6 @@ framework:
     # https://api-platform.com/docs/core/serialization/#configuration
     serializer:
         enable_annotations: true
+
+    validation:
+        enable_annotations: true

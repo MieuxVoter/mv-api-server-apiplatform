@@ -9,7 +9,6 @@
 use App\Entity\Poll;
 use App\Entity\PollCandidate;
 use App\Entity\User;
-use MsgPhp\User\Command\AddUserRole;
 
 
 /**

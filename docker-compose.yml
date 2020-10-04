@@ -23,6 +23,8 @@ services:
       # - /srv/app/var/sessions/
     environment:
       - SYMFONY_VERSION
+    depends_on:
+      - db
 
   nginx:
     build:
@@ -48,4 +50,19 @@ services:
       - ./docker/h2-proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "443:443"
+
+  db:
+    image: mariadb:10.5.5
+    environment:
+      - MYSQL_DATABASE=limaju
+      # You should definitely change the password in production
+      - MYSQL_PASSWORD=limaju
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_USER=limaju
+    volumes:
+      - ./var/db/data:/var/lib/mysql:rw
+    ports:
+      - 3308
+
+
   

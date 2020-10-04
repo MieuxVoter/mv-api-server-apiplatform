@@ -2,120 +2,304 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use MsgPhp\Domain\Event\DomainEventHandler;
-use MsgPhp\Domain\Event\DomainEventHandlerTrait;
-use MsgPhp\User\Credential\EmailPassword;
-use MsgPhp\User\Model\EmailPasswordCredential;
-use MsgPhp\User\Model\ResettablePassword;
-use MsgPhp\User\Model\RolesField;
-use MsgPhp\User\User as BaseUser;
-use MsgPhp\User\UserId;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
- * We ditched FosUserBundle for the new MsgPhp\User
- *
- * @ORM\Entity()
- * @UniqueEntity(fields={"name"}, message="There is already an account with this name")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, groups={"register", "edit"}, message="Email already in use")
+ * @ApiResource(
+ *     attributes={
+ *         "normalization_context"={"groups"={"User:read"}},
+ *         "denormalization_context"={"groups"={"User:edit"}},
+ *         "validation_groups"={"register", "edit"}
+ *     },
+ *     collectionOperations={
+ *         "get"={
+ *              "method"="GET",
+ *              "access_control"="is_granted('ROLE_ADMIN')"
+ *          },
+ *         "post"={
+ *              "method"="POST",
+ *              "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY') or is_granted('ROLE_ADMIN')",
+ *              "denormalization_context"={"groups"={"User:create"}},
+ *              "validation_groups"={"register"}
+ *          },
+ *     },
+ *     itemOperations={
+ *         "get"={
+ *              "method"="GET",
+ *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
+ *              "normalization_context"={"groups"={"User:read"}},
+ *         },
+ *         "put"={
+ *              "method"="PUT",
+ *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
+ *              "normalization_context"={"groups"={"User:read"}},
+ *              "denormalization_context"={"groups"={"User:edit"}}
+ *          },
+ *         "delete"={
+ *              "method"="DELETE",
+ *              "access_control"="is_granted('ROLE_ADMIN')"
+ *          },
+ *     }
+ * )
  */
-class User extends BaseUser implements DomainEventHandler, UserInterface
-{
-    use DomainEventHandlerTrait;
-    use EmailPasswordCredential;
-    use ResettablePassword;
-    use RolesField;
-
+class User implements UserInterface
+{    
     /**
+     * @var int|null
+     * @ApiProperty(identifier=false)
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="msgphp_user_id", length=191)
+     * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id;    
 
     /**
-     * @Groups({ "create", "read", "update" })
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @var UuidInterface|null
+     * @ApiProperty(identifier=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"User:read"})
      */
-    public $name;
+    public $uuid;
 
     /**
-     * Authored Limaju Polls.
-     *
-     * @Groups({ "never" })
-     * @ORM\OneToMany(targetEntity="Poll", mappedBy="author")
+     * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"User:create", "User:read", "User:edit"})
+     * @Assert\Email(groups={"register", "edit"})
+     * @Assert\NotBlank(groups={"register", "edit"})
      */
-    private $limajuPolls;
+    private $email;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"User:create", "User:read", "User:edit"})
+     */
+    private $username;
 
-    public function __construct(UserId $id, string $email, string $password)
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     * 
+     */
+    private $password;
+
+    /**
+     * @Groups({"User:login"})
+     * @Assert\NotBlank(groups={"login"})
+     * @Assert\Length(max=64, groups={"login"})
+     * @SerializedName("username")
+     */
+    private $login;
+
+    /**
+     * @Groups({"User:create", "User:edit"})
+     * @Assert\NotBlank(groups={"register, login"})
+     * @Assert\Length(max=1024, groups={"register", "edit", "login"})
+     * @SerializedName("password")
+     */
+    private $plainPassword;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Poll", mappedBy="author")
+     * @Groups({"User:read"})
+     */
+    private $polls;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PollProposalVote", mappedBy="elector")
+     * @Groups({"User:read"})
+     */
+    private $votes;
+
+    public function __construct()
     {
-        $this->id = $id;
-//        $this->name = $name;
-        $this->credential = new EmailPassword($email, $password);
-        $this->limajuPolls = new ArrayCollection();
+        $this->polls = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+        $this->uuid = Uuid::uuid4();
     }
 
-    public function getId(): UserId
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername()
+    public function getUuid(): ?UuidInterface
     {
-        return $this->getCredential()->getUsername();
+        return $this->uuid;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
      *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string)$this->username;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin($login): self
+    {
+        $this->login = $login;
+
+        return this;
+    }
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
      */
     public function getSalt()
     {
-        return null;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
+     * @see UserInterface
      */
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
 
     /**
      * @return Collection|Poll[]
      */
-    public function getLimajuPolls(): Collection
+    public function getPolls(): Collection
     {
-        return $this->limajuPolls;
+        return $this->polls;
     }
 
-    public function addLimajuPoll(Poll $limajuPoll): self
+    public function addPoll(Poll $poll): self
     {
-        if (!$this->limajuPolls->contains($limajuPoll)) {
-            $this->limajuPolls[] = $limajuPoll;
-            $limajuPoll->setAuthor($this);
+        if (!$this->polls->contains($poll)) {
+            $this->polls[] = $poll;
+            $poll->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removeLimajuPoll(Poll $limajuPoll): self
+    public function removePoll(Poll $poll): self
     {
-        if ($this->limajuPolls->contains($limajuPoll)) {
-            $this->limajuPolls->removeElement($limajuPoll);
+        if ($this->polls->contains($poll)) {
+            $this->polls->removeElement($poll);
             // set the owning side to null (unless already changed)
-            if ($limajuPoll->getAuthor() === $this) {
-                $limajuPoll->setAuthor(null);
+            if ($poll->getAuthor() === $this) {
+                $poll->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PollProposalVote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(PollProposalVote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setElector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(PollProposalVote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getElector() === $this) {
+                $vote->setElector(null);
             }
         }
 

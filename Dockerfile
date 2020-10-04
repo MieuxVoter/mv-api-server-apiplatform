@@ -33,6 +33,7 @@ RUN set -eux; \
 	docker-php-ext-install -j$(nproc) \
 	    intl \
 	    zip \
+		pdo_mysql \
 	; \
 	pecl install \
 	    apcu-${APCU_VERSION} \

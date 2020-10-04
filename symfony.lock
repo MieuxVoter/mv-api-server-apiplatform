@@ -22,6 +22,9 @@
     "behat/gherkin": {
         "version": "v4.6.0"
     },
+    "behat/mink": {
+        "version": "v1.8.1"
+    },
     "behat/symfony2-extension": {
         "version": "2.1",
         "recipe": {
@@ -40,6 +43,9 @@
     },
     "behat/transliterator": {
         "version": "v1.2.0"
+    },
+    "behatch/contexts": {
+        "version": "3.3.0"
     },
     "container-interop/container-interop": {
         "version": "1.2.0"
@@ -131,6 +137,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friends-of-behat/mink-extension": {
+        "version": "2.3.1"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
@@ -146,8 +155,26 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.10"
+    },
+    "lcobucci/jwt": {
+        "version": "3.3.3"
+    },
     "league/oauth2-client": {
         "version": "2.4.1"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+        },
+        "files": [
+            "config/packages/lexik_jwt_authentication.yaml"
+        ]
     },
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha17"
@@ -155,27 +182,11 @@
     "monolog/monolog": {
         "version": "1.25.1"
     },
-    "msgphp/domain": {
-        "version": "v0.13.0"
-    },
-    "msgphp/user": {
-        "version": "v0.13.0"
-    },
-    "msgphp/user-bundle": {
-        "version": "0.10",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "0.10",
-            "ref": "4067ee796789a8828ec72f82c76508a76875bcf8"
-        },
-        "files": [
-            "config/packages/msgphp_user.php",
-            "src/Entity/User.php"
-        ]
-    },
     "myclabs/deep-copy": {
         "version": "1.9.3"
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
     },
     "nelmio/api-doc-bundle": {
         "version": "3.0",
@@ -383,8 +394,23 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v4.3.11"
+    },
     "symfony/debug": {
         "version": "v4.3.4"
+    },
+    "symfony/debug-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "f8863cbad2f2e58c4b65fa1eac892ab189971bea"
+        },
+        "files": [
+            "config/packages/dev/debug.yaml"
+        ]
     },
     "symfony/dependency-injection": {
         "version": "v4.3.4"
@@ -509,6 +535,9 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
     },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.18.1"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"
     },
@@ -520,6 +549,9 @@
     },
     "symfony/process": {
         "version": "v4.3.4"
+    },
+    "symfony/profiler-pack": {
+        "version": "v1.0.5"
     },
     "symfony/property-access": {
         "version": "v4.3.4"
@@ -571,6 +603,9 @@
     },
     "symfony/service-contracts": {
         "version": "v1.1.6"
+    },
+    "symfony/stopwatch": {
+        "version": "v4.3.11"
     },
     "symfony/templating": {
         "version": "v4.3.4"
@@ -629,6 +664,20 @@
     },
     "symfony/web-link": {
         "version": "v4.3.4"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "config/packages/dev/web_profiler.yaml",
+            "config/packages/test/web_profiler.yaml",
+            "config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/web-server-bundle": {
         "version": "3.3",

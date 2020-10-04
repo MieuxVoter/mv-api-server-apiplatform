@@ -7,8 +7,6 @@ namespace App;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use MsgPhp\User\Infrastructure\Security\UserIdentity;
-use MsgPhp\User\Repository\UserRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -42,7 +40,7 @@ class Application
     /**
      * @var UserRepository
      */
-    protected $userRepository;
+    // protected $userRepository;
 
     /**
      * @var IriConverterInterface
@@ -66,7 +64,7 @@ class Application
     public function __construct(
         Security $security,
         EntityManagerInterface $entityManager,
-        UserRepository $userRepository,
+        // UserRepository $userRepository,
         IriConverterInterface $iriConverter,
         MessageBusInterface $messageBus
     )
@@ -74,7 +72,7 @@ class Application
         $this->security = $security;
         $this->entityManager = $entityManager;
         $this->iriConverter = $iriConverter;
-        $this->userRepository = $userRepository;
+        // $this->userRepository = $userRepository;
         $this->messageBus = $messageBus;
     }
 

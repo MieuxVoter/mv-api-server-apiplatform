@@ -3,76 +3,90 @@
 
 namespace App\Entity;
 
-
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Candidate of a Liquid Majority Judgment Poll whom any Elector can give a Mention to.
+ * An Proposal of a Poll whom any Elector can give a Mention to.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
+ *     normalizationContext={"groups"={"PollProposal:read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"read"}},
+ *             "normalization_context"={"groups"={"PollProposal:read"}},
  *         },
  *     },
  *     collectionOperations={
  *         "post"={
- *             "denormalization_context"={"groups"={"create"}},
+ *             "denormalization_context"={"groups"={"PollProposal:create"}},
  *         },
  *     }
  * )
  * @ORM\Entity(
- *     repositoryClass="App\Repository\PollCandidateRepository",
+ *     repositoryClass="App\Repository\PollProposalRepository",
  * )
  */
-class PollCandidate
+class PollProposal
 {
     /**
-     * @var UuidInterface
+     * @var int|null
+     * @ApiProperty(identifier=false)
      *
-     * @Groups({ "read" })
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @Groups({ "create", "read" })
+     * @var UuidInterface|null
+     * @ApiProperty(identifier=true)
+     * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"PollProposal:read"})
+     */
+    public $uuid;
+
+    /**
+     * @Groups({"PollProposal:create", "PollProposal:read"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
 
     /**
-     * The poll this candidate is attached to.
+     * The poll this proposal is attached to.
      *
-     * @Groups({ "create" })
-     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="candidates")
+     * @Groups({"PollProposal:create"})
+     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="proposals")
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\LimajuCandidateVote", mappedBy="candidate", orphanRemoval=true)
-//     */
-//    private $votes;
+   /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PollProposalVote", mappedBy="proposal", orphanRemoval=true)
+    */
+   private $votes;
 
     public function __construct()
     {
         $this->votes = new ArrayCollection();
+        $this->uuid = Uuid::uuid4();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): ?UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function getTitle(): ?string
@@ -100,30 +114,30 @@ class PollCandidate
     }
 
     /**
-     * @return Collection|PollCandidateVote[]
+     * @return Collection|PollProposalVote[]
      */
     public function getVotes(): Collection
     {
         return $this->votes;
     }
 
-    public function addVote(PollCandidateVote $vote): self
+    public function addVote(PollProposalVote $vote): self
     {
         if (!$this->votes->contains($vote)) {
             $this->votes[] = $vote;
-            $vote->setCandidate($this);
+            $vote->setProposal($this);
         }
 
         return $this;
     }
 
-    public function removeVote(PollCandidateVote $vote): self
+    public function removeVote(PollProposalVote $vote): self
     {
         if ($this->votes->contains($vote)) {
             $this->votes->removeElement($vote);
             // set the owning side to null (unless already changed)
-            if ($vote->getCandidate() === $this) {
-                $vote->setCandidate(null);
+            if ($vote->getProposal() === $this) {
+                $vote->setProposal(null);
             }
         }
 

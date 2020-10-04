@@ -4,6 +4,7 @@
 use App\Application;
 use App\Entity\Poll;
 use App\Entity\PollCandidate;
+use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
 use App\Repository\PollCandidateRepository;
@@ -15,14 +16,9 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use MsgPhp\User\Command\CreateUser;
-use MsgPhp\User\Infrastructure\Doctrine\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Yaml\Yaml;
-
-//use FOS\UserBundle\Model\UserManager;
-
 
 /**
  * This context class contains the definitions of the steps used by the demo 
@@ -446,26 +442,19 @@ class BaseFeatureContext extends WebTestCase implements Context
     {
         $identifier = uniqid("citizen-", true);
         $email = "${identifier}@test.assemblee-liquide.fr";
-        $pseudonym = $name;
-        $token = md5(uniqid()); // security is irrelevant, since those are test users
+        
+        $password = md5(uniqid()); // security is irrelevant, since those are test users
 
-        $this->getMessageBus()->dispatch(new CreateUser([
-//            'id' => new ScalarUserId(),
-            'name' => $name,
-            'email' => $email,
-            'password' => $token,
-        ]));
+        $user = new User();
+        $user
+            ->setEmail($email)
+            ->setPlainPassword($password)
+            ->setUsername($name);
 
-        $user = $this->getUserRepository()->findByUsername($email);
-        $encodedPassword = $this->get('security.password_encoder')->encodePassword($user, $token);
-
-        $user->getCredential()(new \MsgPhp\User\Event\Domain\ChangeCredential([
-            'password' => $encodedPassword,
-        ]));
-
-        $this->getEntityManager()->flush();
-
-        return ['user' => $user, 'token' => $token];
+        // FIXME call a persist here
+        // Should we use App\DataProvider\UserDataProvider::persist() to ensure encryption password ?
+        
+        return ['user' => $user, 'token' => $password];
     }
 
 
