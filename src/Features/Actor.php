@@ -315,8 +315,8 @@ class Actor
     {
         $server = [];
 //        $server['HTTP_ACCEPT'] = "application/*json*;q=0.9,text/html,application/xhtml+xml,application/xml;q=0.8,*/*;q=0.7";
-        $server['HTTP_ACCEPT'] = "application/json";
-        $server['CONTENT_TYPE'] = "application/json";
+        $server['HTTP_ACCEPT'] = "application/ld+json";
+        $server['CONTENT_TYPE'] = "application/ld+json";
 
         $route = $this->prefixRoute($route);
 
