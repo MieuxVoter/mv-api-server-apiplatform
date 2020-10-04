@@ -50,14 +50,14 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $data = $this->yaml($pystring);
 
         foreach ($data as $candidateTitle => $localizedMention) {
-            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
+            $PollProposal = $this->findOneLimajuPollProposalFromTitleAndPoll($candidateTitle, $poll);
             $mention = $this->unlocalizeLimajuPollMention($localizedMention);
             $this->actor($actor)->api(
                 'POST',"/poll_candidate_votes",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
-                    'candidate' => $this->iri($pollCandidate),
+                    'candidate' => $this->iri($PollProposal),
                     'mention' => $mention,
                 ], [], !empty($try)
             );

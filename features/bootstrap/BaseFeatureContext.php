@@ -3,12 +3,12 @@
 
 use App\Application;
 use App\Entity\Poll;
-use App\Entity\PollCandidate;
+use App\Entity\PollProposal;
 use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
-use App\Repository\PollCandidateRepository;
-use App\Repository\PollCandidateVoteRepository;
+use App\Repository\PollProposalRepository;
+use App\Repository\PollProposalVoteRepository;
 use App\Repository\PollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Behat\Behat\Context\Context;
@@ -179,19 +179,19 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
     /**
-     * @return PollCandidateRepository
+     * @return PollProposalRepository
      */
-    protected function getLimajuPollCandidateRepository()
+    protected function getLimajuPollProposalRepository()
     {
-        return $this->get(PollCandidateRepository::class);
+        return $this->get(PollProposalRepository::class);
     }
 
     /**
-     * @return PollCandidateVoteRepository
+     * @return PollProposalVoteRepository
      */
-    protected function getLimajuPollCandidateVoteRepository()
+    protected function getLimajuPollProposalVoteRepository()
     {
-        return $this->get(PollCandidateVoteRepository::class);
+        return $this->get(PollProposalVoteRepository::class);
     }
 
 
@@ -382,29 +382,29 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollCandidateFromId($id, $lenient = false) : ?PollCandidate
+    protected function findOneLimajuPollProposalFromId($id, $lenient = false) : ?PollProposal
     {
-        $pollCandidate = $this->getRepository(PollCandidate::class)->findOneById($id);
-        if (( ! $lenient) && (null == $pollCandidate)) {
-            $this->fail("No PollCandidate with Id `$id' could be found.");
+        $PollProposal = $this->getRepository(PollProposal::class)->findOneById($id);
+        if (( ! $lenient) && (null == $PollProposal)) {
+            $this->fail("No PollProposal with Id `$id' could be found.");
         }
 
-        return $pollCandidate;
+        return $PollProposal;
     }
 
 
-    protected function findOneLimajuPollCandidateFromTitleAndPoll($title, $poll, $lenient = false) : ?PollCandidate
+    protected function findOneLimajuPollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?PollProposal
     {
-        /** @var PollCandidate $pollCandidate */
-        $pollCandidate = $this->getRepository(PollCandidate::class)->findOneBy([
+        /** @var PollProposal $PollProposal */
+        $PollProposal = $this->getRepository(PollProposal::class)->findOneBy([
             'title' => $title,
             'poll' => $poll,
         ]);
-        if (( ! $lenient) && (null == $pollCandidate)) {
+        if (( ! $lenient) && (null == $PollProposal)) {
             $this->failTrans("no_majority_judgment_poll_candidate_found_for_title", ['title' => $title]);
         }
 
-        return $pollCandidate;
+        return $PollProposal;
     }
 
 

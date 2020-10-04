@@ -7,7 +7,7 @@
 
 
 use App\Entity\Poll;
-use App\Entity\PollCandidate;
+use App\Entity\PollProposal;
 use App\Entity\User;
 
 
@@ -67,32 +67,32 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Given /^un scrutin au jugement majoritaire comme suit:$/u
-     * @Given /^a majority judgment poll like so:$/u
+     * @Given /^un scrutin(?: au jugement majoritaire)? comme suit:?$/ui
+     * @Given /^a majority judgment poll like so:?$/ui
      */
     public function givenLimajuPoll($pystring)
     {
-        $titleKey = $this->t('keys.poll.title');
-        $candidatesKey = $this->t('keys.poll.candidates');
+        $subjectKey = $this->t('keys.poll.subject');
+        $proposalsKey = $this->t('keys.poll.proposals');
         $data = $this->yaml($pystring);
 
         $poll = new Poll();
 
-        if ( ! isset($data[$titleKey])) {
-            $this->fail("Set poll title with '${titleKey}:'.");
+        if ( ! isset($data[$subjectKey])) {
+            $this->fail("Set poll subject with '${subjectKey}:'.");
         }
 
-        $poll->setSubject($data[$titleKey]);
+        $poll->setSubject($data[$subjectKey]);
         $this->persist($poll);
 
-        if ( ! isset($data[$candidatesKey])) {
-            $this->fail("At least one candidate is required in '${candidatesKey}:'.");
+        if ( ! isset($data[$proposalsKey])) {
+            $this->fail("At least one candidate is required in '${proposalsKey}:'.");
         }
 
-        foreach ($data[$candidatesKey] as $candidateTitle) {
-            $candidate = new PollCandidate();
+        foreach ($data[$proposalsKey] as $candidateTitle) {
+            $candidate = new PollProposal();
             $candidate->setTitle($candidateTitle);
-            $poll->addCandidate($candidate);
+            $poll->addProposal($candidate);
             $this->persist($candidate);
         }
 
@@ -142,14 +142,14 @@ class MainFeatureContext extends BaseFeatureContext
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
      */
-    public function actorShouldHaveSomePollCandidateVotesForPoll($actor, $thatMuch, $title)
+    public function actorShouldHaveSomePollProposalVotesForPoll($actor, $thatMuch, $title)
     {
         $actor = $this->actor($actor);
         $thatMuch = $this->number($thatMuch);
         $poll = $this->findOneLimajuPollFromSubject($title);
         // fixme: for poll
 
-        $votes = $this->getLimajuPollCandidateVoteRepository()->findBy([
+        $votes = $this->getLimajuPollProposalVoteRepository()->findBy([
             'elector' => $actor->getUser()->getId(),
 //            'poll' => $poll,
         ]);
@@ -180,11 +180,11 @@ class MainFeatureContext extends BaseFeatureContext
         $positionAtom = 'position';
 
         $expected = [];
-        $pollcandidates = [];
+        $PollProposals = [];
         foreach ($expectedRaw as $candidateTitle => $localizedMentionOrData) {
-            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
-            $pollCandidateId = $pollCandidate->getId()->toString();
-            $pollcandidates[$pollCandidateId] = $pollCandidate;
+            $PollProposal = $this->findOneLimajuPollProposalFromTitleAndPoll($candidateTitle, $poll);
+            $PollProposalId = $PollProposal->getId()->toString();
+            $PollProposals[$PollProposalId] = $PollProposal;
 
             if ( ! is_array($localizedMentionOrData)) {
                 $localizedMentionOrData = [
@@ -193,7 +193,7 @@ class MainFeatureContext extends BaseFeatureContext
             }
 
             $localizedMentionOrData[$mentionAtom] = $this->unlocalizeLimajuPollMention($localizedMentionOrData[$mentionAtom]);
-            $expected[$pollCandidateId] = $localizedMentionOrData;
+            $expected[$PollProposalId] = $localizedMentionOrData;
         }
 
         $tallyBot = $this->getTallyBot($tally);
@@ -210,13 +210,13 @@ class MainFeatureContext extends BaseFeatureContext
                 $assertedSomething = true;
                 $expectationsLeftToProcess = array_diff($expectationsLeftToProcess, [$candidateId]);
 
-                $pollCandidate = $this->findOneLimajuPollCandidateFromId($candidateId);
+                $PollProposal = $this->findOneLimajuPollProposalFromId($candidateId);
                 if ($expected[$candidateId][$mentionAtom] !== $candidateTally->mention) {
                     dump("Actual candidate tally", $candidateTally);
                     $this->failTrans("candidate_tallies_dont_match", [
                         'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$candidateId][$mentionAtom]),
                         'actual_mention' => $this->t('majority_judgment_poll.mention.'.$candidateTally->mention),
-                        'candidate' => $pollCandidate,
+                        'candidate' => $PollProposal,
                     ]);
                 }
 
@@ -226,7 +226,7 @@ class MainFeatureContext extends BaseFeatureContext
                         $this->failTrans('candidate_position_mismatch', [
                             'expected_position' => $expected[$candidateId][$positionAtom],
                             'actual_position' => $candidateTally->position,
-                            'candidate' => $pollCandidate,
+                            'candidate' => $PollProposal,
                         ]);
                     }
                 }
@@ -235,8 +235,8 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         if (0 < count($expectationsLeftToProcess)) {
-            $candidatesLeft = array_map(function($e) use ($pollcandidates) {
-                return $pollcandidates[$e];
+            $candidatesLeft = array_map(function($e) use ($PollProposals) {
+                return $PollProposals[$e];
             }, $expectationsLeftToProcess);
             $this->failTrans("candidates_left_unprocessed", [
                 'expected' => $expected,

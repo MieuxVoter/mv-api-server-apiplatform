@@ -116,19 +116,19 @@ QUERY;
 
         $opinions = [];
         foreach ($data as $candidateTitle => $localizedMention) {
-            $pollCandidate = $this->findOneLimajuPollCandidateFromTitleAndPoll($candidateTitle, $poll);
+            $PollProposal = $this->findOneLimajuPollProposalFromTitleAndPoll($candidateTitle, $poll);
             $mention = $this->unlocalizeLimajuPollMention($localizedMention);
-            $opinions[(string)$pollCandidate->getId()] = $mention;
+            $opinions[(string)$PollProposal->getId()] = $mention;
 
             $query = <<<'QUERY'
 mutation voteOnLimajuPoll($candidateIri: String!, $mention: String!) {
-    createLimajuPollCandidateVote(input: { candidate: $candidateIri, mention: $mention }) {
-        PollCandidateVote { id, author { id } }
+    createLimajuPollProposalVote(input: { candidate: $candidateIri, mention: $mention }) {
+        PollProposalVote { id, author { id } }
     }
 }
 QUERY;
             $variables = array(
-                'candidateIri' => $this->iri($pollCandidate),
+                'candidateIri' => $this->iri($PollProposal),
                 'mention' => $mention,
             );
             $this->actor($actor)->gqlNew($query, $variables, !empty($try));
@@ -188,9 +188,9 @@ QUERY;
 
         foreach ($candidates as $candidate) {
             $query = <<<'QUERY'
-mutation createLimajuPollCandidate($input: createLimajuPollCandidateInput!) {
-    createLimajuPollCandidate(input: $input) {
-        PollCandidate {
+mutation createLimajuPollProposal($input: createLimajuPollProposalInput!) {
+    createLimajuPollProposal(input: $input) {
+        PollProposal {
             id
             title
         }
