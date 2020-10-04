@@ -55,7 +55,7 @@ final class JwtDecorator implements NormalizerInterface
                     'post' => [
                         'tags' => ['Token'],
                         'operationId' => 'postCredentialsItem',
-                        'summary' => 'Get JWT token to login.',
+                        'summary' => 'Gets a JWT token to login',
                         'parameters' => [
                             [
                                 'name' => 'Credentials',
