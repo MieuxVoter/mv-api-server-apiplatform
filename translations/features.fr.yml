@@ -51,8 +51,12 @@ test:
       {% for candidate in candidates %}
       - {{ candidate.title }} ({{ candidate.id }})
       {% endfor %}
+    poll_has_no_subject: |
+      Le scrutin n'a pas de sujet.
+      Ajoutez-lui un sujet comme ceci par exemple:
+      sujet: "Mon scrutin à moi"
     no_majority_judgment_poll_found_for_title: |
-      Aucun scrutin au jugement majoritaure ayant le titre `{{ title }}' n'a été trouvé dans la base de données.
+      Aucun scrutin au jugement majoritaire ayant pour sujet `{{ title }}' n'a été trouvé dans la base de données.
     no_majority_judgment_poll_candidate_found_for_title: |
       Aucun candidat ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
       n'a été trouvée dans la base de données.

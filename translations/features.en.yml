@@ -60,8 +60,10 @@ test:
       {% for candidate in candidates %}
       - {{ candidate.title }} ({{ candidate.id }})
       {% endfor %}
-    no_work_found_for_title: |
-      No work titled `{{ title }}' could be found in the database.
+    poll_has_no_subject: |
+      The poll has no subject.
+      Add one with (for example):
+      subject: "My awesome poll"
     no_majority_judgment_poll_found_for_title: |
       No majority judgment poll titled `{{ title }}' could be found in the database.
     no_majority_judgment_poll_candidate_found_for_title: |

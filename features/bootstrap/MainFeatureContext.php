@@ -79,21 +79,21 @@ class MainFeatureContext extends BaseFeatureContext
         $poll = new Poll();
 
         if ( ! isset($data[$subjectKey])) {
-            $this->fail("Set poll subject with '${subjectKey}:'.");
+            $this->failTrans("poll_has_no_subject");
         }
 
         $poll->setSubject($data[$subjectKey]);
         $this->persist($poll);
 
         if ( ! isset($data[$proposalsKey])) {
-            $this->fail("At least one candidate is required in '${proposalsKey}:'.");
+            $this->fail("At least one proposal is required in '${proposalsKey}:'.");
         }
 
         foreach ($data[$proposalsKey] as $candidateTitle) {
-            $candidate = new PollProposal();
-            $candidate->setTitle($candidateTitle);
-            $poll->addProposal($candidate);
-            $this->persist($candidate);
+            $proposal = new PollProposal();
+            $proposal->setTitle($candidateTitle);
+            $poll->addProposal($proposal);
+            $this->persist($proposal);
         }
 
         $this->flush();
@@ -131,7 +131,7 @@ class MainFeatureContext extends BaseFeatureContext
     public function thereShouldBeSomeProposalsInThePoll($thatMuch, $pollSubject)
     {
         $thatMuch = $this->number($thatMuch);
-        $poll = $this->findOneLimajuPollFromSubject($pollSubject);
+        $poll = $this->findOnePollFromSubject($pollSubject);
         $actual = count($poll->getProposals());
 
         $this->assertEquals($thatMuch, $actual);
@@ -146,7 +146,7 @@ class MainFeatureContext extends BaseFeatureContext
     {
         $actor = $this->actor($actor);
         $thatMuch = $this->number($thatMuch);
-        $poll = $this->findOneLimajuPollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($title);
         // fixme: for poll
 
         $votes = $this->getLimajuPollProposalVoteRepository()->findBy([
@@ -174,7 +174,7 @@ class MainFeatureContext extends BaseFeatureContext
     public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $title, $pystring)
     {
         $expectedRaw = $this->yaml($pystring);
-        $poll = $this->findOneLimajuPollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($title);
 
         $mentionAtom = 'mention';
         $positionAtom = 'position';
@@ -182,7 +182,7 @@ class MainFeatureContext extends BaseFeatureContext
         $expected = [];
         $PollProposals = [];
         foreach ($expectedRaw as $candidateTitle => $localizedMentionOrData) {
-            $PollProposal = $this->findOneLimajuPollProposalFromTitleAndPoll($candidateTitle, $poll);
+            $PollProposal = $this->findOnePollProposalFromTitleAndPoll($candidateTitle, $poll);
             $PollProposalId = $PollProposal->getId()->toString();
             $PollProposals[$PollProposalId] = $PollProposal;
 
@@ -192,7 +192,7 @@ class MainFeatureContext extends BaseFeatureContext
                 ];
             }
 
-            $localizedMentionOrData[$mentionAtom] = $this->unlocalizeLimajuPollMention($localizedMentionOrData[$mentionAtom]);
+            $localizedMentionOrData[$mentionAtom] = $this->unlocalizePollMention($localizedMentionOrData[$mentionAtom]);
             $expected[$PollProposalId] = $localizedMentionOrData;
         }
 

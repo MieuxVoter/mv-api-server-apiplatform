@@ -214,7 +214,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     /// Reverse I18N
     ///
 
-    public function unlocalizeLimajuPollMention($localizedMention)
+    public function unlocalizePollMention($localizedMention)
     {
         return $this->t("value.majority_judgment_poll.mention.$localizedMention");
     }
@@ -371,7 +371,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollFromSubject($title, $lenient = false) : ?Poll
+    protected function findOnePollFromSubject($title, $lenient = false) : ?Poll
     {
         $work = $this->getPollRepository()->findOneBySubject($title);
         if (( ! $lenient) && (null == $work)) {
@@ -393,7 +393,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?PollProposal
+    protected function findOnePollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?PollProposal
     {
         /** @var PollProposal $PollProposal */
         $PollProposal = $this->getRepository(PollProposal::class)->findOneBy([

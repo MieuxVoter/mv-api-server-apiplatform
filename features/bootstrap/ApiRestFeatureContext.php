@@ -41,24 +41,24 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujettissant) "(?P<title>.+)" *:$/ui
-     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<title>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujettissant) "(?P<pollSubject>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
      */
-    public function actorVotesOnTheLimajuPollTitled($actor, $try, $title, $pystring)
+    public function actorVotesOnThePollTitled($actor, $try, $pollSubject, $pystring)
     {
-        $poll = $this->findOneLimajuPollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($pollSubject);
         $data = $this->yaml($pystring);
 
-        foreach ($data as $candidateTitle => $localizedMention) {
-            $PollProposal = $this->findOneLimajuPollProposalFromTitleAndPoll($candidateTitle, $poll);
-            $mention = $this->unlocalizeLimajuPollMention($localizedMention);
+        foreach ($data as $proposalTitle => $mentionTitle) {
+            $proposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
+            $pollId = $poll->getUuid();
+            $proposalId = $proposal->getUuid();
             $this->actor($actor)->api(
-                'POST',"/poll_candidate_votes",
+                'POST',"/polls/{$pollId}/proposals/{$proposalId}/vote",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
-                    'candidate' => $this->iri($PollProposal),
-                    'mention' => $mention,
+                    'mention' => $mentionTitle,
                 ], [], !empty($try)
             );
         }
@@ -101,7 +101,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorTalliesTheLimajuPollTitled($actor, $try, $title)
     {
-        $poll = $this->findOneLimajuPollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
             'GET',"/poll_tally/".$poll->getId(),
@@ -122,7 +122,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorDeletesTheLimajuPollTitled($actor, $try, $title)
     {
-        $poll = $this->findOneLimajuPollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($title);
 
         $this->actor($actor)->api(
             'DELETE',"/polls/".$poll->getId(),
