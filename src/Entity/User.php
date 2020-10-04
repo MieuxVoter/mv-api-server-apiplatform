@@ -101,14 +101,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"User:login"})
-     * @Assert\NotBlank(groups={"login"})
-     * @Assert\Length(max=64, groups={"login"})
-     * @SerializedName("username")
-     */
-    private $login;
-
-    /**
      * @Groups({"User:create", "User:edit"})
      * @Assert\NotBlank(groups={"register, login"})
      * @Assert\Length(max=1024, groups={"register", "edit", "login"})
@@ -134,7 +126,6 @@ class User implements UserInterface
         $this->votes = new ArrayCollection();
         $this->uuid = Uuid::uuid4();
     }
-
 
     public function getId(): ?int
     {
@@ -205,17 +196,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin($login): self
-    {
-        $this->login = $login;
-
-        return this;
-    }
     public function getPlainPassword(): string
     {
         return $this->plainPassword;
