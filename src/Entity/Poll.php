@@ -71,7 +71,7 @@ class Poll
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ORM\Column(type="string", length=142)
      */
-    private $title;
+    private $subject;
 
     /**
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
@@ -106,14 +106,14 @@ class Poll
         return $this->uuid;
     }
 
-    public function getTitle(): ?string
+    public function getSubject(): ?string
     {
-        return $this->title;
+        return $this->subject;
     }
 
-    public function setTitle(string $title): self
+    public function setSubject(string $subject): self
     {
-        $this->title = $title;
+        $this->subject = $subject;
 
         return $this;
     }

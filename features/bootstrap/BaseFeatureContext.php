@@ -173,7 +173,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     /**
      * @return PollRepository
      */
-    protected function getLimajuPollRepository()
+    protected function getPollRepository()
     {
         return $this->get(PollRepository::class);
     }
@@ -371,9 +371,9 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollFromTitle($title, $lenient = false) : ?Poll
+    protected function findOneLimajuPollFromSubject($title, $lenient = false) : ?Poll
     {
-        $work = $this->getLimajuPollRepository()->findOneByTitle($title);
+        $work = $this->getPollRepository()->findOneBySubject($title);
         if (( ! $lenient) && (null == $work)) {
             $this->failTrans("no_majority_judgment_poll_found_for_title", ['title' => $title]);
         }
@@ -441,7 +441,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     protected function createUser($name) : array
     {
         $identifier = uniqid("citizen-", true);
-        $email = "${identifier}@test.assemblee-liquide.fr";
+        $email = "${identifier}@users.mieuxvoter.fr";
         
         $password = md5(uniqid()); // security is irrelevant, since those are test users
 
@@ -451,9 +451,10 @@ class BaseFeatureContext extends WebTestCase implements Context
             ->setPlainPassword($password)
             ->setUsername($name);
 
-        // FIXME call a persist here
-        // Should we use App\DataProvider\UserDataProvider::persist() to ensure encryption password ?
-        
+        // We use App\DataProvider\UserDataProvider::persist() to ensure password encryption
+        $this->get("App\DataPersister\UserDataPersister")->persist($user);
+//        $this->getEntityManager()->persist($user);
+
         return ['user' => $user, 'token' => $password];
     }
 

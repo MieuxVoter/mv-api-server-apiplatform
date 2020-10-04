@@ -46,7 +46,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorVotesOnTheLimajuPollTitled($actor, $try, $title, $pystring)
     {
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
         $data = $this->yaml($pystring);
 
         foreach ($data as $candidateTitle => $localizedMention) {
@@ -101,7 +101,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorTalliesTheLimajuPollTitled($actor, $try, $title)
     {
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
             'GET',"/poll_tally/".$poll->getId(),
@@ -122,7 +122,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorDeletesTheLimajuPollTitled($actor, $try, $title)
     {
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
 
         $this->actor($actor)->api(
             'DELETE',"/polls/".$poll->getId(),

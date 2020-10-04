@@ -111,7 +111,7 @@ QUERY;
     {
         $data = $this->yaml($pystring);
 
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
         $pollId = $poll->getId();
 
         $opinions = [];

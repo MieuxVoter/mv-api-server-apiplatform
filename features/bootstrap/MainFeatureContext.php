@@ -82,7 +82,7 @@ class MainFeatureContext extends BaseFeatureContext
             $this->fail("Set poll title with '${titleKey}:'.");
         }
 
-        $poll->setTitle($data[$titleKey]);
+        $poll->setSubject($data[$titleKey]);
         $this->persist($poll);
 
         if ( ! isset($data[$candidatesKey])) {
@@ -119,23 +119,34 @@ class MainFeatureContext extends BaseFeatureContext
      * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? y avoir (?P<thatMuch>.+) scrutins?(?: au jugement majoritaire)? dans la base de données$/ui
      */
-    public function thereShouldBeSomeLimajuPollsInTheDatabase($thatMuch)
+    public function thereShouldBeSomePollsInTheDatabase($thatMuch)
     {
         $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, Poll::class);
     }
 
+    /**
+     * fixme: en step
+     * @Then /^le scrutin(?: au jugement majoritaire)? intitulé "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) propositions?$/ui
+     */
+    public function thereShouldBeSomeProposalsInThePoll($thatMuch, $pollSubject)
+    {
+        $thatMuch = $this->number($thatMuch);
+        $poll = $this->findOneLimajuPollFromSubject($pollSubject);
+        $actual = count($poll->getProposals());
 
+        $this->assertEquals($thatMuch, $actual);
+    }
 
     /**
      * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
      */
-    public function actorShouldHaveSomeLimajuPollCandidateVotesForPoll($actor, $thatMuch, $title)
+    public function actorShouldHaveSomePollCandidateVotesForPoll($actor, $thatMuch, $title)
     {
         $actor = $this->actor($actor);
         $thatMuch = $this->number($thatMuch);
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
         // fixme: for poll
 
         $votes = $this->getLimajuPollCandidateVoteRepository()->findBy([
@@ -160,10 +171,10 @@ class MainFeatureContext extends BaseFeatureContext
      * fixme: en step
      * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin au jugement majoritaire titré "(?P<title>.*)" devrait être *:?$/u
      */
-    public function theTallyOfTheLimajuPollTitledShouldBeLikeYaml($tally, $title, $pystring)
+    public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $title, $pystring)
     {
         $expectedRaw = $this->yaml($pystring);
-        $poll = $this->findOneLimajuPollFromTitle($title);
+        $poll = $this->findOneLimajuPollFromSubject($title);
 
         $mentionAtom = 'mention';
         $positionAtom = 'position';
