@@ -37,9 +37,9 @@ class Application
      */
     protected $entityManager;
 
-    /**
-     * @var UserRepository
-     */
+//    /**
+//     * @var UserRepository
+//     */
     // protected $userRepository;
 
     /**
@@ -84,13 +84,11 @@ class Application
      */
     public function getAuthenticatedUser(): ?User
     {
-        /** @var UserIdentity $userIdentity */
+        /** @var User|null $userIdentity */
         $userIdentity = $this->security->getUser();
-
-        /** @var User|null $user */
-        $user = $this->userRepository->findByUsername($userIdentity->getOriginUsername());
-
-        return $user;
+        return $userIdentity;
+//        $user = $this->userRepository->findByUsername($userIdentity->getOriginUsername());
+//        return $user;
     }
 
 
