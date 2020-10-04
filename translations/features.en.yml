@@ -6,8 +6,10 @@ balloting:
 
 keys:
   poll:
+    subject: 'subject'
     title: 'title'
     options: 'options'
+    proposals: 'proposals'
 
 value:
   majority_judgment_poll:

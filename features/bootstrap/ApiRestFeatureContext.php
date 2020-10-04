@@ -41,7 +41,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujettissant) "(?P<title>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<title>.+)" *:$/ui
      */
     public function actorVotesOnTheLimajuPollTitled($actor, $try, $title, $pystring)
@@ -74,20 +74,20 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $data = $this->yaml($pystring);
 
         $candidates = [];
-        if (isset($data[$this->t('keys.poll.candidates')])) {
-            foreach ($data[$this->t('keys.poll.candidates')] as $candidateDatum) {
-                if (is_string($candidateDatum)) {
-                    $candidateDatum = ['title' => $candidateDatum];
+        if (isset($data[$this->t('keys.poll.proposals')])) {
+            foreach ($data[$this->t('keys.poll.proposals')] as $proposal) {
+                if (is_string($proposal)) {
+                    $proposal = ['title' => $proposal];
                 }
-                $candidates[] = $candidateDatum;
+                $candidates[] = $proposal;
             }
         }
 
         $this->actor($actor)->api(
             'POST',"/polls",
             [
-                'title' => $data[$this->t('keys.poll.title')],
-                'candidates' => $candidates,
+                'subject' => $data[$this->t('keys.poll.subject')],
+                'proposals' => $candidates,
             ], [], !empty($try)
         );
     }
