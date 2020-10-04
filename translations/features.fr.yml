@@ -10,6 +10,7 @@ keys:
     title: 'titre'
     candidates: 'candidats'
     proposals: 'propositions'
+    grades: 'mentions'
 
 value:
   majority_judgment_poll:

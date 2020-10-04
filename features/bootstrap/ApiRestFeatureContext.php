@@ -58,7 +58,10 @@ class ApiRestFeatureContext extends BaseFeatureContext
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
+                    // FIXME: what do we send here?
                     'mention' => $mentionTitle,
+                    // perhaps a link to
+//                    'mention' => $this->iri($mention),
                 ], [], !empty($try)
             );
         }
@@ -69,17 +72,30 @@ class ApiRestFeatureContext extends BaseFeatureContext
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) cré(?:e[szr]?|ent) (?:le|un) scrutin au jugement majoritaire (?:comme suit|suivant) *:$/u
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) creates? the following majority judgment poll:$/ui
      */
-    public function actorSubmitsTheLimajuPollLikeSo($actor, $try, $pystring)
+    public function actorSubmitsThePollLikeSo($actor, $try, $pystring)
     {
         $data = $this->yaml($pystring);
 
-        $candidates = [];
+        $proposals = [];
         if (isset($data[$this->t('keys.poll.proposals')])) {
             foreach ($data[$this->t('keys.poll.proposals')] as $proposal) {
                 if (is_string($proposal)) {
                     $proposal = ['title' => $proposal];
                 }
-                $candidates[] = $proposal;
+                $proposals[] = $proposal;
+            }
+        }
+
+        $grades = [];
+        if (isset($data[$this->t('keys.poll.grades')])) {
+            foreach ($data[$this->t('keys.poll.grades')] as $k => $grade) {
+                if (is_string($grade)) {
+                    $grade = [
+                        'order' => $k,
+                        'name' => $grade,
+                    ];
+                }
+                $grades[] = $grade;
             }
         }
 
@@ -87,7 +103,8 @@ class ApiRestFeatureContext extends BaseFeatureContext
             'POST',"/polls",
             [
                 'subject' => $data[$this->t('keys.poll.subject')],
-                'proposals' => $candidates,
+                'proposals' => $proposals,
+                'grades' => $grades,
             ], [], !empty($try)
         );
     }

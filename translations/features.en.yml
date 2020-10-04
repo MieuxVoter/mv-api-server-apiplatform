@@ -10,6 +10,7 @@ keys:
     title: 'title'
     options: 'options'
     proposals: 'proposals'
+    grades: 'grades'
 
 value:
   majority_judgment_poll:
