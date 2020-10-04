@@ -54,7 +54,7 @@ class PollProposal
     public $uuid;
 
     /**
-     * @Groups({"PollProposal:create", "PollProposal:read"})
+     * @Groups({"PollProposal:create", "PollProposal:read", "Poll:create"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
