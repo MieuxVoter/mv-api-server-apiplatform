@@ -38,7 +38,7 @@ final class JwtDecorator implements NormalizerInterface
         $docs['components']['schemas']['Credentials'] = [
             'type' => 'object',
             'properties' => [
-                'username' => [
+                'usernameOrEmail' => [
                     'type' => 'string',
                     'example' => 'api',
                 ],
@@ -51,7 +51,7 @@ final class JwtDecorator implements NormalizerInterface
 
         $tokenDocumentation = [
             'paths' => [
-                '/api/authentication_token' => [
+                '/api/_jwt' => [
                     'post' => [
                         'tags' => ['Token'],
                         'operationId' => 'postCredentialsItem',
@@ -78,7 +78,6 @@ final class JwtDecorator implements NormalizerInterface
                 ],
             ],
         ];
-        dump(array_merge_recursive($docs, $tokenDocumentation));
         return array_merge_recursive($docs, $tokenDocumentation);
     }
 }

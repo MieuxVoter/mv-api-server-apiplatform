@@ -27,25 +27,29 @@ security:
             pattern:  ^/api/docs?(?:[.](?:html|xml|json|ya?ml))?$
             security: false
 
-        main:
-            pattern:   ^/api
-            provider: app_user_provider
+        api:
+            pattern: ^/api/
             stateless: true
-            security: true
-            # Any one can request api
-            anonymous: true 
-            http_basic:
-                realm: "Limaju's Authentication Desk"
-            json_login:
-                check_path: /api/authentication_token
-                username_path: username
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            anonymous: true
+            provider: app_user_provider
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+            json_login:
+                check_path: /api/_jwt
+                username_path: usernameOrEmail
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure        
+        main:
+            anonymous: true
+            http_basic:
+                realm: "Limaju's Authentication Desk"
+            
+            
+            
 
+                
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
