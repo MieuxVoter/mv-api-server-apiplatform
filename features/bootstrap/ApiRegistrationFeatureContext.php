@@ -2,6 +2,10 @@
 
 
 /**
+ *
+ * NOT USED
+ *
+ *
  * Steps for registration, using the REST form of the API
  * because we can't manage to do registration via graphql
  *
@@ -18,8 +22,7 @@ P<actor>.+) [mst]'inscri[st] en tant que citoyen(?:⋅?ne)? avec le pseudonyme "
     public function iRegisterPseudonimicallyAsNewCitizenWithAat($actor, $name, $aat)
     {
         print("🐵 Registering as ".$name."…");
-
-        $this->actor($actor, true)->apiOld('POST', '/user', ["name" => $name, "aat" => $aat]);
+        // todo?
     }
 
 
@@ -30,8 +33,7 @@ P<actor>.+) [mst]'inscri[st] en tant que citoyen(?:⋅?ne)? avec le pseudonyme "
     public function iRegisterAnonymouslyAsNewCitizenWithAat($actor, $aat)
     {
         print("🤖 Registering anonymously…");
-
-        $this->actor($actor, true)->apiOld('POST', '/user', ["aat" => $aat]);
+        // todo?
     }
 
 }
