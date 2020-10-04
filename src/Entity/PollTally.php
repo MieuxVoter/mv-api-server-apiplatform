@@ -27,7 +27,7 @@ class PollTally
 {
     /**
      * @var TallyOutput Standard tally output.
-     * @Groups({ "read" })
+     * @Groups({"PollTally:read"})
      */
     public $standard;
 }

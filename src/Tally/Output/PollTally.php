@@ -12,24 +12,24 @@ namespace App\Tally\Output;
 class PollTally
 {
     /**
-     * @var array|PollCandidateTally[]
+     * @var array|PollProposalTally[]
      */
-    public $candidates;
+    public $proposals;
 
     /**
      * Tally constructor.
-     * @param array $candidates
+     * @param array $proposals
      */
-    public function __construct(array $candidates)
+    public function __construct(array $proposals)
     {
-        $this->candidates = $candidates;
+        $this->proposals = $proposals;
     }
 
     public function countVotes()
     {
         $count = 0;
-        foreach ($this->candidates as $candidate) {
-            $count += $candidate->countVotes();
+        foreach ($this->proposals as $proposal) {
+            $count += $proposal->countVotes();
         }
 
         return $count;

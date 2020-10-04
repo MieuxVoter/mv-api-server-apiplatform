@@ -3,37 +3,37 @@
 namespace App\Repository;
 
 use App\Entity\Poll;
-use App\Entity\PollCandidateVote;
+use App\Entity\PollProposalVote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PollCandidateVote|null find($id, $lockMode = null, $lockVersion = null)
- * @method PollCandidateVote|null findOneBy(array $criteria, array $orderBy = null)
- * @method PollCandidateVote[]    findAll()
- * @method PollCandidateVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PollProposalVote|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PollProposalVote|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PollProposalVote[]    findAll()
+ * @method PollProposalVote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PollCandidateVoteRepository extends ServiceEntityRepository
+class PollProposalVoteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PollCandidateVote::class);
+        parent::__construct($registry, PollProposalVote::class);
     }
 
 
     public function countVotesOnPoll(Poll $poll)
     {
         $count = 0;
-        foreach ($poll->getCandidates() as $candidate) {
+        foreach ($poll->getProposals() as $proposal) {
             $count += $this->count([
-                'candidate' => $candidate->getId(),
+                'proposal' => $proposal->getId(),
             ]);
         }
         return $count;
     }
 
     // /**
-    //  * @return PollCandidateVote[] Returns an array of PollCandidateVote objects
+    //  * @return PollProposalVote[] Returns an array of PollProposalVote objects
     //  */
     /*
     public function findByExampleField($value)
@@ -50,7 +50,7 @@ class PollCandidateVoteRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PollCandidateVote
+    public function findOneBySomeField($value): ?PollProposalVote
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

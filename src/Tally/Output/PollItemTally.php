@@ -8,13 +8,13 @@ use App\Entity\Poll;
 use Ramsey\Uuid\UuidInterface;
 
 
-class PollCandidateTally
+class PollProposalTally
 {
     /**
      * @var UuidInterface
-     * UUID of the PollCandidate that this tally belongs to.
+     * UUID of the PollProposal that this tally belongs to.
      */
-    public $poll_candidate_id;
+    public $poll_proposal_id;
 
     /**
      * @var string
@@ -25,9 +25,9 @@ class PollCandidateTally
 
     /**
      * @var integer
-     * The position of this candidate in its poll, after tallying.
+     * The position of this proposal in its poll, after tallying.
      * The position starts at 1 and ends at <NUMBER_OF_CANDIDATES>.
-     * Two candidates MAY have the same position, in extreme cases.
+     * Two proposals MAY have the same position, in extreme cases.
      */
     public $position;
 
@@ -52,17 +52,17 @@ class PollCandidateTally
     /**
      * @return UuidInterface
      */
-    public function getPollCandidateId(): UuidInterface
+    public function getPollProposalId(): UuidInterface
     {
-        return $this->poll_candidate_id;
+        return $this->poll_proposal_id;
     }
 
     /**
-     * @param UuidInterface $poll_candidate_id
+     * @param UuidInterface $poll_proposal_id
      */
-    public function setPollCandidateId(UuidInterface $poll_candidate_id): void
+    public function setPollProposalId(UuidInterface $poll_proposal_id): void
     {
-        $this->poll_candidate_id = $poll_candidate_id;
+        $this->poll_proposal_id = $poll_proposal_id;
     }
 
     /**
@@ -202,7 +202,7 @@ class PollCandidateTally
 
     /**
      * Yields the mapping of the mentions to their "worth", an integer between 0 and `mentionsCount-1`.
-     * Helps when sorting the candidates during tallying.
+     * Helps when sorting the proposals during tallying.
      *
      * @return array of MENTION_XXX => N
      */
@@ -239,9 +239,9 @@ class PollCandidateTally
      * Every politician's wet dream that banksters made a reality.
      *
      * May be used during tallying, on copies of tallies,
-     * to help with candidates of similar mentions.
+     * to help with proposals of similar mentions.
      * @param $mention
-     * @return PollCandidateTally
+     * @return PollProposalTally
      */
     public function removeOneVoteForMention($mention): self
     {
@@ -258,7 +258,7 @@ class PollCandidateTally
      *
      * @param int $count
      * @param $mention
-     * @return PollCandidateTally
+     * @return PollProposalTally
      */
     public function addVotesForMention(int $count, $mention): self
     {
