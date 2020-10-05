@@ -1,6 +1,6 @@
 <?php
 
-print("Validating the algorithmic constitution of Limaju…\n");
+print("Validating the Algorithmic Constitution of a Liquid Majority Judgment Application…\n");
 
 require 'functions.php';
 
