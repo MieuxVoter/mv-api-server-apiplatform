@@ -17,7 +17,14 @@ Get [Composer](https://getcomposer.org).
 
     composer install
 
+
+### Via docker
+
+Install Docker Compose.  Run `doccker-compose up`.
+
+
 ### References
+
 * JWT : https://api-platform.com/docs/core/jwt/#jwt-authentication
 * docker-compose : https://github.com/dunglas/symfony-docker
 * Some others :
