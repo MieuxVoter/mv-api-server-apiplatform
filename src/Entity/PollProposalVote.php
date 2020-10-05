@@ -14,6 +14,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * A Vote on a Proposal of a Majority Judgment Poll.
  *
+ * This could also be named PollProposalJudgment.
+ * Rationale: "Judge! Don't Vote." ;)
+ *
+ *
  * TBD:
  * A Vote is immutable.
  * A Vote cannot be deleted.
@@ -28,14 +32,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "access_control"="is_granted('can_delete', object)",
  *         },
  *     },
- *     collectionOperations = {
+ *     collectionOperations={
  *         "post"={
+ *             "path"="/polls/{id}/proposals/{proposals}/votes.{_format}",
  *             "denormalization_context"={"groups"={"PollProposalVote:create"}},
  *             "normalization_context"={"groups"={"PollProposalVote:read"}},
  *         },
- *     }
+ *     },
  * )
- * @ORM\Entity(repositoryClass="\App\Repository\PollProposalVoteRepository")
+ * @ORM\Entity(
+ *     repositoryClass="App\Repository\PollProposalVoteRepository",
+ * )
  */
 class PollProposalVote
 {
@@ -68,6 +75,7 @@ class PollProposalVote
 
     /**
      * The name of the author of the vote, if any was specified.
+     * TBD. May be deprecated soon.
      *
      * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
      * @ORM\Column(type="string", length=32, nullable=true)
@@ -75,12 +83,12 @@ class PollProposalVote
     private $author_name;
 
     /**
-     * The mention attributed by the author to the proposal.
+     * The Grade attributed by the Judge to the Proposal.
      *
      * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
      * @ORM\Column(type="string", length=16)
      */
-    private $mention;
+    private $grade;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
@@ -114,14 +122,14 @@ class PollProposalVote
         return $this;
     }
     
-    public function getMention(): ?string
+    public function getGrade(): ?string
     {
-        return $this->mention;
+        return $this->grade;
     }
 
-    public function setMention(string $mention): self
+    public function setGrade(string $grade): self
     {
-        $this->mention = $mention;
+        $this->grade = $grade;
 
         return $this;
     }

@@ -84,12 +84,12 @@ class StandardTallyBot implements TallyBotInterface
             if ($votesCount) {
 
                 usort($votes, function(PollProposalVote $a, PollProposalVote $b) use ($positions) {
-                    return $positions[$a->getMention()] - $positions[$b->getMention()];
+                    return $positions[$a->getGrade()] - $positions[$b->getGrade()];
                 });
 
                 foreach ($positions as $mentionToTally => $whoCares) {
                     $votesForMention = array_filter($votes, function(PollProposalVote $v) use ($mentionToTally) {
-                        return $v->getMention() === $mentionToTally;
+                        return $v->getGrade() === $mentionToTally;
                     });
                     $mentionsTally[$mentionToTally] = count($votesForMention);
                 }

@@ -28,7 +28,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post"={
  *             "denormalization_context"={"groups"={"PollProposal:create"}},
  *         },
- *     }
+ *     },
  * )
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollProposalRepository",

@@ -41,15 +41,15 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujettissant) "(?P<pollSubject>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
      */
-    public function actorVotesOnThePollTitled($actor, $try, $pollSubject, $pystring)
+    public function actorVotesOnThePollOnTheSubjectOf($actor, $try, $pollSubject, $pystring)
     {
         $poll = $this->findOnePollFromSubject($pollSubject);
         $data = $this->yaml($pystring);
 
-        foreach ($data as $proposalTitle => $mentionTitle) {
+        foreach ($data as $proposalTitle => $gradeTitle) {
             $proposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
             $pollId = $poll->getUuid();
             $proposalId = $proposal->getUuid();
@@ -58,10 +58,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
-                    // FIXME: what do we send here?
-                    'mention' => $mentionTitle,
-                    // perhaps a link to
-//                    'mention' => $this->iri($mention),
+                    'grade' => $gradeTitle,
                 ], [], !empty($try)
             );
         }
