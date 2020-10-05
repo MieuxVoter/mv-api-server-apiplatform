@@ -11,6 +11,8 @@ use Ramsey\Uuid\UuidInterface;
 class PollProposalTally
 {
     /**
+     * Why not pas the poll ?  (careful, we `clone` this class)
+     *
      * @var UuidInterface
      * UUID of the PollProposal that this tally belongs to.
      */
@@ -33,10 +35,10 @@ class PollProposalTally
 
     /**
      * @var array
-     * Poll::MENTION_XXX => integer
-     * Count of votes for each mention.
+     * grade_name => integer
+     * Count of votes for each grade.
      */
-    public $mentions_tally;
+    public $grades_tally;
 
 
     /**
@@ -100,17 +102,17 @@ class PollProposalTally
     /**
      * @return array
      */
-    public function getMentionsTally(): array
+    public function getGradesTally(): array
     {
-        return $this->mentions_tally;
+        return $this->grades_tally;
     }
 
     /**
-     * @param array $mentions_tally
+     * @param array $grades_tally
      */
-    public function setMentionsTally(array $mentions_tally): void
+    public function setGradesTally(array $grades_tally): void
     {
-        $this->mentions_tally = $mentions_tally;
+        $this->grades_tally = $grades_tally;
     }
 
 
@@ -141,7 +143,7 @@ class PollProposalTally
     {
         $mentions = $this->getMentionsList();
 //        $order = $this->getMentionsPositions();
-        $tally = $this->getMentionsTally();
+        $tally = $this->getGradesTally();
         $count = $this->countVotes();
 
         $median = $mentions[0];  // Worse mention is the default.
@@ -168,12 +170,14 @@ class PollProposalTally
     }
 
     /**
+     * @deprecated
      * @return array|string[]
      */
     public function getMentionsList()
     {
         if (null === $this->mentions_list) {
 
+            trigger_error("No grades list.");
 //            $this->mentions_list = [];
 //            foreach ($this->getP)
 
@@ -207,7 +211,7 @@ class PollProposalTally
     /**
      * Yields the mapping of the mentions to their "worth", an integer between 0 and `mentionsCount-1`.
      * Helps when sorting the proposals during tallying.
-     *
+     * @deprecated
      * @return array of MENTION_XXX => N
      */
     public function getMentionsPositions()
@@ -224,7 +228,7 @@ class PollProposalTally
     public function countVotes(): int
     {
         $count = 0;
-        $tally = $this->getMentionsTally();
+        $tally = $this->getGradesTally();
 
         foreach ($this->getMentionsList() as $mention) {
             if (isset($tally[$mention])) {
@@ -249,8 +253,8 @@ class PollProposalTally
      */
     public function removeOneVoteForMention($mention): self
     {
-        if ($this->mentions_tally[$mention] > 0) {
-            $this->mentions_tally[$mention] -= 1;
+        if ($this->grades_tally[$mention] > 0) {
+            $this->grades_tally[$mention] -= 1;
         }
 
         return $this;
@@ -264,10 +268,10 @@ class PollProposalTally
      * @param $mention
      * @return PollProposalTally
      */
-    public function addVotesForMention(int $count, $mention): self
+    public function addVotesForGrade(int $count, $mention): self
     {
-        if (isset($this->mentions_tally[$mention])) {
-            $this->mentions_tally[$mention] += $count;
+        if (isset($this->grades_tally[$mention])) {
+            $this->grades_tally[$mention] += $count;
         }
 
         return $this;

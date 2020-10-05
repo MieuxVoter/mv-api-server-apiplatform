@@ -80,7 +80,7 @@ class StandardTallyBot implements TallyBotInterface
 
             $votesCount = count($votes);
             $maxVotesCount = max($maxVotesCount, $votesCount);
-            $mentionsTally = array(); // grade_name => integer
+            $gradesTally = array(); // grade_name => integer
 
             if ($votesCount) {
 
@@ -92,14 +92,15 @@ class StandardTallyBot implements TallyBotInterface
                     $votesForMention = array_filter($votes, function (PollProposalVote $v) use ($gradeToTally) {
                         return $v->getGrade() === $gradeToTally;
                     });
-                    $mentionsTally[$gradeToTally] = count($votesForMention);
+                    $gradesTally[$gradeToTally] = count($votesForMention);
                 }
 
             }
 
             $proposalTally = new PollProposalTally();
             $proposalTally->setPollProposalId($proposal->getUuid());
-            $proposalTally->setMentionsTally($mentionsTally);
+            $proposalTally->setMentionsList($poll->getGradesNames());
+            $proposalTally->setGradesTally($gradesTally);
             // Setting these later once we have all the tallies
             //$proposalTally->setMention(?);
             //$proposalTally->setPosition(?);
@@ -112,7 +113,7 @@ class StandardTallyBot implements TallyBotInterface
             // Fill up proposal tallies that have less votes, with TO_REJECT mentions
             // so that all tallies have the same number of mentions in the end.
             // The goal here is to enforce the Rule about TO_REJECT being the default mention.
-            $proposalTally->addVotesForMention($maxVotesCount - $proposalTally->countVotes(), Poll::MENTION_TO_REJECT);
+            $proposalTally->addVotesForGrade($maxVotesCount - $proposalTally->countVotes(), Poll::MENTION_TO_REJECT);
             // Once this is done, we can now compute the final mention from the median
             $proposalTally->setMedianGrade($proposalTally->getMedian());
         }

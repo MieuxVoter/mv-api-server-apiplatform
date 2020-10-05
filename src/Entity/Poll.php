@@ -35,9 +35,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post"={
  *             "denormalization_context"={"groups"={"Poll:create"}},
  *         },
- *     }
+ *     },
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PollRepository")
+ * @ORM\Entity(
+ *     repositoryClass="App\Repository\PollRepository",
+ * )
  */
 class Poll
 {
@@ -175,11 +177,6 @@ class Poll
         return $this;
     }
 
-    public function getLevelsOfGrades() : array
-    {
-
-    }
-
     public function getAuthor(): ?User
     {
         return $this->author;
@@ -221,5 +218,38 @@ class Poll
         }
 
         return $this;
+    }
+
+    public function getGradesInOrder() : array
+    {
+        $grades = $this->getGrades();
+//        dump($grades);
+        $grades = $this->getGrades()->toArray();
+        dump($grades);
+        usort($grades, function (PollGrade $a, PollGrade $b) {
+            return $a->getLevel() - $b->getLevel();
+        });
+//        dump($grades);
+        return $grades;
+    }
+
+    public function getLevelsOfGrades() : array
+    {
+        $levels = [];
+        foreach ($this->getGrades() as $grade) {
+            $levels[$grade->getName()] = $grade->getLevel();
+        }
+        return array_flip($levels);
+    }
+
+    public function getGradesNames() : array
+    {
+        $names = [];
+        foreach ($this->getGradesInOrder() as $grade) {
+            $names[] = $grade->getName();
+        }
+
+        return $names;
+
     }
 }
