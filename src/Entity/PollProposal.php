@@ -29,6 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "denormalization_context"={"groups"={"PollProposal:create"}},
  *         },
  *     },
+ *
  * )
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollProposalRepository",
@@ -49,7 +50,7 @@ class PollProposal
     private $id;
 
     /**
-     * Universally Unique IDentifier, something looking like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92
+     * Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92
      *
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
@@ -59,6 +60,8 @@ class PollProposal
     public $uuid;
 
     /**
+     * → name ?
+     *
      * @Groups({"PollProposal:create", "PollProposal:read", "Poll:create"})
      * @ORM\Column(type="string", length=142)
      */
