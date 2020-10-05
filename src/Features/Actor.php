@@ -238,6 +238,7 @@ class Actor
 
 
     /**
+     * @deprecated
      * @param string $query
      * @param array|null $variables
      * @param bool $only_trying

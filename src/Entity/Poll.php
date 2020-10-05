@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A Liquid Majority Judgment Poll.
- * A poll is not editable after creation.
+ * A poll is not editable after creation. (or perhaps after the first judgment has been cast)
+ * The includes the poll's grades.
+ * New proposals MAY be added during the poll, but the poll's settings should govern this.
  * A poll cannot be deleted without privileges.
  *
  * @ApiResource(
@@ -40,14 +42,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Poll
 {
 
+    /** @deprecated */
     const MENTION_EXCELLENT  = 'bonega';
+    /** @deprecated */
     const MENTION_VERY_GOOD  = 'trebona';
+    /** @deprecated */
     const MENTION_GOOD       = 'bona';
+    /** @deprecated */
     const MENTION_PASSABLE   = 'trairebla';
+    /** @deprecated */
     const MENTION_INADEQUATE = 'neadekvata';
+    /** @deprecated */
     const MENTION_MEDIOCRE   = 'malboneta';
+    /** @deprecated */
     const MENTION_TO_REJECT  = 'malakcepti';
-
 
     /**
      * @var int|null
