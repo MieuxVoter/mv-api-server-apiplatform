@@ -56,8 +56,8 @@ test:
     proposal_tallies_dont_match: |
       Expected mention `{{ expected_mention }}' but the tally got `{{ actual_mention }}'
       on proposal `{{ proposal.title }}' ({{ proposal.id }})."
-    proposal_position_mismatch: |
-      Expected position `{{ expected_position }}' but the tally got `{{ actual_position }}'
+    proposal_rank_mismatch: |
+      Expected rank `{{ expected_rank }}' but the tally got `{{ actual_rank }}'
       on proposal `{{ proposal.title }}' ({{ proposal.id }})."
     proposals_left_unprocessed: |
       Some proposals are in the specifications but were never tallied:
@@ -71,4 +71,5 @@ test:
     no_majority_judgment_poll_found_for_title: |
       No majority judgment poll titled `{{ title }}' could be found in the database.
     no_majority_judgment_poll_proposal_found_for_title: |
-      No majority judgment poll proposal titled `{{ title }}' could be found in the database.
+      No majority judgment poll proposal titled `{{ title }}' could be found in the database
+      for poll with subject `{{ poll.subject }}' ({{ poll.uuid }}).

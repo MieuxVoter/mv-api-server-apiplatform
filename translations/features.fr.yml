@@ -47,9 +47,9 @@ test:
     proposal_tallies_dont_match: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
       on obtient la mention `{{ actual_mention }}' mais la mention attendue est `{{ expected_mention }}'.
-    proposal_position_mismatch: |
+    proposal_rank_mismatch: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.id }}),
-      on obtient la position `{{ actual_position }}' mais sa position attendue est `{{ expected_position }}'.
+      on obtient la position `{{ actual_rank }}' mais sa position attendue est `{{ expected_rank }}'.
     proposals_left_unprocessed: |
       Des propositions sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
       {% for proposal in proposals %}
@@ -63,4 +63,4 @@ test:
       Aucun scrutin au jugement majoritaire ayant pour sujet `{{ title }}' n'a été trouvé dans la base de données.
     no_majority_judgment_poll_proposal_found_for_title: |
       Aucune proposition n'ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
-      a été trouvée dans la base de données.
+      a été trouvée dans la base de données pour le scrutin assujettissant `{{ poll.subject }}'.

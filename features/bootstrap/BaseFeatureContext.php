@@ -402,7 +402,10 @@ class BaseFeatureContext extends WebTestCase implements Context
             'poll' => $poll,
         ]);
         if (( ! $lenient) && (null == $PollProposal)) {
-            $this->failTrans("no_majority_judgment_poll_candidate_found_for_title", ['title' => $title]);
+            $this->failTrans("no_majority_judgment_poll_proposal_found_for_title", [
+                'title' => $title,
+                'poll' => $poll,
+            ]);
         }
 
         return $PollProposal;

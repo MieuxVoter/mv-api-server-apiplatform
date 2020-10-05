@@ -201,24 +201,24 @@ class MainFeatureContext extends BaseFeatureContext
         $expectedRaw = $this->yaml($pystring);
         $poll = $this->findOnePollFromSubject($pollSubject);
 
-        $mentionAtom = 'mention';
-        $positionAtom = 'position';
+        $gradeAtom = 'grade';
+        $rankAtom = 'rank';
 
         $expected = [];
-        $PollProposals = [];
-        foreach ($expectedRaw as $proposalTitle => $localizedMentionOrData) {
+        $pollProposals = [];
+        foreach ($expectedRaw as $proposalTitle => $gradeOrData) {
             $pollProposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
-            $PollProposalId = $pollProposal->getUuid()->toString();
-            $PollProposals[$PollProposalId] = $pollProposal;
+            $pollProposalId = $pollProposal->getUuid()->toString();
+            $pollProposals[$pollProposalId] = $pollProposal;
 
-            if ( ! is_array($localizedMentionOrData)) {
-                $localizedMentionOrData = [
-                    $mentionAtom => $localizedMentionOrData,
+            if ( ! is_array($gradeOrData)) {
+                $gradeOrData = [
+                    $gradeAtom => $gradeOrData,
                 ];
             }
 
-            $localizedMentionOrData[$mentionAtom] = $this->unlocalizePollMention($localizedMentionOrData[$mentionAtom]);
-            $expected[$PollProposalId] = $localizedMentionOrData;
+//            $gradeOrData[$gradeAtom] = $this->unlocalizePollMention($gradeOrData[$gradeAtom]);
+            $expected[$pollProposalId] = $gradeOrData;
         }
 
         $tallyBot = $this->getTallyBot($tally);
@@ -237,21 +237,21 @@ class MainFeatureContext extends BaseFeatureContext
 
                 $pollProposal = $this->findOnePollProposalFromId($proposalUuid);
 
-                if ($expected[$proposalUuid][$mentionAtom] !== $proposalTally->median_grade) {
+                if ($expected[$proposalUuid][$gradeAtom] !== $proposalTally->median_grade) {
                     //dump("Actual proposal tally", $proposalTally);
                     $this->failTrans("proposal_tallies_dont_match", [
-                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$proposalUuid][$mentionAtom]),
+                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$proposalUuid][$gradeAtom]),
                         'actual_mention' => $this->t('majority_judgment_poll.mention.'.$proposalTally->median_grade),
                         'proposal' => $pollProposal,
                     ]);
                 }
 
-                if (isset($expected[$proposalUuid][$positionAtom])) {
-                    if ($expected[$proposalUuid][$positionAtom] !== $proposalTally->rank) {
+                if (isset($expected[$proposalUuid][$rankAtom])) {
+                    if ($expected[$proposalUuid][$rankAtom] !== $proposalTally->rank) {
                         dump("Actual poll tally", $actual);
-                        $this->failTrans('proposal_position_mismatch', [
-                            'expected_position' => $expected[$proposalUuid][$positionAtom],
-                            'actual_position' => $proposalTally->rank,
+                        $this->failTrans('proposal_rank_mismatch', [
+                            'expected_rank' => $expected[$proposalUuid][$rankAtom],
+                            'actual_rank' => $proposalTally->rank,
                             'proposal' => $pollProposal,
                         ]);
                     }
@@ -261,8 +261,8 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         if (0 < count($expectationsLeftToProcess)) {
-            $candidatesLeft = array_map(function($e) use ($PollProposals) {
-                return $PollProposals[$e];
+            $candidatesLeft = array_map(function($e) use ($pollProposals) {
+                return $pollProposals[$e];
             }, $expectationsLeftToProcess);
             $this->failTrans("candidates_left_unprocessed", [
                 'expected' => $expected,
