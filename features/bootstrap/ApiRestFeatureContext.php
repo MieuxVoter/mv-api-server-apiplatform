@@ -54,7 +54,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
             $pollId = $poll->getUuid();
             $proposalId = $proposal->getUuid();
             $this->actor($actor)->api(
-                'POST',"/polls/{$pollId}/proposals/{$proposalId}/vote",
+                'POST',"/polls/{$pollId}/proposals/{$proposalId}/votes",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),

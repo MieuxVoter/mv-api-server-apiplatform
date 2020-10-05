@@ -13,8 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A Vote on a Proposal of a Majority Judgment Poll.
+ *
+ * TBD:
  * A Vote is immutable.
  * A Vote cannot be deleted.
+ *
  *
  * @ApiResource(
  *     itemOperations={
@@ -32,7 +35,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     }
  * )
- * @ORM\Entity(repositoryClass="PollProposalVoteRepository")
+ * @ORM\Entity(repositoryClass="\App\Repository\PollProposalVoteRepository")
  */
 class PollProposalVote
 {
@@ -71,7 +74,6 @@ class PollProposalVote
      */
     private $author_name;
 
-
     /**
      * The mention attributed by the author to the proposal.
      *
@@ -83,7 +85,7 @@ class PollProposalVote
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
      */
-    private $elector;
+    private $elector; // $judge / $author / $voter
 
     public function __construct()
     {

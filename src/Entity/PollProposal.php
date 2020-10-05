@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * An Proposal of a Poll whom any Elector can give a Mention to.
+ * A Proposal of a Poll whom any Judge can give a Grade (aka Mention) to.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"PollProposal:read"}},
@@ -36,6 +37,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class PollProposal
 {
     /**
+     * Should only be used internally.
+     *
      * @var int|null
      * @ApiProperty(identifier=false)
      *
@@ -46,6 +49,8 @@ class PollProposal
     private $id;
 
     /**
+     * Universally Unique IDentifier, something looking like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92
+     *
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
@@ -63,13 +68,21 @@ class PollProposal
      * The poll this proposal is attached to.
      *
      * @Groups({"PollProposal:create"})
-     * @ORM\ManyToOne(targetEntity="Poll", inversedBy="proposals")
+     * @ORM\ManyToOne(
+     *     targetEntity="Poll",
+     *     inversedBy="proposals"
+     * )
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
 
    /**
-    * @ORM\OneToMany(targetEntity="App\Entity\PollProposalVote", mappedBy="proposal", orphanRemoval=true)
+    * @ORM\OneToMany(
+    *     targetEntity="App\Entity\PollProposalVote",
+    *     mappedBy="proposal",
+    *     orphanRemoval=true
+    * )
+    * @ApiSubresource()
     */
    private $votes;
 
