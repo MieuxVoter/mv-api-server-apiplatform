@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\CreatePollProposalVoteController;
 
 
 /**
@@ -34,12 +35,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "path"="/polls/{id}/proposals/{proposals}/votes.{_format}",
+ *             "path"="/polls/{pollId}/proposals/{proposalId}/votes.{_format}",
+ *             "method"="POST",
+ *             "controller"=CreatePollProposalVoteController::class,
  *             "denormalization_context"={"groups"={"PollProposalVote:create"}},
  *             "normalization_context"={"groups"={"PollProposalVote:read"}},
+ *             "access_control"="is_granted('ROLE_USER')",
  *         },
  *     },
  * )
+ *             "route_name"="api_poll_proposal_votes_post_collection",
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollProposalVoteRepository",
  * )
@@ -93,7 +98,7 @@ class PollProposalVote
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
      */
-    private $elector; // $judge / $author / $voter
+    private $elector; // $judge / $author / $voter / $owner
 
     public function __construct()
     {
