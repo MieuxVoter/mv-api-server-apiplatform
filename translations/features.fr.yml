@@ -8,7 +8,6 @@ keys:
   poll:
     subject: 'sujet'
     title: 'titre'
-    candidates: 'candidats'
     proposals: 'propositions'
     grades: 'mentions'
 
@@ -41,16 +40,18 @@ test:
   failure:
     not_equal: |
       La valeur obtenue ({{ actual }}) diffère de la valeur attendue ({{ expected }}).
-    candidate_tallies_dont_match: |
-      Sur le candidat `{{ candidate.title }}' ({{ candidate.id }}),
+    no_poll_proposal_found_for_uuid:
+      Aucun PollProposal n'a été trouvé pour l'UUID `{{ uuid }}'.
+    proposal_tallies_dont_match: |
+      Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
       on obtient la mention `{{ actual_mention }}' mais la mention attendue est `{{ expected_mention }}'.
-    candidate_position_mismatch: |
-      Sur le candidat `{{ candidate.title }}' ({{ candidate.id }}),
+    proposal_position_mismatch: |
+      Sur la proposition `{{ proposal.title }}' ({{ proposal.id }}),
       on obtient la position `{{ actual_position }}' mais sa position attendue est `{{ expected_position }}'.
-    candidates_left_unprocessed: |
-      Des candidats sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
-      {% for candidate in candidates %}
-      - {{ candidate.title }} ({{ candidate.id }})
+    proposals_left_unprocessed: |
+      Des propositions sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
+      {% for proposal in proposals %}
+      - {{ proposal.title }} ({{ proposal.id }})
       {% endfor %}
     poll_has_no_subject: |
       Le scrutin n'a pas de sujet.
@@ -58,6 +59,6 @@ test:
       sujet: "Mon scrutin à moi"
     no_majority_judgment_poll_found_for_title: |
       Aucun scrutin au jugement majoritaire ayant pour sujet `{{ title }}' n'a été trouvé dans la base de données.
-    no_majority_judgment_poll_candidate_found_for_title: |
-      Aucun candidat ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
-      n'a été trouvée dans la base de données.
+    no_majority_judgment_poll_proposal_found_for_title: |
+      Aucune proposition n'ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
+      a été trouvée dans la base de données.

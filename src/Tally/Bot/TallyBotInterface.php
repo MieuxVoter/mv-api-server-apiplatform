@@ -19,5 +19,5 @@ use App\Tally\Output\PollTally;
  */
 interface TallyBotInterface
 {
-    public function tallyVotesOnLimajuPoll(Poll $poll) : PollTally;
+    public function tallyVotesOnPoll(Poll $poll) : PollTally;
 }

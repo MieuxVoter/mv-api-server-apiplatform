@@ -61,7 +61,7 @@ class StandardTallyBot implements TallyBotInterface
     /**
      * @inheritDoc
      */
-    public function tallyVotesOnLimajuPoll(Poll $poll): PollTally
+    public function tallyVotesOnPoll(Poll $poll): PollTally
     {
         /** @var PollProposalTally[] $proposalsTallies */
         $proposalsTallies = array();
@@ -97,7 +97,7 @@ class StandardTallyBot implements TallyBotInterface
             }
 
             $proposalTally = new PollProposalTally();
-            $proposalTally->setPollProposalId($proposal->getId());
+            $proposalTally->setPollProposalId($proposal->getUuid());
             $proposalTally->setMentionsTally($mentionsTally);
             // Setting these later once we have all the tallies
             //$proposalTally->setMention(?);

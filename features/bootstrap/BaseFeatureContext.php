@@ -382,14 +382,15 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOneLimajuPollProposalFromId($id, $lenient = false) : ?PollProposal
+    protected function findOnePollProposalFromId($uuid, $lenient = false) : ?PollProposal
     {
-        $PollProposal = $this->getRepository(PollProposal::class)->findOneById($id);
-        if (( ! $lenient) && (null == $PollProposal)) {
-            $this->fail("No PollProposal with Id `$id' could be found.");
+        $pollProposal = $this->getRepository(PollProposal::class)->findOneByUuid($uuid);
+        if (( ! $lenient) && (null == $pollProposal)) {
+//            $this->fail("No PollProposal with UUID `$uuid' could be found.");
+            $this->failTrans("no_poll_proposal_found_for_uuid", ['uuid' => $uuid]);
         }
 
-        return $PollProposal;
+        return $pollProposal;
     }
 
 

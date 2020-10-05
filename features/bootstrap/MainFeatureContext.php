@@ -140,7 +140,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
-     * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? titré "(?P<title>.+?)"$/ui
+     * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.+?)"$/ui
      */
     public function actorShouldHaveSomePollProposalVotesForPoll($actor, $thatMuch, $title)
     {
@@ -168,8 +168,10 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
+     * This step is too long and needs refactoring and simplification.
+     *
      * fixme: en step
-     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin au jugement majoritaire titré "(?P<title>.*)" devrait être *:?$/u
+     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.*)" devrait être *:?$/u
      */
     public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $title, $pystring)
     {
@@ -181,10 +183,10 @@ class MainFeatureContext extends BaseFeatureContext
 
         $expected = [];
         $PollProposals = [];
-        foreach ($expectedRaw as $candidateTitle => $localizedMentionOrData) {
-            $PollProposal = $this->findOnePollProposalFromTitleAndPoll($candidateTitle, $poll);
-            $PollProposalId = $PollProposal->getId()->toString();
-            $PollProposals[$PollProposalId] = $PollProposal;
+        foreach ($expectedRaw as $proposalTitle => $localizedMentionOrData) {
+            $pollProposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
+            $PollProposalId = $pollProposal->getUuid()->toString();
+            $PollProposals[$PollProposalId] = $pollProposal;
 
             if ( ! is_array($localizedMentionOrData)) {
                 $localizedMentionOrData = [
@@ -197,36 +199,37 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         $tallyBot = $this->getTallyBot($tally);
-        $actual = $tallyBot->tallyVotesOnLimajuPoll($poll);
+        $actual = $tallyBot->tallyVotesOnPoll($poll);
 
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);
 
-        foreach ($actual->candidates as $candidateTally) {
+        foreach ($actual->proposals as $proposalTally) {
 
-            $candidateId = $candidateTally->poll_candidate_id->toString();
+            $proposalUuid = $proposalTally->poll_proposal_id->toString();
 
-            if (isset($expected[$candidateId])) {
+            if (isset($expected[$proposalUuid])) {
                 $assertedSomething = true;
-                $expectationsLeftToProcess = array_diff($expectationsLeftToProcess, [$candidateId]);
+                $expectationsLeftToProcess = array_diff($expectationsLeftToProcess, [$proposalUuid]);
 
-                $PollProposal = $this->findOneLimajuPollProposalFromId($candidateId);
-                if ($expected[$candidateId][$mentionAtom] !== $candidateTally->mention) {
-                    dump("Actual candidate tally", $candidateTally);
-                    $this->failTrans("candidate_tallies_dont_match", [
-                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$candidateId][$mentionAtom]),
-                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$candidateTally->mention),
-                        'candidate' => $PollProposal,
+                $pollProposal = $this->findOnePollProposalFromId($proposalUuid);
+
+                if ($expected[$proposalUuid][$mentionAtom] !== $proposalTally->mention) {
+                    //dump("Actual proposal tally", $proposalTally);
+                    $this->failTrans("proposal_tallies_dont_match", [
+                        'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$proposalUuid][$mentionAtom]),
+                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$proposalTally->mention),
+                        'proposal' => $pollProposal,
                     ]);
                 }
 
-                if (isset($expected[$candidateId][$positionAtom])) {
-                    if ($expected[$candidateId][$positionAtom] !== $candidateTally->position) {
+                if (isset($expected[$proposalUuid][$positionAtom])) {
+                    if ($expected[$proposalUuid][$positionAtom] !== $proposalTally->position) {
                         dump("Actual poll tally", $actual);
-                        $this->failTrans('candidate_position_mismatch', [
-                            'expected_position' => $expected[$candidateId][$positionAtom],
-                            'actual_position' => $candidateTally->position,
-                            'candidate' => $PollProposal,
+                        $this->failTrans('proposal_position_mismatch', [
+                            'expected_position' => $expected[$proposalUuid][$positionAtom],
+                            'actual_position' => $proposalTally->position,
+                            'proposal' => $pollProposal,
                         ]);
                     }
                 }

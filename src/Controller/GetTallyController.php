@@ -49,7 +49,7 @@ final class GetTallyController
 
         $tallyType = "standard";
         $tallyBot = $this->getTallyBot($tallyType);
-        $tallyOutput = $tallyBot->tallyVotesOnLimajuPoll($poll);
+        $tallyOutput = $tallyBot->tallyVotesOnPoll($poll);
 
         $votesCount = $tallyOutput->countVotes();
 

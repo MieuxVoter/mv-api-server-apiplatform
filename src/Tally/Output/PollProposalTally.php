@@ -42,7 +42,7 @@ class PollProposalTally
     /**
      * @var array|string[]
      * The list of Poll::MENTION_XXX this tally uses.
-     * The order matters, and must be from worse to best.
+     * The order matters, and must be from "worse" to "best".
      */
     protected $mentions_list;
     // protected $mentions_tree;
