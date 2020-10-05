@@ -15,9 +15,9 @@ use App\Tally\Output\PollTally;
 
 /**
  * Not sure about the name "standard".
+ * Pretty inefficient algorithm.
  *
- * - Sum direct votes
- * - Sum delegated votes without entropy
+ * Sums direct votes.
  *
  * Class StandardTallyBot
  * @package App\Tally\Bot
@@ -33,28 +33,29 @@ class StandardTallyBot implements TallyBotInterface
     /**
      * @var PollProposalRepository
      */
-    protected $limajuPollProposalRepository;
+    protected $pollProposalRepository;
 
     /**
      * @var PollProposalVoteRepository
      */
-    protected $limajuPollProposalVoteRepository;
+    protected $pollProposalVoteRepository;
 
 
     /**
      * StandardTallyBot constructor.
-     * @param PollProposalRepository $limajuPollProposalRepository
-     * @param PollProposalVoteRepository $limajuPollProposalVoteRepository
+     * @param PollProposalRepository $pollProposalRepository
+     * @param PollProposalVoteRepository $pollProposalVoteRepository
      * @param Application $application
      */
     public function __construct(
-        PollProposalRepository $limajuPollProposalRepository,
-        PollProposalVoteRepository $limajuPollProposalVoteRepository,
-        Application $application)
+        PollProposalRepository $pollProposalRepository,
+        PollProposalVoteRepository $pollProposalVoteRepository,
+        Application $application
+    )
     {
         $this->application = $application;
-        $this->limajuPollProposalRepository = $limajuPollProposalRepository;
-        $this->limajuPollProposalVoteRepository = $limajuPollProposalVoteRepository;
+        $this->pollProposalRepository = $pollProposalRepository;
+        $this->pollProposalVoteRepository = $pollProposalVoteRepository;
     }
 
 
@@ -66,32 +67,32 @@ class StandardTallyBot implements TallyBotInterface
         /** @var PollProposalTally[] $proposalsTallies */
         $proposalsTallies = array();
 
-        $positions = (new PollProposalTally())->getMentionsPositions();
+        $levelOfGrade = $poll->getLevelsOfGrades();
 
         $maxVotesCount = 0;
 
         // First loop: collect data
         foreach ($poll->getProposals() as $proposal) {
 
-            $votes = $this->limajuPollProposalVoteRepository->findBy([
+            $votes = $this->pollProposalVoteRepository->findBy([
                 'proposal' => $proposal->getId(),
             ]);
 
             $votesCount = count($votes);
             $maxVotesCount = max($maxVotesCount, $votesCount);
-            $mentionsTally = array(); // MENTION_XXX => integer
+            $mentionsTally = array(); // grade_name => integer
 
             if ($votesCount) {
 
-                usort($votes, function(PollProposalVote $a, PollProposalVote $b) use ($positions) {
-                    return $positions[$a->getGrade()] - $positions[$b->getGrade()];
+                usort($votes, function (PollProposalVote $a, PollProposalVote $b) use ($levelOfGrade) {
+                    return $levelOfGrade[$a->getGrade()] - $levelOfGrade[$b->getGrade()];
                 });
 
-                foreach ($positions as $mentionToTally => $whoCares) {
-                    $votesForMention = array_filter($votes, function(PollProposalVote $v) use ($mentionToTally) {
-                        return $v->getGrade() === $mentionToTally;
+                foreach ($levelOfGrade as $gradeToTally => $whoCares) {
+                    $votesForMention = array_filter($votes, function (PollProposalVote $v) use ($gradeToTally) {
+                        return $v->getGrade() === $gradeToTally;
                     });
-                    $mentionsTally[$mentionToTally] = count($votesForMention);
+                    $mentionsTally[$gradeToTally] = count($votesForMention);
                 }
 
             }
@@ -113,11 +114,11 @@ class StandardTallyBot implements TallyBotInterface
             // The goal here is to enforce the Rule about TO_REJECT being the default mention.
             $proposalTally->addVotesForMention($maxVotesCount - $proposalTally->countVotes(), Poll::MENTION_TO_REJECT);
             // Once this is done, we can now compute the final mention from the median
-            $proposalTally->setMention($proposalTally->getMedian());
+            $proposalTally->setMedianGrade($proposalTally->getMedian());
         }
 
         // Sort the proposals using majority judgment on the median
-        usort($proposalsTallies, function(PollProposalTally $a, PollProposalTally $b) use ($positions) {
+        usort($proposalsTallies, function (PollProposalTally $a, PollProposalTally $b) use ($levelOfGrade) {
             // From https://en.wikipedia.org/wiki/Majority_judgment
             // If more than one proposal has the same highest median-grade,
             // the MJ winner is discovered by removing (one-by-one) any grades equal
@@ -137,7 +138,7 @@ class StandardTallyBot implements TallyBotInterface
                 // While one may prefer recursive functions for their simplicity,
                 // we're approaching this with a flat loop that should scale RAM usage better.
                 // Of course, it may still blow into infinite loops.  Those are the best.
-                while ( ! ($wipTallyA->isEmpty() && $wipTallyB->isEmpty())) {
+                while (!($wipTallyA->isEmpty() && $wipTallyB->isEmpty())) {
                     $mentionA = $wipTallyA->getMedian();
                     $mentionB = $wipTallyB->getMedian();
 
@@ -145,7 +146,7 @@ class StandardTallyBot implements TallyBotInterface
                         $wipTallyA->removeOneVoteForMention($mentionA);
                         $wipTallyB->removeOneVoteForMention($mentionB);
                     } else {
-                        return $positions[$mentionB] - $positions[$mentionA];
+                        return $levelOfGrade[$mentionB] - $levelOfGrade[$mentionA];
                     }
                 }
 
@@ -154,12 +155,12 @@ class StandardTallyBot implements TallyBotInterface
                 return 0;
             }
 
-            return $positions[$b->getMedian()] - $positions[$a->getMedian()];
+            return $levelOfGrade[$b->getMedian()] - $levelOfGrade[$a->getMedian()];
         });
 
         foreach ($proposalsTallies as $k => $proposalTally) {
             // In the future, two proposals may have the same position ; this code will perhaps change.
-            $proposalTally->setPosition($k+1);
+            $proposalTally->setRank($k + 1);
         }
 
         $tally = new PollTally($proposalsTallies);

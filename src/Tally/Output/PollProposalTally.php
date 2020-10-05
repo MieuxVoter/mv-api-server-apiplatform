@@ -21,15 +21,15 @@ class PollProposalTally
      * Final mention tallied, for example the median mention in the standard tally.
      * One of Poll::MENTION_XXX
      */
-    public $mention;
+    public $median_grade;
 
     /**
      * @var integer
-     * The position of this proposal in its poll, after tallying.
-     * The position starts at 1 and ends at <NUMBER_OF_CANDIDATES>.
-     * Two proposals MAY have the same position, in extreme cases.
+     * The rank of this proposal in its poll, after tallying.
+     * The rank starts at 1 and usually ends at <AMOUNT_OF_PROPOSALS>.
+     * Two or more proposals MAY have the same rank, in extreme cases.
      */
-    public $position;
+    public $rank;
 
     /**
      * @var array
@@ -68,33 +68,33 @@ class PollProposalTally
     /**
      * @return string
      */
-    public function getMention(): string
+    public function getMedianGrade(): string
     {
-        return $this->mention;
+        return $this->median_grade;
     }
 
     /**
-     * @param string $mention
+     * @param string $median_grade
      */
-    public function setMention(string $mention): void
+    public function setMedianGrade(string $median_grade): void
     {
-        $this->mention = $mention;
+        $this->median_grade = $median_grade;
     }
 
     /**
      * @return int
      */
-    public function getPosition(): int
+    public function getRank(): int
     {
-        return $this->position;
+        return $this->rank;
     }
 
     /**
-     * @param int $position
+     * @param int $rank
      */
-    public function setPosition(int $position): void
+    public function setRank(int $rank): void
     {
-        $this->position = $position;
+        $this->rank = $rank;
     }
 
     /**
@@ -140,7 +140,7 @@ class PollProposalTally
     public function getMedian($low=true): string
     {
         $mentions = $this->getMentionsList();
-        $order = $this->getMentionsPositions();
+//        $order = $this->getMentionsPositions();
         $tally = $this->getMentionsTally();
         $count = $this->countVotes();
 
@@ -173,6 +173,10 @@ class PollProposalTally
     public function getMentionsList()
     {
         if (null === $this->mentions_list) {
+
+//            $this->mentions_list = [];
+//            foreach ($this->getP)
+
             // Let's initialize here the list of mentions.
             // What should we do with these? => Inject from Config?
             $this->mentions_list = [

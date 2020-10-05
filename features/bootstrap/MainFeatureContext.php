@@ -70,7 +70,7 @@ class MainFeatureContext extends BaseFeatureContext
      * @Given /^un scrutin(?: au jugement majoritaire)? comme suit:?$/ui
      * @Given /^a majority judgment poll like so:?$/ui
      */
-    public function givenLimajuPoll($pystring)
+    public function givenPoll($pystring)
     {
         $subjectKey = $this->t('keys.poll.subject');
         $proposalsKey = $this->t('keys.poll.proposals');
@@ -214,21 +214,21 @@ class MainFeatureContext extends BaseFeatureContext
 
                 $pollProposal = $this->findOnePollProposalFromId($proposalUuid);
 
-                if ($expected[$proposalUuid][$mentionAtom] !== $proposalTally->mention) {
+                if ($expected[$proposalUuid][$mentionAtom] !== $proposalTally->median_grade) {
                     //dump("Actual proposal tally", $proposalTally);
                     $this->failTrans("proposal_tallies_dont_match", [
                         'expected_mention' => $this->t('majority_judgment_poll.mention.'.$expected[$proposalUuid][$mentionAtom]),
-                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$proposalTally->mention),
+                        'actual_mention' => $this->t('majority_judgment_poll.mention.'.$proposalTally->median_grade),
                         'proposal' => $pollProposal,
                     ]);
                 }
 
                 if (isset($expected[$proposalUuid][$positionAtom])) {
-                    if ($expected[$proposalUuid][$positionAtom] !== $proposalTally->position) {
+                    if ($expected[$proposalUuid][$positionAtom] !== $proposalTally->rank) {
                         dump("Actual poll tally", $actual);
                         $this->failTrans('proposal_position_mismatch', [
                             'expected_position' => $expected[$proposalUuid][$positionAtom],
-                            'actual_position' => $proposalTally->position,
+                            'actual_position' => $proposalTally->rank,
                             'proposal' => $pollProposal,
                         ]);
                     }
