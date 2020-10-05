@@ -32,6 +32,8 @@ security:
             stateless: true
             anonymous: true
             provider: app_user_provider
+            http_basic:
+                realm: "Authentication Desk"
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
@@ -44,7 +46,7 @@ security:
         main:
             anonymous: true
             http_basic:
-                realm: "Limaju's Authentication Desk"
+                realm: "Authentication Desk"
             
             
             
