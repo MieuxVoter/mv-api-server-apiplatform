@@ -239,7 +239,7 @@ class Poll
         foreach ($this->getGrades() as $grade) {
             $levels[$grade->getName()] = $grade->getLevel();
         }
-        return array_flip($levels);
+        return $levels;
     }
 
     public function getGradesNames() : array
