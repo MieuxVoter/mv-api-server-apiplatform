@@ -371,11 +371,11 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOnePollFromSubject($title, $lenient = false) : ?Poll
+    protected function findOnePollFromSubject($subject, $lenient = false) : ?Poll
     {
-        $work = $this->getPollRepository()->findOneBySubject($title);
+        $work = $this->getPollRepository()->findOneBySubject($subject);
         if (( ! $lenient) && (null == $work)) {
-            $this->failTrans("no_majority_judgment_poll_found_for_title", ['title' => $title]);
+            $this->failTrans("no_majority_judgment_poll_found_for_title", ['title' => $subject]);
         }
 
         return $work;

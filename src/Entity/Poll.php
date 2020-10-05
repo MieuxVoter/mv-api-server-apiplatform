@@ -222,10 +222,10 @@ class Poll
 
     public function getGradesInOrder() : array
     {
-        $grades = $this->getGrades();
+//        $grades = $this->getGrades();
 //        dump($grades);
         $grades = $this->getGrades()->toArray();
-        dump($grades);
+//        dump($grades);
         usort($grades, function (PollGrade $a, PollGrade $b) {
             return $a->getLevel() - $b->getLevel();
         });

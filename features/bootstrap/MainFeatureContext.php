@@ -7,6 +7,7 @@
 
 
 use App\Entity\Poll;
+use App\Entity\PollGrade;
 use App\Entity\PollProposal;
 use App\Entity\User;
 
@@ -74,6 +75,7 @@ class MainFeatureContext extends BaseFeatureContext
     {
         $subjectKey = $this->t('keys.poll.subject');
         $proposalsKey = $this->t('keys.poll.proposals');
+        $gradesKey = $this->t('keys.poll.grades');
         $data = $this->yaml($pystring);
 
         $poll = new Poll();
@@ -94,6 +96,14 @@ class MainFeatureContext extends BaseFeatureContext
             $proposal->setTitle($candidateTitle);
             $poll->addProposal($proposal);
             $this->persist($proposal);
+        }
+
+        foreach ($data[$gradesKey] as $k => $gradeName) {
+            $grade = new PollGrade();
+            $grade->setName($gradeName);
+            $grade->setLevel($k);
+            $poll->addGrade($grade);
+            $this->persist($grade);
         }
 
         $this->flush();
@@ -184,12 +194,12 @@ class MainFeatureContext extends BaseFeatureContext
      * This step is too long and needs refactoring and simplification.
      *
      * fixme: en step
-     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.*)" devrait être *:?$/u
+     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.*)" devrait être *:?$/u
      */
-    public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $title, $pystring)
+    public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $pollSubject, $pystring)
     {
         $expectedRaw = $this->yaml($pystring);
-        $poll = $this->findOnePollFromSubject($title);
+        $poll = $this->findOnePollFromSubject($pollSubject);
 
         $mentionAtom = 'mention';
         $positionAtom = 'position';
