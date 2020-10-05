@@ -139,6 +139,19 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * fixme: en step
+     * @Then /^le scrutin(?: au jugement majoritaire)? (?:intitulé|assujettissant) "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) mentions?$/ui
+     */
+    public function thereShouldBeSomeGradesInThePoll($thatMuch, $pollSubject)
+    {
+        $thatMuch = $this->number($thatMuch);
+        $poll = $this->findOnePollFromSubject($pollSubject);
+        $actual = count($poll->getGrades());
+
+        $this->assertEquals($thatMuch, $actual);
+    }
+
+    /**
+     * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.+?)"$/ui
      */
