@@ -12,6 +12,7 @@ keys:
     proposals: 'proposals'
     grades: 'grades'
 
+# @deprecated
 value:
   majority_judgment_poll:
     mention:
@@ -25,7 +26,7 @@ value:
       'mediocre':   'malboneta'
       'reject':     'malakcepti'
 
-
+# @deprecated
 majority_judgment_poll:
   mention:
     # Keys are Poll::MENTION_XXX
