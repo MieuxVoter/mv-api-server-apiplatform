@@ -88,8 +88,8 @@ class ApiRestFeatureContext extends BaseFeatureContext
             foreach ($data[$this->t('keys.poll.grades')] as $k => $grade) {
                 if (is_string($grade)) {
                     $grade = [
-                        'order' => $k,
                         'name' => $grade,
+                        'level' => $k,
                     ];
                 }
                 $grades[] = $grade;
