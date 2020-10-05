@@ -46,7 +46,7 @@ test:
       Aucun PollProposal n'a été trouvé pour l'UUID `{{ uuid }}'.
     proposal_tallies_dont_match: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
-      on obtient la mention `{{ actual_mention }}' mais la mention attendue est `{{ expected_mention }}'.
+      on obtient la mention `{{ actual_grade }}' mais la mention attendue est `{{ expected_grade }}'.
     proposal_rank_mismatch: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.id }}),
       on obtient la position `{{ actual_rank }}' mais sa position attendue est `{{ expected_rank }}'.

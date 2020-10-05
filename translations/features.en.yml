@@ -54,7 +54,7 @@ test:
     no_poll_proposal_found_for_uuid:
       No PollProposal with UUID `{{ uuid }}' could be found.
     proposal_tallies_dont_match: |
-      Expected mention `{{ expected_mention }}' but the tally got `{{ actual_mention }}'
+      Expected mention `{{ expected_grade }}' but the tally got `{{ actual_grade }}'
       on proposal `{{ proposal.title }}' ({{ proposal.id }})."
     proposal_rank_mismatch: |
       Expected rank `{{ expected_rank }}' but the tally got `{{ actual_rank }}'
