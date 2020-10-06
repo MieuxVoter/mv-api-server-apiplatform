@@ -99,7 +99,7 @@ class StandardTallyBot implements TallyBotInterface
 
             $proposalTally = new PollProposalTally();
             $proposalTally->setPollProposalId($proposal->getUuid());
-            $proposalTally->setMentionsList($poll->getGradesNames());
+            $proposalTally->setGradesNames($poll->getGradesNames());
             $proposalTally->setGradesTally($gradesTally);
             // Setting these later once we have all the tallies
             //$proposalTally->setMention(?);

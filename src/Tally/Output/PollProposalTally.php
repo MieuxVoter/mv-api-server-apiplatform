@@ -46,7 +46,7 @@ class PollProposalTally
      * The list of Poll::MENTION_XXX this tally uses.
      * The order matters, and must be from "worse" to "best".
      */
-    protected $mentions_list;
+    protected $grades_names;
     // protected $mentions_tree;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ class PollProposalTally
      */
     public function getMedian($low=true): string
     {
-        $mentions = $this->getMentionsList();
+        $mentions = $this->getGradesNames();
 //        $order = $this->getMentionsPositions();
         $tally = $this->getGradesTally();
         $count = $this->countVotes();
@@ -170,41 +170,24 @@ class PollProposalTally
     }
 
     /**
-     * @deprecated
      * @return array|string[]
      */
-    public function getMentionsList()
+    public function getGradesNames()
     {
-        if (null === $this->mentions_list) {
-
+        if (null === $this->grades_names) {
             trigger_error("No grades list.");
-//            $this->mentions_list = [];
-//            foreach ($this->getP)
-
-            // Let's initialize here the list of mentions.
-            // What should we do with these? => Inject from Config?
-            $this->mentions_list = [
-                Poll::MENTION_TO_REJECT,
-                Poll::MENTION_MEDIOCRE,
-                Poll::MENTION_INADEQUATE,
-                Poll::MENTION_PASSABLE,
-                Poll::MENTION_GOOD,
-                Poll::MENTION_VERY_GOOD,
-                Poll::MENTION_EXCELLENT,
-            ];
         }
 
-
-        return $this->mentions_list;
+        return $this->grades_names;
     }
 
 
     /**
-     * @param array|string[] $mentions_list
+     * @param array|string[] $grades_names
      */
-    public function setMentionsList($mentions_list): void
+    public function setGradesNames($grades_names): void
     {
-        $this->mentions_list = $mentions_list;
+        $this->grades_names = $grades_names;
     }
 
 
@@ -216,7 +199,7 @@ class PollProposalTally
      */
     public function getMentionsPositions()
     {
-        return array_flip($this->getMentionsList());
+        return array_flip($this->getGradesNames());
     }
 
 
@@ -230,7 +213,7 @@ class PollProposalTally
         $count = 0;
         $tally = $this->getGradesTally();
 
-        foreach ($this->getMentionsList() as $mention) {
+        foreach ($this->getGradesNames() as $mention) {
             if ( ! isset($tally[$mention])) {
                 trigger_error("Mention `$mention' is not available in the tally.", E_USER_ERROR);
             }
