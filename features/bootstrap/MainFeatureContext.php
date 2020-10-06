@@ -19,6 +19,14 @@ use App\Entity\User;
  */
 class MainFeatureContext extends BaseFeatureContext
 {
+    //   _____ _                    _______       _                        ___
+    //  / ____(_)                  / /_   _|     | |                      | \ \
+    // | |  __ ___   _____ _ __   | |  | |  _ __ | |_ ___ _ __ _ __   __ _| || |
+    // | | |_ | \ \ / / _ \ '_ \  | |  | | | '_ \| __/ _ \ '__| '_ \ / _` | || |
+    // | |__| | |\ V /  __/ | | | | | _| |_| | | | ||  __/ |  | | | | (_| | || |
+    //  \_____|_| \_/ \___|_| |_| | ||_____|_| |_|\__\___|_|  |_| |_|\__,_|_|| |
+    //                             \_\                                      /_/
+
 
     /**
      * @Given /^a citizen named (?P<name>.+)$/ui
@@ -48,30 +56,30 @@ class MainFeatureContext extends BaseFeatureContext
     }
 
 
-    /**
-     * @Given /^a moderator named (?P<name>.+)$/ui
-     * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
-     */
-    public function givenModeratorNamed($name)
-    {
-        $userAndToken = $this->createUser($name);
-
-        $actor = $this->actor($name, true);
-        $actor->setUser($userAndToken['user']);
-        $actor->setPassword($userAndToken['token']);
-
-        $userId = $actor->getUser()->getId();
-        $roleName = 'ROLE_ADMIN';
-        $context = [];
-        $this->app()->getMessageBus()->dispatch(new AddUserRole($userId, $roleName, $context));
-    }
+//    /**
+//     * @Given /^a moderator named (?P<name>.+)$/ui
+//     * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+//     */
+//    public function givenModeratorNamed($name)
+//    {
+//        $userAndToken = $this->createUser($name);
+//
+//        $actor = $this->actor($name, true);
+//        $actor->setUser($userAndToken['user']);
+//        $actor->setPassword($userAndToken['token']);
+//
+//        $userId = $actor->getUser()->getId();
+//        $roleName = 'ROLE_ADMIN';
+//        $context = [];
+//        $this->app()->getMessageBus()->dispatch(new AddUserRole($userId, $roleName, $context));
+//    }
 
 
     /**
      * @Given /^un scrutin(?: au jugement majoritaire)? comme suit:?$/ui
      * @Given /^a majority judgment poll like so:?$/ui
      */
-    public function givenPoll($pystring)
+    public function givenPollLikeSo($pystring)
     {
         $subjectKey = $this->t('keys.poll.subject');
         $proposalsKey = $this->t('keys.poll.proposals');
@@ -114,9 +122,14 @@ class MainFeatureContext extends BaseFeatureContext
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// ASSERTIONS
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                             _      _______       _                        ___
+    //     /\                     | |    / /_   _|     | |                      | \ \
+    //    /  \   ___ ___  ___ _ __| |_  | |  | |  _ __ | |_ ___ _ __ _ __   __ _| || |
+    //   / /\ \ / __/ __|/ _ \ '__| __| | |  | | | '_ \| __/ _ \ '__| '_ \ / _` | || |
+    //  / ____ \\__ \__ \  __/ |  | |_  | | _| |_| | | | ||  __/ |  | | | | (_| | || |
+    // /_/    \_\___/___/\___|_|   \__| | ||_____|_| |_|\__\___|_|  |_| |_|\__,_|_|| |
+    //                                   \_\                                      /_/
+    //
 
 
     /**
@@ -138,6 +151,7 @@ class MainFeatureContext extends BaseFeatureContext
         $this->thereShouldBeExactlyThatMuchEntitiesInTheDatabase($thatMuch, Poll::class);
     }
 
+
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? intitulé "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) propositions?$/ui
@@ -151,6 +165,7 @@ class MainFeatureContext extends BaseFeatureContext
         $this->assertEquals($thatMuch, $actual);
     }
 
+
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? (?:intitulé|assujettissant) "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) mentions?$/ui
@@ -163,6 +178,7 @@ class MainFeatureContext extends BaseFeatureContext
 
         $this->assertEquals($thatMuch, $actual);
     }
+
 
     /**
      * fixme: en step
