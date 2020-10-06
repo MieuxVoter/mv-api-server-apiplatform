@@ -131,7 +131,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) supprimer?(?: (?:de|à) nouveau)? le scrutin titré "(?P<title>.+)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) supprimer?(?: (?:de|à) nouveau)? le scrutin (?:titré|intitulé|assujettissant) "(?P<title>.+)"$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) deletes? the majority judgment poll titled "(?P<title>.+)"$/ui
      */
     public function actorDeletesThePollTitled($actor, $try, $title)

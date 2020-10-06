@@ -133,8 +133,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/u
      * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) utilisateur(?:⋅?e)?s? dans la base de données$/ui
+     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/u
      */
     public function thereShouldBeSomeUsersInTheDatabase($thatMuch)
     {
@@ -143,8 +143,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? y avoir (?P<thatMuch>.+) scrutins?(?: au jugement majoritaire)? dans la base de données$/ui
+     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      */
     public function thereShouldBeSomePollsInTheDatabase($thatMuch)
     {
@@ -299,8 +299,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^(?P<actor>.+?) should (?:(?P<ok>succeed)|(?P<ko>fail))$/
      * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? (?:(?P<ok>réussir)|(?P<ko>échouer))$/u
+     * @Then /^(?P<actor>.+?) should (?:(?P<ok>succeed)|(?P<ko>fail))$/
      */
     public function actorShouldSucceedOrFail($actor, $ok=null, $ko=null)
     {
