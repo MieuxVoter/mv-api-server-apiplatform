@@ -11,6 +11,9 @@ keys:
     options: 'options'
     proposals: 'proposals'
     grades: 'grades'
+  proposal:
+    grade: 'grade'
+    rank: 'rank'
 
 # @deprecated
 value:

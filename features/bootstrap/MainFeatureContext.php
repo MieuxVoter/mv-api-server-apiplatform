@@ -205,8 +205,8 @@ class MainFeatureContext extends BaseFeatureContext
         $expectedRaw = $this->yaml($pystring);
         $poll = $this->findOnePollFromSubject($pollSubject);
 
-        $gradeAtom = 'grade';
-        $rankAtom = 'rank';
+        $gradeAtom = $this->t('keys.proposal.grade');
+        $rankAtom = $this->t('keys.proposal.rank');
 
         $expected = [];
         $pollProposals = [];

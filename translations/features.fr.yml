@@ -10,6 +10,10 @@ keys:
     title: 'titre'
     proposals: 'propositions'
     grades: 'mentions'
+  proposal:
+    grade: 'mention'
+    # rang ?
+    rank: 'position'
 
 # @deprecated
 value:
