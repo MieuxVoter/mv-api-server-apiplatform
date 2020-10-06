@@ -222,14 +222,10 @@ class Poll
 
     public function getGradesInOrder() : array
     {
-//        $grades = $this->getGrades();
-//        dump($grades);
         $grades = $this->getGrades()->toArray();
-//        dump($grades);
         usort($grades, function (PollGrade $a, PollGrade $b) {
             return $a->getLevel() - $b->getLevel();
         });
-//        dump($grades);
         return $grades;
     }
 
@@ -250,6 +246,17 @@ class Poll
         }
 
         return $names;
+    }
 
+    public function getDefaultGrade() : PollGrade
+    {
+        $grades = $this->getGradesInOrder();
+        assert( ! empty($grades), "Poll should have grades.");
+        return $grades[0];
+    }
+
+    public function getDefaultGradeName() : string
+    {
+        return $this->getDefaultGrade()->getName();
     }
 }

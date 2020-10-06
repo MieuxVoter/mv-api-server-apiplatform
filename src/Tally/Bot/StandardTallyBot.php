@@ -67,8 +67,8 @@ class StandardTallyBot implements TallyBotInterface
         /** @var PollProposalTally[] $proposalsTallies */
         $proposalsTallies = array();
 
+        $defaultGrade = $poll->getDefaultGradeName();
         $levelOfGrade = $poll->getLevelsOfGrades();
-
         $maxVotesCount = 0;
 
         // First loop: collect data
@@ -113,7 +113,7 @@ class StandardTallyBot implements TallyBotInterface
             // Fill up proposal tallies that have less votes, with TO_REJECT mentions
             // so that all tallies have the same number of mentions in the end.
             // The goal here is to enforce the Rule about TO_REJECT being the default mention.
-            $proposalTally->addVotesForGrade($maxVotesCount - $proposalTally->countVotes(), Poll::MENTION_TO_REJECT);
+            $proposalTally->addVotesForGrade($maxVotesCount - $proposalTally->countVotes(), $defaultGrade);
             // Once this is done, we can now compute the final mention from the median
             $proposalTally->setMedianGrade($proposalTally->getMedian());
         }
