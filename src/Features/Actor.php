@@ -204,104 +204,6 @@ class Actor
 
 
     /**
-     * @param string $query
-     * @param array|null $variables
-     * @param bool $only_trying
-     * @return Transaction
-     */
-    public function gql(string $query, array $variables = null, bool $only_trying = false): Transaction
-    {
-        $parameters = [
-            'query' => $query,
-        ];
-        if ( ! is_null($variables)) {
-            $parameters['variables'] = $variables;
-        }
-
-        try {
-            $response = $this->request('POST', '/gql/', $parameters);
-        } catch (TransferException $e) {
-            throw new \RuntimeException('Network Error.' . $e->getMessage(), 0, $e);
-        }
-
-//        $responseBuilder = new ResponseBuilder();
-//        $response = $responseBuilder->build($response);
-
-        $transaction = $this->getLastTransaction();
-
-        if (! $only_trying) {
-            $this->assertTransactionSuccess($transaction);
-        }
-
-        return $transaction;
-    }
-
-
-    /**
-     * @deprecated
-     * @param string $query
-     * @param array|null $variables
-     * @param bool $only_trying
-     * @return Transaction
-     */
-    public function gqlNew(string $query, array $variables = null, bool $only_trying = false): Transaction
-    {
-        $parameters = [
-            'query' => $query,
-        ];
-        if ( ! is_null($variables)) {
-            $parameters['variables'] = $variables;
-        }
-        //$parameters['operationName'] = "graphiql sets this, why?";
-
-        $server = [];
-        $server['HTTP_ACCEPT'] = "application/json";
-        $server['CONTENT_TYPE'] = "application/json";
-
-        try {
-            $response = $this->request('POST', '/api/graphql', [], [], $server, json_encode($parameters));
-        } catch (TransferException $e) {
-            throw new \RuntimeException('Network Error.' . $e->getMessage(), 0, $e);
-        }
-
-//        $responseBuilder = new ResponseBuilder();
-//        $response = $responseBuilder->build($response);
-
-        $transaction = $this->getLastTransaction();
-
-        if (! $only_trying) {
-            $this->assertTransactionSuccess($transaction);
-        }
-
-        return $transaction;
-    }
-
-
-    /**
-     * Send a request to our API.
-     * @deprecated
-     *
-     * @param string $method Where are the constants for this?
-     * @param string $route
-     * @param array $parameters
-     * @param bool $only_trying
-     * @return Transaction
-     */
-    public function apiOld(string $method, string $route, array $parameters=[], bool $only_trying = false): Transaction
-    {
-        $this->request($method, $route, $parameters);
-
-        $transaction = $this->getLastTransaction();
-
-        if (! $only_trying) {
-            $this->assertTransactionSuccess($transaction);
-        }
-
-        return $transaction;
-    }
-
-
-    /**
      * Send a request to our API.
      * Tailored for compatibility with API Platform.
      *
@@ -330,6 +232,8 @@ class Actor
         if ( ! $only_trying) {
             $this->assertTransactionSuccess($transaction);
         }
+
+        $this->assertTransactionNotServerFailure($transaction);
 
         return $transaction;
     }
@@ -453,6 +357,24 @@ class Actor
         if (null == $failure) {
             $this->printTransaction($transaction);
             throw new AssertionFailedError("Expected a failure, but it appears to be a success.");
+        }
+    }
+
+
+    /**
+     * Assert that the provided transaction was not a server failure.
+     *
+     * @param Transaction $transaction
+     */
+    public function assertTransactionNotServerFailure(Transaction $transaction)
+    {
+        $statusCode = $transaction->getResponse()->getStatusCode();
+
+        if ($statusCode >= 500 && $statusCode < 600) {
+            $this->printTransaction($transaction);
+            throw new AssertionFailedError(sprintf(
+                "Server failed with '%d' HTTP status code.".PHP_EOL, $statusCode
+            ));
         }
     }
 
