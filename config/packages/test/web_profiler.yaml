@@ -3,4 +3,6 @@ web_profiler:
     intercept_redirects: false
 
 framework:
-    profiler: { collect: false }
+    profiler: 
+        dsn: 'file:%kernel.project_dir%/var/cache/dev/profiler' 
+        collect: true 

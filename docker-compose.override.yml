@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php_dev
+    environment:
+      # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
+      # See https://github.com/docker/for-linux/issues/264
+      # The `remote_host` below may optionally be replaced with `remote_connect_back`
+      XDEBUG_CONFIG: >-
+        remote_enable=1
+        remote_autostart = 1
+        remote_host=172.17.0.1
+        remote_connect_back = 0
+        remote_port=9001
+        remote_log="/tmp/xdebug_remote.log
+        idekey=VSCODE
+      # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
+      # Then PHPStorm will use the corresponding path mappings
+      #PHP_IDE_CONFIG: serverName=symfony

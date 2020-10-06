@@ -65,14 +65,14 @@ class PollProposalVote
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"ProllProposalVote:read"})
+     * @Groups({"PollProposalVote:read"})
      */
     public $uuid;
 
     /**
      * The Majority Judgment Poll Proposal the author is giving a mention to.
      *
-     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
+     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
      * @ORM\ManyToOne(targetEntity="PollProposal", inversedBy="votes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -82,7 +82,7 @@ class PollProposalVote
      * The name of the author of the vote, if any was specified.
      * TBD. May be deprecated soon.
      *
-     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
+     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -90,7 +90,7 @@ class PollProposalVote
     /**
      * The Grade attributed by the Judge to the Proposal.
      *
-     * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
+     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
      * @ORM\Column(type="string", length=32)
      */
     private $grade;
