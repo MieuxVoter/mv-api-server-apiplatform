@@ -74,6 +74,12 @@ test:
       {{ proposalsKey }}:
       - Jane Doe
       - Ann O'nymous
+    poll_has_no_grades: |
+      The poll has no grades.  At least two grades are required.
+      Add some like this (for example):
+      {{ gradesKey }}:
+      - Reject
+      - Accept
     no_majority_judgment_poll_found_for_title: |
       No majority judgment poll titled `{{ title }}' could be found in the database.
     no_majority_judgment_poll_proposal_found_for_title: |

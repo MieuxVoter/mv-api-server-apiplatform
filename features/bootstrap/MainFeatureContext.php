@@ -98,6 +98,10 @@ class MainFeatureContext extends BaseFeatureContext
             $this->persist($proposal);
         }
 
+        if ( ! isset($data[$gradesKey])) {
+            $this->failTrans("poll_has_no_grades", ['gradesKey' => $gradesKey]);
+        }
+
         foreach ($data[$gradesKey] as $k => $gradeName) {
             $grade = new PollGrade();
             $grade->setName($gradeName);
