@@ -10,12 +10,12 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
+ * Note: this is not a Voter in the political sense.
+ * The word Voter comes from the Symfony ecosystem, and means … well… bouncer, basically.
+ *
  * This bouncer's job is to tell who can get in and who can't.
  *
- * Note: this is not a Voter in the political sense.
- * The word Voter comes from the symfony ecosystem, and means … well… bouncer, basically.
- *
- * Class Bouncer
+ * Class PollVoter
  * @package App\Security\Authorization
  */
 class PollVoter extends Voter
