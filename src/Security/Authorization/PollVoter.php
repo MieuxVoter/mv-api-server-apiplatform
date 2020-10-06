@@ -1,16 +1,13 @@
 <?php
-
-
-namespace App\Security;
-
+namespace App\Security\Authorization;
 
 use App\Application;
 use App\Entity\Poll;
+use App\Entity\User;
 use App\Repository\PollProposalVoteRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-
 
 /**
  * This bouncer's job is to tell who can get in and who can't.
@@ -19,9 +16,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  * The word Voter comes from the symfony ecosystem, and means … well… bouncer, basically.
  *
  * Class Bouncer
- * @package App\Security
+ * @package App\Security\Authorization
  */
-class PollBouncer extends Voter
+class PollVoter extends Voter
 {
     const CAN_DELETE = "can_delete";
 
@@ -89,21 +86,23 @@ class PollBouncer extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        $roles = $token->getRoleNames();
+        $user = $token->getUser();
+        if(!($user instanceof User)) {
+            return false;
+        }
+
         switch ($attribute) {
             case self::CAN_DELETE:
-                if ($subject instanceof Poll) {
-                    if (in_array('ROLE_ADMIN', $roles)) {
-                        return true;
-                    }
+                if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                    return true;
+                }
 
-                    if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
-                        return false;
-                    }
-
-                    if ($subject->getAuthor() === $this->app->getAuthenticatedUser()) {
-                        return true;
-                    }
+                if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
+                    return false;
+                }
+                /** @var Poll $subject */
+                if ($subject->getAuthor() === $user) {
+                    return true;
                 }
                 break;
         }
