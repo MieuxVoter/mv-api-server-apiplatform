@@ -15,6 +15,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * This bouncer's job is to tell who can get in and who can't.
  *
+ * Note: this is not a Voter in the political sense.
+ * The word Voter comes from the symfony ecosystem, and means … well… bouncer, basically.
+ *
  * Class Bouncer
  * @package App\Security
  */
@@ -41,6 +44,7 @@ class PollBouncer extends Voter
     /**
      * Bouncer constructor.
      * @param Application $app
+     * @param PollProposalVoteRepository $voteRepository
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
@@ -48,28 +52,9 @@ class PollBouncer extends Voter
         PollProposalVoteRepository $voteRepository,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
-        $this->authorizationChecker = $authorizationChecker;
         $this->app = $app;
         $this->voteRepository = $voteRepository;
-    }
-
-    public function canCurrentUserEditPoll(Poll $poll, string $password='') : bool
-    {
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        if ('' == $password) {
-            if ( ! $this->authorizationChecker->isGranted('ROLE_USER')) {
-                return false;
-            } else {
-
-            }
-        } else {
-            // TODO
-        }
-
-        return false;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -105,20 +90,22 @@ class PollBouncer extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $roles = $token->getRoleNames();
-        if (self::CAN_DELETE == $attribute) {
-            if ($subject instanceof Poll) {
-                if (in_array('ROLE_ADMIN', $roles)) {
-                    return true;
+        switch ($attribute) {
+            case self::CAN_DELETE:
+                if ($subject instanceof Poll) {
+                    if (in_array('ROLE_ADMIN', $roles)) {
+                        return true;
+                    }
+
+                    if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
+                        return false;
+                    }
+
+                    if ($subject->getAuthor() === $this->app->getAuthenticatedUser()) {
+                        return true;
+                    }
                 }
 
-                if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
-                    return false;
-                }
-
-                if ($subject->getAuthor() === $this->app->getAuthenticatedUser()) {
-                    return true;
-                }
-            }
         }
 
         return false;
