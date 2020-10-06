@@ -110,10 +110,10 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public $that_tally;
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent)(?: (?:de|à) nouveau)? le scrutin titré "(?P<title>.+)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent)(?: (?:de|à) nouveau)? le scrutin (?:titré|intitulé|assujettissant) "(?P<title>.+)"$/ui
      * When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? tall(?:y|ies) the majority judgment poll titled "(?P<title>.+)"$/ui
      */
-    public function actorTalliesTheLimajuPollTitled($actor, $try, $title)
+    public function actorTalliesThePollTitled($actor, $try, $title)
     {
         $poll = $this->findOnePollFromSubject($title);
 
@@ -134,12 +134,12 @@ class ApiRestFeatureContext extends BaseFeatureContext
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) supprimer?(?: (?:de|à) nouveau)? le scrutin titré "(?P<title>.+)"$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) deletes? the majority judgment poll titled "(?P<title>.+)"$/ui
      */
-    public function actorDeletesTheLimajuPollTitled($actor, $try, $title)
+    public function actorDeletesThePollTitled($actor, $try, $title)
     {
         $poll = $this->findOnePollFromSubject($title);
 
         $this->actor($actor)->api(
-            'DELETE',"/polls/".$poll->getId(),
+            'DELETE',"/polls/".$poll->getUuid()->toString(),
             [], [], !empty($try)
         );
     }
