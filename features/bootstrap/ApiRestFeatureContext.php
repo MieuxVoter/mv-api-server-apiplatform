@@ -118,7 +118,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
-            'GET',"/poll_tally/".$poll->getId(),
+            'GET',"/polls/".$poll->getUuid()->toString()."/tally",
             [], [], !empty($try)
         );
 
