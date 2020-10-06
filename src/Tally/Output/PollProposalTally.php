@@ -43,8 +43,8 @@ class PollProposalTally
 
     /**
      * @var array|string[]
-     * The list of Poll::MENTION_XXX this tally uses.
-     * The order matters, and must be from "worse" to "best".
+     * The list of the names of grades this tally & poll use.
+     * The order matters, and MUST be from "worse" to "best".
      */
     protected $grades_names;
     // protected $mentions_tree;
