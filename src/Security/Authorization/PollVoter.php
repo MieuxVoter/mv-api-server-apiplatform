@@ -64,11 +64,11 @@ class PollVoter extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        if (! $subject instanceof Poll) {
+        if ( ! ($subject instanceof Poll)) {
             return false;
         }
 
-        if (! in_array($attribute, array(self::CAN_DELETE))) {
+        if ( ! in_array($attribute, array(self::CAN_DELETE))) {
             return false;
         }
 
@@ -87,7 +87,7 @@ class PollVoter extends Voter
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
-        if (!($user instanceof User)) {
+        if ( ! ($user instanceof User)) {
             return false;
         }
 
