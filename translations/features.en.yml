@@ -68,6 +68,12 @@ test:
       The poll has no subject.
       Add one with (for example):
       subject: "My awesome poll"
+    poll_has_no_proposal: |
+      At least one proposal is required.
+      Add some like this (for example):
+      {{ proposalsKey }}:
+      - Jane Doe
+      - Ann O'nymous
     no_majority_judgment_poll_found_for_title: |
       No majority judgment poll titled `{{ title }}' could be found in the database.
     no_majority_judgment_poll_proposal_found_for_title: |

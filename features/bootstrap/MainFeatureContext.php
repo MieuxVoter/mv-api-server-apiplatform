@@ -88,7 +88,7 @@ class MainFeatureContext extends BaseFeatureContext
         $this->persist($poll);
 
         if ( ! isset($data[$proposalsKey])) {
-            $this->fail("At least one proposal is required in '${proposalsKey}:'.");
+            $this->failTrans("poll_has_no_proposal", ['proposalsKey' => $proposalsKey]);
         }
 
         foreach ($data[$proposalsKey] as $candidateTitle) {
