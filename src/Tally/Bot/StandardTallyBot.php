@@ -82,20 +82,20 @@ class StandardTallyBot implements TallyBotInterface
             $maxVotesCount = max($maxVotesCount, $votesCount);
             $gradesTally = array(); // grade_name => integer
 
-            if ($votesCount) {
+//            if ($votesCount) {
 
-                usort($votes, function (PollProposalVote $a, PollProposalVote $b) use ($levelOfGrade) {
-                    return $levelOfGrade[$a->getGrade()] - $levelOfGrade[$b->getGrade()];
+            usort($votes, function (PollProposalVote $a, PollProposalVote $b) use ($levelOfGrade) {
+                return $levelOfGrade[$a->getGrade()] - $levelOfGrade[$b->getGrade()];
+            });
+
+            foreach ($levelOfGrade as $gradeToTally => $whoCares) {
+                $votesForMention = array_filter($votes, function (PollProposalVote $v) use ($gradeToTally) {
+                    return $v->getGrade() === $gradeToTally;
                 });
-
-                foreach ($levelOfGrade as $gradeToTally => $whoCares) {
-                    $votesForMention = array_filter($votes, function (PollProposalVote $v) use ($gradeToTally) {
-                        return $v->getGrade() === $gradeToTally;
-                    });
-                    $gradesTally[$gradeToTally] = count($votesForMention);
-                }
-
+                $gradesTally[$gradeToTally] = count($votesForMention);
             }
+
+//            }
 
             $proposalTally = new PollProposalTally();
             $proposalTally->setPollProposalId($proposal->getUuid());

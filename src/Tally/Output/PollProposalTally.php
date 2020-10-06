@@ -231,11 +231,10 @@ class PollProposalTally
         $tally = $this->getGradesTally();
 
         foreach ($this->getMentionsList() as $mention) {
-            if (isset($tally[$mention])) {
-                $count += (int) $tally[$mention];
-            } else {
+            if ( ! isset($tally[$mention])) {
                 trigger_error("Mention `$mention' is not available in the tally.", E_USER_ERROR);
             }
+            $count += (int) $tally[$mention];
         }
 
         return $count;
