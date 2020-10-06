@@ -36,7 +36,7 @@ class PollGrade
     public $uuid;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=32)
      * @Groups({"PollGrade:read", "Poll:create"})
      */
     private $name;

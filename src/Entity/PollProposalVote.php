@@ -91,7 +91,7 @@ class PollProposalVote
      * The Grade attributed by the Judge to the Proposal.
      *
      * @Groups({"ProllProposalVote:create", "ProllProposalVote:read"})
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=32)
      */
     private $grade;
 
