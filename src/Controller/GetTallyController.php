@@ -16,6 +16,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * Old thing.
+ * How can we re-do this more in line with apiplatform?
+ *
  * @Route("/api/poll_tally/{id}", name="api_poll_tally_get", methods={"GET"})
  */
 final class GetTallyController
