@@ -105,7 +105,7 @@ class PollBouncer extends Voter
                         return true;
                     }
                 }
-
+                break;
         }
 
         return false;
