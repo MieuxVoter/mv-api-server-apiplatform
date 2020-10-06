@@ -442,7 +442,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    protected function createUser($name) : array
+    protected function createUser($name, $roles = []) : array
     {
         $identifier = uniqid("citizen-", true);
         $email = "${identifier}@users.mieuxvoter.fr";
@@ -455,9 +455,15 @@ class BaseFeatureContext extends WebTestCase implements Context
             ->setPlainPassword($password)
             ->setUsername($name);
 
+        if ( ! empty($roles)) {
+            foreach ($roles as $role) {
+                $user->addRole($role);
+            }
+        }
+
         // We use App\DataProvider\UserDataProvider::persist() to ensure password encryption
         $this->get("App\DataPersister\UserDataPersister")->persist($user);
-//        $this->getEntityManager()->persist($user);
+//        $this->getEntityManager()->persist($user); // no, no
 
         return ['user' => $user, 'token' => $password];
     }

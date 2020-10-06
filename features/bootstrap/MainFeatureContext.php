@@ -29,8 +29,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Given /^a citizen named (?P<name>.+)$/ui
      * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^a citizen named (?P<name>.+)$/ui
      */
     public function givenCitizenNamed($name)
     {
@@ -43,8 +43,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Given /^(?P<actor>.+?) (?:am|is|are) (?:a|the) citizen named (?P<name>.+)$/u
      * @Given /^(?P<actor>.+?) (?:suis|est?) un(?:⋅?e)? citoyen(?:⋅?ne)? nommé(?:⋅?e)? (?P<name>.+)$/u
+     * @Given /^(?P<actor>.+?) (?:am|is|are) (?:a|the) citizen named (?P<name>.+)$/u
      */
     public function givenActorIsCitizenNamed($actor, $name)
     {
@@ -56,23 +56,18 @@ class MainFeatureContext extends BaseFeatureContext
     }
 
 
-//    /**
-//     * @Given /^a moderator named (?P<name>.+)$/ui
-//     * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
-//     */
-//    public function givenModeratorNamed($name)
-//    {
-//        $userAndToken = $this->createUser($name);
-//
-//        $actor = $this->actor($name, true);
-//        $actor->setUser($userAndToken['user']);
-//        $actor->setPassword($userAndToken['token']);
-//
-//        $userId = $actor->getUser()->getId();
-//        $roleName = 'ROLE_ADMIN';
-//        $context = [];
-//        $this->app()->getMessageBus()->dispatch(new AddUserRole($userId, $roleName, $context));
-//    }
+    /**
+     * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^a moderator named (?P<name>.+)$/ui
+     */
+    public function givenModeratorNamed($name)
+    {
+        $userAndToken = $this->createUser($name, ['ROLE_ADMIN']);
+
+        $actor = $this->actor($name, true);
+        $actor->setUser($userAndToken['user']);
+        $actor->setPassword($userAndToken['token']);
+    }
 
 
     /**
