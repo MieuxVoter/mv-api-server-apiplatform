@@ -22,6 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * New proposals MAY be added during the poll, but the poll's settings should govern this.
  * A poll cannot be deleted without privileges.
  *
+ * Also, how are we going to localize the error messages?
+ * See https://framagit.org/limaju/limaju-server-symfony/-/issues/8
+ *
  * @ApiResource(
  *     normalizationContext={"groups"={"Poll:read"}},
  *     itemOperations={
@@ -95,6 +98,15 @@ class Poll
      *     cascade={"persist"},
      *     orphanRemoval=true,
      * )
+     * The limits are arbitrary, and open (like the rest) to discussion.
+     * A poll with less then two proposals make no sense.
+     * We have to set a maximum limit, against abuse scenarios.  It can be higher.
+     * @Assert\Count(
+     *     min=2,
+     *     max=256,
+     *     minMessage = "You must specify at least two proposals.",
+     *     maxMessage = "You cannot specify more than {{ limit }} proposals.",
+     * )
      */
     private $proposals;
 
@@ -112,6 +124,8 @@ class Poll
      * @Assert\Count(
      *     min=2,
      *     max=16,
+     *     minMessage = "You must specify at least two grades.",
+     *     maxMessage = "You cannot specify more than {{ limit }} grades.",
      * )
      */
     private $grades;
