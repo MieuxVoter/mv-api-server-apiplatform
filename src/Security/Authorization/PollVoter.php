@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  * Note: this is not a Voter in the political sense.
  * The word Voter comes from the Symfony ecosystem, and means … well… bouncer, basically.
  *
- * This bouncer's job is to tell who can get in and who can't.
+ * This bouncer's job is to tell which Users may edit which Polls.
  *
  * Class PollVoter
  * @package App\Security\Authorization
