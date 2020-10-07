@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -106,6 +107,11 @@ class Poll
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
+     * )
+     * The maximum limit of grades is arbitrary and not backed by anything.  Discuss!
+     * @Assert\Count(
+     *     min=2,
+     *     max=16,
      * )
      */
     private $grades;
