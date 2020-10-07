@@ -66,7 +66,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) cré(?:e[szr]?|ent) (?:le|un) scrutin au jugement majoritaire (?:comme suit|suivant) *:$/u
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) cré(?:e[szr]?|ent) (?:le|un) scrutin(?: au jugement majoritaire)? (?:comme suit|suivant) *:?$/u
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) creates? the following majority judgment poll:$/ui
      */
     public function actorSubmitsThePollLikeSo($actor, $try, $pystring)
