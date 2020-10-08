@@ -82,13 +82,26 @@ class Poll
     public $uuid;
 
     /**
+     * The subject of the poll. Careful consideration should be taken in the writing of this.
+     *
      * @var string
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ORM\Column(type="string", length=142)
+     * @Assert\NotBlank(
+     *     message = "The poll must have a subject.",
+     * )
+     * @Assert\Length(
+     *     min="1",
+     *     max="142",
+     *     minMessage = "The poll's subject must be at least {{ limit }} characters.",
+     *     maxMessage = "The poll's subject can be at most {{ limit }} characters.",
+     * )
      */
     private $subject;
 
     /**
+     * A list of proposals to judge.  At least two proposals are required.
+     *
      * @var ArrayCollection
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ApiSubresource()
