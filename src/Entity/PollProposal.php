@@ -13,9 +13,10 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// *             "path"="/polls/{pollId}/proposals/{proposalId}",
 
 /**
- * A Proposal of a Poll whom any Judge can give a Grade (aka Mention) to.
+ * A Proposal of a Poll whom any Judge can give a Grade (aka. Mention) to.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"PollProposal:read"}},
@@ -26,7 +27,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "post"={
+ *             "method"="POST",
  *             "denormalization_context"={"groups"={"PollProposal:create"}},
+ *             "path"="/polls/{pollId}/proposals",
+ *         },
+ *     },
+ *     subresourceOperations={
+ *         "api_polls_proposals_get_subresource"={
+ *             "method"="GET",
+ *             "normalization_context"={"groups"={"PollProposal:read"}},
+ *             "path"="/polls/{pollId}/proposals",
  *         },
  *     },
  *
