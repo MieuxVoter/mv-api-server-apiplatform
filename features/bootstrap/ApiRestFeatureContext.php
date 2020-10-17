@@ -41,7 +41,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
      */
     public function actorVotesOnThePollOnTheSubjectOf($actor, $try, $pollSubject, $pystring)
@@ -143,5 +143,29 @@ class ApiRestFeatureContext extends BaseFeatureContext
             [], [], !empty($try)
         );
     }
+
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) g[ée]n[éèe]r(?:e[szr]?|ent) (?P<invitationsAmount>.+) invitations? pour le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)"$/ui
+     * todo When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
+     * @throws Exception
+     */
+    public function actorGeneratesInvitationsForPollAbout($actor, $try, $invitationsAmount, $pollSubject)
+    {
+        $invitationsAmount = $this->number($invitationsAmount);
+        $poll = $this->findOnePollFromSubject($pollSubject);
+        $pollId = $poll->getUuid()->toString();
+
+        $this->actor($actor)->api(
+            'GET',"/polls/{$pollId}/invitations",
+            [], [
+                'limit' => $invitationsAmount,
+            ], !empty($try)
+        );
+
+        $this->actor($actor)->printTransaction();
+    }
+
+
 
 }
