@@ -3,9 +3,8 @@
 
 use App\Translator\TwiggyTranslator;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
-
+use Symfony\Component\Translation\Translator;
 
 
 /**
@@ -38,6 +37,7 @@ trait LanguageAwareFeatureTrait
         $this->language = $scope->getFeature()->getLanguage();
         $this->translator = new Translator($this->language);
         $yamlLoader = new YamlFileLoader();
+
         $this->translator->addLoader('yml', $yamlLoader);
         $this->translator->addResource(
             'yml',
@@ -50,10 +50,6 @@ trait LanguageAwareFeatureTrait
             'en'
         );
         $this->translator->setFallbackLocales(['en']);
-
-//        $this->twiggy_translator = new TwiggyTranslator([
-//            'messages', '', null
-//        ], $this->translator, $this->get('twig'));
     }
 
     /**
