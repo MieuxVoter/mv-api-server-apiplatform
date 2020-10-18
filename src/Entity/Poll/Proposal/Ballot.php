@@ -3,6 +3,7 @@
 
 namespace App\Entity\Poll\Proposal;
 
+
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateBallotController;
@@ -15,9 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Ballot holds a judgment on a Proposal, by a Participant of a Poll.
+ * A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.
  *
- * The sacred text is titled: "Judge! Don't Vote."  ;)
+ * The sacred text is titled "Judge! Don't Vote."  ;)
  *
  * Rules TBD:
  *
@@ -43,7 +44,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "path"="/polls/{pollId}/proposals/{proposalId}/votes.{_format}",
+ *             "path"="/polls/{pollId}/proposals/{proposalId}/ballots.{_format}",
  *             "method"="POST",
  *             "controller"=CreateBallotController::class,
  *             "denormalization_context"={"groups"={"Ballot:create"}},
@@ -78,7 +79,7 @@ class Ballot
     public $uuid;
 
     /**
-     * The Majority Judgment Poll Proposal the author is giving a mention to.
+     * The Majority Judgment Poll Proposal the author is giving a grade to.
      *
      * @Groups({"Ballot:create", "Ballot:read"})
      * @ORM\ManyToOne(

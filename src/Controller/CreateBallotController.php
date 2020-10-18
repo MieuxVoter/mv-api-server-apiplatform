@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\Security;
  * Exists to patch https://github.com/api-platform/docs/issues/504
  * Subresources should handle POST.  Since they don't yet, we do this "by hand".
  *
+ * See App\Entity\Poll\Proposal\Ballot where this controller is declared and configured.
+ *
  * Class CreateBallotController
  * @package App\Controller
  */
