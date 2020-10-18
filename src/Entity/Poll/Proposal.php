@@ -1,11 +1,13 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entity\Poll;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use App\Entity\Poll;
+use App\Entity\PollProposalVote;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,23 +21,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A Proposal of a Poll whom any Judge can give a Grade (aka. Mention) to.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"PollProposal:read"}},
+ *     normalizationContext={"groups"={"Proposal:read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"PollProposal:read"}},
+ *             "normalization_context"={"groups"={"Proposal:read"}},
  *         },
  *     },
  *     collectionOperations={
  *         "post"={
  *             "method"="POST",
- *             "denormalization_context"={"groups"={"PollProposal:create"}},
+ *             "denormalization_context"={"groups"={"Proposal:create"}},
  *             "path"="/polls/{pollId}/proposals",
  *         },
  *     },
  *     subresourceOperations={
  *         "api_polls_proposals_get_subresource"={
  *             "method"="GET",
- *             "normalization_context"={"groups"={"PollProposal:read"}},
+ *             "normalization_context"={"groups"={"Proposal:read"}},
  *             "path"="/polls/{pollId}/proposals",
  *         },
  *     },
@@ -45,7 +47,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     repositoryClass="App\Repository\PollProposalRepository",
  * )
  */
-class PollProposal
+class Proposal
 {
     /**
      * Should only be used internally.
@@ -65,14 +67,14 @@ class PollProposal
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"PollProposal:read"})
+     * @Groups({"Proposal:read"})
      */
     public $uuid;
 
     /**
      * → name ?
      *
-     * @Groups({"PollProposal:create", "PollProposal:read", "Poll:create"})
+     * @Groups({"Proposal:create", "Proposal:read", "Poll:create"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
@@ -80,10 +82,10 @@ class PollProposal
     /**
      * The poll this proposal is attached to.
      *
-     * @Groups({"PollProposal:create"})
+     * @Groups({"Proposal:create"})
      * @ORM\ManyToOne(
-     *     targetEntity="Poll",
-     *     inversedBy="proposals"
+     *     targetEntity="App\Entity\Poll",
+     *     inversedBy="proposals",
      * )
      * @ORM\JoinColumn(nullable=false)
      */
@@ -93,7 +95,7 @@ class PollProposal
     * @ORM\OneToMany(
     *     targetEntity="App\Entity\PollProposalVote",
     *     mappedBy="proposal",
-    *     orphanRemoval=true
+    *     orphanRemoval=true,
     * )
     * @ApiSubresource()
     */

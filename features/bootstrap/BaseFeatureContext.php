@@ -3,6 +3,7 @@
 
 use App\Application;
 use App\Entity\Poll;
+use App\Entity\Poll\Proposal;
 use App\Entity\PollProposal;
 use App\Entity\User;
 use App\Features\Actor;
@@ -382,11 +383,11 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOnePollProposalFromId($uuid, $lenient = false) : ?PollProposal
+    protected function findOnePollProposalFromId($uuid, $lenient = false) : ?Proposal
     {
-        $pollProposal = $this->getRepository(PollProposal::class)->findOneByUuid($uuid);
+        $pollProposal = $this->getRepository(Proposal::class)->findOneByUuid($uuid);
         if (( ! $lenient) && (null == $pollProposal)) {
-//            $this->fail("No PollProposal with UUID `$uuid' could be found.");
+//            $this->fail("No Proposal with UUID `$uuid' could be found.");
             $this->failTrans("no_poll_proposal_found_for_uuid", ['uuid' => $uuid]);
         }
 
@@ -394,10 +395,11 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
-    protected function findOnePollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?PollProposal
+    protected function findOnePollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?Proposal
     {
-        /** @var PollProposal $PollProposal */
-        $PollProposal = $this->getRepository(PollProposal::class)->findOneBy([
+        /** @var Proposal $PollProposal
+         */
+        $PollProposal = $this->getRepository(Proposal::class)->findOneBy([
             'title' => $title,
             'poll' => $poll,
         ]);

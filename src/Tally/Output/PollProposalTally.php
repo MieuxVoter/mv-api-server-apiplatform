@@ -4,7 +4,6 @@
 namespace App\Tally\Output;
 
 
-use App\Entity\Poll;
 use Ramsey\Uuid\UuidInterface;
 
 
@@ -14,7 +13,7 @@ class PollProposalTally
      * Why not pas the poll ?  (careful, we `clone` this class)
      *
      * @var UuidInterface
-     * UUID of the PollProposal that this tally belongs to.
+     * UUID of the Proposal that this tally belongs to.
      */
     public $poll_proposal_id;
 

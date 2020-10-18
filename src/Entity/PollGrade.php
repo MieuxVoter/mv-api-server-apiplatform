@@ -54,7 +54,7 @@ class PollGrade
     /**
      * The poll this grade is attached to.
      *
-     * Groups({"PollProposal:create"})
+     * Groups({"Proposal:create"})
      * Groups({"Poll:create"})
      * @ORM\ManyToOne(
      *     targetEntity="Poll",

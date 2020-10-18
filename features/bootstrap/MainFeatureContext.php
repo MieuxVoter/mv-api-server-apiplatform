@@ -7,8 +7,8 @@
 
 
 use App\Entity\Poll;
+use App\Entity\Poll\Proposal;
 use App\Entity\PollGrade;
-use App\Entity\PollProposal;
 use App\Entity\User;
 
 
@@ -95,7 +95,7 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         foreach ($data[$proposalsKey] as $candidateTitle) {
-            $proposal = new PollProposal();
+            $proposal = new Proposal();
             $proposal->setTitle($candidateTitle);
             $poll->addProposal($proposal);
             $this->persist($proposal);

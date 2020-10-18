@@ -5,11 +5,12 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\CreatePollProposalVoteController;
+use App\Entity\Poll\Proposal;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\CreatePollProposalVoteController;
 
 
 /**
@@ -73,7 +74,10 @@ class PollProposalVote
      * The Majority Judgment Poll Proposal the author is giving a mention to.
      *
      * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
-     * @ORM\ManyToOne(targetEntity="PollProposal", inversedBy="votes")
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\Poll\Proposal",
+     *     inversedBy="votes",
+     * )
      * @ORM\JoinColumn(nullable=false)
      */
     private $proposal;
@@ -115,12 +119,12 @@ class PollProposalVote
         return $this->uuid;
     }
 
-    public function getProposal(): ?PollProposal
+    public function getProposal(): ?Proposal
     {
         return $this->proposal;
     }
 
-    public function setProposal(?PollProposal $proposal): self
+    public function setProposal(?Proposal $proposal): self
     {
         $this->proposal = $proposal;
 

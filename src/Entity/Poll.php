@@ -6,6 +6,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use App\Entity\Poll\Proposal;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -106,7 +107,7 @@ class Poll
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="PollProposal",
+     *     targetEntity="App\Entity\Poll\Proposal",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
@@ -180,14 +181,14 @@ class Poll
 
 
     /**
-     * @return Collection|PollProposal[]
+     * @return Collection|Proposal[]
      */
     public function getProposals(): Collection
     {
         return $this->proposals;
     }
 
-    public function addProposal(PollProposal $proposal): self
+    public function addProposal(Proposal $proposal): self
     {
         if (!$this->proposals->contains($proposal)) {
             $this->proposals[] = $proposal;
@@ -197,7 +198,7 @@ class Poll
         return $this;
     }
 
-    public function removeProposal(PollProposal $proposal): self
+    public function removeProposal(Proposal $proposal): self
     {
         if ($this->proposals->contains($proposal)) {
             $this->proposals->removeElement($proposal);

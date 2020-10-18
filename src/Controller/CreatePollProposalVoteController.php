@@ -3,13 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Poll;
-use App\Entity\PollProposal;
+use App\Entity\Poll\Proposal;
 use App\Entity\PollProposalVote;
 use App\Handler\PollProposalVoteHandler;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -62,7 +60,7 @@ class CreatePollProposalVoteController
         $pollId = $request->get("pollId");
         $proposalId = $request->get("proposalId");
         $poll = $this->entityManager->getRepository(Poll::class)->findOneByUuid($pollId);
-        $proposal = $this->entityManager->getRepository(PollProposal::class)->findOneByUuid($proposalId);
+        $proposal = $this->entityManager->getRepository(Proposal::class)->findOneByUuid($proposalId);
         $judge = $this->security->getUser();
         $vote = $this->voteHandler->handleVote($data, $judge, $proposal, $poll);
 

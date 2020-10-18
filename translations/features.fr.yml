@@ -58,7 +58,7 @@ test:
     not_equal: |
       La valeur obtenue ({{ actual }}) diffère de la valeur attendue ({{ expected }}).
     no_poll_proposal_found_for_uuid:
-      Aucun PollProposal n'a été trouvé pour l'UUID `{{ uuid }}'.
+      Aucun Proposal n'a été trouvé pour l'UUID `{{ uuid }}'.
     proposal_tallies_dont_match: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
       on obtient la mention `{{ actual_grade }}' mais la mention attendue est `{{ expected_grade }}'.
