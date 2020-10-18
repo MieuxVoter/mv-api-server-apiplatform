@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PollGrade;
+use App\Entity\Grade;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method PollGrade|null find($id, $lockMode = null, $lockVersion = null)
- * @method PollGrade|null findOneBy(array $criteria, array $orderBy = null)
- * @method PollGrade[]    findAll()
- * @method PollGrade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Grade|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Grade|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Grade[]    findAll()
+ * @method Grade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PollGradeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PollGrade::class);
+        parent::__construct($registry, Grade::class);
     }
 
     // /**
-    //  * @return PollGrade[] Returns an array of PollGrade objects
+    //  * @return Grade[] Returns an array of Grade objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PollGradeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PollGrade
+    public function findOneBySomeField($value): ?Grade
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

@@ -6,9 +6,9 @@
  */
 
 
+use App\Entity\Grade;
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal;
-use App\Entity\PollGrade;
 use App\Entity\User;
 
 
@@ -106,7 +106,7 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         foreach ($data[$gradesKey] as $k => $gradeName) {
-            $grade = new PollGrade();
+            $grade = new Grade();
             $grade->setName($gradeName);
             $grade->setLevel($k);
             $poll->addGrade($grade);

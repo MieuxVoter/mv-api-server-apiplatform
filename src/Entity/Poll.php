@@ -129,7 +129,7 @@ class Poll
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="PollGrade",
+     *     targetEntity="Grade",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
@@ -224,14 +224,14 @@ class Poll
     }
 
     /**
-     * @return Collection|PollGrade[]
+     * @return Collection|Grade[]
      */
     public function getGrades(): Collection
     {
         return $this->grades;
     }
 
-    public function addGrade(PollGrade $grade): self
+    public function addGrade(Grade $grade): self
     {
         if ( ! $this->grades->contains($grade)) {
             $this->grades[] = $grade;
@@ -241,7 +241,7 @@ class Poll
         return $this;
     }
 
-    public function removeGrade(PollGrade $grade): self
+    public function removeGrade(Grade $grade): self
     {
         if ($this->grades->contains($grade)) {
             $this->grades->removeElement($grade);
@@ -257,7 +257,7 @@ class Poll
     public function getGradesInOrder() : array
     {
         $grades = $this->getGrades()->toArray();
-        usort($grades, function (PollGrade $a, PollGrade $b) {
+        usort($grades, function (Grade $a, Grade $b) {
             return $a->getLevel() - $b->getLevel();
         });
         return $grades;
@@ -282,7 +282,7 @@ class Poll
         return $names;
     }
 
-    public function getDefaultGrade() : PollGrade
+    public function getDefaultGrade() : Grade
     {
         $grades = $this->getGradesInOrder();
         assert( ! empty($grades), "Poll should have grades.");

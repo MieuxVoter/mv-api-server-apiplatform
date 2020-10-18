@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     repositoryClass="App\Repository\PollGradeRepository",
  * )
  */
-class PollGrade
+class Grade
 {
     /**
      * @ORM\Id()
@@ -31,13 +31,13 @@ class PollGrade
      * @var UuidInterface|null
      * @ORM\Column(type="uuid", unique=true)
      * @ApiProperty(identifier=true)
-     * @Groups({"PollGrade:read"})
+     * @Groups({"Grade:read"})
      */
     public $uuid;
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups({"PollGrade:read", "Poll:create"})
+     * @Groups({"Grade:read", "Poll:create"})
      */
     private $name;
 
@@ -47,7 +47,7 @@ class PollGrade
      * Grades of the same poll MUST have unique levels between themselves.
      *
      * @ORM\Column(type="integer")
-     * @Groups({"PollGrade:read", "Poll:create"})
+     * @Groups({"Grade:read", "Poll:create"})
      */
     private $level;
 
