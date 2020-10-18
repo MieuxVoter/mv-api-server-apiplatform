@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\PollTally;
+use App\Entity\Tally;
 use App\Repository\PollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +50,7 @@ final class GetTallyController
 
         $poll = $pollRepository->findOneByUuid($id);
 
-        $tally = new PollTally();
+        $tally = new Tally();
 
         $tallyType = "standard";
         $tallyBot = $this->getTallyBot($tallyType);

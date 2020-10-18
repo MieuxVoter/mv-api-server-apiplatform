@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * and we'd love to make adding new tally algorithms easy.
  *
  * @ApiResource(
- *     shortName="PollTally",
+ *     shortName="Tally",
  *     itemOperations={
  *         "get"={
  *             "controller"="App\Controller\GetTallyController",
@@ -23,11 +23,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={},
  * )
  */
-class PollTally
+class Tally
 {
     /**
      * @var TallyOutput Standard tally output.
-     * @Groups({"PollTally:read"})
+     * @Groups({"Tally:read"})
      */
     public $standard;
 }
