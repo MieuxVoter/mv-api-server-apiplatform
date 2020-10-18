@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class CreateBallotController
 {
-    protected $voteHandler;
+    protected $ballotHandler;
 
     /**
      * @var EntityManagerInterface
@@ -34,24 +34,15 @@ class CreateBallotController
     private $security;
 
     public function __construct(
-        BallotHandler $voteHandler,
+        BallotHandler $ballotandler,
         EntityManagerInterface $entityManager,
         Security $security
     ) {
-        $this->voteHandler = $voteHandler;
+        $this->ballotHandler = $ballotandler;
         $this->entityManager = $entityManager;
         $this->security = $security;
     }
 
-//     * @Route(
-//     *     name="api_poll_proposal_votes_post_collection",
-//     *     path="/polls/{pollId}/proposals/{proposalId}/votes.{_format}",
-//     *     methods={"POST"},
-//     *     defaults={
-//     *         "_api_resource_class"=Ballot::class,
-//     *         "_api_collection_operation_name"="post",
-//     *     },
-//     * )
     /**
      * @param Ballot $data
      * @param Request $request
@@ -64,7 +55,7 @@ class CreateBallotController
         $poll = $this->entityManager->getRepository(Poll::class)->findOneByUuid($pollId);
         $proposal = $this->entityManager->getRepository(Proposal::class)->findOneByUuid($proposalId);
         $judge = $this->security->getUser();
-        $ballot = $this->voteHandler->handleVote($data, $judge, $proposal, $poll);
+        $ballot = $this->ballotHandler->handleVote($data, $judge, $proposal, $poll);
 
         return $ballot;
     }
