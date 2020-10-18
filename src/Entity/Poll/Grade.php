@@ -1,15 +1,28 @@
 <?php
 
-namespace App\Entity;
+
+namespace App\Entity\Poll;
+
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Poll;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 /**
+ * Grades are attributed to Proposals by Participants, in Ballots.
+ * Each Poll has at least two Grades like this.
+ * This entity embodies an available Grade for a given Poll.
+ * This entity is not reusable between polls.  (we'll use Presets)
+ * This entity is not a vote. (see Ballot)
+ * This entity should eventually be localized.
+ *
+ * Participant's Ballots will hold references to one Grade and one Proposal.
+ *
  * @ApiResource()
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollGradeRepository",
@@ -57,7 +70,7 @@ class Grade
      * Groups({"Proposal:create"})
      * Groups({"Poll:create"})
      * @ORM\ManyToOne(
-     *     targetEntity="Poll",
+     *     targetEntity="App\Entity\Poll",
      *     inversedBy="grades"
      * )
      * @ORM\JoinColumn(nullable=false)
@@ -101,7 +114,7 @@ class Grade
     /**
      * @return mixed
      */
-    public function getPoll()
+    public function getPoll() : Poll
     {
         return $this->poll;
     }

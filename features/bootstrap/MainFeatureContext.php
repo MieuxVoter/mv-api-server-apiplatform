@@ -6,8 +6,8 @@
  */
 
 
-use App\Entity\Grade;
 use App\Entity\Poll;
+use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use App\Entity\User;
 

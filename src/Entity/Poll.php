@@ -6,6 +6,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -129,7 +130,7 @@ class Poll
      * @Groups({"Poll:create", "Poll:read", "Poll:update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
-     *     targetEntity="Grade",
+     *     targetEntity="App\Entity\Poll\Grade",
      *     mappedBy="poll",
      *     cascade={"persist"},
      *     orphanRemoval=true,
