@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Tally;
+use App\Entity\Poll\Tally;
 use App\Repository\PollRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Doctrine\ORM\EntityManagerInterface;

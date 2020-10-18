@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entity\Poll;
 
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Tally\Output\PollTally as TallyOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * A tally of a liquid majority judgment poll.
