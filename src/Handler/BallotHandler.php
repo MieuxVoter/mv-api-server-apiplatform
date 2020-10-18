@@ -6,7 +6,7 @@ namespace App\Handler;
 
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal;
-use App\Entity\PollProposalVote;
+use App\Entity\Poll\Proposal\Ballot;
 use App\Entity\User;
 
 
@@ -17,14 +17,14 @@ use App\Entity\User;
  * Class PollProposalVoteHandler
  * @package App\Handler
  */
-class PollProposalVoteHandler
+class BallotHandler
 {
 
-    public function handleVote(PollProposalVote $vote, User $judge, Proposal $proposal, Poll $poll)
+    public function handleVote(Ballot $vote, User $judge, Proposal $proposal, Poll $poll)
     {
 //        $vote->setProposal($proposal);
         // Instead we use the inverse, it sets both
-        $proposal->addVote($vote);
+        $proposal->addBallot($vote);
         $vote->setElector($judge);
         return $vote;
     }

@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entity\Poll\Proposal;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\CreatePollProposalVoteController;
+use App\Controller\CreateBallotController;
 use App\Entity\Poll\Proposal;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -34,7 +35,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"PollProposalVote:read"}},
+ *             "normalization_context"={"groups"={"Ballot:read"}},
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -44,9 +45,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post"={
  *             "path"="/polls/{pollId}/proposals/{proposalId}/votes.{_format}",
  *             "method"="POST",
- *             "controller"=CreatePollProposalVoteController::class,
- *             "denormalization_context"={"groups"={"PollProposalVote:create"}},
- *             "normalization_context"={"groups"={"PollProposalVote:read"}},
+ *             "controller"=CreateBallotController::class,
+ *             "denormalization_context"={"groups"={"Ballot:create"}},
+ *             "normalization_context"={"groups"={"Ballot:read"}},
  *             "access_control"="is_granted('ROLE_USER')",
  *         },
  *     },
@@ -56,7 +57,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     repositoryClass="App\Repository\PollProposalVoteRepository",
  * )
  */
-class PollProposalVote
+class Ballot
 {
     /**
      * @var int|null
@@ -72,14 +73,14 @@ class PollProposalVote
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"PollProposalVote:read"})
+     * @Groups({"Ballot:read"})
      */
     public $uuid;
 
     /**
      * The Majority Judgment Poll Proposal the author is giving a mention to.
      *
-     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
+     * @Groups({"Ballot:create", "Ballot:read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Proposal",
      *     inversedBy="votes",
@@ -92,7 +93,7 @@ class PollProposalVote
      * The name of the author of the vote, if any was specified.
      * TBD. May be deprecated soon.
      *
-     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
+     * @Groups({"Ballot:create", "Ballot:read"})
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -100,7 +101,7 @@ class PollProposalVote
     /**
      * The Grade attributed by the Judge to the Proposal.
      *
-     * @Groups({"PollProposalVote:create", "PollProposalVote:read"})
+     * @Groups({"Ballot:create", "Ballot:read"})
      * @ORM\Column(type="string", length=32)
      */
     private $grade;
@@ -108,7 +109,8 @@ class PollProposalVote
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
      */
-    private $elector; // $judge / $author / $voter / $owner
+    private $elector; // TODO $judge / $author / $voter / $owner / $participant
+
 
     public function __construct()
     {

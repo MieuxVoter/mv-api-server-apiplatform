@@ -7,7 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\Poll;
-use App\Entity\PollProposalVote;
+use App\Entity\Poll\Proposal\Ballot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -93,17 +93,17 @@ class Proposal
 
    /**
     * @ORM\OneToMany(
-    *     targetEntity="App\Entity\PollProposalVote",
+    *     targetEntity="App\Entity\Poll\Proposal\Ballot",
     *     mappedBy="proposal",
     *     orphanRemoval=true,
     * )
     * @ApiSubresource()
     */
-   private $votes;
+   private $ballots;
 
     public function __construct()
     {
-        $this->votes = new ArrayCollection();
+        $this->ballots = new ArrayCollection();
         $this->uuid = Uuid::uuid4();
     }
 
@@ -142,27 +142,27 @@ class Proposal
     }
 
     /**
-     * @return Collection|PollProposalVote[]
+     * @return Collection|Ballot[]
      */
-    public function getVotes(): Collection
+    public function getBallots(): Collection
     {
-        return $this->votes;
+        return $this->ballots;
     }
 
-    public function addVote(PollProposalVote $vote): self
+    public function addBallot(Ballot $vote): self
     {
-        if (!$this->votes->contains($vote)) {
-            $this->votes[] = $vote;
+        if (!$this->ballots->contains($vote)) {
+            $this->ballots[] = $vote;
             $vote->setProposal($this);
         }
 
         return $this;
     }
 
-    public function removeVote(PollProposalVote $vote): self
+    public function removeBallot(Ballot $vote): self
     {
-        if ($this->votes->contains($vote)) {
-            $this->votes->removeElement($vote);
+        if ($this->ballots->contains($vote)) {
+            $this->ballots->removeElement($vote);
             // set the owning side to null (unless already changed)
             if ($vote->getProposal() === $this) {
                 $vote->setProposal(null);

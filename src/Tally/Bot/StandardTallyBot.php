@@ -6,7 +6,7 @@ namespace App\Tally\Bot;
 
 use App\Application;
 use App\Entity\Poll;
-use App\Entity\PollProposalVote;
+use App\Entity\Poll\Proposal\Ballot;
 use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalVoteRepository;
 use App\Tally\Output\PollProposalTally;
@@ -84,12 +84,12 @@ class StandardTallyBot implements TallyBotInterface
 
 //            if ($votesCount) {
 
-            usort($votes, function (PollProposalVote $a, PollProposalVote $b) use ($levelOfGrade) {
+            usort($votes, function (Ballot $a, Ballot $b) use ($levelOfGrade) {
                 return $levelOfGrade[$a->getGrade()] - $levelOfGrade[$b->getGrade()];
             });
 
             foreach ($levelOfGrade as $gradeToTally => $whoCares) {
-                $votesForMention = array_filter($votes, function (PollProposalVote $v) use ($gradeToTally) {
+                $votesForMention = array_filter($votes, function (Ballot $v) use ($gradeToTally) {
                     return $v->getGrade() === $gradeToTally;
                 });
                 $gradesTally[$gradeToTally] = count($votesForMention);
