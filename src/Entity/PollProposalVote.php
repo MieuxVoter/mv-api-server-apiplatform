@@ -14,16 +14,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Vote on a Proposal of a Majority Judgment Poll.
+ * A Ballot holds a judgment on a Proposal, by a Participant of a Poll.
  *
- * This could also be named PollProposalJudgment.
- * Rationale: "Judge! Don't Vote." ;)
+ * The sacred text is titled: "Judge! Don't Vote."  ;)
  *
+ * Rules TBD:
  *
- * TBD:
- * A Vote is immutable.
- * A Vote cannot be deleted.
+ * RULESET A: Immutability
+ * A Ballot is immutable.
+ * A Ballot cannot be deleted.
+ * Multiple Ballots may be recorded, and only the most recent one should matter in the Tally.
  *
+ * RULESET B: Mutability
+ * A Ballot is mutable.
+ * Only one Ballot per Proposal and Participant.
+ *
+ * Right now we implement neither A nor B.  There are no Gherkin features for this yet.  Help us!
  *
  * @ApiResource(
  *     itemOperations={
