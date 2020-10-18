@@ -38,8 +38,8 @@ test:
   script:
     # Configure the feature suite with the defaults
     - cp behat.yml.dist behat.yml
-    # Run the feature suite
-    - vendor/bin/behat -vv --tags=~noci
+    # Run the feature suite, ignore Works in Progress and Not Continuous Integration
+    - vendor/bin/behat -vv --tags='~wip&&~noci'
 
   # We've also set this using gitlab's CI Settings UI
 #  coverage: '/^\s*Lines:\s*(\d+\.\d+)%/'
