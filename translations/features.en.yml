@@ -8,12 +8,22 @@ keys:
   poll:
     subject: 'subject'
     title: 'title'
-    options: 'options'
     proposals: 'proposals'
     grades: 'grades'
+    scope: 'scope'
   proposal:
     grade: 'grade'
     rank: 'rank'
+  scopes:
+    public: 'public'
+    unlisted: 'unlisted'
+    private: 'private'
+
+values:
+  scopes:
+    'public': 'public'
+    'unlisted': 'unlisted'
+    'private': 'private'
 
 # @deprecated
 value:

@@ -10,10 +10,21 @@ keys:
     title: 'titre'
     proposals: 'propositions'
     grades: 'mentions'
+    scope: 'accès'
   proposal:
     grade: 'mention'
     # rang ?
     rank: 'position'
+  scopes:
+    public: 'public'
+    unlisted: 'non-listé'
+    private: 'privé'
+
+values:
+  scopes:
+    'public': 'public'
+    'non-listé': 'unlisted'
+    'privé': 'private'
 
 # @deprecated
 value:
