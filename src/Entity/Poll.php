@@ -50,6 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Poll
 {
 
+    const SCOPE_PUBLIC = 'public';
+    const SCOPE_UNLISTED = 'unlisted';
+    const SCOPE_PRIVATE = 'private';
+
     /** @deprecated */
     const MENTION_EXCELLENT  = 'bonega';
     /** @deprecated */
@@ -149,7 +153,17 @@ class Poll
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="polls")
      */
     private $author;
-    
+
+    /**
+     * The scope of the poll
+     * Defines where and how the poll is accessible.
+     * @var string One of Poll::SCOPE_*
+     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @ORM\Column(type="string", length=16)
+     */
+    private $scope = self::SCOPE_UNLISTED;
+
+
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
@@ -293,5 +307,21 @@ class Poll
     public function getDefaultGradeName() : string
     {
         return $this->getDefaultGrade()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getScope(): string
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param string $scope
+     */
+    public function setScope(string $scope): void
+    {
+        $this->scope = $scope;
     }
 }

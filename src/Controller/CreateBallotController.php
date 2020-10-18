@@ -8,6 +8,7 @@ use App\Entity\Poll\Proposal\Ballot;
 use App\Handler\BallotHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -52,10 +53,18 @@ class CreateBallotController
     {
         $pollId = $request->get("pollId");
         $proposalId = $request->get("proposalId");
+        /** @var Poll $poll */
         $poll = $this->entityManager->getRepository(Poll::class)->findOneByUuid($pollId);
         $proposal = $this->entityManager->getRepository(Proposal::class)->findOneByUuid($proposalId);
         $judge = $this->security->getUser();
+
+        // Handles setting poll and proposal since apiplatform does not
         $ballot = $this->ballotHandler->handleVote($data, $judge, $proposal, $poll);
+
+        // WiP – Another handler?  This time for scope access checks?
+        if ($poll->getScope() === Poll::SCOPE_PRIVATE) {
+            throw new NotFoundHttpException("Nope");
+        }
 
         return $ballot;
     }
