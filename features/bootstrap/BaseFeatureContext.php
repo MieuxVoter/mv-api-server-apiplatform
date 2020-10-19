@@ -11,6 +11,7 @@ use App\Features\Actors;
 use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalVoteRepository;
 use App\Repository\PollRepository;
+use App\Repository\UserRepository;
 use App\Tally\Bot\TallyBotInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;

@@ -31,6 +31,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a citizen named (?P<name>.+)$/ui
+     * @throws Exception
      */
     public function givenCitizenNamed($name)
     {
@@ -45,6 +46,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^(?P<actor>.+?) (?:suis|est?) un(?:⋅?e)? citoyen(?:⋅?ne)? nommé(?:⋅?e)? (?P<name>.+)$/u
      * @Given /^(?P<actor>.+?) (?:am|is|are) (?:a|the) citizen named (?P<name>.+)$/u
+     * @throws Exception
      */
     public function givenActorIsCitizenNamed($actor, $name)
     {
@@ -59,6 +61,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a moderator named (?P<name>.+)$/ui
+     * @throws Exception
      */
     public function givenModeratorNamed($name)
     {
@@ -72,7 +75,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Given /^un scrutin(?: au jugement majoritaire)? comme suit:?$/ui
-     * @Given /^a majority judgment poll like so:?$/ui
+     * @Given /^a(?: majority judgment)? poll like so:?$/ui
      */
     public function givenPollLikeSo($pystring)
     {
@@ -129,7 +132,7 @@ class MainFeatureContext extends BaseFeatureContext
 
     /**
      * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) utilisateur(?:⋅?e)?s? dans la base de données$/ui
-     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/u
+     * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/ui
      */
     public function thereShouldBeSomeUsersInTheDatabase($thatMuch)
     {
@@ -150,6 +153,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? intitulé "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) propositions?$/ui
+     * @throws Exception
      */
     public function thereShouldBeSomeProposalsInThePoll($thatMuch, $pollSubject)
     {
@@ -164,6 +168,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? (?:intitulé|assujettissant) "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) mentions?$/ui
+     * @throws Exception
      */
     public function thereShouldBeSomeGradesInThePoll($thatMuch, $pollSubject)
     {
@@ -179,6 +184,7 @@ class MainFeatureContext extends BaseFeatureContext
      * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.+?)"$/ui
+     * @throws Exception
      */
     public function actorShouldHaveSomePollProposalVotesForPoll($actor, $thatMuch, $title)
     {
@@ -204,6 +210,14 @@ class MainFeatureContext extends BaseFeatureContext
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //                             _      ________      _                        ___
+    //     /\                     | |    / /  ____|    | |                      | \ \
+    //    /  \   ___ ___  ___ _ __| |_  | || |__  __  _| |_ ___ _ __ _ __   __ _| || |
+    //   / /\ \ / __/ __|/ _ \ '__| __| | ||  __| \ \/ / __/ _ \ '__| '_ \ / _` | || |
+    //  / ____ \\__ \__ \  __/ |  | |_  | || |____ >  <| ||  __/ |  | | | | (_| | || |
+    // /_/    \_\___/___/\___|_|   \__| | ||______/_/\_\\__\___|_|  |_| |_|\__,_|_|| |
+    //                                   \_\                                      /_/
+    //
 
     /**
      * This step is too long and needs refactoring and simplification.
@@ -290,21 +304,41 @@ class MainFeatureContext extends BaseFeatureContext
         }
     }
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? avoir (?P<amount>.+?) invitations?$/iu
+     * @Then /^(?P<actor>.+?) should have (?P<amount>.+?) invitations?$/iu
+     * @throws Exception
+     */
+    public function actorShouldHaveInvitations($actor, $amount)
+    {
+        $actor = $this->actor($actor);
+        $amount = $this->number($amount);
+
+        $this->assertEquals($amount, $actor->countInvitations());
+    }
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
      * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? (?:(?P<ok>réussir)|(?P<ko>échouer))$/u
      * @Then /^(?P<actor>.+?) should (?:(?P<ok>succeed)|(?P<ko>fail))$/
+     * @throws Exception
      */
     public function actorShouldSucceedOrFail($actor, $ok=null, $ko=null)
     {
-        $tx = $this->actor($actor)->getLastTransaction();
+        $actor = $this->actor($actor);
+        $tx = $actor->getLastTransaction();
 
         if (empty($ko)) {
-            $this->actor($actor)->assertTransactionSuccess($tx);
+            $actor->assertTransactionSuccess($tx);
         } else if (empty($ok)) {
-            $this->actor($actor)->assertTransactionFailure($tx);
+            $actor->assertTransactionFailure($tx);
         } else {
             $this->fail("Bad Regex?");
         }
