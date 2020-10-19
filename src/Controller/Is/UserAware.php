@@ -20,4 +20,12 @@ trait UserAware {
     {
         $this->security = $security;
     }
+
+    /**
+     * @return Security
+     */
+    public function getSecurity(): Security
+    {
+        return $this->security;
+    }
 }
