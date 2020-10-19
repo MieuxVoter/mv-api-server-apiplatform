@@ -4,7 +4,7 @@
 namespace App\Features;
 
 
-use App\Entity\Citizen;
+//use App\Entity\Citizen;
 //use FOS\UserBundle\Model\User;
 use App\Entity\User;
 use GuzzleHttp\Exception\TransferException;
