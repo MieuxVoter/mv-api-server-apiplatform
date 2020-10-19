@@ -157,18 +157,50 @@ class ApiRestFeatureContext extends BaseFeatureContext
      */
     public function actorGeneratesInvitationsForPollAbout($actor, $try, $invitationsAmount, $pollSubject)
     {
+        $actor = $this->actor($actor);
         $invitationsAmount = $this->number($invitationsAmount);
         $poll = $this->findOnePollFromSubject($pollSubject);
         $pollId = $poll->getUuid()->toString();
 
-        $this->actor($actor)->api(
+        $actor->api(
             'GET',"/polls/{$pollId}/invitations",
             [], [
                 'limit' => $invitationsAmount,
             ], !empty($try)
         );
 
-        $this->actor($actor)->printTransaction();
+        $content = $actor->getLastTransaction()->getResponseJson();
+        //dump($content);
+        //array:6 [
+        //  "@context" => "/api/contexts/Invitation"
+        //  "@id" => "/api/invitations"
+        //  "@type" => "hydra:Collection"
+        //  "hydra:member" => array:2 [
+        //    0 => array:4 [
+        //      "@id" => "/api/invitations/14c8e709-47a1-4451-ac2e-6f73f13d21c5"
+        //      "@type" => "Invitation"
+        //      "uuid" => "14c8e709-47a1-4451-ac2e-6f73f13d21c5"
+        //      "poll" => "/api/polls/e1517447-9758-4a79-b723-9c4b993af521"
+        //    ]
+        //    1 => array:4 [
+        //      "@id" => "/api/invitations/8442cb74-0337-4232-a5d7-5acf3a5086a9"
+        //      "@type" => "Invitation"
+        //      "uuid" => "8442cb74-0337-4232-a5d7-5acf3a5086a9"
+        //      "poll" => "/api/polls/e1517447-9758-4a79-b723-9c4b993af521"
+        //    ]
+        //  ]
+        //  "hydra:totalItems" => 2
+        //  "hydra:view" => array:2 [
+        //    "@id" => "/api/polls/e1517447-9758-4a79-b723-9c4b993af521/invitations?limit=10"
+        //    "@type" => "hydra:PartialCollectionView"
+        //  ]
+        //]
+
+        foreach ($content['hydra:member'] as $invitation) {
+            $actor->addInvitation($invitation, $poll);
+        }
+
+        $actor->printTransaction();
     }
 
 

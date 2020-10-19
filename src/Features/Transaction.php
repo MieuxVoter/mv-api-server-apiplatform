@@ -78,4 +78,12 @@ class Transaction
         $this->response = $response;
     }
 
+    public function getResponseJson()
+    {
+        $content = $this->response->getContent();
+        $json = json_decode($content, true, 16, JSON_OBJECT_AS_ARRAY);
+
+        return $json;
+    }
+
 }
