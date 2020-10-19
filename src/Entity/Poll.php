@@ -88,6 +88,15 @@ class Poll
     public $uuid;
 
     /**
+     * The scope of the poll
+     * Defines where and how the poll is accessible.
+     * @var string One of Poll::SCOPE_*
+     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @ORM\Column(type="string", length=16)
+     */
+    private $scope = self::SCOPE_UNLISTED;
+
+    /**
      * The subject of the poll. Careful consideration should be taken in the writing of this.
      *
      * @var string
@@ -150,18 +159,22 @@ class Poll
     private $grades;
 
     /**
+     * @var ArrayCollection
+     * Groups({})
+     * @ApiSubresource()
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Poll\Invitation",
+     *     mappedBy="poll",
+     *     cascade={"persist"},
+     *     orphanRemoval=true,
+     * )
+     */
+    private $invitations;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="polls")
      */
     private $author;
-
-    /**
-     * The scope of the poll
-     * Defines where and how the poll is accessible.
-     * @var string One of Poll::SCOPE_*
-     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
-     * @ORM\Column(type="string", length=16)
-     */
-    private $scope = self::SCOPE_UNLISTED;
 
 
     public function __construct()
