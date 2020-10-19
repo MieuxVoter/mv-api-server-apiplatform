@@ -4,7 +4,7 @@ namespace App\Security\Authorization;
 use App\Application;
 use App\Entity\Poll;
 use App\Entity\User;
-use App\Repository\PollProposalVoteRepository;
+use App\Repository\PollProposalBallotRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -33,7 +33,7 @@ class PollVoter extends Voter
     private $app;
 
     /**
-     * @var PollProposalVoteRepository
+     * @var PollProposalBallotRepository
      */
     private $voteRepository;
 
@@ -41,12 +41,12 @@ class PollVoter extends Voter
     /**
      * Bouncer constructor.
      * @param Application $app
-     * @param PollProposalVoteRepository $voteRepository
+     * @param PollProposalBallotRepository $voteRepository
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         Application $app,
-        PollProposalVoteRepository $voteRepository,
+        PollProposalBallotRepository $voteRepository,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
         $this->app = $app;

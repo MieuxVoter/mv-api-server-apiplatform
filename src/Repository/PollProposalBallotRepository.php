@@ -13,7 +13,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Ballot[]    findAll()
  * @method Ballot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PollProposalVoteRepository extends ServiceEntityRepository
+class PollProposalBallotRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

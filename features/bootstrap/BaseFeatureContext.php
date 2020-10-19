@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
 use App\Repository\PollProposalRepository;
-use App\Repository\PollProposalVoteRepository;
+use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use App\Repository\UserRepository;
 use App\Tally\Bot\TallyBotInterface;
@@ -189,11 +189,11 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
     /**
-     * @return PollProposalVoteRepository
+     * @return PollProposalBallotRepository
      */
     protected function getLimajuPollProposalVoteRepository()
     {
-        return $this->get(PollProposalVoteRepository::class);
+        return $this->get(PollProposalBallotRepository::class);
     }
 
 

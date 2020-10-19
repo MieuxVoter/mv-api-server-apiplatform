@@ -25,7 +25,7 @@ class CreateBallotController
 {
     protected $ballotHandler;
 
-    use Is\EntityManagerAware;
+    use Is\EntityAware;
     use Is\UserAware;
 
     public function __construct(
@@ -48,8 +48,8 @@ class CreateBallotController
         $pollId = $request->get("pollId");
         $proposalId = $request->get("proposalId");
         /** @var Poll $poll */
-        $poll = $this->getEm()->getRepository(Poll::class)->findOneByUuid($pollId);
-        $proposal = $this->getEm()->getRepository(Proposal::class)->findOneByUuid($proposalId);
+        $poll = $this->getPollRepository()->findOneByUuid($pollId);
+        $proposal = $this->getProposalRepository()->findOneByUuid($proposalId);
         $judge = $this->security->getUser();
 
         // Handles setting poll and proposal since apiplatform does not

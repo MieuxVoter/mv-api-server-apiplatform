@@ -8,7 +8,7 @@ use App\Application;
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal\Ballot;
 use App\Repository\PollProposalRepository;
-use App\Repository\PollProposalVoteRepository;
+use App\Repository\PollProposalBallotRepository;
 use App\Tally\Output\PollProposalTally;
 use App\Tally\Output\PollTally;
 
@@ -36,7 +36,7 @@ class StandardTallyBot implements TallyBotInterface
     protected $pollProposalRepository;
 
     /**
-     * @var PollProposalVoteRepository
+     * @var PollProposalBallotRepository
      */
     protected $pollProposalVoteRepository;
 
@@ -44,12 +44,12 @@ class StandardTallyBot implements TallyBotInterface
     /**
      * StandardTallyBot constructor.
      * @param PollProposalRepository $pollProposalRepository
-     * @param PollProposalVoteRepository $pollProposalVoteRepository
+     * @param PollProposalBallotRepository $pollProposalVoteRepository
      * @param Application $application
      */
     public function __construct(
         PollProposalRepository $pollProposalRepository,
-        PollProposalVoteRepository $pollProposalVoteRepository,
+        PollProposalBallotRepository $pollProposalVoteRepository,
         Application $application
     )
     {

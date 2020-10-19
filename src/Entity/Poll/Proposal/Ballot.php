@@ -55,7 +55,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  *             "route_name"="api_poll_proposal_votes_post_collection",
  * @ORM\Entity(
- *     repositoryClass="App\Repository\PollProposalVoteRepository",
+ *     repositoryClass="App\Repository\PollProposalBallotRepository",
  * )
  */
 class Ballot
