@@ -47,7 +47,6 @@ class CreateBallotController
     {
         $pollId = $request->get("pollId");
         $proposalId = $request->get("proposalId");
-        /** @var Poll $poll */
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
         $proposal = $this->getProposalRepository()->findOneByUuid($proposalId);
         $judge = $this->security->getUser();

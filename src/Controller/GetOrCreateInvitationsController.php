@@ -2,14 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Poll;
 use App\Entity\Poll\Invitation;
-use App\Entity\Poll\Proposal;
-use App\Repository\PollInvitationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -26,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class GetOrCreateInvitationsController
 {
-    use Is\EntityManagerAware;
+    use Is\EntityAware;
     use Is\UserAware;
 
     public function __construct(
@@ -44,29 +39,27 @@ class GetOrCreateInvitationsController
     public function __invoke(Request $request): array
     {
         $pollId = $request->get("pollId");
-        /** @var PollInvitationRepository $invitationsRepo */
-        $invitationsRepo = $this->em->getRepository(Invitation::class);
-        /** @var Poll $poll */
-        $poll = $this->em->getRepository(Poll::class)->findOneByUuid($pollId);
+        $invitationsRepo = $this->getInvitationRepository();
+        $poll = $this->getPollRepository()->findOneByUuid($pollId);
 
-        $maximumLimit = 500; // app config?
+        // I. Configure
+        $maximumLimit = 500; // ENV config?
         $defaultLimit = 10;  // idem
         $limit = $request->get("limit", $defaultLimit);
         $limit = clamp(0, $maximumLimit, $limit);
         $defaultOffset = 0;
-        $offset = 0; // todo
+        $offset = 0; // todo later, once there's a scenario for it
 
         $invitations = [];
 
-        // Read existing Invitations
+        // II. Read existing Invitations
         // We could order them by creation date instead of numerical id
         $existingInvitations = $invitationsRepo->findBy(['poll'=>$poll], ['id' => 'ASC'], $limit, $offset);
         $invitations = $invitations + $existingInvitations;
 
         $missingInvitationsAmount = $limit - count($invitations);
+        // III. Generate missing Invitations
         if ($missingInvitationsAmount > 0) {
-            // Generate missing Invitations
-            //
             // Database Concern(s)
             // -------------------
             // Let's limit the amount of invitations one can generate.
