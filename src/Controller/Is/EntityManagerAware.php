@@ -30,4 +30,12 @@ trait EntityManagerAware {
         $this->em = $em;
     }
 
+    /**
+     * Shorthand to flush the Entity Manager
+     */
+    public function flush()
+    {
+        $this->em->flush();
+    }
+
 }

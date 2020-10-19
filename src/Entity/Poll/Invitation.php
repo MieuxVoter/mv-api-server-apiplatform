@@ -7,11 +7,13 @@ namespace App\Entity\Poll;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Poll;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\GetOrCreateInvitationsController;
+use App\Controller\AcceptInvitationController;
 
 // *     itemOperations={
 // *         "get"={
@@ -22,10 +24,15 @@ use App\Controller\GetOrCreateInvitationsController;
  * An invitation to a poll.
  * Those are created on-demand.
  *
+ * Only polls with scope Poll::SCOPE_PRIVATE require invitations.
+ *
  * @ApiResource(
  *     normalizationContext={"groups"={"Invitation:read"}},
  *     itemOperations={
- *         "get",
+ *         "get"={
+ *             "method"="GET",
+ *             "controller"=AcceptInvitationController::class,
+ *         },
  *     },
  *     collectionOperations={
  *         "get",
@@ -77,7 +84,20 @@ class Invitation
     //
     //
 
-    private $is_consumed;
+    private $is_consumed; // use method instead
+
+    /**
+     * As long as this is empty, the invitation is still open.
+     * Should we make a Participant Entity?
+     *
+     * @var User|null
+     * @Groups({"Invitation:read"})
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\User",
+     *     inversedBy="invitations"
+     * )
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $participant;
     // That might work…
 
@@ -111,6 +131,22 @@ class Invitation
     public function setPoll(Poll $poll): void
     {
         $this->poll = $poll;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getParticipant(): ?User
+    {
+        return $this->participant;
+    }
+
+    /**
+     * @param User|null $participant
+     */
+    public function setParticipant(?User $participant): void
+    {
+        $this->participant = $participant;
     }
 
 }

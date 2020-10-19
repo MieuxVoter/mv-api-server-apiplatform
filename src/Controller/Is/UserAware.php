@@ -4,6 +4,7 @@
 namespace App\Controller\Is;
 
 
+use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 
 
@@ -27,5 +28,18 @@ trait UserAware {
     public function getSecurity(): Security
     {
         return $this->security;
+    }
+
+    /**
+     * ???
+     *
+     * @return User
+     */
+    public function getUser(): User
+    {
+        /** @var User $user */
+        $user = $this->getSecurity()->getUser();
+
+        return $user;
     }
 }

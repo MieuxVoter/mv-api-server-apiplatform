@@ -8,6 +8,8 @@ use App\Entity\Poll\Proposal\Ballot;
 use App\Handler\BallotHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
@@ -57,7 +59,15 @@ class CreateBallotController
         // WiP – Another handler?  This time for scope access checks?
         if ($poll->getScope() === Poll::SCOPE_PRIVATE) {
             // fixme: check invitations
-            throw new NotFoundHttpException("Nope");
+            // ideas: use a BallotVoter and access rules
+            //
+            $invitationsRepo = $this->getInvitationRepository();
+            $invitation = $invitationsRepo->findInvitationForUserOnPoll($judge, $poll);
+            if (null == $invitation) {
+                throw new HttpException(Response::HTTP_FORBIDDEN);
+            }
+
+            //throw new NotFoundHttpException("Nope");
         }
 
         return $ballot;
