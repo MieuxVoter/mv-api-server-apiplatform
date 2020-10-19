@@ -7,7 +7,7 @@ namespace App\Controller\Is;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-trait EntityAware {
+trait EntityManagerAware {
 
     /**
      * @var EntityManagerInterface

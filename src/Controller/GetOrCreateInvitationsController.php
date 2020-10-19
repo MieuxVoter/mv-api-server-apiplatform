@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class GetOrCreateInvitationsController
 {
-    use Is\EntityAware;
+    use Is\EntityManagerAware;
     use Is\UserAware;
 
     public function __construct(

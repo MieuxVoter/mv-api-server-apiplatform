@@ -25,7 +25,7 @@ class CreateBallotController
 {
     protected $ballotHandler;
 
-    use Is\EntityAware;
+    use Is\EntityManagerAware;
     use Is\UserAware;
 
     public function __construct(
