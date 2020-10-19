@@ -80,7 +80,7 @@ class PollVoter extends Voter
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
      *
      * @param string $attribute
-     * @param mixed $subject
+     * @param Poll $subject
      *
      * @return bool
      */
@@ -100,7 +100,6 @@ class PollVoter extends Voter
                 if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
                     return false;
                 }
-                /** @var Poll $subject */
                 if ($subject->getAuthor() === $user) {
                     return true;
                 }
