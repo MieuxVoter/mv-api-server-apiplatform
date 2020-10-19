@@ -203,6 +203,29 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $actor->printTransaction();
     }
 
+    /**
+     * @When /^(?P<actor>.+?)(?P<try>| (?:essa[iy]ez?|tente) d['e]) ?accept(?:e[szr]?|ent) l'invitation N°? ?(?P<invitationIndex>.+?) de (?P<otherActor>.+?)$/ui
+     * When /^(?P<actor>.+?)(?P<try>| tr(?:y|ies) to) generate (?P<invitationsAmount>.+?) invitations? on the poll titled "(?P<pollSubject>.+)"$/ui
+     * @throws Exception
+     */
+    public function actorAcceptsInvitationOfOtherActor($actor, $try, $invitationIndex, $otherActor)
+    {
+        $actor = $this->actor($actor);
+        $otherActor = $this->actor($otherActor);
+        $invitationIndex = $this->number($invitationIndex);
+
+        $invitation = $otherActor->getInvitationByNumber($invitationIndex);
+        if (null === $invitation) {
+            $this->failTrans("invitation.not_found_by_number");
+        }
+        $invitationId = $invitation['uuid'];
+
+        $actor->api(
+            'GET',"/invitations/{$invitationId}",
+            [], [], !empty($try)
+        );
+    }
+
 
 
 }

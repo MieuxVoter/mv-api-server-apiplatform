@@ -42,4 +42,22 @@ class Actor extends ApiActor
         return $amount;
     }
 
+
+    public function getInvitationByNumber($index)
+    {
+        assert($index > 0);
+        $current = 1;
+        foreach ($this->invitations as $invitations) {
+            // inefficient, can be optimized
+            foreach ($invitations as $invitation) {
+                if ($current == $index) {
+                    return $invitation;
+                }
+                $current++;
+            }
+        }
+
+        return null;
+    }
+
 }
