@@ -179,6 +179,9 @@
     "liip/functional-test-bundle": {
         "version": "2.0.0-alpha17"
     },
+    "matthewbaggett/clamp": {
+        "version": "v1.1"
+    },
     "monolog/monolog": {
         "version": "1.25.1"
     },
