@@ -309,8 +309,8 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? avoir (?P<amount>.+?) invitations?$/iu
-     * @Then /^(?P<actor>.+?) should have (?P<amount>.+?) invitations?$/iu
+     * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? avoir(?: qu[e'])? ?(?P<amount>.+?) invitations?$/iu
+     * @Then /^(?P<actor>.+?) should(?: now)? have (?P<amount>.+?) invitations?$/iu
      * @throws Exception
      */
     public function actorShouldHaveInvitations($actor, $amount)
@@ -322,7 +322,7 @@ class MainFeatureContext extends BaseFeatureContext
     }
 
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
