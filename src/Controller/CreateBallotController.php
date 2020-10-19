@@ -25,14 +25,8 @@ class CreateBallotController
 {
     protected $ballotHandler;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var Security
-     */
-    private $security;
+    use Is\EntityAware;
+    use Is\UserAware;
 
     public function __construct(
         BallotHandler $ballotandler,
@@ -40,8 +34,8 @@ class CreateBallotController
         Security $security
     ) {
         $this->ballotHandler = $ballotandler;
-        $this->entityManager = $entityManager;
-        $this->security = $security;
+        $this->setEm($entityManager);
+        $this->setSecurity($security);
     }
 
     /**
@@ -54,8 +48,8 @@ class CreateBallotController
         $pollId = $request->get("pollId");
         $proposalId = $request->get("proposalId");
         /** @var Poll $poll */
-        $poll = $this->entityManager->getRepository(Poll::class)->findOneByUuid($pollId);
-        $proposal = $this->entityManager->getRepository(Proposal::class)->findOneByUuid($proposalId);
+        $poll = $this->getEm()->getRepository(Poll::class)->findOneByUuid($pollId);
+        $proposal = $this->getEm()->getRepository(Proposal::class)->findOneByUuid($proposalId);
         $judge = $this->security->getUser();
 
         // Handles setting poll and proposal since apiplatform does not
@@ -63,6 +57,7 @@ class CreateBallotController
 
         // WiP – Another handler?  This time for scope access checks?
         if ($poll->getScope() === Poll::SCOPE_PRIVATE) {
+            // fixme: check invitations
             throw new NotFoundHttpException("Nope");
         }
 

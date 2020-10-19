@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\Poll;
 use App\Entity\Poll\Invitation;
 use App\Entity\Poll\Proposal;
-use App\Entity\Poll\Proposal\Ballot;
-use App\Handler\BallotHandler;
 use App\Repository\PollInvitationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +14,10 @@ use Symfony\Component\Security\Core\Security;
 
 
 /**
- * TODO
+ * Trying the "eager getter" pattern.  Create invitations in the database, on-demand.
+ * We should (at least sometimes) not let clients POST invitations,
+ * since we also want mass-email-based invitations
+ * where even the organizer cannot access invitation tokens. (for added trustworthiness)
  *
  * See App\Entity\Poll\Invitation where this controller is declared and configured.
  *
@@ -25,22 +26,15 @@ use Symfony\Component\Security\Core\Security;
  */
 class GetOrCreateInvitationsController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var Security
-     */
-    private $security;
+    use Is\EntityAware;
+    use Is\UserAware;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         Security $security
     ) {
-        $this->em = $entityManager;
-        $this->security = $security;
+        $this->setEm($entityManager);
+        $this->setSecurity($security);
     }
 
     /**
@@ -55,8 +49,10 @@ class GetOrCreateInvitationsController
         /** @var Poll $poll */
         $poll = $this->em->getRepository(Poll::class)->findOneByUuid($pollId);
 
-        $defaultLimit = 10; // app config?
+        $maximumLimit = 500; // app config?
+        $defaultLimit = 10;  // idem
         $limit = $request->get("limit", $defaultLimit);
+        $limit = clamp(0, $maximumLimit, $limit);
         $defaultOffset = 0;
         $offset = 0; // todo
 
@@ -85,9 +81,9 @@ class GetOrCreateInvitationsController
             // -------------------
             // We're generating invitations in fast sequence,
             // and perhaps UUIDv4 pseudo-random could be reproduced to guess invitations.
-            // UUIDv4 relies on random_bytes, if I'm reading this right.
+            // UUIDv4 relies on random_bytes(), if I'm reading this right.
             // https://www.php.net/manual/en/function.random-bytes.php
-            // … "cryptographically secure". Perhaps not enough for us (sequence!).
+            // … "cryptographically secure". Perhaps not enough for us (sequence!).  TBD
             for ($i = 0; $i < $missingInvitationsAmount; $i++) {
                 $invitation = new Invitation();
                 $invitation->setPoll($poll);
