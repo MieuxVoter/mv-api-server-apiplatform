@@ -151,8 +151,8 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) g[ée]n[éèe]r(?:e[szr]?|ent) (?P<invitationsAmount>.+) invitations? pour le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)"$/ui
-     * todo When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) g[ée]n[éèe]r(?:e[szr]?|ent) (?P<invitationsAmount>.+?) invitations? pour le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) generate (?P<invitationsAmount>.+?) invitations? on the poll titled "(?P<pollSubject>.+)"$/ui
      * @throws Exception
      */
     public function actorGeneratesInvitationsForPollAbout($actor, $try, $invitationsAmount, $pollSubject)
