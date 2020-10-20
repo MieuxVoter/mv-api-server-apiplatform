@@ -49,6 +49,6 @@ class AcceptInvitationController
         $invitation->setParticipant($user);
         $this->flush();
 
-        // we don't need to return anything?  wait, what?
+        return $invitation;
     }
 }

@@ -15,11 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\GetOrCreateInvitationsController;
 use App\Controller\AcceptInvitationController;
 
-// *     itemOperations={
-// *         "get"={
-// *             "normalization_context"={"groups"={"Invitation:read"}},
-// *         },
-// *     },
+
 /**
  * An invitation to a poll.
  * Those are created on-demand.
@@ -82,11 +78,6 @@ class Invitation
      */
     private $poll;
 
-    //
-    //
-
-    private $is_consumed; // use method instead
-
     /**
      * As long as this is empty, the invitation is still open.
      * Should we make a Participant Entity?
@@ -100,7 +91,6 @@ class Invitation
      * @ORM\JoinColumn(nullable=true)
      */
     private $participant;
-    // That might work…
 
     //
     //
@@ -108,6 +98,17 @@ class Invitation
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
+    }
+
+    /**
+     * Whether this invitation was accepted by someone already.
+     *
+     * @Groups({"Invitation:read"})
+     * @return bool
+     */
+    public function isAccepted()
+    {
+        return null !== $this->participant;
     }
 
     /**
