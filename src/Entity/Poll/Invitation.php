@@ -92,6 +92,25 @@ class Invitation
      */
     private $participant;
 
+    /**
+     * The user that authored this invitation.
+     * Probably should not be null, we'll see…
+     *
+     * Useful in cases where participants are able to author invitations as well.
+     * - Up to a total fixed by organizers
+     * - Exponential decrease?
+     * - API to burn the invitations I authored that were not accepted
+     *
+     * @var User|null
+     * Groups({"Invitation:read"})
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\User",
+     *     inversedBy="authored_invitations"
+     * )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $author;
+
     //
     //
 
@@ -149,6 +168,22 @@ class Invitation
     public function setParticipant(?User $participant): void
     {
         $this->participant = $participant;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User|null $author
+     */
+    public function setAuthor(?User $author): void
+    {
+        $this->author = $author;
     }
 
 }

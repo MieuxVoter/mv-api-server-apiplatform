@@ -14,7 +14,8 @@ use Symfony\Component\Security\Core\Security;
  * since we also want mass-email-based invitations
  * where even the organizer cannot access invitation tokens. (for added trustworthiness)
  *
- * See App\Entity\Poll\Invitation where this controller is declared and configured.
+ * See App\Entity\Poll\Invitation where this controller is declared.
+ * See App\Security\Authorization\InvitationVoter for the access rules.
  *
  * Class GetOrCreateInvitationsController
  * @package App\Controller
@@ -41,6 +42,7 @@ class GetOrCreateInvitationsController
         $pollId = $request->get("pollId");
         $invitationsRepo = $this->getInvitationRepository();
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
+        $user = $this->getUser();
 
         // I. Configure
         $maximumLimit = 100; // ENV config?
@@ -80,6 +82,7 @@ class GetOrCreateInvitationsController
             for ($i = 0; $i < $missingInvitationsAmount; $i++) {
                 $invitation = new Invitation();
                 $invitation->setPoll($poll);
+                $invitation->setAuthor($user);
                 $this->em->persist($invitation);
                 $invitations[] = $invitation;
             }

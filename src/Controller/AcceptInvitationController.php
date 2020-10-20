@@ -46,6 +46,12 @@ class AcceptInvitationController
         }
 
         $user = $this->getUser();
+
+        if ($invitation->isAccepted() && $user !== $invitation->getParticipant()) {
+            // TODO: Resilience
+            throw new NotFoundHttpException();
+        }
+
         $invitation->setParticipant($user);
         $this->flush();
 
