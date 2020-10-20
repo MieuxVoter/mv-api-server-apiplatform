@@ -1,10 +1,11 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */ // stuff will fail in here, it's the point.
 
 use App\Application;
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal;
-use App\Entity\PollProposal;
 use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
@@ -490,7 +491,6 @@ class BaseFeatureContext extends WebTestCase implements Context
      * @param $actorName
      * @param bool $createIfNone
      * @return Actor
-     * @throws Exception
      */
     protected function actor($actorName, $createIfNone=false): Actor
     {
