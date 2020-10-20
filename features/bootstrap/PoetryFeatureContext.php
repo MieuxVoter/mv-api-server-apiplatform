@@ -18,8 +18,8 @@ class PoetryFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?) changes? (?:his|her|their|our) minds?$/u
      * @When /^(?P<actor>.+?) change d'avis$/u
+     * @When /^(?P<actor>.+?) changes? (?:his|her|their|our) minds?$/u
      */
     public function whenActorChangesTheirMind() {}
 
@@ -31,8 +31,14 @@ class PoetryFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?) does not like it$/ui
+     * @When /^(?P<actor>.+?) n['e] ?(?:est|sont) pas invitée?s?$/iu
+     */
+    public function whenActorIsNotInvited() {}
+
+
+    /**
      * @When /^(?P<actor>.+?) n'aime pas ça$/ui
+     * @When /^(?P<actor>.+?) does not like it$/ui
      */
     public function whenActorDoesNotLikeIt() {}
 
