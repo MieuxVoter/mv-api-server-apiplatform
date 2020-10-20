@@ -196,11 +196,17 @@ class ApiRestFeatureContext extends BaseFeatureContext
         //  ]
         //]
 
-        foreach ($content['hydra:member'] as $invitation) {
-            $actor->addInvitation($invitation, $poll);
+        if (isset($content['hydra:member'])) {
+            foreach ($content['hydra:member'] as $invitation) {
+                $actor->addInvitation($invitation, $poll);
+            }
+        } else {
+            if (empty($try)) {
+                $actor->printTransaction();
+                $this->failTrans("response.wrong_format");
+            }
         }
 
-        $actor->printTransaction();
     }
 
     /**

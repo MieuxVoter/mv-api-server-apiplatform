@@ -40,6 +40,7 @@ use App\Controller\AcceptInvitationController;
  *             "method"="GET",
  *             "controller"=GetOrCreateInvitationsController::class,
  *             "path"="/polls/{pollId}/invitations.{_format}",
+ *             "access_control"="is_granted('can_create_invitations', object)",
  *         },
  *     },
  * )
