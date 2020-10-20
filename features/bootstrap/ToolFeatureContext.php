@@ -57,13 +57,14 @@ class ToolFeatureContext extends BaseFeatureContext
 
 
 //    /**
+//     * @When /^I(?P<try> try to)? do a thing like so:?$/iu
 //     * /!. The ? quantifier is NOT fully supported on named parenthesis by Behat ATM.
 //     *     Use a pipe | instead, like in the doThingsOk step below.
-//     * @When /^I(?P<try> try to)? do a thing like so:?$/iu
 //     */
 //    public function doThingKo($try, $pystring) {}
     /**
-     * @When /^I(?P<try> try to|) do a thing like so:?$/iu
+     * I exist to show how to make an optional regex parameter.  Don't use `?`, use `|`.
+     * @When /^I(?P<try>| try to) do a thing like so:?$/iu
      */
     public function doThingOk($try, $pystring) {}
 }

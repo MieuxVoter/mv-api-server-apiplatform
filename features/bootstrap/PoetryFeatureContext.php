@@ -37,9 +37,15 @@ class PoetryFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?) n'aime pas ça$/ui
-     * @When /^(?P<actor>.+?) does not like it$/ui
+     * @When /^(?P<actor>.+?) n'aim(?:e|ez|es|ent|ons) pas ça$/iu
+     * @When /^(?P<actor>.+?) does not like it$/iu
      */
     public function whenActorDoesNotLikeIt() {}
+
+
+    /**
+     * @When /^(?P<thief>.+?) dérobe (?P<victim>.+?) sous couvert d'une perquisition$/iu
+     */
+    public function whenActorStealsOtherActorWithRaid() {}
 
 }
