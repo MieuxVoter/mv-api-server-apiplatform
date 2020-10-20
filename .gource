@@ -1,0 +1,10 @@
+# Gource is free software to generate an animation of the contributions.
+# The .gource file is not a convention (yet).
+# https://gource.io/
+[gource]
+font-scale=2.5
+path=.
+#time-scale=0.62
+title=Liquid Majority Judgment
+seconds-per-day=15
+elasticity=0.3
