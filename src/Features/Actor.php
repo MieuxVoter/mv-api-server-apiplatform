@@ -27,7 +27,10 @@ class Actor extends ApiActor
             $this->invitations[$pollId] = [];
         }
 
-        $this->invitations[$pollId][] = $invitation;
+        if ( ! in_array($invitation, $this->invitations[$pollId])) {
+            $this->invitations[$pollId][] = $invitation;
+        }
+
     }
 
     public function countInvitations(?Poll $poll = null) : int

@@ -43,7 +43,7 @@ class GetOrCreateInvitationsController
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
 
         // I. Configure
-        $maximumLimit = 500; // ENV config?
+        $maximumLimit = 100; // ENV config?
         $defaultLimit = 10;  // idem
         $limit = $request->get("limit", $defaultLimit);
         $limit = clamp(0, $maximumLimit, $limit);
