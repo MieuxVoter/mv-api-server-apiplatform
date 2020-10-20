@@ -1,5 +1,5 @@
 # Gource is free software to generate an animation of the contributions.
-# The .gource file is not a convention (yet).
+# The .gource file is not a convention (yet).  Run `gource --load-config .gource`.
 # https://gource.io/
 [gource]
 font-scale=2.5
