@@ -2,9 +2,11 @@
 # The .gource file is not a convention (yet).  Run `gource --load-config .gource`.
 # https://gource.io/
 [gource]
+font-size=10.6
 font-scale=2.5
 path=.
 #time-scale=0.62
 title=Liquid Majority Judgment
-seconds-per-day=15
+seconds-per-day=3
+auto-skip-seconds=1
 elasticity=0.3
