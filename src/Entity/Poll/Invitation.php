@@ -31,7 +31,10 @@ use App\Controller\AcceptInvitationController;
  *         },
  *     },
  *     collectionOperations={
- *         "get",
+ *         "get"={
+ *             "method"="GET",
+ *             "controller"=GetInvitationsStubController::class,
+ *         },
  *         "get_for_poll"={
  *             "method"="GET",
  *             "controller"=GetOrCreateInvitationsController::class,
