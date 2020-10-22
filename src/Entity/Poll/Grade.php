@@ -44,13 +44,13 @@ class Grade
      * @var UuidInterface|null
      * @ORM\Column(type="uuid", unique=true)
      * @ApiProperty(identifier=true)
-     * @Groups({"Grade-read"})
+     * @Groups({"read"})
      */
     public $uuid;
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups({"Grade-read", "Poll-create"})
+     * @Groups({"read", "create"})
      */
     private $name;
 
@@ -60,7 +60,7 @@ class Grade
      * Grades of the same poll MUST have unique levels between themselves.
      *
      * @ORM\Column(type="integer")
-     * @Groups({"Grade-read", "Poll-create"})
+     * @Groups({"read", "create"})
      */
     private $level;
 
@@ -68,7 +68,7 @@ class Grade
      * The poll this grade is attached to.
      *
      * Groups({"Proposal-create"})
-     * Groups({"Poll-create"})
+     * Groups({"create"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll",
      *     inversedBy="grades"

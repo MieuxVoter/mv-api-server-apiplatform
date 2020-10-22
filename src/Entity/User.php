@@ -21,8 +21,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * @UniqueEntity(fields={"email"}, groups={"register", "edit"}, message="Email already in use")
  * @ApiResource(
  *     attributes={
- *         "normalization_context"={"groups"={"User-read"}},
- *         "denormalization_context"={"groups"={"User-edit"}},
+ *         "normalization_context"={"groups"={"read"}},
+ *         "denormalization_context"={"groups"={"edit"}},
  *         "validation_groups"={"register", "edit"}
  *     },
  *     collectionOperations={
@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *         "post"={
  *              "method"="POST",
  *              "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY') or is_granted('ROLE_ADMIN')",
- *              "denormalization_context"={"groups"={"User-create"}},
+ *              "denormalization_context"={"groups"={"create"}},
  *              "validation_groups"={"register"}
  *          },
  *     },
@@ -41,13 +41,13 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *         "get"={
  *              "method"="GET",
  *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
- *              "normalization_context"={"groups"={"User-read"}},
+ *              "normalization_context"={"groups"={"read"}},
  *         },
  *         "put"={
  *              "method"="PUT",
  *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
- *              "normalization_context"={"groups"={"User-read"}},
- *              "denormalization_context"={"groups"={"User-edit"}}
+ *              "normalization_context"={"groups"={"read"}},
+ *              "denormalization_context"={"groups"={"edit"}}
  *          },
  *         "delete"={
  *              "method"="DELETE",
@@ -71,13 +71,13 @@ class User implements UserInterface
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"User-read"})
+     * @Groups({"read"})
      */
     public $uuid;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"User-create", "User-read", "User-edit"})
+     * @Groups({"create", "read", "edit"})
      * @Assert\Email(groups={"register", "edit"})
      * @Assert\NotBlank(groups={"register", "edit"})
      */
@@ -85,7 +85,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"User-create", "User-read", "User-edit"})
+     * @Groups({"create", "read", "edit"})
      */
     private $username;
 
@@ -102,7 +102,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"User-create", "User-edit"})
+     * @Groups({"create", "edit"})
      * @Assert\NotBlank(groups={"register, login"})
      * @Assert\Length(max=1024, groups={"register", "edit", "login"})
      * @SerializedName("password")
@@ -111,13 +111,13 @@ class User implements UserInterface
     
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Poll", mappedBy="author")
-     * @Groups({"User-read"})
+     * @Groups({"read"})
      */
     private $polls;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Poll\Proposal\Ballot", mappedBy="elector")
-     * @Groups({"User-read"})
+     * @Groups({"read"})
      */
     private $ballots;
 
