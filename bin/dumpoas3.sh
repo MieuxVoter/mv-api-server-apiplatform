@@ -1,5 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-bin/console api:openapi:export --spec-version=3 > jlm.json
+OAS_FILENAME="${OAS_FILENAME:-jlm.oas3.json}"
 
-echo "Generated OpenAPI v3 spec in `pwd`/jlm.oas3.json"
+bin/console api:openapi:export --spec-version=3 > $OAS_FILENAME
+
+echo "Generated OpenAPI v3 spec in `pwd`/$OAS_FILENAME"
