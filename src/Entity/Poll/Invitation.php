@@ -101,7 +101,7 @@ class Invitation
      * @Groups({"read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
-     *     inversedBy="invitations"
+     *     inversedBy="accepted_invitations"
      * )
      * @ORM\JoinColumn(nullable=true)
      */

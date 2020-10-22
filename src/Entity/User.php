@@ -121,6 +121,30 @@ class User implements UserInterface
      */
     private $ballots;
 
+    /**
+     * Invitations that were accepted by this User.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Poll\Invitation", mappedBy="participant")
+     *
+     * TBD: do we enable reading those?
+     * Groups({"read"})
+     */
+    private $accepted_invitations;
+
+    /**
+     * Invitations that were authored by this User.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Poll\Invitation", mappedBy="author")
+     *
+     * TBD: Do we allow reading those here ?
+     * → We don't NEED to, it would be for convenience
+     * → Security issue
+     * Groups({"read"})
+     */
+    private $authored_invitations;
+
+    ///
+
     public function __construct()
     {
         $this->polls = new ArrayCollection();
