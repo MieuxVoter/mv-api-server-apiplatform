@@ -103,7 +103,7 @@ class Ballot
      * @Groups({"create", "read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Proposal",
-     *     inversedBy="votes",
+     *     inversedBy="ballots",
      * )
      * @ORM\JoinColumn(nullable=false)
      */
