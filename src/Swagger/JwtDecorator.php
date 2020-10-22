@@ -56,21 +56,46 @@ final class JwtDecorator implements NormalizerInterface
                         'tags' => ['Token'],
                         'operationId' => 'postCredentialsItem',
                         'summary' => 'Gets a JWT token to login',
-                        'parameters' => [
-                            [
-                                'name' => 'Credentials',
-                                'in' => 'body',
-                                'description' => 'Create new JWT Token',
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/Credentials',
+                        'requestBody' => [
+                            'content' => [
+                                'application/ld+json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/Credentials',
+                                    ],
+                                ],
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/Credentials',
+                                    ],
                                 ],
                             ],
+                            "description" => "The new Credentials resource",
                         ],
+                        // Swagger (OASv2)
+//                        'parameters' => [
+//                            [
+//                                'name' => 'Credentials',
+//                                'in' => "body",
+//                                'description' => 'Create new JWT Token',
+//                                'schema' => [
+//                                    '$ref' => '#/components/schemas/Credentials',
+//                                ],
+//                            ],
+//                        ],
                         'responses' => [
                             Response::HTTP_OK => [
                                 'description' => 'Get JWT token',
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/Token',
+                                'content' => [
+                                    "application/ld+json" => [
+                                        "schema" => [
+                                            '$ref' =>  '#/components/schemas/Token',
+                                        ],
+                                    ],
+                                    "application/json" => [
+                                        "schema" => [
+                                            '$ref' =>  '#/components/schemas/Token',
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],
