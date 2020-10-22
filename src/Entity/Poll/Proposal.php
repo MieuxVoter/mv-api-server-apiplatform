@@ -38,7 +38,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                         "name": "pollId",
  *                         "in": "path",
  *                         "required": true,
- *                         "type": "string",
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
  *                     },
  *                 },
  *             },
