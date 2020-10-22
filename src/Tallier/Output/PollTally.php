@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tally\Output;
+namespace App\Tallier\Output;
 
 
 /**

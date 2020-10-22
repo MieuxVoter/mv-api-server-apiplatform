@@ -4,7 +4,6 @@
 namespace App\Entity\Poll;
 
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\GetTallyController;
 use App\Tally\Output\PollTally as TallyOutput;

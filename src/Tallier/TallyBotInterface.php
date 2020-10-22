@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Tally\Bot;
+namespace App\Tallier;
 
 
 use App\Entity\Poll;
-use App\Tally\Output\PollTally;
+use App\Tallier\Output\PollTally;
 
 
 /**

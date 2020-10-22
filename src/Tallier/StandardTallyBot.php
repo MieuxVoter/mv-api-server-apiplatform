@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tally\Bot;
+namespace App\Tallier;
 
 
 use App\Application;
@@ -9,8 +9,8 @@ use App\Entity\Poll;
 use App\Entity\Poll\Proposal\Ballot;
 use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
-use App\Tally\Output\PollProposalTally;
-use App\Tally\Output\PollTally;
+use App\Tallier\Output\PollProposalTally;
+use App\Tallier\Output\PollTally;
 
 
 /**
