@@ -191,13 +191,15 @@ class MainFeatureContext extends BaseFeatureContext
         $actor = $this->actor($actor);
         $thatMuch = $this->number($thatMuch);
         $poll = $this->findOnePollFromSubject($title);
-        // fixme: for poll
 
-        $votes = $this->getLimajuPollProposalVoteRepository()->findBy([
-            'elector' => $actor->getUser()->getId(),
-//            'poll' => $poll,
+        $proposals = $poll->getProposals();
+        $ballots = $this->getPollProposalBallotRepository()->findBy([
+            'participant' => $actor->getUser()->getId(),
+            'proposal' => array_map(function(Proposal $item){
+                return $item->getId();
+            }, $proposals->toArray()),
         ]);
-        $actual = count($votes);
+        $actual = count($ballots);
 
         // Does the job, but no I18N support.
         //$this->assertEquals($thatMuch, $actual);

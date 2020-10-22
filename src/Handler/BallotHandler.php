@@ -25,7 +25,7 @@ class BallotHandler
 //        $vote->setProposal($proposal);
         // Instead we use the inverse, it sets both
         $proposal->addBallot($vote);
-        $vote->setElector($judge);
+        $vote->setParticipant($judge);
         return $vote;
     }
 

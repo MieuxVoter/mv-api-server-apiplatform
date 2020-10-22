@@ -192,7 +192,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     /**
      * @return PollProposalBallotRepository
      */
-    protected function getLimajuPollProposalVoteRepository()
+    protected function getPollProposalBallotRepository()
     {
         return $this->get(PollProposalBallotRepository::class);
     }

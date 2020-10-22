@@ -127,9 +127,12 @@ class Ballot
     private $grade;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ballots")
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\User",
+     *     inversedBy="ballots"
+     * )
      */
-    private $elector; // TODO $judge / $author / $voter / $owner / $participant
+    private $participant;
 
 
     public function __construct()
@@ -183,14 +186,14 @@ class Ballot
         return $this;
     }
 
-    public function getElector(): ?User
+    public function getParticipant(): ?User
     {
-        return $this->elector;
+        return $this->participant;
     }
 
-    public function setElector(?User $elector): self
+    public function setParticipant(?User $participant): self
     {
-        $this->elector = $elector;
+        $this->participant = $participant;
 
         return $this;
     }

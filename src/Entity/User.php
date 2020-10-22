@@ -116,7 +116,7 @@ class User implements UserInterface
     private $polls;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Poll\Proposal\Ballot", mappedBy="elector")
+     * @ORM\OneToMany(targetEntity="App\Entity\Poll\Proposal\Ballot", mappedBy="participant")
      * @Groups({"read"})
      */
     private $ballots;
@@ -301,7 +301,7 @@ class User implements UserInterface
     {
         if (!$this->ballots->contains($vote)) {
             $this->ballots[] = $vote;
-            $vote->setElector($this);
+            $vote->setParticipant($this);
         }
 
         return $this;
@@ -312,8 +312,8 @@ class User implements UserInterface
         if ($this->ballots->contains($vote)) {
             $this->ballots->removeElement($vote);
             // set the owning side to null (unless already changed)
-            if ($vote->getElector() === $this) {
-                $vote->setElector(null);
+            if ($vote->getParticipant() === $this) {
+                $vote->setParticipant(null);
             }
         }
 

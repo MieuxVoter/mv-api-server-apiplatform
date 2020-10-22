@@ -76,7 +76,7 @@ final class SetAuthorOfEntityIfNeeded implements EventSubscriberInterface
         }
 
         if ($entity instanceof Ballot) {
-            $entity->setElector($this->application->getAuthenticatedUser());
+            $entity->setParticipant($this->application->getAuthenticatedUser());
         }
     }
 }
