@@ -19,10 +19,10 @@ use App\Tallier\Output\PollTally;
  *
  * Sums direct votes.
  *
- * Class StandardTallyBot
+ * Class StandardTallier
  * @package App\Tally\Bot
  */
-class StandardTallyBot implements TallyBotInterface
+class StandardTallier implements TallierInterface
 {
 
     /**
@@ -42,7 +42,7 @@ class StandardTallyBot implements TallyBotInterface
 
 
     /**
-     * StandardTallyBot constructor.
+     * StandardTallier constructor.
      * @param PollProposalRepository $pollProposalRepository
      * @param PollProposalBallotRepository $pollProposalVoteRepository
      * @param Application $application

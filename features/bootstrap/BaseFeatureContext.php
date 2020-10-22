@@ -13,7 +13,7 @@ use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use App\Repository\UserRepository;
-use App\Tallier\TallyBotInterface;
+use App\Tallier\TallierInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
@@ -202,13 +202,13 @@ class BaseFeatureContext extends WebTestCase implements Context
      *
      *
      * @param string $tallyName
-     * @return TallyBotInterface
+     * @return TallierInterface
      */
-    protected function getTallyBot(string $tallyName) : TallyBotInterface
+    protected function getTallyBot(string $tallyName) : TallierInterface
     {
         // TODO: I18N somehow
         $tallyFileName = ucwords($tallyName);
-        return $this->get("App\\Tallier\\${tallyFileName}TallyBot");
+        return $this->get("App\\Tallier\\${tallyFileName}Tallier");
     }
 
 

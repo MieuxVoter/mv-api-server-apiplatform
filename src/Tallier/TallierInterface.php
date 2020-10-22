@@ -17,7 +17,7 @@ use App\Tallier\Output\PollTally;
  * For now, please put your implementations in the same directory as this interface,
  * and suffix them with `TallyBot`, like `NaiveTallyBot`
  */
-interface TallyBotInterface
+interface TallierInterface
 {
     public function tallyVotesOnPoll(Poll $poll) : PollTally;
 }
