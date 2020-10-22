@@ -1,3 +1,5 @@
+# Route configuration is mostly done in annotations.
+
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index

@@ -6,13 +6,17 @@
 parameters:
 
 services:
-    # default configuration for services in *this* file
+
+    # Add service definitions when explicit configuration is needed
+    # Please note that last definitions always *replace* previous ones
+
+    # Default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    # Makes classes in src/ available to be used as services
+    # This creates a service per class whose id is the fully-qualified class name
     App\:
         public: true
         resource: '../src/*'
@@ -50,8 +54,6 @@ services:
             # Twig also has the extensions and global vars available
             - "@twig"
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
 
     App\Swagger\JwtDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
