@@ -127,7 +127,7 @@ class Ballot
     private $grade;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ballots")
      */
     private $elector; // TODO $judge / $author / $voter / $owner / $participant
 
