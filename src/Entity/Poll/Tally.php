@@ -4,7 +4,9 @@
 namespace App\Entity\Poll;
 
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\GetTallyController;
 use App\Tally\Output\PollTally as TallyOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -17,8 +19,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     shortName="Tally",
  *     itemOperations={
- *         "get"={
- *             "controller"="App\Controller\GetTallyController",
+ *         "get_for_poll"={
+ *             "method"="GET",
+ *             "controller"=GetTallyController::class,
+ *             "path"="/polls/{id}/tally.{_format}",
+ *             "read"=false,
  *         },
  *     },
  *     collectionOperations={},

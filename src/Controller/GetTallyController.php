@@ -12,16 +12,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Old thing.
- * How can we re-do this more in line with apiplatform?
- *
- * → DataProvider
- *
- * @Route("/api/polls/{id}/tally", name="api_poll_tally_get", methods={"GET"})
+ * See App\Entity\Poll\Tally where this controller is declared.
  */
 final class GetTallyController
 {
@@ -30,25 +25,28 @@ final class GetTallyController
      */
     private $container;
 
-
     /**
      * GetTallyController constructor.
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-
     public function __invoke(
-        string $id,
         Request $request,
         MessageBusInterface $bus,
         PollRepository $pollRepository,
         EntityManagerInterface $em
     ): Response {
 
-        $poll = $pollRepository->findOneByUuid($id);
+        $pollId = $request->get('id');
+        $poll = $pollRepository->findOneByUuid($pollId);
+
+        if (null == $poll) {
+            throw new NotFoundHttpException("Poll `$pollId' was not found.");
+        }
 
         $tally = new Tally();
 
@@ -75,6 +73,8 @@ final class GetTallyController
     protected function getTallyBot(string $tallyName) : TallyBotInterface
     {
         $tallyFileName = ucwords($tallyName);
+        /** @noinspection MissingService */
+        /** @noinspection CaseSensitivityServiceInspection */
         return $this->container->get("App\\Tally\\Bot\\${tallyFileName}TallyBot");
     }
 
