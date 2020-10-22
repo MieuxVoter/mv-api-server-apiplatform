@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Poll\Tally;
 use App\Repository\PollRepository;
+use App\Tallier\TallierFactory;
 use App\Tallier\TallierInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -20,25 +21,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 final class GetTallyController
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * GetTallyController constructor.
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
     public function __invoke(
         Request $request,
         MessageBusInterface $bus,
         PollRepository $pollRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        TallierFactory $tallierFactory
     ): Response {
 
         $pollId = $request->get('id');
@@ -50,9 +38,9 @@ final class GetTallyController
 
         $tally = new Tally();
 
-        $tallyType = "standard";
-        $tallyBot = $this->getTallyBot($tallyType);
-        $tallyOutput = $tallyBot->tallyVotesOnPoll($poll);
+        $tallierType = "standard";
+        $tallier = $tallierFactory->findByName($tallierType);
+        $tallyOutput = $tallier->tallyVotesOnPoll($poll);
 
         $votesCount = $tallyOutput->countVotes();
 
@@ -65,18 +53,4 @@ final class GetTallyController
 
         return new JsonResponse($tally, Response::HTTP_OK);
     }
-
-    /**
-     * /!. NAIVE = does not check $tallyName sanity
-     * @param string $tallyName
-     * @return TallierInterface
-     */
-    protected function getTallyBot(string $tallyName) : TallierInterface
-    {
-        $tallyFileName = ucwords($tallyName);
-        /** @noinspection MissingService */
-        /** @noinspection CaseSensitivityServiceInspection */
-        return $this->container->get("App\\Tallier\\${tallyFileName}Tallier");
-    }
-
 }

@@ -13,6 +13,7 @@ use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use App\Repository\UserRepository;
+use App\Tallier\TallierFactory;
 use App\Tallier\TallierInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -206,9 +207,8 @@ class BaseFeatureContext extends WebTestCase implements Context
      */
     protected function getTallyBot(string $tallyName) : TallierInterface
     {
-        // TODO: I18N somehow
-        $tallyFileName = ucwords($tallyName);
-        return $this->get("App\\Tallier\\${tallyFileName}Tallier");
+        // TODO: I18N the $tallyName
+        return $this->get(TallierFactory::class)->findByName($tallyName);
     }
 
 
