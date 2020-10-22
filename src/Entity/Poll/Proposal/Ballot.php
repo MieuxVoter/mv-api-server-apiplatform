@@ -36,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"Ballot:read"}},
+ *             "normalization_context"={"groups"={"Ballot-read"}},
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -47,8 +47,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "path"="/polls/{pollId}/proposals/{proposalId}/ballots.{_format}",
  *             "method"="POST",
  *             "controller"=CreateBallotController::class,
- *             "denormalization_context"={"groups"={"Ballot:create"}},
- *             "normalization_context"={"groups"={"Ballot:read"}},
+ *             "denormalization_context"={"groups"={"Ballot-create"}},
+ *             "normalization_context"={"groups"={"Ballot-read"}},
  *             "access_control"="is_granted('ROLE_USER')", *
  *             "openapi_context"={
  *                 "parameters"={
@@ -94,14 +94,14 @@ class Ballot
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"Ballot:read"})
+     * @Groups({"Ballot-read"})
      */
     public $uuid;
 
     /**
      * The Majority Judgment Poll Proposal the author is giving a grade to.
      *
-     * @Groups({"Ballot:create", "Ballot:read"})
+     * @Groups({"Ballot-create", "Ballot-read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Proposal",
      *     inversedBy="votes",
@@ -114,7 +114,7 @@ class Ballot
      * The name of the author of the vote, if any was specified.
      * TBD. May be deprecated soon.
      *
-     * @Groups({"Ballot:create", "Ballot:read"})
+     * @Groups({"Ballot-create", "Ballot-read"})
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -122,7 +122,7 @@ class Ballot
     /**
      * The Grade attributed by the Judge to the Proposal.
      *
-     * @Groups({"Ballot:create", "Ballot:read"})
+     * @Groups({"Ballot-create", "Ballot-read"})
      * @ORM\Column(type="string", length=32)
      */
     private $grade;

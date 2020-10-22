@@ -23,7 +23,7 @@ use App\Controller\AcceptInvitationController;
  * Only polls with scope Poll::SCOPE_PRIVATE require invitations.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"Invitation:read"}},
+ *     normalizationContext={"groups"={"Invitation-read"}},
  *     itemOperations={
  *         "get"={
  *             "method"="GET",
@@ -76,7 +76,7 @@ class Invitation
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"Invitation:read"})
+     * @Groups({"Invitation-read"})
      */
     private $uuid;
 
@@ -84,7 +84,7 @@ class Invitation
      * The poll this invitation is for.
      * Only polls with scope Poll::SCOPE_PRIVATE require invitations.
      *
-     * @Groups({"Invitation:create", "Invitation:read"})
+     * @Groups({"Invitation-create", "Invitation-read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll",
      *     inversedBy="invitations"
@@ -98,7 +98,7 @@ class Invitation
      * Should we make a Participant Entity?
      *
      * @var User|null
-     * @Groups({"Invitation:read"})
+     * @Groups({"Invitation-read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
      *     inversedBy="invitations"
@@ -117,7 +117,7 @@ class Invitation
      * - API to burn the invitations I authored that were not accepted
      *
      * @var User|null
-     * Groups({"Invitation:read"})
+     * Groups({"Invitation-read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
      *     inversedBy="authored_invitations"
@@ -137,7 +137,7 @@ class Invitation
     /**
      * Whether this invitation was accepted by someone already.
      *
-     * @Groups({"Invitation:read"})
+     * @Groups({"Invitation-read"})
      * @return bool
      */
     public function isAccepted()

@@ -28,10 +28,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * See https://framagit.org/limaju/limaju-server-symfony/-/issues/8
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"Poll:read"}},
+ *     normalizationContext={"groups"={"Poll-read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"Poll:read"}},
+ *             "normalization_context"={"groups"={"Poll-read"}},
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -39,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "denormalization_context"={"groups"={"Poll:create"}},
+ *             "denormalization_context"={"groups"={"Poll-create"}},
  *         },
  *     },
  * )
@@ -83,7 +83,7 @@ class Poll
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"Poll:read"})
+     * @Groups({"Poll-read"})
      */
     public $uuid;
 
@@ -91,7 +91,7 @@ class Poll
      * The scope of the poll
      * Defines where and how the poll is accessible.
      * @var string One of Poll::SCOPE_*
-     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @Groups({"Poll-create", "Poll-read", "Poll-update"})
      * @ORM\Column(type="string", length=16)
      */
     private $scope = self::SCOPE_UNLISTED;
@@ -100,7 +100,7 @@ class Poll
      * The subject of the poll. Careful consideration should be taken in the writing of this.
      *
      * @var string
-     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @Groups({"Poll-create", "Poll-read", "Poll-update"})
      * @ORM\Column(type="string", length=142)
      * @Assert\NotBlank(
      *     message = "The poll must have a subject.",
@@ -118,7 +118,7 @@ class Poll
      * A list of proposals to judge.  At least two proposals are required.
      *
      * @var ArrayCollection
-     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @Groups({"Poll-create", "Poll-read", "Poll-update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Poll\Proposal",
@@ -140,7 +140,7 @@ class Poll
 
     /**
      * @var ArrayCollection
-     * @Groups({"Poll:create", "Poll:read", "Poll:update"})
+     * @Groups({"Poll-create", "Poll-read", "Poll-update"})
      * @ApiSubresource()
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Poll\Grade",

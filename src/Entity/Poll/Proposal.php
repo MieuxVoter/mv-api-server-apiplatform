@@ -21,16 +21,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A Proposal of a Poll whom any Judge can give a Grade (aka. Mention) to.
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"Proposal:read"}},
+ *     normalizationContext={"groups"={"Proposal-read"}},
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"Proposal:read"}},
+ *             "normalization_context"={"groups"={"Proposal-read"}},
  *         },
  *     },
  *     collectionOperations={
  *         "post"={
  *             "method"="POST",
- *             "denormalization_context"={"groups"={"Proposal:create"}},
+ *             "denormalization_context"={"groups"={"Proposal-create"}},
  *             "path"="/polls/{pollId}/proposals",
  *             "openapi_context"={
  *                 "parameters"={
@@ -47,7 +47,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     subresourceOperations={
  *         "api_polls_proposals_get_subresource"={
  *             "method"="GET",
- *             "normalization_context"={"groups"={"Proposal:read"}},
+ *             "normalization_context"={"groups"={"Proposal-read"}},
  *             "path"="/polls/{pollId}/proposals",
  *             "openapi_context"={
  *                 "parameters"={
@@ -89,14 +89,14 @@ class Proposal
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"Proposal:read"})
+     * @Groups({"Proposal-read"})
      */
     public $uuid;
 
     /**
      * → name ?
      *
-     * @Groups({"Proposal:create", "Proposal:read", "Poll:create"})
+     * @Groups({"Proposal-create", "Proposal-read", "Poll-create"})
      * @ORM\Column(type="string", length=142)
      */
     private $title;
@@ -104,7 +104,7 @@ class Proposal
     /**
      * The poll this proposal is attached to.
      *
-     * @Groups({"Proposal:create"})
+     * @Groups({"Proposal-create"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll",
      *     inversedBy="proposals",

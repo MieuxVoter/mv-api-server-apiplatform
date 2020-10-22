@@ -28,7 +28,7 @@ class Tally
 {
     /**
      * @var TallyOutput Standard tally output.
-     * @Groups({"Tally:read"})
+     * @Groups({"Tally-read"})
      */
     public $standard;
 }
