@@ -39,6 +39,18 @@ use App\Controller\AcceptInvitationController;
  *             "method"="GET",
  *             "controller"=GetOrCreateInvitationsController::class,
  *             "path"="/polls/{pollId}/invitations.{_format}",
+ *             "openapi_context"={
+ *                 "parameters"={
+ *                     {
+ *                         "name": "pollId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                 },
+ *             },
  *             "access_control"="is_granted('can_create_invitations', object)",
  *         },
  *     },

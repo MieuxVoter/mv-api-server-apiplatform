@@ -32,6 +32,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method"="POST",
  *             "denormalization_context"={"groups"={"Proposal:create"}},
  *             "path"="/polls/{pollId}/proposals",
+ *             "openapi_context"={
+ *                 "parameters"={
+ *                     {
+ *                         "name": "pollId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "type": "string",
+ *                     },
+ *                 },
+ *             },
  *         },
  *     },
  *     subresourceOperations={
@@ -39,6 +49,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method"="GET",
  *             "normalization_context"={"groups"={"Proposal:read"}},
  *             "path"="/polls/{pollId}/proposals",
+ *             "openapi_context"={
+ *                 "parameters"={
+ *                     {
+ *                         "name"="pollId",
+ *                         "in"="path",
+ *                         "required"=true,
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                 },
+ *             },
  *         },
  *     },
  *

@@ -49,7 +49,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "controller"=CreateBallotController::class,
  *             "denormalization_context"={"groups"={"Ballot:create"}},
  *             "normalization_context"={"groups"={"Ballot:read"}},
- *             "access_control"="is_granted('ROLE_USER')",
+ *             "access_control"="is_granted('ROLE_USER')", *
+ *             "openapi_context"={
+ *                 "parameters"={
+ *                     {
+ *                         "name": "pollId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                     {
+ *                         "name": "proposalId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                 },
+ *             },
  *         },
  *     },
  * )
