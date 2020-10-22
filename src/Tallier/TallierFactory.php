@@ -8,6 +8,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 /**
+ * Helps fetching the appropriate tallier algorithm.
+ *
  * Perhaps not a Factory, since it does not instantiate anything.
  * TallierPool ?
  *
@@ -30,15 +32,27 @@ class TallierFactory
     }
 
     /**
-     * /!. NAIVE = does not check $tallyName sanity
-     * @param string $tallyName
+     * @param string $tallierName
      * @return TallierInterface
      */
-    public function findByName(string $tallyName) : TallierInterface
+    public function findByName(string $tallierName) : TallierInterface
     {
-        $tallyFileName = ucwords($tallyName);
+        $tallierFilename = ucwords($tallierName);
+        $tallierFilename = $this->sanitizeTallierName($tallierFilename);
         /** @noinspection MissingService */
         /** @noinspection CaseSensitivityServiceInspection */
-        return $this->container->get("App\\Tallier\\${tallyFileName}Tallier");
+        return $this->container->get("App\\Tallier\\${tallierFilename}Tallier");
+    }
+
+    protected function sanitizeTallierName($tallierName)
+    {
+        $numbers = [
+            'Zero', 'One', 'Two', 'Three', 'Four',
+            'Five', 'Six', 'Seven', 'Eight', 'Nine',
+        ];
+        foreach($numbers as $k => $s) {
+            $tallierName = str_replace("$k", "$s", $tallierName);
+        }
+        return preg_replace("[^a-zA-Z]", "", $tallierName);
     }
 }
