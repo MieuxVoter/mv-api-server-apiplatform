@@ -31,11 +31,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "post"={
  *             "method"="POST",
  *             "denormalization_context"={"groups"={"create"}},
- *             "path"="/polls/{pollId}/proposals",
+ *             "path"="/polls/{id}/proposals",
  *             "openapi_context"={
  *                 "parameters"={
  *                     {
- *                         "name": "pollId",
+ *                         "name": "id",
  *                         "in": "path",
  *                         "required": true,
  *                         "schema"={
@@ -50,11 +50,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "api_polls_proposals_get_subresource"={
  *             "method"="GET",
  *             "normalization_context"={"groups"={"read"}},
- *             "path"="/polls/{pollId}/proposals",
+ *             "path"="/polls/{id}/proposals",
  *             "openapi_context"={
  *                 "parameters"={
  *                     {
- *                         "name"="pollId",
+ *                         "name"="id",
  *                         "in"="path",
  *                         "required"=true,
  *                         "schema"={

@@ -39,7 +39,7 @@ class GetOrCreateInvitationsController
      */
     public function __invoke(Request $request): array
     {
-        $pollId = $request->get("pollId");
+        $pollId = $request->get("id");
         $invitationsRepo = $this->getInvitationRepository();
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
         $user = $this->getUser();

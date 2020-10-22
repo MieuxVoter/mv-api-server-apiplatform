@@ -38,11 +38,11 @@ use App\Controller\AcceptInvitationController;
  *         "get_for_poll"={
  *             "method"="GET",
  *             "controller"=GetOrCreateInvitationsController::class,
- *             "path"="/polls/{pollId}/invitations.{_format}",
+ *             "path"="/polls/{id}/invitations.{_format}",
  *             "openapi_context"={
  *                 "parameters"={
  *                     {
- *                         "name": "pollId",
+ *                         "name": "id",
  *                         "in": "path",
  *                         "required": true,
  *                         "schema"={

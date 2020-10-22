@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 class InvitationVoter extends Voter
 {
-    const REQUEST_POLL_ID = "pollId";
+    const REQUEST_POLL_ID = "id";
     const CAN_CREATE_INVITATIONS = "can_create_invitations";
 
     /**
