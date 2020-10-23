@@ -44,7 +44,7 @@ class PollProposalTally
      * The order matters, and MUST be from "worse" to "best".
      */
     protected $grades_names;
-    // protected $mentions_tree;
+    // protected $grades_tree;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
