@@ -253,7 +253,7 @@ class MainFeatureContext extends BaseFeatureContext
         }
 
         $tallyBot = $this->getTallyBot($tally);
-        $actual = $tallyBot->tallyVotesOnPoll($poll);
+        $actual = $tallyBot->tally($poll);
 
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);

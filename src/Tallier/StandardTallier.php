@@ -59,7 +59,7 @@ class StandardTallier implements TallierInterface
     /**
      * @inheritDoc
      */
-    public function tallyVotesOnPoll(Poll $poll): PollTally
+    public function tally(Poll $poll): PollTally
     {
         /** @var PollProposalTally[] $proposalsTallies */
         $proposalsTallies = array();

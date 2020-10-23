@@ -19,5 +19,5 @@ use App\Tallier\Output\PollTally;
  */
 interface TallierInterface
 {
-    public function tallyVotesOnPoll(Poll $poll) : PollTally;
+    public function tally(Poll $poll) : PollTally;
 }
