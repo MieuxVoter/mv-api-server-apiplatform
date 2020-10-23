@@ -5,18 +5,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\Is\EntityAware;
+use App\Entity\Poll\Proposal\Tally as ProposalTally;
 use App\Entity\Poll\Tally;
-use App\Repository\PollRepository;
 use App\Tallier\TallierFactory;
-use App\Tallier\TallierInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
+
 
 /**
  * See App\Entity\Poll\Tally where this controller is declared.
@@ -50,17 +47,32 @@ final class GetTallyController
             );
         }
 
+        /// The output of the tallier is in another data model.
+        /// We grab it convert it here to the API model.
+        /// The Tallier heavily relies on methods in its data output classes.
+        /// We could perhaps refactor the Talliers to directly output the API model Tally,
+        /// by moving all the calculus logic somewhere else, in Traits of Talliers perhaps?
+        /// Then we could remove half the lines in this controller, including this comment. :]
+
         $tallierAlgorithm = "standard";  // get it from request, but sanitize first!
         $tallier = $tallierFactory->findByName($tallierAlgorithm);
-//        $tallyOutput = $tallier->tallyVotesOnPoll($poll);
+        $tallyRaw = $tallier->tally($poll);
 
-        $leaderboard = [];  // FIXME: fill this
+        $leaderboard = [];
+        foreach ($tallyRaw->proposals as $proposalOutput) {
+            $proposalTally = new ProposalTally();
+            $proposalUuid = $proposalOutput->getPollProposalId()->toString();
+            $proposal = $this->getProposalRepository()->findOneByUuid($proposalUuid);
+            $proposalTally->setProposal($proposal);
+            $proposalTally->setRank($proposalOutput->getRank());
+            $leaderboard[] = $proposalTally;
+        }
 
-        $result = new Tally();
-        $result->setPoll($poll);
-        $result->setAlgorithm($tallierAlgorithm);
-        $result->setLeaderboard($leaderboard);
+        $tally = new Tally();
+        $tally->setPoll($poll);
+        $tally->setAlgorithm($tallierAlgorithm);
+        $tally->setLeaderboard($leaderboard);
 
-        return $result;
+        return $tally;
     }
 }
