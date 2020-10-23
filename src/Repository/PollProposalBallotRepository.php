@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Poll;
+use App\Entity\Poll\Proposal;
 use App\Entity\Poll\Proposal\Ballot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -21,15 +22,21 @@ class PollProposalBallotRepository extends ServiceEntityRepository
     }
 
 
-    public function countVotesOnPoll(Poll $poll)
+    public function countPollBallots(Poll $poll)
     {
-        $count = 0;
-        foreach ($poll->getProposals() as $proposal) {
-            $count += $this->count([
-                'proposal' => $proposal->getId(),
-            ]);
-        }
-        return $count;
+//        $count = 0;
+//        foreach ($poll->getProposals() as $proposal) {
+//            $count += $this->count([
+//                'proposal' => $proposal->getId(),
+//            ]);
+//        }
+//        return $count;
+
+        return $this->count([
+            'proposal' => array_map(function(Proposal $proposal){
+                return $proposal->getId();
+            }, $poll->getProposals()->toArray()),
+        ]);
     }
 
     // /**
