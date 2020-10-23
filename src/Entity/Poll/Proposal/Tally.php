@@ -30,4 +30,38 @@ class Tally
      * @Groups({"read"})
      */
     private $rank;
+
+    ///
+
+    /**
+     * @return Proposal
+     */
+    public function getProposal(): Proposal
+    {
+        return $this->proposal;
+    }
+
+    /**
+     * @param Proposal $proposal
+     */
+    public function setProposal(Proposal $proposal): void
+    {
+        $this->proposal = $proposal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRank(): int
+    {
+        return $this->rank;
+    }
+
+    /**
+     * @param int $rank
+     */
+    public function setRank(int $rank): void
+    {
+        $this->rank = $rank;
+    }
 }
