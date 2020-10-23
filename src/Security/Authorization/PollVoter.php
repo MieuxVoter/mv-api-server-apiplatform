@@ -97,7 +97,7 @@ class PollVoter extends Voter
                     return true;
                 }
 
-                if (0 < $this->voteRepository->countVotesOnPoll($subject)) {
+                if (0 < $this->voteRepository->countPollBallots($subject)) {
                     return false;
                 }
                 if ($subject->getAuthor() === $user) {

@@ -110,12 +110,12 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
-            'GET',"/polls/".$poll->getUuid()->toString()."/tally",
+            'GET',"/polls/".$poll->getUuid()->toString()."/results",
             [], [], !empty($try)
         );
 
         if ($tx->getResponse()->isSuccessful()) {
-            $this->that_tally = json_decode($tx->getResponse()->getContent());
+            $this->that_tally = $tx->getResponseJson();
         } else {
             $this->that_tally = null;
         }
