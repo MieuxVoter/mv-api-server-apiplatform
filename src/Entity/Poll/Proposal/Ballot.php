@@ -134,6 +134,7 @@ class Ballot
      */
     private $participant;
 
+    ///
 
     public function __construct()
     {

@@ -9,12 +9,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
+ * The Tally of one Proposal.
  *
- *
- * Class Result
+ * Class Tally
  * @package App\Entity\Poll\Proposal
  */
-class Result
+class Tally
 {
     /**
      * @var Proposal
