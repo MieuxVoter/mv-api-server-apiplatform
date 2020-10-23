@@ -1,10 +1,14 @@
 <?php
+
+
 namespace App\DataPersister;
+
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 final class UserDataPersister implements ContextAwareDataPersisterInterface
 {
@@ -47,7 +51,6 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
      *
      * @param User $data
      * @param array $context
-     * @return User
      */
     public function persist($data, array $context = [])
     {

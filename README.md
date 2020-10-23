@@ -1,7 +1,21 @@
-
 # Liquid Majority Judgment
 
 > You know it.  ♪  We want it.  ♬  HERE and NOW!  ♫
+
+This is a **REST API backend** for (Liquid) Majority Judgment.
+
+It is **OpenApi v3 compliant**.
+The Swagger (OpenApi v2) support is partial, it's hard to get both, so we chose to go with v3.
+
+It supports:
+- JSON
+- LD+JSON
+- HTML (sandbox)
+- other formats can be added if needed
+
+It features:
+- An algorithmic constitution written in plain language
+- 
 
 
 ## Install
@@ -20,7 +34,11 @@ Get [Composer](https://getcomposer.org).
 
 ### Via docker
 
-Install Docker Compose.  Run `doccker-compose up`.
+Install [Docker Compose](https://docs.docker.com/compose/install/).
+
+Run:
+
+    docker-compose up
 
 
 ### References
@@ -40,5 +58,12 @@ Browse http://localhost:8000/api/docs
 
 ## Run the feature suite
 
+You should do this, it's mesmerizing.  :]
+
     vendor/bin/behat -vv
     vendor/bin/behat -vv --tags wip
+    vendor/bin/behat -vv --rerun
+
+Best mount `var/` to RAM first, for a 4x faster test-suite and to prevent your hard drives from premature aging.
+
+    bin/tmpfs4var

@@ -1,5 +1,8 @@
 <?php
 
+/// This is the Front Controller of Symfony.
+/// All requests go through this.  (except static files)
+
 use App\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
