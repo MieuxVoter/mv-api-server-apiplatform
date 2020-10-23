@@ -18,9 +18,6 @@ use App\Tallier\Output\PollTally;
  * Pretty inefficient algorithm.
  *
  * Sums direct votes.
- *
- * Class StandardTallier
- * @package App\Tally\Bot
  */
 class StandardTallier implements TallierInterface
 {
