@@ -6,7 +6,7 @@ namespace App\Entity\Poll;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\GetTallyController;
-use App\Tally\Output\PollTally as TallyOutput;
+use App\Tallier\Output\PollTally as TallyOutput;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
