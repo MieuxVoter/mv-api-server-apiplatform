@@ -24,19 +24,6 @@ class ApiRestFeatureContext extends BaseFeatureContext
         );
     }
 
-//    /**
-//     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? dél[éè]gu(?:e[szr]?|ons|ent)(?: finalement)? ses votes à (?P<delegate>.+)$/ui
-//     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? delegate? (?:my|her|his|their) votes to (?P<delegate>.+)$/ui
-//     */
-//    public function actorDelegatesToCitizen($actor, $try, $delegate)
-//    {
-//        $subordinate = $this->user($delegate);
-//
-//        $parameters = [ 'subordinate' => $subordinate->getId() ];
-//
-//        $this->actor($actor)->apiOld('POST', "/delegation", $parameters, !empty($try));
-//    }
-
 
     /**
      * This step makes multiple requests, one per given mention.
@@ -233,5 +220,18 @@ class ApiRestFeatureContext extends BaseFeatureContext
     }
 
 
+
+//    /**
+//     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? dél[éè]gu(?:e[szr]?|ons|ent)(?: finalement)? ses votes à (?P<delegate>.+)$/ui
+//     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? delegate? (?:my|her|his|their) votes to (?P<delegate>.+)$/ui
+//     */
+//    public function actorDelegatesToCitizen($actor, $try, $delegate)
+//    {
+//        $subordinate = $this->user($delegate);
+//
+//        $parameters = [ 'subordinate' => $subordinate->getId() ];
+//
+//        $this->actor($actor)->apiOld('POST', "/delegation", $parameters, !empty($try));
+//    }
 
 }
