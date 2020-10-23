@@ -17,6 +17,14 @@ trait EntityManagerAware {
     /**
      * @return EntityManagerInterface
      */
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->getEm();
+    }
+
+    /**
+     * @return EntityManagerInterface
+     */
     public function getEm(): EntityManagerInterface
     {
         return $this->em;
