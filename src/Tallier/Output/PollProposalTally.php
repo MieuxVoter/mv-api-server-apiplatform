@@ -10,8 +10,6 @@ use Ramsey\Uuid\UuidInterface;
 class PollProposalTally
 {
     /**
-     * Why not pas the poll ?  (careful, we `clone` this class)
-     *
      * @var UuidInterface
      * UUID of the Proposal that this tally belongs to.
      */

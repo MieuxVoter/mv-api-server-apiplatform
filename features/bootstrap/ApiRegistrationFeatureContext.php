@@ -3,7 +3,7 @@
 
 /**
  *
- * NOT USED
+ * NOT USED (for now?)
  *
  *
  * Steps for registration, using the REST form of the API
