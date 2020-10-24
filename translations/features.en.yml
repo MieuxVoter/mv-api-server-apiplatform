@@ -64,8 +64,10 @@ testing:
 
 test:
   failure:
-    no_poll_proposal_found_for_uuid:
+    no_proposal_matching_uuid:
       No Proposal with UUID `{{ uuid }}' could be found.
+    no_proposal_matching_title: |
+      No proposal with title `{{ title }}' could be found.
     proposal_tallies_dont_match: |
       Expected mention `{{ expected_grade }}' but the tally got `{{ actual_grade }}'
       on proposal `{{ proposal.title }}' ({{ proposal.id }})."
@@ -98,3 +100,5 @@ test:
     no_majority_judgment_poll_proposal_found_for_title: |
       No majority judgment poll proposal titled `{{ title }}' could be found in the database
       for poll with subject `{{ poll.subject }}' ({{ poll.uuid }}).
+    that_tally_undefined: |
+      Which tally do you refer to ?  There is no "that tally".

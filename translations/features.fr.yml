@@ -13,8 +13,7 @@ keys:
     scope: 'accès'
   proposal:
     grade: 'mention'
-    # rang ?
-    rank: 'position'
+    rank: 'rang'
   scopes:
     public: 'public'
     unlisted: 'non-listé'
@@ -57,18 +56,20 @@ test:
   failure:
     not_equal: |
       La valeur obtenue ({{ actual }}) diffère de la valeur attendue ({{ expected }}).
-    no_poll_proposal_found_for_uuid:
-      Aucun Proposal n'a été trouvé pour l'UUID `{{ uuid }}'.
+    no_proposal_matching_uuid:
+      Aucune proposition n'a été trouvée pour l'UUID `{{ uuid }}'.
+    no_proposal_matching_title: |
+      Aucune proposition intitulée `{{ title }}' n'a été trouvée.
     proposal_tallies_dont_match: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
       on obtient la mention `{{ actual_grade }}' mais la mention attendue est `{{ expected_grade }}'.
     proposal_rank_mismatch: |
-      Sur la proposition `{{ proposal.title }}' ({{ proposal.id }}),
-      on obtient la position `{{ actual_rank }}' mais sa position attendue est `{{ expected_rank }}'.
+      Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
+      on obtient le rang `{{ actual_rank }}' mais le rang attendu est `{{ expected_rank }}'.
     proposals_left_unprocessed: |
       Des propositions sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
       {% for proposal in proposals %}
-      - {{ proposal.title }} ({{ proposal.id }})
+      - {{ proposal.title }} ({{ proposal.uuid }})
       {% endfor %}
     poll_has_no_subject: |
       Le scrutin n'a pas de sujet.
@@ -91,3 +92,5 @@ test:
     no_majority_judgment_poll_proposal_found_for_title: |
       Aucune proposition n'ayant le titre `{{ title }}' et appartenant à un scrutin au jugement majoritaire
       a été trouvée dans la base de données pour le scrutin assujettissant `{{ poll.subject }}'.
+    that_tally_undefined: |
+      À quel dépouillement faites-vous référence ?  "ce dépouuillement" n'existe pas.
