@@ -64,7 +64,7 @@ class StandardTallier implements TallierInterface
         /** @var PollProposalTally[] $proposalsTallies */
         $proposalsTallies = array();
 
-        $defaultGrade = $poll->getDefaultGradeName();
+        $defaultGrade = $poll->getDefaultGradeUuid();
         $levelOfGrade = $poll->getLevelsOfGrades();
         $maxVotesCount = 0;
 
@@ -79,44 +79,45 @@ class StandardTallier implements TallierInterface
             $maxVotesCount = max($maxVotesCount, $votesCount);
             $gradesTally = array(); // grade_name => integer
 
-//            if ($votesCount) {
-
             usort($votes, function (Ballot $a, Ballot $b) use ($levelOfGrade) {
-                return $levelOfGrade[$a->getGrade()] - $levelOfGrade[$b->getGrade()];
+                return (
+                    $levelOfGrade[$a->getGrade()->getUuid()->toString()]
+                    -
+                    $levelOfGrade[$b->getGrade()->getUuid()->toString()]
+                );
             });
 
-            foreach ($levelOfGrade as $gradeToTally => $whoCares) {
-                $votesForMention = array_filter($votes, function (Ballot $v) use ($gradeToTally) {
-                    return $v->getGrade() === $gradeToTally;
+            foreach ($levelOfGrade as $gradeToTallyUuid => $whoCares) {
+                $votesForMention = array_filter($votes, function (Ballot $v) use ($gradeToTallyUuid) {
+                    return $v->getGrade()->getUuid()->toString() === $gradeToTallyUuid;
                 });
-                $gradesTally[$gradeToTally] = count($votesForMention);
+                $gradesTally[$gradeToTallyUuid] = count($votesForMention);
             }
-
-//            }
 
             $proposalTally = new PollProposalTally();
             $proposalTally->setPollProposalId($proposal->getUuid());
-            $proposalTally->setGradesNames($poll->getGradesNames());
+            $proposalTally->setGradesUuids($poll->getGradesUuids());
             $proposalTally->setGradesTally($gradesTally);
             // Setting these later once we have all the tallies
-            //$proposalTally->setMention(?);
-            //$proposalTally->setPosition(?);
+            //$proposalTally->setGrade(?);
+            //$proposalTally->setRank(?);
 
             $proposalsTallies[] = $proposalTally;
         }
 
-        // Second loop: equalize the votes count and compute the mention
+        // Second loop: equalize the votes count and compute the grade
         foreach ($proposalsTallies as $proposalTally) {
-            // Fill up proposal tallies that have less votes, with TO_REJECT mentions
-            // so that all tallies have the same number of mentions in the end.
-            // The goal here is to enforce the Rule about TO_REJECT being the default mention.
+            // Fill up proposal tallies that have less votes, with TO_REJECT grades
+            // so that all tallies have the same number of grades in the end.
+            // The goal here is to enforce the Rule about TO_REJECT being the default grade.
             $proposalTally->addVotesForGrade($maxVotesCount - $proposalTally->countVotes(), $defaultGrade);
-            // Once this is done, we can now compute the final mention from the median
+            // Once this is done, we can now compute the final grade from the median
             $proposalTally->setMedianGrade($proposalTally->getMedian());
         }
 
         // Sort the proposals using majority judgment on the median
-        usort($proposalsTallies, function (PollProposalTally $a, PollProposalTally $b) use ($levelOfGrade) {
+        // This is very naive and won't scale well
+        $compareFunction = function (PollProposalTally $a, PollProposalTally $b) use ($levelOfGrade) {
             // From https://en.wikipedia.org/wiki/Majority_judgment
             // If more than one proposal has the same highest median-grade,
             // the MJ winner is discovered by removing (one-by-one) any grades equal
@@ -128,23 +129,18 @@ class StandardTallier implements TallierInterface
                 $wipTallyA = clone $a;
                 $wipTallyB = clone $b;
 
-                // What should we do with these? Let's spec this later.
-                // Current code already considers that no-votes are TO_REJECT.
-                // Note that assert() appears be ineffective (for now) in our test-suite.
-                //assert($wipTallyA->countVotes() === $wipTallyB->countVotes());
-
                 // While one may prefer recursive functions for their simplicity,
                 // we're approaching this with a flat loop that should scale RAM usage better.
                 // Of course, it may still blow into infinite loops.  Those are the best.
                 while (!($wipTallyA->isEmpty() && $wipTallyB->isEmpty())) {
-                    $mentionA = $wipTallyA->getMedian();
-                    $mentionB = $wipTallyB->getMedian();
+                    $gradeA = $wipTallyA->getMedian();
+                    $gradeB = $wipTallyB->getMedian();
 
-                    if ($mentionA === $mentionB) {
-                        $wipTallyA->removeOneVoteForMention($mentionA);
-                        $wipTallyB->removeOneVoteForMention($mentionB);
+                    if ($gradeA === $gradeB) {
+                        $wipTallyA->removeOneVoteForMention($gradeA);
+                        $wipTallyB->removeOneVoteForMention($gradeB);
                     } else {
-                        return $levelOfGrade[$mentionB] - $levelOfGrade[$mentionA];
+                        return $levelOfGrade[$gradeB] - $levelOfGrade[$gradeA];
                     }
                 }
 
@@ -154,11 +150,23 @@ class StandardTallier implements TallierInterface
             }
 
             return $levelOfGrade[$b->getMedian()] - $levelOfGrade[$a->getMedian()];
-        });
+        };
 
+        usort($proposalsTallies, $compareFunction);
+
+        // Two proposals may have the same rank, in extreme cases
+        $previousRank = 0;
         foreach ($proposalsTallies as $k => $proposalTally) {
-            // In the future, two proposals may have the same position ; this code will perhaps change.
-            $proposalTally->setRank($k + 1);
+            $rank = $k + 1;
+            if (
+                ($k > 0)
+                &&
+                (0 === $compareFunction($proposalsTallies[$k-1], $proposalsTallies[$k]))
+            ) {
+                $rank = $previousRank;
+            }
+            $proposalTally->setRank($rank);
+            $previousRank = $rank;
         }
 
         $tally = new PollTally($proposalsTallies);

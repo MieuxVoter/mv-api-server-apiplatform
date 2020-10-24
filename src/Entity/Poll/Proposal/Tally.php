@@ -4,6 +4,7 @@
 namespace App\Entity\Poll\Proposal;
 
 
+use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -30,6 +31,12 @@ class Tally
      * @Groups({"read"})
      */
     private $rank;
+
+    /**
+     * @var Grade
+     * @Groups({"read"})
+     */
+    private $median_grade;
 
     ///
 
@@ -63,5 +70,21 @@ class Tally
     public function setRank(int $rank): void
     {
         $this->rank = $rank;
+    }
+
+    /**
+     * @return Grade
+     */
+    public function getMedianGrade(): Grade
+    {
+        return $this->median_grade;
+    }
+
+    /**
+     * @param Grade $median_grade
+     */
+    public function setMedianGrade(Grade $median_grade): void
+    {
+        $this->median_grade = $median_grade;
     }
 }

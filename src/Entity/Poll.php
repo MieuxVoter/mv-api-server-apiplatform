@@ -295,7 +295,7 @@ class Poll
     {
         $levels = [];
         foreach ($this->getGrades() as $grade) {
-            $levels[$grade->getName()] = $grade->getLevel();
+            $levels[$grade->getUuid()->toString()] = $grade->getLevel();
         }
         return $levels;
     }
@@ -310,11 +310,23 @@ class Poll
         return $names;
     }
 
+    public function getGradesUuids() : array
+    {
+        return array_map(function(Grade $grade) {
+            return $grade->getUuid()->toString();
+        }, $this->getGradesInOrder());
+    }
+
     public function getDefaultGrade() : Grade
     {
         $grades = $this->getGradesInOrder();
         assert( ! empty($grades), "Poll should have grades.");
         return $grades[0];
+    }
+
+    public function getDefaultGradeUuid() : string
+    {
+        return $this->getDefaultGrade()->getUuid()->toString();
     }
 
     public function getDefaultGradeName() : string

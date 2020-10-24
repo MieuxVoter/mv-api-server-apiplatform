@@ -63,8 +63,10 @@ final class GetTallyController
             $proposalTally = new ProposalTally();
             $proposalUuid = $proposalOutput->getPollProposalId()->toString();
             $proposal = $this->getProposalRepository()->findOneByUuid($proposalUuid);
+            $medianGrade = $this->getGradeRepository()->findOneByUuid($proposalOutput->getMedian());
             $proposalTally->setProposal($proposal);
             $proposalTally->setRank($proposalOutput->getRank());
+            $proposalTally->setMedianGrade($medianGrade);
             $leaderboard[] = $proposalTally;
         }
 

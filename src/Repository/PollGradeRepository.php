@@ -2,13 +2,15 @@
 
 namespace App\Repository;
 
-use App\Entity\Grade;
+use App\Entity\Poll;
+use App\Entity\Poll\Grade;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Grade|null find($id, $lockMode = null, $lockVersion = null)
  * @method Grade|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Grade|null findOneByUuid(string $uuid)
  * @method Grade[]    findAll()
  * @method Grade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
@@ -17,6 +19,14 @@ class PollGradeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Grade::class);
+    }
+
+    public function findOneByPollAndName(Poll $poll, string $name) : ?Grade
+    {
+        return $this->findOneBy([
+            'poll' => $poll,
+            'name' => $name,
+        ]);
     }
 
     // /**

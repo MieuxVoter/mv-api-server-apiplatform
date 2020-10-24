@@ -102,3 +102,5 @@ test:
       for poll with subject `{{ poll.subject }}' ({{ poll.uuid }}).
     that_tally_undefined: |
       Which tally do you refer to ?  There is no "that tally".
+    no_grade_matching_name: |
+      No grade matching the name `{{ name }}' could be found.

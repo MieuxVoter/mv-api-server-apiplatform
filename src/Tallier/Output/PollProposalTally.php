@@ -16,9 +16,8 @@ class PollProposalTally
     public $poll_proposal_id;
 
     /**
+     * UUID of the median grade of the proposal
      * @var string
-     * Final mention tallied, for example the median mention in the standard tally.
-     * One of Poll::MENTION_XXX
      */
     public $median_grade;
 
@@ -32,18 +31,17 @@ class PollProposalTally
 
     /**
      * @var array
-     * grade_name => integer
+     * grade_uuid => integer
      * Count of votes for each grade.
      */
     public $grades_tally;
-
 
     /**
      * @var array|string[]
      * The list of the names of grades this tally & poll use.
      * The order matters, and MUST be from "worse" to "best".
      */
-    protected $grades_names;
+    protected $grades_uuids;
     // protected $grades_tree;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +136,7 @@ class PollProposalTally
      */
     public function getMedian($low=true): string
     {
-        $mentions = $this->getGradesNames();
+        $mentions = $this->getGradesUuids();
 //        $order = $this->getMentionsPositions();
         $tally = $this->getGradesTally();
         $count = $this->countVotes();
@@ -169,22 +167,22 @@ class PollProposalTally
     /**
      * @return array|string[]
      */
-    public function getGradesNames()
+    public function getGradesUuids()
     {
-        if (null === $this->grades_names) {
+        if (null === $this->grades_uuids) {
             trigger_error("No grades list.");
         }
 
-        return $this->grades_names;
+        return $this->grades_uuids;
     }
 
 
     /**
-     * @param array|string[] $grades_names
+     * @param array|string[] $grades_uuids
      */
-    public function setGradesNames($grades_names): void
+    public function setGradesUuids($grades_uuids): void
     {
-        $this->grades_names = $grades_names;
+        $this->grades_uuids = $grades_uuids;
     }
 
 
@@ -196,7 +194,7 @@ class PollProposalTally
      */
     public function getMentionsPositions()
     {
-        return array_flip($this->getGradesNames());
+        return array_flip($this->getGradesUuids());
     }
 
 
@@ -210,11 +208,11 @@ class PollProposalTally
         $count = 0;
         $tally = $this->getGradesTally();
 
-        foreach ($this->getGradesNames() as $mention) {
-            if ( ! isset($tally[$mention])) {
-                trigger_error("Mention `$mention' is not available in the tally.", E_USER_ERROR);
+        foreach ($this->getGradesUuids() as $grade) {
+            if ( ! isset($tally[$grade])) {
+                trigger_error("Grade `$grade' is not available in the tally.", E_USER_ERROR);
             }
-            $count += (int) $tally[$mention];
+            $count += (int) $tally[$grade];
         }
 
         return $count;

@@ -36,8 +36,12 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($pollSubject);
         $data = $this->yaml($pystring);
 
-        foreach ($data as $proposalTitle => $gradeTitle) {
-            $proposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
+        foreach ($data as $proposalTitle => $gradeName) {
+            $proposal = $this->findOneProposalFromTitleAndPoll($proposalTitle, $poll);
+            $grade = $this->getGradeRepository()->findOneByPollAndName($poll, $gradeName);
+            if (null === $grade) {
+                $this->failTrans("no_grade_matching_name", ['name'=>$gradeName]);
+            }
             $pollId = $poll->getUuid();
             $proposalId = $proposal->getUuid();
             $this->actor($actor)->api(
@@ -45,7 +49,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
-                    'grade' => $gradeTitle,
+                    'grade' => $this->iri($grade),
                 ], [], !empty($try)
             );
         }
@@ -100,6 +104,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     public $that_tally;
+    public $that_tally_poll;
 
     /**
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) dépouill(?:e[szr]?|ent)(?: (?:de|à) nouveau)? le scrutin (?:titré|intitulé|assujettissant) "(?P<title>.+)"$/ui
@@ -116,9 +121,77 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
         if ($tx->getResponse()->isSuccessful()) {
             $this->that_tally = $tx->getResponseJson();
+            $this->that_tally_poll = $poll;
         } else {
             $this->that_tally = null;
+            $this->that_tally_poll = null;
         }
+    }
+
+    /**
+     * @Then /^ce dépouillement devrait être ?:?$/iu
+     * @Then /^that tally should be ?:?$/iu
+     */
+    public function thatTallyShouldBe($pystring)
+    {
+        if (null == $this->that_tally) {
+            $this->failTrans("that_tally_undefined");
+        }
+
+        $data = $this->yaml($pystring);
+
+//        dump($this->that_tally);
+//        array:7 [
+//          "@context" => "/api/contexts/Tally"
+//          "@id" => "/api/polls/1b62a229-1ac0-40bb-a824-ea6ae0f3fae3/tally"
+//          "@type" => "Tally"
+//          "id" => "1b62a229-1ac0-40bb-a824-ea6ae0f3fae3"
+//          "poll" => "/api/polls/37df0b4e-1ba2-4aef-9c5d-415861f7579e"
+//          "algorithm" => "standard"
+//          "leaderboard" => array:4 [
+//            0 => array:2 [
+//              "proposal" => array:4 [
+//                "@id" => "/api/proposals/3c4f5288-7e40-4b57-9b57-be40e8475a0c"
+//                "@type" => "Proposal"
+//                "uuid" => "3c4f5288-7e40-4b57-9b57-be40e8475a0c"
+//                "title" => "Épisode IV"
+//              ]
+//              "rank" => 1
+//            ]
+
+
+        foreach ($data as $proposalTitle => $datum) {
+            $rank = $datum[$this->t('keys.proposal.rank')];
+            $grade = $datum[$this->t('keys.proposal.grade')];
+
+//            $proposal = $this->getProposalRepository()->findOneBy([
+//                'title' => $proposalTitle,
+//                'poll' => $this->that_tally_poll,
+//            ]);
+            $proposal = $this->findOneProposalFromTitleAndPoll($proposalTitle, $this->that_tally_poll);
+
+            $found = false;
+            foreach ($this->that_tally['leaderboard'] as $actualProposalTally) {
+                if ($actualProposalTally['proposal']['title'] !== $proposalTitle) {
+                    continue;
+                }
+                $found = true;
+                if ($rank !== $actualProposalTally['rank']) {
+                    $this->failTrans("proposal_rank_mismatch", [
+                        'proposal' => $proposal,
+                        'expected_rank' => $rank,
+                        'actual_rank' => $actualProposalTally['rank'],
+                    ]);
+                }
+            }
+
+            if ( ! $found) {
+                $this->failTrans('no_proposal_matching_title', [
+                    'title' => $proposalTitle,
+                ]);
+            }
+        }
+
     }
 
 

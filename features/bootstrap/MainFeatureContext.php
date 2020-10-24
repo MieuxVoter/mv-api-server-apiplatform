@@ -193,7 +193,7 @@ class MainFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $proposals = $poll->getProposals();
-        $ballots = $this->getPollProposalBallotRepository()->findBy([
+        $ballots = $this->getBallotRepository()->findBy([
             'participant' => $actor->getUser()->getId(),
             'proposal' => array_map(function(Proposal $item){
                 return $item->getId();
@@ -208,18 +208,6 @@ class MainFeatureContext extends BaseFeatureContext
             $this->failTrans('not_equal', ['expected' => $thatMuch, 'actual' => $actual]);
         }
     }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //                             _      ________      _                        ___
-    //     /\                     | |    / /  ____|    | |                      | \ \
-    //    /  \   ___ ___  ___ _ __| |_  | || |__  __  _| |_ ___ _ __ _ __   __ _| || |
-    //   / /\ \ / __/ __|/ _ \ '__| __| | ||  __| \ \/ / __/ _ \ '__| '_ \ / _` | || |
-    //  / ____ \\__ \__ \  __/ |  | |_  | || |____ >  <| ||  __/ |  | | | | (_| | || |
-    // /_/    \_\___/___/\___|_|   \__| | ||______/_/\_\\__\___|_|  |_| |_|\__,_|_|| |
-    //                                   \_\                                      /_/
-    //
 
     /**
      * This step is too long and needs refactoring and simplification.
@@ -248,12 +236,14 @@ class MainFeatureContext extends BaseFeatureContext
                 ];
             }
 
+            $grade = $this->getGradeRepository()->findOneByPollAndName($poll, $gradeOrData[$gradeAtom]);
+            $gradeOrData[$gradeAtom] = $grade->getUuid()->toString();
 //            $gradeOrData[$gradeAtom] = $this->unlocalizePollMention($gradeOrData[$gradeAtom]);
             $expected[$pollProposalId] = $gradeOrData;
         }
 
-        $tallyBot = $this->getTallyBot($tally);
-        $actual = $tallyBot->tally($poll);
+        $tallier = $this->getTallyBot($tally);
+        $actual = $tallier->tally($poll);
 
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);
@@ -307,7 +297,17 @@ class MainFeatureContext extends BaseFeatureContext
     }
 
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //                             _      ________      _                        ___
+    //     /\                     | |    / /  ____|    | |                      | \ \
+    //    /  \   ___ ___  ___ _ __| |_  | || |__  __  _| |_ ___ _ __ _ __   __ _| || |
+    //   / /\ \ / __/ __|/ _ \ '__| __| | ||  __| \ \/ / __/ _ \ '__| '_ \ / _` | || |
+    //  / ____ \\__ \__ \  __/ |  | |_  | || |____ >  <| ||  __/ |  | | | | (_| | || |
+    // /_/    \_\___/___/\___|_|   \__| | ||______/_/\_\\__\___|_|  |_| |_|\__,_|_|| |
+    //                                   \_\                                      /_/
+    //
 
 
     /**

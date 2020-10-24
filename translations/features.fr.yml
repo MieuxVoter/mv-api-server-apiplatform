@@ -94,3 +94,5 @@ test:
       a été trouvée dans la base de données pour le scrutin assujettissant `{{ poll.subject }}'.
     that_tally_undefined: |
       À quel dépouillement faites-vous référence ?  "ce dépouuillement" n'existe pas.
+    no_grade_matching_name: |
+      Aucune mention nommée `{{ name }}' n'a pu être trouvée.

@@ -9,6 +9,7 @@ use App\Entity\Poll\Proposal;
 use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
+use App\Repository\PollGradeRepository;
 use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
@@ -191,9 +192,17 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
     /**
+     * @return PollGradeRepository
+     */
+    protected function getGradeRepository()
+    {
+        return $this->get(PollGradeRepository::class);
+    }
+
+    /**
      * @return PollProposalBallotRepository
      */
-    protected function getPollProposalBallotRepository()
+    protected function getBallotRepository()
     {
         return $this->get(PollProposalBallotRepository::class);
     }
