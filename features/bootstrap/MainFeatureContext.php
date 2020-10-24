@@ -238,7 +238,7 @@ class MainFeatureContext extends BaseFeatureContext
         $expected = [];
         $pollProposals = [];
         foreach ($expectedRaw as $proposalTitle => $gradeOrData) {
-            $pollProposal = $this->findOnePollProposalFromTitleAndPoll($proposalTitle, $poll);
+            $pollProposal = $this->findOneProposalFromTitleAndPoll($proposalTitle, $poll);
             $pollProposalId = $pollProposal->getUuid()->toString();
             $pollProposals[$pollProposalId] = $pollProposal;
 

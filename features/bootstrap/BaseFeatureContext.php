@@ -185,7 +185,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     /**
      * @return PollProposalRepository
      */
-    protected function getLimajuPollProposalRepository()
+    protected function getProposalRepository()
     {
         return $this->get(PollProposalRepository::class);
     }
@@ -390,14 +390,14 @@ class BaseFeatureContext extends WebTestCase implements Context
         $pollProposal = $this->getRepository(Proposal::class)->findOneByUuid($uuid);
         if (( ! $lenient) && (null == $pollProposal)) {
 //            $this->fail("No Proposal with UUID `$uuid' could be found.");
-            $this->failTrans("no_poll_proposal_found_for_uuid", ['uuid' => $uuid]);
+            $this->failTrans("no_proposal_matching_uuid", ['uuid' => $uuid]);
         }
 
         return $pollProposal;
     }
 
 
-    protected function findOnePollProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?Proposal
+    protected function findOneProposalFromTitleAndPoll($title, $poll, $lenient = false) : ?Proposal
     {
         /** @var Proposal $PollProposal
          */
