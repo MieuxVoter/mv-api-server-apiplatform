@@ -1,6 +1,12 @@
 # Gource is free software to generate an animation of the contributions.
 # The .gource file is not a convention (yet).  Run `gource --load-config .gource`.
 # https://gource.io/
+#
+# Make a video:
+#     gource --load-config .gource -1280x720 -o gource.ppm
+#     ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i gource.ppm -vcodec libx264 -preset medium -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 gource.mp4
+#
+#
 [gource]
 font-size=10.6
 font-scale=2.5
@@ -8,5 +14,5 @@ path=.
 #time-scale=0.62
 title=Liquid Majority Judgment
 seconds-per-day=3
-auto-skip-seconds=1
+auto-skip-seconds=0.5
 elasticity=0.3
