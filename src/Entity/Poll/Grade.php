@@ -46,7 +46,7 @@ class Grade
      * @ApiProperty(identifier=true)
      * @Groups({"read"})
      */
-    public $uuid;
+    private $uuid;
 
     /**
      * @ORM\Column(type="string", length=32)
@@ -85,6 +85,11 @@ class Grade
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): UuidInterface
+    {
+        return $this->uuid;
     }
 
     public function getName(): ?string
