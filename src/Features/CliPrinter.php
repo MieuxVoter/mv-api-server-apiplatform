@@ -103,12 +103,27 @@ class CliPrinter
         }
 
         $d = sprintf(
-            "%s HTTP/%s\r\n%s\r\n%s\r\n",
+            "%s HTTP/%s\r\n%s\r\n",
             $statusStyle->apply($statusCode." ".Response::$statusTexts[$statusCode]),
             $response->getProtocolVersion(),
-            $response->headers,
-            $response->getContent()
+            $response->headers
         );
+
+        $responseBody = $response->getContent();
+
+        if (true) { // if behat's verbosity is, say, higher than -v ?
+            try {
+                $jsonResponse = json_decode($response->getContent());
+                $responseBody = self::dump($jsonResponse);
+                $responseBody = "The actual JSON response is hard to read.\r\n" .
+                    "Here is a dump of it, once decoded:\r\n" .
+                    $responseBody;
+            } catch (\Exception $e) {
+                // Response is not valid JSON, just print it as-is
+            }
+        }
+
+        $d .= sprintf("%s\r\n", $responseBody);
 
         if ( ! $only_return) {
             print($d);
@@ -133,6 +148,15 @@ class CliPrinter
         $d .= self::printResponse($transaction->getResponse(), $only_return);
 
         return $d;
+    }
+
+
+    static public function dump($var) : string
+    {
+        $cloner = new VarCloner();
+        $dumper = new CliDumper();
+
+        return $dumper->dump($cloner->cloneVar($var), true);
     }
 
 }
