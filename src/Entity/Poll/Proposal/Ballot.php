@@ -7,6 +7,7 @@ namespace App\Entity\Poll\Proposal;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\CreateBallotController;
+use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
@@ -121,8 +122,11 @@ class Ballot
     /**
      * The Grade attributed by the Judge to the Proposal.
      *
+     * @var Grade
      * @Groups({"create", "read"})
-     * @ORM\Column(type="string", length=32)
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\Poll\Grade",
+     * )
      */
     private $grade;
 
@@ -163,12 +167,12 @@ class Ballot
         return $this;
     }
     
-    public function getGrade(): ?string
+    public function getGrade(): ?Grade
     {
         return $this->grade;
     }
 
-    public function setGrade(string $grade): self
+    public function setGrade(Grade $grade): self
     {
         $this->grade = $grade;
 
