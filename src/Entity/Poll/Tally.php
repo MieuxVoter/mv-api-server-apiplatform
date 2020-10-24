@@ -8,8 +8,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\GetTallyController;
 use App\Entity\Poll;
-//use App\Tallier\Output\PollTally as TallyOutput;
-use Ramsey\Uuid\Uuid;
+//use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
@@ -17,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A Tally of a Liquid Majority Judgment Poll.
  *
  * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
  *     shortName="Tally",
  *     itemOperations={
  *         "get_for_poll"={
@@ -32,13 +32,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Tally
 {
     /**
-     * UUID
-     * Remove this if you can, we don't need no id.
+     * This a stub to fool ApiPlatform.
+     * We don't need an identifier, as this entity is not in the database.
+     * See Issue #17.
+     *
      * @var string
      * @ApiProperty(identifier=true)
      * @Groups({"read"})
      */
-    private $id;
+    private $id = "identifier_stub_see_issue_17";
 
     /**
      * The poll this tally is of.
@@ -52,6 +54,7 @@ class Tally
      * Default: "standard"
      *
      * @var string The algorithm used to compute this poll tally..
+     * @ApiProperty()
      * @Groups({"read"})
      */
     private $algorithm;
@@ -65,16 +68,21 @@ class Tally
      *
      * @var []ProposalTally
      * @Groups({"read"})
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="array",
+     *             "items"={
+     *                 "$ref"="#/components/schemas/ProposalTally",
+     *             },
+     *         },
+     *     },
+     * )
      */
     private $leaderboard; // $proposals?
 
     ///
     ///
-
-    public function __construct()
-    {
-        $this->id = Uuid::uuid4()->toString();
-    }
 
     /**
      * @return string
