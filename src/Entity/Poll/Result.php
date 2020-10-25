@@ -70,7 +70,7 @@ class Result
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
-     *             "description"="In order, each Proposals' Tally.
+     *             "description"="In order, each Proposals' Result.
 In extreme, low-participation polls, some proposals may have the exact same rank.
 In that case, their order should be the order they were defined in the poll.",
      *             "type"="array",
@@ -81,7 +81,7 @@ In that case, their order should be the order they were defined in the poll.",
      *     },
      * )
      */
-    private $leaderboard; // $proposals?
+    private $leaderboard;  // $proposals?  $proposalsResults?
 
     ///
     ///
