@@ -74,7 +74,6 @@ final class GetResultController
             $proposalResult->setTally($proposalOutput->countVotes());
 
             foreach ($grades as $grade) {
-
                 $gradeResult = new ProposalGradeResult();
                 $gradeResult->setGrade($grade);
                 $gradeResult->setProposal($proposal);
