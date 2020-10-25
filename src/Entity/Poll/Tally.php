@@ -54,7 +54,6 @@ class Tally
      * Default: "standard"
      *
      * @var string The algorithm used to compute this poll tally..
-     * @ApiProperty()
      * @Groups({"read"})
      */
     private $algorithm;
