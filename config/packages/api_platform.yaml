@@ -2,12 +2,12 @@
 
 api_platform:
     # The title of the API.
-    title: 'Limaju API'
+    title: 'Majority Judgment API'
 
     # The description of the API.
     description: |
-        *Limaju* is a **deliberation service** using (liquid) **majority judgment** polling.
-        It's **libre software** made and maintained by nobodies.
+        This is a **deliberation service** using (liquid) **majority judgment** polling.
+        It's **libre software** made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
         You're browsing the API documentation.
 
         For more, head over to [Gitlab](https://framagit.org/limaju).
