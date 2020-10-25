@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     shortName="ProposalResult",
+ *     normalizationContext={"groups"={"read"}},
  *     itemOperations={
  *         "get",
  *     },
@@ -61,7 +62,8 @@ class Result
      * @var Grade
      * @Groups({"read"})
      */
-    private $median_grade;
+    private $medianGrade; // camelCase required by ApiPlatform
+
 
     ///
     ///
@@ -119,14 +121,14 @@ class Result
      */
     public function getMedianGrade(): Grade
     {
-        return $this->median_grade;
+        return $this->medianGrade;
     }
 
     /**
-     * @param Grade $median_grade
+     * @param Grade $medianGrade
      */
-    public function setMedianGrade(Grade $median_grade): void
+    public function setMedianGrade(Grade $medianGrade): void
     {
-        $this->median_grade = $median_grade;
+        $this->medianGrade = $medianGrade;
     }
 }
