@@ -81,6 +81,8 @@ class Result
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
+     *             "description"="Results for each Grade, on this Proposal.
+This is the merit profile of the Proposal.",
      *             "type"="array",
      *             "items"={
      *                 "$ref"="#/components/schemas/ProposalGradeResult",

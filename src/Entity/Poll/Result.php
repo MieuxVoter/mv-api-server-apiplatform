@@ -70,6 +70,9 @@ class Result
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
+     *             "description"="In order, each Proposals' Tally.
+In extreme, low-participation polls, some proposals may have the exact same rank.
+In that case, their order should be the order they were defined in the poll.",
      *             "type"="array",
      *             "items"={
      *                 "$ref"="#/components/schemas/ProposalResult",
