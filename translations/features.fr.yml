@@ -60,12 +60,12 @@ test:
       Aucune proposition n'a été trouvée pour l'UUID `{{ uuid }}'.
     no_proposal_matching_title: |
       Aucune proposition intitulée `{{ title }}' n'a été trouvée.
-    proposal_tallies_dont_match: |
-      Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
-      on obtient la mention `{{ actual_grade }}' mais la mention attendue est `{{ expected_grade }}'.
     proposal_rank_mismatch: |
       Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
       on obtient le rang `{{ actual_rank }}' mais le rang attendu est `{{ expected_rank }}'.
+    proposal_median_grade_mismatch: |
+      Sur la proposition `{{ proposal.title }}' ({{ proposal.uuid }}),
+      on obtient la mention médiane `{{ actual_grade }}' mais la mention attendue est `{{ expected_grade }}'.
     proposals_left_unprocessed: |
       Des propositions sont dans les spécifications mais n'ont jamais été comparés au dépouillement:
       {% for proposal in proposals %}

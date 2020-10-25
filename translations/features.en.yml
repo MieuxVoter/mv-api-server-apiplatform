@@ -68,12 +68,13 @@ test:
       No Proposal with UUID `{{ uuid }}' could be found.
     no_proposal_matching_title: |
       No proposal with title `{{ title }}' could be found.
-    proposal_tallies_dont_match: |
-      Expected mention `{{ expected_grade }}' but the tally got `{{ actual_grade }}'
-      on proposal `{{ proposal.title }}' ({{ proposal.id }})."
     proposal_rank_mismatch: |
       Expected rank `{{ expected_rank }}' but the tally got `{{ actual_rank }}'
-      on proposal `{{ proposal.title }}' ({{ proposal.id }})."
+      on proposal `{{ proposal.title }}' ({{ proposal.id }}).
+    proposal_median_grade_mismatch: |
+      Expected median grade `{{ expected_grade }}' but the tally got `{{ actual_grade }}'
+      on proposal `{{ proposal.title }}' ({{ proposal.id }}).
+
     proposals_left_unprocessed: |
       Some proposals are in the specifications but were never tallied:
       {% for proposal in proposals %}

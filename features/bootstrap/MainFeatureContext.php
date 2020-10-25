@@ -260,7 +260,7 @@ class MainFeatureContext extends BaseFeatureContext
 
                 if ($expected[$proposalUuid][$gradeAtom] !== $proposalTally->median_grade) {
                     //dump("Actual proposal tally", $proposalTally);
-                    $this->failTrans("proposal_tallies_dont_match", [
+                    $this->failTrans("proposal_median_grade_mismatch", [
                         'expected_grade' => $expected[$proposalUuid][$gradeAtom],
                         'actual_grade' => $proposalTally->median_grade,
                         'proposal' => $pollProposal,

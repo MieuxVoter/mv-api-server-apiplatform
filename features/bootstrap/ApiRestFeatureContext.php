@@ -157,6 +157,14 @@ class ApiRestFeatureContext extends BaseFeatureContext
 //                "title" => "Épisode IV"
 //              ]
 //              "rank" => 1
+//              "medianGrade": {#49504
+//                "@id": "/api/grades/085a0cf6-409d-47fd-b553-ba3f84840d97"
+//                "@type": "Grade"
+//                "uuid": "085a0cf6-409d-47fd-b553-ba3f84840d97"
+//                "name": "très bien"
+//                "level": 5
+//              }
+
 //            ]
 
 
@@ -183,6 +191,15 @@ class ApiRestFeatureContext extends BaseFeatureContext
                         'actual_rank' => $actualProposalTally['rank'],
                     ]);
                 }
+                if ($grade !== $actualProposalTally['medianGrade']['name']) {
+                    $this->failTrans("proposal_median_grade_mismatch", [
+                        'proposal' => $proposal,
+                        'expected_grade' => $grade,
+                        'actual_grade' => $actualProposalTally['medianGrade']['name'],
+                    ]);
+                }
+
+
             }
 
             if ( ! $found) {
