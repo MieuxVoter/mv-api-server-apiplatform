@@ -26,11 +26,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Tally
 {
-
+    // The \n allows us to pass multiline descriptions to openapi.
     /**
-     * This a stub to fool ApiPlatform.
+     * This a stub to fool ApiPlatform.  See Issue #17.  \n
      * We don't need an identifier, as this entity is not in the database.
-     * See Issue #17.
      *
      * @var string
      * @ApiProperty(identifier=true)
@@ -39,13 +38,15 @@ class Tally
     private $id = "identifier_stub_see_issue_17";
 
     /**
+     * The Proposal this Result is for.
+     *
      * @var Proposal
      * @Groups({"read"})
      */
     private $proposal;
 
     /**
-     * Rank starts at 1 and goes upwards.
+     * Rank starts at 1 and goes upwards.  \n
      * Two proposals may have the same rank.
      *
      * @var int Rank of the proposal in the poll.
@@ -54,6 +55,8 @@ class Tally
     private $rank;
 
     /**
+     * The median Grade of the Proposal.
+     *
      * @var Grade
      * @Groups({"read"})
      */
@@ -61,11 +64,6 @@ class Tally
 
     ///
     ///
-
-    public function __construct()
-    {
-        //$this->id = Uuid::uuid4()->toString();
-    }
 
     /**
      * @return mixed
