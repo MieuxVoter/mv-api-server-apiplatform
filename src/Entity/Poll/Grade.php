@@ -23,7 +23,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Participant's Ballots will hold references to one Grade and one Proposal.
  *
- * @ApiResource()
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ * )
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollGradeRepository",
  * )

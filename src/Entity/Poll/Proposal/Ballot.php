@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * RULESET A: Immutability
  * A Ballot is immutable.
  * A Ballot cannot be deleted.
- * Multiple Ballots may be recorded, and only the most recent one should matter in the Tally.
+ * Multiple Ballots may be recorded, and only the most recent one should matter in the Result.
  *
  * RULESET B: Mutability
  * A Ballot is mutable.

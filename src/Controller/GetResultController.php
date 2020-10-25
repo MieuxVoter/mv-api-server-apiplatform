@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\Is\EntityAware;
-use App\Entity\Poll\Proposal\Tally as ProposalTally;
-use App\Entity\Poll\Tally;
+use App\Entity\Poll\Proposal\Result as ProposalResult;
+use App\Entity\Poll\Result;
 use App\Tallier\TallierFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +16,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
- * See App\Entity\Poll\Tally where this controller is declared.
+ * See App\Entity\Poll\Result where this controller is declared.
  */
-final class GetTallyController
+final class GetResultController
 {
     use EntityAware;
 
@@ -31,7 +31,7 @@ final class GetTallyController
     public function __invoke(
         Request $request,
         TallierFactory $tallierFactory
-    ) : Tally {
+    ) : Result {
 
         $pollId = $request->get('id');
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
@@ -50,31 +50,31 @@ final class GetTallyController
         /// The output of the tallier is in another data model.
         /// We grab it convert it here to the API model.
         /// The Tallier heavily relies on methods in its data output classes.
-        /// We could perhaps refactor the Talliers to directly output the API model Tally,
+        /// We could perhaps refactor the Talliers to directly output the API model Result,
         /// by moving all the calculus logic somewhere else, in Traits of Talliers perhaps?
         /// Then we could remove half the lines in this controller, including this comment. :]
 
         $tallierAlgorithm = "standard";  // get it from request, but sanitize first!
         $tallier = $tallierFactory->findByName($tallierAlgorithm);
-        $tallyRaw = $tallier->tally($poll);
+        $resultRaw = $tallier->tally($poll);
 
         $leaderboard = [];
-        foreach ($tallyRaw->proposals as $proposalOutput) {
-            $proposalTally = new ProposalTally();
+        foreach ($resultRaw->proposals as $proposalOutput) {
+            $proposalResult = new ProposalResult();
             $proposalUuid = $proposalOutput->getPollProposalId()->toString();
             $proposal = $this->getProposalRepository()->findOneByUuid($proposalUuid);
             $medianGrade = $this->getGradeRepository()->findOneByUuid($proposalOutput->getMedian());
-            $proposalTally->setProposal($proposal);
-            $proposalTally->setRank($proposalOutput->getRank());
-            $proposalTally->setMedianGrade($medianGrade);
-            $leaderboard[] = $proposalTally;
+            $proposalResult->setProposal($proposal);
+            $proposalResult->setRank($proposalOutput->getRank());
+            $proposalResult->setMedianGrade($medianGrade);
+            $leaderboard[] = $proposalResult;
         }
 
-        $tally = new Tally();
-        $tally->setPoll($poll);
-        $tally->setAlgorithm($tallierAlgorithm);
-        $tally->setLeaderboard($leaderboard);
+        $result = new Result();
+        $result->setPoll($poll);
+        $result->setAlgorithm($tallierAlgorithm);
+        $result->setLeaderboard($leaderboard);
 
-        return $tally;
+        return $result;
     }
 }

@@ -12,19 +12,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * The Tally of one Proposal.
+ * The ranked Result of one Proposal in a Poll.
  *
  * @ApiResource(
- *     shortName="ProposalTally",
+ *     shortName="ProposalResult",
  *     itemOperations={
  *         "get",
  *     },
  *     collectionOperations={},
  * )
- * Class Tally
+ * Class Result
  * @package App\Entity\Poll\Proposal
  */
-class Tally
+class Result
 {
     // The \n allows us to pass multiline descriptions to openapi.
     /**
@@ -46,6 +46,7 @@ class Tally
     private $proposal;
 
     /**
+     * The computed rank of the Proposal in the Poll.  \n
      * Rank starts at 1 and goes upwards.  \n
      * Two proposals may have the same rank.
      *

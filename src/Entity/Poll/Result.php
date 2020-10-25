@@ -6,35 +6,34 @@ namespace App\Entity\Poll;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\GetTallyController;
+use App\Controller\GetResultController;
 use App\Entity\Poll;
 //use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Tally of a Liquid Majority Judgment Poll.
+ * A Result of a (Liquid) Majority Judgment Poll.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
- *     shortName="Tally",
+ *     shortName="Result",
  *     itemOperations={
  *         "get_for_poll"={
  *             "method"="GET",
- *             "controller"=GetTallyController::class,
- *             "path"="/polls/{id}/tally.{_format}",
+ *             "controller"=GetResultController::class,
+ *             "path"="/polls/{id}/result.{_format}",
  *             "read"=false,
  *         },
  *     },
  *     collectionOperations={},
  * )
  */
-class Tally
+class Result
 {
     /**
-     * This a stub to fool ApiPlatform.
+     * This a stub to fool ApiPlatform.  See Issue #17.  \n
      * We don't need an identifier, as this entity is not in the database.
-     * See Issue #17.
      *
      * @var string
      * @ApiProperty(identifier=true)
@@ -43,7 +42,7 @@ class Tally
     private $id = "identifier_stub_see_issue_17";
 
     /**
-     * The poll this tally is of.
+     * The Poll this Result describes.
      *
      * @var Poll
      * @Groups({"read"})
@@ -51,9 +50,10 @@ class Tally
     private $poll;
 
     /**
-     * Default: "standard"
+     * The name of the algorithm used to derive this Result.  \n
+     * Default: "standard".
      *
-     * @var string The algorithm used to compute this poll tally..
+     * @var string
      * @Groups({"read"})
      */
     private $algorithm;
@@ -61,18 +61,18 @@ class Tally
     // algorithm parameters?  perhaps use an entity as $algorithm?
 
     /**
-     * In order, each proposals' tally.
-     * Some proposals, in extreme, low-participation polls, may have the same rank.
+     * In order, each proposals' tally.  \n
+     * Some proposals, in extreme, low-participation polls, may have the same rank.  \n
      * In that case, their order should be the order they were defined in the poll.
      *
-     * @var []ProposalTally
+     * @var []ProposalResult
      * @Groups({"read"})
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
      *             "type"="array",
      *             "items"={
-     *                 "$ref"="#/components/schemas/ProposalTally",
+     *                 "$ref"="#/components/schemas/ProposalResult",
      *             },
      *         },
      *     },
