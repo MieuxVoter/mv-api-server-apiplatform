@@ -25,6 +25,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
+ *     itemOperations={
+ *         "get",
+ *     },
+ *     collectionOperations={},
  * )
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollGradeRepository",
@@ -33,6 +37,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Grade
 {
     /**
+     * Numerical identifier used internally.
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -57,8 +63,8 @@ class Grade
     private $name;
 
     /**
-     * Used to compare grades procedurally.
-     * Usually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.
+     * Used to compare grades procedurally.  \n
+     * Usually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.  \n
      * Grades of the same poll MUST have unique levels between themselves.
      *
      * @ORM\Column(type="integer")
@@ -69,7 +75,6 @@ class Grade
     /**
      * The poll this grade is attached to.
      *
-     * Groups({"Proposal-create"})
      * Groups({"create"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll",
@@ -78,6 +83,9 @@ class Grade
      * @ORM\JoinColumn(nullable=false)
      */
     private $poll;
+
+    ///
+    ///
 
     public function __construct()
     {
@@ -119,7 +127,7 @@ class Grade
     }
 
     /**
-     * @return mixed
+     * @return Poll
      */
     public function getPoll() : Poll
     {
@@ -127,9 +135,9 @@ class Grade
     }
 
     /**
-     * @param mixed $poll
+     * @param Poll $poll
      */
-    public function setPoll($poll): void
+    public function setPoll(Poll $poll): void
     {
         $this->poll = $poll;
     }

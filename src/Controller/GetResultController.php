@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\Is\EntityAware;
+use App\Entity\Poll\Grade\Result as ProposalGradeResult;
 use App\Entity\Poll\Proposal\Result as ProposalResult;
 use App\Entity\Poll\Result;
 use App\Tallier\TallierFactory;
@@ -24,14 +25,16 @@ final class GetResultController
 
     public function __construct(
         EntityManagerInterface $entityManager
-    ) {
+    )
+    {
         $this->setEm($entityManager);
     }
 
     public function __invoke(
         Request $request,
         TallierFactory $tallierFactory
-    ) : Result {
+    ): Result
+    {
 
         $pollId = $request->get('id');
         $poll = $this->getPollRepository()->findOneByUuid($pollId);
@@ -57,6 +60,7 @@ final class GetResultController
         $tallierAlgorithm = "standard";  // get it from request, but sanitize first!
         $tallier = $tallierFactory->findByName($tallierAlgorithm);
         $resultRaw = $tallier->tally($poll);
+        $grades = $poll->getGradesInOrder();
 
         $leaderboard = [];
         foreach ($resultRaw->proposals as $proposalOutput) {
@@ -67,6 +71,17 @@ final class GetResultController
             $proposalResult->setProposal($proposal);
             $proposalResult->setRank($proposalOutput->getRank());
             $proposalResult->setMedianGrade($medianGrade);
+            $proposalResult->setTally($proposalOutput->countVotes());
+
+            foreach ($grades as $grade) {
+
+                $gradeResult = new ProposalGradeResult();
+                $gradeResult->setGrade($grade);
+                $gradeResult->setProposal($proposal);
+                $gradeResult->setTally($proposalOutput->getGradesTally()[$grade->getUuid()->toString()]);
+                $proposalResult->addGradeResult($gradeResult);
+            }
+
             $leaderboard[] = $proposalResult;
         }
 

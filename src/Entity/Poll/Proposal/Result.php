@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Poll\Grade\Result as ProposalGradeResult;
 
 
 /**
@@ -64,6 +65,33 @@ class Result
      */
     private $medianGrade; // camelCase required by ApiPlatform
 
+    /**
+     * Total Amount of Ballots emitted for the Proposal this Result is about.  \n
+     * This includes the "ghost", default ballots.
+     *
+     * @var int
+     * @Groups({"read"})
+     */
+    private $tally;
+
+    /**
+     * Results for each Grade, on this Proposal.  \n
+     * This is the merit profile of the Proposal.
+     *
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="array",
+     *             "items"={
+     *                 "$ref"="#/components/schemas/ProposalGradeResult",
+     *             },
+     *         },
+     *     },
+     * )
+     * @var []ProposalGradeResult
+     * @Groups({"read"})
+     */
+    private $gradesResults; // $meritProfile?
 
     ///
     ///
@@ -130,5 +158,45 @@ class Result
     public function setMedianGrade(Grade $medianGrade): void
     {
         $this->medianGrade = $medianGrade;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTally(): int
+    {
+        return $this->tally;
+    }
+
+    /**
+     * @param int $tally
+     */
+    public function setTally(int $tally): void
+    {
+        $this->tally = $tally;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getGradesResults() : ?array
+    {
+        return $this->gradesResults;
+    }
+
+    /**
+     * @param mixed $gradesResults
+     */
+    public function setGradesResults($gradesResults): void
+    {
+        $this->gradesResults = $gradesResults;
+    }
+
+    public function addGradeResult(ProposalGradeResult $gradeResult)
+    {
+        if (null === $this->gradesResults) {
+            $this->gradesResults = array();
+        }
+        $this->gradesResults[] = $gradeResult;
     }
 }
