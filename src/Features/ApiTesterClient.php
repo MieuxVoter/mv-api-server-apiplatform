@@ -9,7 +9,8 @@ use Symfony\Component\BrowserKit\Request;
 
 
 /**
- * Used in the feature suite.
+ * Used in the feature suite, to get a CLI-printable response (sometimes).
+ * Don't mind the fact that it may be marked as unused by your IDE.  It's a service override.
  *
  * Class ApiTesterClient
  * @package App\Features
