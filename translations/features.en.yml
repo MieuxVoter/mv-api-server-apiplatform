@@ -20,10 +20,11 @@ keys:
     private: 'private'
 
 values:
-  scopes:
-    'public': 'public'
-    'unlisted': 'unlisted'
-    'private': 'private'
+  poll:
+    scope:
+      'public': 'public'
+      'unlisted': 'unlisted'
+      'private': 'private'
 
 # @deprecated
 value:
@@ -74,7 +75,6 @@ test:
     proposal_median_grade_mismatch: |
       Expected median grade `{{ expected_grade }}' but the tally got `{{ actual_grade }}'
       on proposal `{{ proposal.title }}' ({{ proposal.id }}).
-
     proposals_left_unprocessed: |
       Some proposals are in the specifications but were never tallied:
       {% for proposal in proposals %}

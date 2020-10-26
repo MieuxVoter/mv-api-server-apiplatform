@@ -20,10 +20,11 @@ keys:
     private: 'privé'
 
 values:
-  scopes:
-    'public': 'public'
-    'non-listé': 'unlisted'
-    'privé': 'private'
+  poll:
+    scope:
+      'public': 'public'
+      'non-listé': 'unlisted'
+      'privé': 'private'
 
 # @deprecated
 value:

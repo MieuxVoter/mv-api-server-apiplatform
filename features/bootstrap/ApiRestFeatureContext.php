@@ -89,7 +89,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
         $extraContent = [];
         if (isset($data[$this->t('keys.poll.scope')])) {
-            $extraContent['scope'] = $this->t('values.scopes.' . $data[$this->t('keys.poll.scope')]);
+            $extraContent['scope'] = $this->t('values.poll.scope.' . $data[$this->t('keys.poll.scope')]);
         }
 
         $this->actor($actor)->api(
