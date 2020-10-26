@@ -38,6 +38,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         },
  *     },
  *     collectionOperations={
+ *         "get"={
+ *             "normalization_context"={"groups"={"read"}},
+ *         },
  *         "post"={
  *             "denormalization_context"={"groups"={"create"}},
  *         },
