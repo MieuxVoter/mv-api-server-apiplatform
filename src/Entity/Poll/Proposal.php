@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity\Poll;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
@@ -15,10 +14,9 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// *             "path"="/polls/{pollId}/proposals/{proposalId}",
 
 /**
- * A Proposal of a Poll whom any Judge can give a Grade (aka. Mention) to.
+ * A Proposal of a Poll whom any Participant can give a Grade to.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
@@ -96,7 +94,7 @@ class Proposal
     public $uuid;
 
     /**
-     * → name ?
+     * The title of the proposal.
      *
      * @Groups({"create", "read", "create"})
      * @ORM\Column(type="string", length=142)
@@ -115,15 +113,18 @@ class Proposal
      */
     private $poll;
 
-   /**
-    * @ORM\OneToMany(
-    *     targetEntity="App\Entity\Poll\Proposal\Ballot",
-    *     mappedBy="proposal",
-    *     orphanRemoval=true,
-    * )
-    * @ApiSubresource()
-    */
-   private $ballots;
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Poll\Proposal\Ballot",
+     *     mappedBy="proposal",
+     *     orphanRemoval=true,
+     * )
+     * @ApiSubresource()
+     */
+    private $ballots;
+
+    ///
+    ///
 
     public function __construct()
     {
