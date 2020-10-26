@@ -35,7 +35,6 @@ class Result
      * We don't need an identifier, as this entity is not in the database.
      *
      * @var string
-     * @Groups({"read"})
      * @ApiProperty(identifier=true)
      */
     public $id = "identifier_stub_see_issue_17";

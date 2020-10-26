@@ -35,7 +35,6 @@ class Result
      *
      * @var string
      * @ApiProperty(identifier=true)
-     * @Groups({"read"})
      */
     private $id = "identifier_stub_see_issue_17";
 
