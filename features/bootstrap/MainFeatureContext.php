@@ -79,6 +79,7 @@ class MainFeatureContext extends BaseFeatureContext
      */
     public function givenPollLikeSo($pystring)
     {
+        $scopeKey = $this->t('keys.poll.scope');
         $subjectKey = $this->t('keys.poll.subject');
         $proposalsKey = $this->t('keys.poll.proposals');
         $gradesKey = $this->t('keys.poll.grades');
@@ -90,7 +91,12 @@ class MainFeatureContext extends BaseFeatureContext
             $this->failTrans("poll_has_no_subject");
         }
 
+
         $poll->setSubject($data[$subjectKey]);
+        if (isset($data[$scopeKey])) {
+            $poll->setScope($this->t('values.poll.scope.'.$data[$scopeKey]));
+        }
+
         $this->persist($poll);
 
         if ( ! isset($data[$proposalsKey])) {
@@ -322,6 +328,29 @@ class MainFeatureContext extends BaseFeatureContext
 
         $this->assertEquals($amount, $actor->countInvitations());
     }
+
+
+    /**
+     * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? voir(?: qu[e'])? ?(?P<amount>.+?) scrutins?$/iu
+     * @Then /^(?P<actor>.+?) should(?: now)? see (?P<amount>.+?) polls?$/iu
+     * @throws Exception
+     */
+    public function actorShouldSeeThatManyPolls($actor, $amount)
+    {
+        $this->actorShouldSeeThatManyEntities($actor, $amount, 'Poll');
+    }
+
+    public function actorShouldSeeThatManyEntities($actor, $amount, $entityClass)
+    {
+        $actor = $this->actor($actor);
+        $amount = $this->number($amount);
+        $actual = $actor->getLastTransaction()->getResponseJson();
+
+        $this->assertEquals("/api/contexts/".$entityClass, $actual['@context']);
+        $this->assertEquals($amount, $actual['hydra:totalItems']);
+    }
+
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

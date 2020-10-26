@@ -310,6 +310,19 @@ class ApiRestFeatureContext extends BaseFeatureContext
     }
 
 
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) list(?:e[szr]?|ent)(?: (?:de|à) nouveau)? les scrutins publics$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? browse the polls$/iu
+     */
+    public function actorListsPolls($actor, $try)
+    {
+        $this->actor($actor)->api(
+            'GET',"/polls",
+            [], [], !empty($try)
+        );
+    }
+
+
 
 //    /**
 //     * @When /^(?P<actor>.+?)(?P<try> *essa[iy]ez? de)? dél[éè]gu(?:e[szr]?|ons|ent)(?: finalement)? ses votes à (?P<delegate>.+)$/ui
