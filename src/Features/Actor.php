@@ -35,7 +35,7 @@ class Actor extends ApiActor
 
     public function countInvitations(?Poll $poll = null) : int
     {
-        assert(null === $poll); // todo: filter per poll
+        assert(null === $poll); // todo: filter per poll if specified
 
         $amount = 0;
         foreach ($this->invitations as $pollId => $invitations) {
@@ -44,7 +44,6 @@ class Actor extends ApiActor
 
         return $amount;
     }
-
 
     public function getInvitationByNumber($index)
     {
