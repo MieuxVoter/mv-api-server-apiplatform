@@ -50,7 +50,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "controller"=CreateBallotController::class,
  *             "denormalization_context"={"groups"={"create"}},
  *             "normalization_context"={"groups"={"read"}},
- *             "access_control"="is_granted('ROLE_USER')", *
+ *             "access_control"="is_granted('ROLE_USER')",
  *             "openapi_context"={
  *                 "parameters"={
  *                     {
