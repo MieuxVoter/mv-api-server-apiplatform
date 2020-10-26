@@ -340,17 +340,22 @@ class MainFeatureContext extends BaseFeatureContext
         $this->actorShouldSeeThatManyEntities($actor, $amount, 'Poll');
     }
 
+
+    /**
+     * @param $actor string
+     * @param $amount string
+     * @param $entityClass string The short name of the class as used by ApiPlatform
+     * @throws Exception
+     */
     public function actorShouldSeeThatManyEntities($actor, $amount, $entityClass)
     {
         $actor = $this->actor($actor);
         $amount = $this->number($amount);
         $actual = $actor->getLastTransaction()->getResponseJson();
 
-        $this->assertEquals("/api/contexts/".$entityClass, $actual['@context']);
+        $this->assertEquals("/contexts/".$entityClass, $actual['@context']);
         $this->assertEquals($amount, $actual['hydra:totalItems']);
     }
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

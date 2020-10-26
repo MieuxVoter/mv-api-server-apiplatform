@@ -47,7 +47,12 @@ class ApiActor
     protected $transactions = [];
 
 
-    protected $api_prefix = '/api';
+    /**
+     * A prefix if the API is available under a certain path.
+     *
+     * @var string
+     */
+    protected $api_prefix = '';  // used to be /api
 
 
     /**
