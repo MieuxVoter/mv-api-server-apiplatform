@@ -12,6 +12,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorBagInterface;
 // We're using the deprecated interface for `bin/console debug:event-dispatcher`.
 use Symfony\Component\Translation\TranslatorInterface as DeprecatedTranslatorInterface;
+//use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
