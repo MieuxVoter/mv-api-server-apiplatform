@@ -112,7 +112,7 @@ class Ballot
 
     /**
      * The name of the author of the vote, if any was specified.
-     * TBD. May be deprecated soon.
+     * TBD: May be deprecated soon, and is probably never set.
      *
      * @Groups({"create", "read"})
      * @ORM\Column(type="string", length=32, nullable=true)

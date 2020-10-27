@@ -14,6 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\GetOrCreateInvitationsController;
 use App\Controller\AcceptInvitationController;
+use App\Controller\GetInvitationsStubController;
 
 
 /**
