@@ -101,7 +101,7 @@ class Ballot
     /**
      * The Majority Judgment Poll Proposal the author is giving a grade to.
      *
-     * @Groups({"create", "read"})
+     * @Groups({"read"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Proposal",
      *     inversedBy="ballots",
@@ -114,7 +114,7 @@ class Ballot
      * The name of the author of the vote, if any was specified.
      * TBD: May be deprecated soon, and is probably never set.
      *
-     * @Groups({"create", "read"})
+     * Groups({"create", "read"})
      * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $author_name;
@@ -138,6 +138,7 @@ class Ballot
      */
     private $participant;
 
+    ///
     ///
 
     public function __construct()
