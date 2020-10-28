@@ -58,7 +58,6 @@ class Application
      *
      * @param Security $security
      * @param EntityManagerInterface $entityManager
-     * @param UserRepository $userRepository
      * @param IriConverterInterface $iriConverter
      */
     public function __construct(
