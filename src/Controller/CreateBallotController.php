@@ -58,9 +58,9 @@ class CreateBallotController
 
         // WiP – Another handler?  This time for scope access checks?
         if ($poll->getScope() === Poll::SCOPE_PRIVATE) {
-            // fixme: check invitations
-            // ideas: use a BallotVoter and access rules
-            //
+            if (null == $judge) {
+                throw new HttpException(Response::HTTP_FORBIDDEN);
+            }
             $invitationsRepo = $this->getInvitationRepository();
             $invitation = $invitationsRepo->findInvitationForUserOnPoll($judge, $poll);
             if (null == $invitation) {

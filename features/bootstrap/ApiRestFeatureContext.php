@@ -28,7 +28,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     /**
      * This step makes multiple requests, one per given mention.
      *
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:sur|pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? votes? on the majority judgment poll titled "(?P<pollSubject>.+)" *:$/ui
      */
     public function actorVotesOnThePollOnTheSubjectOf($actor, $try, $pollSubject, $pystring)
@@ -228,7 +228,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) g[ée]n[éèe]r(?:e[szr]?|ent) (?P<invitationsAmount>.+?) invitations? pour le scrutin(?: au jugement majoritaire)? (?:pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) g[ée]n[éèe]r(?:e[szr]?|ent) (?P<invitationsAmount>.+?) invitations? pour le scrutin(?: au jugement majoritaire)? (?:sur|pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)"$/ui
      * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to|) generate (?P<invitationsAmount>.+?) invitations? on the poll titled "(?P<pollSubject>.+)"$/ui
      * @throws Exception
      */
