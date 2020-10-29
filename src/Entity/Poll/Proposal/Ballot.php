@@ -49,8 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             "method"="POST",
  *             "controller"=CreateBallotController::class,
  *             "denormalization_context"={"groups"={"create"}},
- *             "normalization_context"={"groups"={"read"}},
- *             "access_control"="is_granted('ROLE_USER')",
+ *             "normalization_context"={"groups"={"created"}},
  *             "openapi_context"={
  *                 "parameters"={
  *                     {
@@ -74,6 +73,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         },
  *     },
  * )
+ *             "access_control"="is_granted('ROLE_USER')",
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollProposalBallotRepository",
  * )
@@ -94,14 +94,14 @@ class Ballot
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
-     * @Groups({"read"})
+     * @Groups({"read", "created"})
      */
     public $uuid;
 
     /**
      * The Majority Judgment Poll Proposal the author is giving a grade to.
      *
-     * @Groups({"read"})
+     * @Groups({"read", "created"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Proposal",
      *     inversedBy="ballots",
@@ -123,7 +123,7 @@ class Ballot
      * The Grade attributed by the Judge to the Proposal.
      *
      * @var Grade
-     * @Groups({"create", "read"})
+     * @Groups({"create", "read", "created"})
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Grade",
      * )

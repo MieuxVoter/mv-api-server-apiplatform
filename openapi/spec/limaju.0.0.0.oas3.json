@@ -1,0 +1,1592 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Majority Judgment API",
+        "version": "0.0.0-dev",
+        "description": "This is a **deliberation service** using (liquid) **majority judgment** polling.\nIt's **libre software** made and maintained by [MieuxVoter.fr](https:\/\/mieuxvoter.fr).\nYou're browsing the API documentation.\n\nFor more, head over to [Gitlab](https:\/\/framagit.org\/limaju).\n"
+    },
+    "paths": {
+        "\/ballots\/{id}": {
+            "get": {
+                "tags": [
+                    "Ballot"
+                ],
+                "operationId": "getBallotItem",
+                "summary": "Retrieves a Ballot resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ballot resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ballot"
+                ],
+                "operationId": "deleteBallotItem",
+                "summary": "Removes the Ballot resource.",
+                "responses": {
+                    "204": {
+                        "description": "Ballot resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/grades\/{id}": {
+            "get": {
+                "tags": [
+                    "Grade"
+                ],
+                "operationId": "getGradeItem",
+                "summary": "Retrieves a Grade resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Grade resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Grade-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Grade-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Grade-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/invitations": {
+            "get": {
+                "tags": [
+                    "Invitation"
+                ],
+                "operationId": "getInvitationCollection",
+                "summary": "Retrieves the collection of Invitation resources.",
+                "responses": {
+                    "200": {
+                        "description": "Invitation collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/invitations\/{id}": {
+            "get": {
+                "tags": [
+                    "Invitation"
+                ],
+                "operationId": "getInvitationItem",
+                "summary": "Retrieves a Invitation resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Invitation resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Invitation-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Invitation-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Invitation-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/polls": {
+            "get": {
+                "tags": [
+                    "Poll"
+                ],
+                "operationId": "getPollCollection",
+                "summary": "Retrieves the collection of Poll resources.",
+                "responses": {
+                    "200": {
+                        "description": "Poll collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Poll-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Poll-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Poll-read"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Poll"
+                ],
+                "operationId": "postPollCollection",
+                "summary": "Creates a Poll resource.",
+                "responses": {
+                    "201": {
+                        "description": "Poll resource created",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            }
+                        },
+                        "links": {
+                            "GetPollItem": {
+                                "parameters": {
+                                    "uuid": "$response.body#\/uuid"
+                                },
+                                "operationId": "getPollItem",
+                                "description": "The `uuid` value returned in the response can be used as the `uuid` parameter in `GET \/polls\/{id}`."
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Poll-create"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Poll-create"
+                            }
+                        },
+                        "text\/html": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Poll-create"
+                            }
+                        }
+                    },
+                    "description": "The new Poll resource"
+                }
+            }
+        },
+        "\/polls\/{id}": {
+            "get": {
+                "tags": [
+                    "Poll"
+                ],
+                "operationId": "getPollItem",
+                "summary": "Retrieves a Poll resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Poll resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Poll-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Poll"
+                ],
+                "operationId": "deletePollItem",
+                "summary": "Removes the Poll resource.",
+                "responses": {
+                    "204": {
+                        "description": "Poll resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/polls\/{id}\/grades": {
+            "get": {
+                "tags": [
+                    "Grade",
+                    "Poll"
+                ],
+                "operationId": "api_polls_grades_get_subresource",
+                "summary": "Retrieves the collection of Grade resources.",
+                "responses": {
+                    "200": {
+                        "description": "Grade collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Grade-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Grade-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Grade-read"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/polls\/{id}\/invitations": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Invitation"
+                ],
+                "operationId": "get_for_pollInvitationCollection",
+                "summary": "Retrieves the collection of Invitation resources.",
+                "responses": {
+                    "200": {
+                        "description": "Invitation collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Invitation-read"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/polls\/{id}\/proposals": {
+            "get": {
+                "tags": [
+                    "Proposal",
+                    "Poll"
+                ],
+                "operationId": "api_polls_proposals_get_subresource",
+                "summary": "Retrieves the collection of Proposal resources.",
+                "responses": {
+                    "200": {
+                        "description": "Proposal collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Proposal-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Proposal-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Proposal-read"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/polls\/{id}\/proposals\/{proposals}\/ballots": {
+            "get": {
+                "tags": [
+                    "Ballot",
+                    "Proposal"
+                ],
+                "operationId": "api_polls_proposals_ballots_get_subresource",
+                "summary": "Retrieves the collection of Ballot resources.",
+                "responses": {
+                    "200": {
+                        "description": "Ballot collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "proposals",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/polls\/{id}\/result": {
+            "get": {
+                "tags": [
+                    "Result"
+                ],
+                "operationId": "get_for_pollResultItem",
+                "summary": "Retrieves a Result resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Result resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Result-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Result-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Result-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/polls\/{pollId}\/proposals\/{proposalId}\/ballots": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "pollId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "proposalId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Ballot"
+                ],
+                "operationId": "postBallotCollection",
+                "summary": "Creates a Ballot resource.",
+                "responses": {
+                    "201": {
+                        "description": "Ballot resource created",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-created"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-created"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Ballot-created"
+                                }
+                            }
+                        },
+                        "links": {
+                            "GetBallotItem": {
+                                "parameters": {
+                                    "uuid": "$response.body#\/uuid"
+                                },
+                                "operationId": "getBallotItem",
+                                "description": "The `uuid` value returned in the response can be used as the `uuid` parameter in `GET \/ballots\/{id}`."
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Ballot-create"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Ballot-create"
+                            }
+                        },
+                        "text\/html": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Ballot-create"
+                            }
+                        }
+                    },
+                    "description": "The new Ballot resource"
+                }
+            }
+        },
+        "\/proposal_grade_results\/{id}": {
+            "get": {
+                "tags": [
+                    "ProposalGradeResult"
+                ],
+                "operationId": "getProposalGradeResultItem",
+                "summary": "Retrieves a ProposalGradeResult resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProposalGradeResult resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalGradeResult-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalGradeResult-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalGradeResult-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/proposal_results\/{id}": {
+            "get": {
+                "tags": [
+                    "ProposalResult"
+                ],
+                "operationId": "getProposalResultItem",
+                "summary": "Retrieves a ProposalResult resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ProposalResult resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalResult-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalResult-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ProposalResult-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/proposals\/{id}": {
+            "get": {
+                "tags": [
+                    "Proposal"
+                ],
+                "operationId": "getProposalItem",
+                "summary": "Retrieves a Proposal resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proposal resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Proposal-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Proposal-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Proposal-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/proposals\/{id}\/ballots": {
+            "get": {
+                "tags": [
+                    "Ballot",
+                    "Proposal"
+                ],
+                "operationId": "api_proposals_ballots_get_subresource",
+                "summary": "Retrieves the collection of Ballot resources.",
+                "responses": {
+                    "200": {
+                        "description": "Ballot collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Ballot-read"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "getUserCollection",
+                "summary": "Retrieves the collection of User resources.",
+                "responses": {
+                    "200": {
+                        "description": "User collection response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/User-read"
+                                    }
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/User-read"
+                                    }
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/User-read"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "postUserCollection",
+                "summary": "Creates a User resource.",
+                "responses": {
+                    "201": {
+                        "description": "User resource created",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            }
+                        },
+                        "links": {
+                            "GetUserItem": {
+                                "parameters": {
+                                    "uuid": "$response.body#\/uuid"
+                                },
+                                "operationId": "getUserItem",
+                                "description": "The `uuid` value returned in the response can be used as the `uuid` parameter in `GET \/users\/{id}`."
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-create"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-create"
+                            }
+                        },
+                        "text\/html": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-create"
+                            }
+                        }
+                    },
+                    "description": "The new User resource"
+                }
+            }
+        },
+        "\/users\/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "getUserItem",
+                "summary": "Retrieves a User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User resource response",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "putUserItem",
+                "summary": "Replaces the User resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User resource updated",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            },
+                            "text\/html": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/User-read"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-edit"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-edit"
+                            }
+                        },
+                        "text\/html": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/User-edit"
+                            }
+                        }
+                    },
+                    "description": "The updated User resource"
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "operationId": "deleteUserItem",
+                "summary": "Removes the User resource.",
+                "responses": {
+                    "204": {
+                        "description": "User resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "\/api\/_jwt": {
+            "post": {
+                "tags": [
+                    "Token"
+                ],
+                "operationId": "postCredentialsItem",
+                "summary": "Gets a JWT token to login",
+                "requestBody": {
+                    "content": {
+                        "application\/ld+json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Credentials"
+                            }
+                        },
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/Credentials"
+                            }
+                        }
+                    },
+                    "description": "The new Credentials resource"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get JWT token",
+                        "content": {
+                            "application\/ld+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Token"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "apiKey": []
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Ballot-create": {
+                "type": "object",
+                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "properties": {
+                    "grade": {
+                        "description": "The Grade attributed by the Judge to the Proposal.",
+                        "type": "string"
+                    }
+                }
+            },
+            "Ballot-created": {
+                "type": "object",
+                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "proposal": {
+                        "description": "The Majority Judgment Poll Proposal the author is giving a grade to.",
+                        "type": "string"
+                    },
+                    "grade": {
+                        "description": "The Grade attributed by the Judge to the Proposal.",
+                        "type": "string"
+                    }
+                }
+            },
+            "Ballot-read": {
+                "type": "object",
+                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "proposal": {
+                        "description": "The Majority Judgment Poll Proposal the author is giving a grade to.",
+                        "type": "string"
+                    },
+                    "grade": {
+                        "description": "The Grade attributed by the Judge to the Proposal.",
+                        "type": "string"
+                    }
+                }
+            },
+            "Grade-create": {
+                "type": "object",
+                "description": "Grades are attributed to Proposals by Participants, in Ballots.",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "level": {
+                        "description": "Used to compare grades procedurally.  \\n\nUsually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.  \\n\nGrades of the same poll MUST have unique levels between themselves.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Grade-read": {
+                "type": "object",
+                "description": "Grades are attributed to Proposals by Participants, in Ballots.",
+                "properties": {
+                    "uuid": {
+                        "readOnly": true,
+                        "description": "Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92",
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "level": {
+                        "description": "Used to compare grades procedurally.  \\n\nUsually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.  \\n\nGrades of the same poll MUST have unique levels between themselves.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Invitation-read": {
+                "type": "object",
+                "description": "An invitation to a poll.",
+                "properties": {
+                    "uuid": {
+                        "readOnly": true,
+                        "description": "Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92",
+                        "type": "string"
+                    },
+                    "poll": {
+                        "description": "The poll this invitation is for.",
+                        "$ref": "#\/components\/schemas\/Poll-read"
+                    },
+                    "participant": {
+                        "description": "As long as this is empty, the invitation is still open.",
+                        "$ref": "#\/components\/schemas\/User-read"
+                    },
+                    "accepted": {
+                        "readOnly": true,
+                        "description": "Whether this invitation was accepted by someone already.",
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Poll-create": {
+                "type": "object",
+                "description": "A Liquid Majority Judgment Poll.",
+                "properties": {
+                    "scope": {
+                        "description": "The scope of the poll\nDefines where and how the poll is accessible.",
+                        "type": "string"
+                    },
+                    "subject": {
+                        "description": "The subject of the poll. Careful consideration should be taken in the writing of this.",
+                        "type": "string"
+                    },
+                    "proposals": {
+                        "description": "A list of proposals to judge.  At least two proposals are required.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Proposal-create"
+                        }
+                    },
+                    "grades": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Grade-create"
+                        }
+                    }
+                },
+                "required": [
+                    "subject"
+                ]
+            },
+            "Poll-read": {
+                "type": "object",
+                "description": "A Liquid Majority Judgment Poll.",
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "scope": {
+                        "description": "The scope of the poll\nDefines where and how the poll is accessible.",
+                        "type": "string"
+                    },
+                    "subject": {
+                        "description": "The subject of the poll. Careful consideration should be taken in the writing of this.",
+                        "type": "string"
+                    },
+                    "proposals": {
+                        "description": "A list of proposals to judge.  At least two proposals are required.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Proposal-read"
+                        }
+                    },
+                    "grades": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Grade-read"
+                        }
+                    }
+                },
+                "required": [
+                    "subject"
+                ]
+            },
+            "Proposal-create": {
+                "type": "object",
+                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "properties": {
+                    "title": {
+                        "description": "The title of the proposal.",
+                        "type": "string"
+                    },
+                    "poll": {
+                        "description": "The poll this proposal is attached to.",
+                        "$ref": "#\/components\/schemas\/Poll-create"
+                    }
+                }
+            },
+            "Proposal-read": {
+                "type": "object",
+                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "properties": {
+                    "uuid": {
+                        "description": "Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92",
+                        "type": "string"
+                    },
+                    "title": {
+                        "description": "The title of the proposal.",
+                        "type": "string"
+                    }
+                }
+            },
+            "ProposalGradeResult-read": {
+                "type": "object",
+                "description": "Results for one Grade of one Proposal.  \\n\nBasically the tally of Ballots for this Grade and Proposal,  \\n\nbut there might be more information in there.",
+                "properties": {
+                    "grade": {
+                        "description": "The Grade this Result is about.",
+                        "type": "string"
+                    },
+                    "proposal": {
+                        "description": "The Proposal this Result is about.",
+                        "type": "string"
+                    },
+                    "tally": {
+                        "description": "Amount of Ballots emitted for this Grade on the Proposal.",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ProposalResult-read": {
+                "type": "object",
+                "description": "The ranked Result of one Proposal in a Poll.",
+                "properties": {
+                    "proposal": {
+                        "description": "The Proposal this Result is for.",
+                        "$ref": "#\/components\/schemas\/Proposal-read"
+                    },
+                    "rank": {
+                        "description": "The computed rank of the Proposal in the Poll.  \\n\nRank starts at 1 and goes upwards.  \\n\nTwo proposals may have the same rank.",
+                        "type": "integer"
+                    },
+                    "medianGrade": {
+                        "description": "The median Grade of the Proposal.",
+                        "$ref": "#\/components\/schemas\/Grade-read"
+                    },
+                    "tally": {
+                        "description": "Total Amount of Ballots emitted for the Proposal this Result is about.  \\n\nThis includes the \"ghost\", default ballots.",
+                        "type": "integer"
+                    },
+                    "gradesResults": {
+                        "description": "Results for each Grade, on this Proposal.  \\n\nThis is the merit profile of the Proposal.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/ProposalGradeResultRead"
+                        }
+                    }
+                }
+            },
+            "Result-read": {
+                "type": "object",
+                "description": "A Result of a (Liquid) Majority Judgment Poll.",
+                "properties": {
+                    "poll": {
+                        "description": "The Poll this Result describes.",
+                        "$ref": "#\/components\/schemas\/Poll-read"
+                    },
+                    "algorithm": {
+                        "description": "The name of the algorithm used to derive this Result.  \\n\nDefault: \"standard\".",
+                        "type": "string"
+                    },
+                    "leaderboard": {
+                        "description": "In order, each proposals' tally.  \\n\nSome proposals, in extreme, low-participation polls, may have the same rank.  \\n\nIn that case, their order should be the order they were defined in the poll.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/ProposalResultRead"
+                        }
+                    }
+                }
+            },
+            "User-create": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User-edit": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User-read": {
+                "type": "object",
+                "description": "",
+                "properties": {
+                    "uuid": {
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "polls": {
+                        "readOnly": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Poll-read"
+                        }
+                    },
+                    "ballots": {
+                        "readOnly": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Ballot-read"
+                        }
+                    }
+                }
+            },
+            "Token": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "readOnly": true
+                    }
+                }
+            },
+            "Credentials": {
+                "type": "object",
+                "properties": {
+                    "usernameOrEmail": {
+                        "type": "string",
+                        "example": "api"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "api"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKey": {
+                "type": "apiKey",
+                "in": "header",
+                "description": "Value for the Authorization header",
+                "name": "Authorization"
+            }
+        }
+    }
+}

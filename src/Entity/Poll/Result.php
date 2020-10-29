@@ -10,6 +10,7 @@ use App\Controller\GetResultController;
 use App\Entity\Poll;
 //use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Entity\Poll\Proposal\Result as ProposalResult;
 
 
 /**
@@ -64,7 +65,7 @@ class Result
      * Some proposals, in extreme, low-participation polls, may have the same rank.  \n
      * In that case, their order should be the order they were defined in the poll.
      *
-     * @var []ProposalResult
+     * @var ProposalResult[]
      * @Groups({"read"})
      * @ApiProperty(
      *     attributes={
@@ -74,7 +75,7 @@ In extreme, low-participation polls, some proposals may have the exact same rank
 In that case, their order should be the order they were defined in the poll.",
      *             "type"="array",
      *             "items"={
-     *                 "$ref"="#/components/schemas/ProposalResult",
+     *                 "$ref"="#/components/schemas/ProposalResultRead",
      *             },
      *         },
      *     },

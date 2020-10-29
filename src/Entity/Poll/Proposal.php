@@ -46,6 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     subresourceOperations={
  *         "api_polls_proposals_get_subresource"={
+ *             "description"="",
  *             "method"="GET",
  *             "normalization_context"={"groups"={"read"}},
  *             "path"="/polls/{id}/proposals",

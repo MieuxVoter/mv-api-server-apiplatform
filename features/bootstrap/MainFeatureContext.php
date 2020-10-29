@@ -29,6 +29,17 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
+     * @Given /^un(?:⋅?e)? (?:visit(?:eu[rs]e?|rice))(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^a visitor named (?P<name>.+)$/ui
+     * @throws Exception
+     */
+    public function givenVisitorNamed($name)
+    {
+        $this->actor($name, true);
+    }
+
+
+    /**
      * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a citizen named (?P<name>.+)$/ui
      * @throws Exception
@@ -220,7 +231,7 @@ class MainFeatureContext extends BaseFeatureContext
      * This step is too long and needs refactoring and simplification.
      *
      * fixme: en step
-     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.*)" devrait être *:?$/u
+     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.*)" devrait être *:?$/u
      */
     public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $pollSubject, $pystring)
     {

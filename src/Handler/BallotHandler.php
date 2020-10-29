@@ -20,13 +20,16 @@ use App\Entity\User;
 class BallotHandler
 {
 
-    public function handleVote(Ballot $vote, User $judge, Proposal $proposal, Poll $poll)
+    public function handleVote(Ballot $ballot, ?User $judge, Proposal $proposal, Poll $poll)
     {
 //        $vote->setProposal($proposal);
         // Instead we use the inverse, it sets both
-        $proposal->addBallot($vote);
-        $vote->setParticipant($judge);
-        return $vote;
+        $proposal->addBallot($ballot);
+
+        // We also add the Participant (we need a Participant Entity)
+        $ballot->setParticipant($judge);
+
+        return $ballot;
     }
 
 }

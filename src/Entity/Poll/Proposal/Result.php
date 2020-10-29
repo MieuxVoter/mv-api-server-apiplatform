@@ -84,12 +84,12 @@ class Result
 This is the merit profile of the Proposal.",
      *             "type"="array",
      *             "items"={
-     *                 "$ref"="#/components/schemas/ProposalGradeResult",
+     *                 "$ref"="#/components/schemas/ProposalGradeResultRead",
      *             },
      *         },
      *     },
      * )
-     * @var []ProposalGradeResult
+     * @var ProposalGradeResult[]
      * @Groups({"read"})
      */
     private $gradesResults; // $meritProfile?
