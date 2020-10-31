@@ -28,7 +28,7 @@ security:
             security: false
 
         api:
-            pattern: ^/api/
+            pattern: ^/
             stateless: true
             anonymous: true
             provider: app_user_provider
@@ -38,7 +38,7 @@ security:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
             json_login:
-                check_path: /api/_jwt
+                check_path: /_jwt
                 username_path: usernameOrEmail
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
