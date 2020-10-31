@@ -41,6 +41,19 @@ Run:
     docker-compose up
 
 
+### Setup JWT
+
+Run from root path:
+
+    openssl genrsa -out config/jwt/private.pem -aes256 512
+
+and write your private passphrase, without exotic characters.
+
+Copy that passphrase inside `.env`:
+
+    JWT_PASSPHRASE=passphrase
+
+
 ### References
 
 * JWT : https://api-platform.com/docs/core/jwt/#jwt-authentication
