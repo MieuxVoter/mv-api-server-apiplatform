@@ -76,16 +76,16 @@ class User implements UserInterface
     public $uuid;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
      * @Groups({"create", "read", "edit"})
      * @Assert\Email(groups={"register", "edit"})
-     * @Assert\NotBlank(groups={"register", "edit"})
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=64, unique=true)
      * @Groups({"create", "read", "edit"})
+     * @Assert\NotBlank(groups={"register", "edit"})
      */
     private $username;
 
