@@ -41,6 +41,22 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
 
     /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tentez?) d'|)obt(?:enir|ien[st]) un jeton avec le mot de passe "(?P<password>.*)"$/ui
+     */
+    public function actorRequestsAuthenticationTokenWithPassword($actor, $try, $password)
+    {
+
+        $this->actor($actor, true)->api(
+            'POST',"/_jwt",
+            [
+                'usernameOrEmail' => $actor,
+//                'email' => $email,
+                'password' => $password,
+            ], [], !empty($try)
+        );
+    }
+
+    /**
      * This step makes multiple requests, one per given mention.
      *
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) vot(?:e[szr]?|ent) sur le scrutin(?: au jugement majoritaire)? (?:sur|pour|de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.+)" *:$/ui
