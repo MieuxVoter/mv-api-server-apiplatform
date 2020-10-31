@@ -91,11 +91,30 @@ class Poll
     public $uuid;
 
     /**
-     * The scope of the poll
-     * Defines where and how the poll is accessible.
+     * Creating private polls may require this to be set.
+     * But public polls may well be created without any author, so this might be null.
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="polls")
+     */
+    private $author;
+
+    /**
+     * The scope defines how the poll is accessible:
+     * `public`: Everyone may access the poll, and it will be publicly listed
+     * `unlisted`: Everyone may access the poll if they know its URI
+     * `private`: Only invited participants may participate
+     * The default scope is `unlisted`.
+     *
      * @var string One of Poll::SCOPE_*
      * @Groups({"create", "read", "update"})
      * @ORM\Column(type="string", length=16)
+     * @Assert\Choice(
+     *     choices = {
+     *         self::SCOPE_PUBLIC,
+     *         self::SCOPE_UNLISTED,
+     *         self::SCOPE_PRIVATE,
+     *     }
+     * )
      */
     private $scope = self::SCOPE_UNLISTED;
 
@@ -118,7 +137,11 @@ class Poll
     private $subject;
 
     /**
-     * A list of proposals to judge.  At least two proposals are required.
+     * A list of Proposals to judge,
+     * that MUST contain at least two proposals,
+     * and can have at most 256 proposals
+     * but that upper limit is arbitrary
+     * and may wildly vary after benchmark and discussion.
      *
      * @var ArrayCollection
      * @Groups({"create", "read", "update"})
@@ -142,6 +165,10 @@ class Poll
     private $proposals;
 
     /**
+     * A list of Grades that Participants may give to Proposals –
+     * That list MUST contain at least two Grades,
+     * and at most 16 (another arbitrary limit to discuss).
+     *
      * @var ArrayCollection
      * @Groups({"create", "read", "update"})
      * @ApiSubresource()
@@ -162,8 +189,12 @@ class Poll
     private $grades;
 
     /**
+     * Generated invitations for this poll.
+     * This is not available to the API.
+     * This property is private, has no accessors, and we don't use it.
+     * It is only here for ApiPlatform and Doctrine.
+     *
      * @var ArrayCollection
-     * Groups({})
      * @ApiSubresource()
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Poll\Invitation",
@@ -174,11 +205,8 @@ class Poll
      */
     private $invitations;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="polls")
-     */
-    private $author;
-
+    ///
+    ///
 
     public function __construct()
     {
@@ -208,8 +236,6 @@ class Poll
 
         return $this;
     }
-
-
 
     /**
      * @return Collection|Proposal[]
