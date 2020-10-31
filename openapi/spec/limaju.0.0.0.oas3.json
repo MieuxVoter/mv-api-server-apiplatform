@@ -1190,7 +1190,7 @@
                 ]
             }
         },
-        "\/api\/_jwt": {
+        "\/_jwt": {
             "post": {
                 "tags": [
                     "Token"
@@ -1343,7 +1343,7 @@
                 "description": "A Liquid Majority Judgment Poll.",
                 "properties": {
                     "scope": {
-                        "description": "The scope of the poll\nDefines where and how the poll is accessible.",
+                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {
@@ -1351,13 +1351,14 @@
                         "type": "string"
                     },
                     "proposals": {
-                        "description": "A list of proposals to judge.  At least two proposals are required.",
+                        "description": "A list of Proposals to judge,\nthat MUST contain at least two proposals,\nand can have at most 256 proposals\nbut that upper limit is arbitrary\nand may wildly vary after benchmark and discussion.",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/Proposal-create"
                         }
                     },
                     "grades": {
+                        "description": "A list of Grades that Participants may give to Proposals \u2013\nThat list MUST contain at least two Grades,\nand at most 16 (another arbitrary limit to discuss).",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/Grade-create"
@@ -1376,7 +1377,7 @@
                         "type": "string"
                     },
                     "scope": {
-                        "description": "The scope of the poll\nDefines where and how the poll is accessible.",
+                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {
@@ -1384,13 +1385,14 @@
                         "type": "string"
                     },
                     "proposals": {
-                        "description": "A list of proposals to judge.  At least two proposals are required.",
+                        "description": "A list of Proposals to judge,\nthat MUST contain at least two proposals,\nand can have at most 256 proposals\nbut that upper limit is arbitrary\nand may wildly vary after benchmark and discussion.",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/Proposal-read"
                         }
                     },
                     "grades": {
+                        "description": "A list of Grades that Participants may give to Proposals \u2013\nThat list MUST contain at least two Grades,\nand at most 16 (another arbitrary limit to discuss).",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/Grade-read"

@@ -51,7 +51,7 @@ final class JwtDecorator implements NormalizerInterface
 
         $tokenDocumentation = [
             'paths' => [
-                '/api/_jwt' => [
+                '/_jwt' => [
                     'post' => [
                         'tags' => ['Token'],
                         'operationId' => 'postCredentialsItem',

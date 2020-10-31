@@ -772,7 +772,7 @@ paths:
           required: true
           schema:
             type: string
-  /api/_jwt:
+  /_jwt:
     post:
       tags:
         - Token
@@ -885,18 +885,30 @@ components:
       properties:
         scope:
           description: |
-            The scope of the poll
-            Defines where and how the poll is accessible.
+            The scope defines how the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed
+            `unlisted`: Everyone may access the poll if they know its URI
+            `private`: Only invited participants may participate
+            The default scope is `unlisted`.
           type: string
         subject:
           description: 'The subject of the poll. Careful consideration should be taken in the writing of this.'
           type: string
         proposals:
-          description: 'A list of proposals to judge.  At least two proposals are required.'
+          description: |
+            A list of Proposals to judge,
+            that MUST contain at least two proposals,
+            and can have at most 256 proposals
+            but that upper limit is arbitrary
+            and may wildly vary after benchmark and discussion.
           type: array
           items:
             $ref: '#/components/schemas/Proposal-create'
         grades:
+          description: |
+            A list of Grades that Participants may give to Proposals –
+            That list MUST contain at least two Grades,
+            and at most 16 (another arbitrary limit to discuss).
           type: array
           items:
             $ref: '#/components/schemas/Grade-create'
@@ -910,18 +922,30 @@ components:
           type: string
         scope:
           description: |
-            The scope of the poll
-            Defines where and how the poll is accessible.
+            The scope defines how the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed
+            `unlisted`: Everyone may access the poll if they know its URI
+            `private`: Only invited participants may participate
+            The default scope is `unlisted`.
           type: string
         subject:
           description: 'The subject of the poll. Careful consideration should be taken in the writing of this.'
           type: string
         proposals:
-          description: 'A list of proposals to judge.  At least two proposals are required.'
+          description: |
+            A list of Proposals to judge,
+            that MUST contain at least two proposals,
+            and can have at most 256 proposals
+            but that upper limit is arbitrary
+            and may wildly vary after benchmark and discussion.
           type: array
           items:
             $ref: '#/components/schemas/Proposal-read'
         grades:
+          description: |
+            A list of Grades that Participants may give to Proposals –
+            That list MUST contain at least two Grades,
+            and at most 16 (another arbitrary limit to discuss).
           type: array
           items:
             $ref: '#/components/schemas/Grade-read'
