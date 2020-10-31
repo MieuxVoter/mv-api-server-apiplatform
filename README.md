@@ -1,7 +1,5 @@
 # Liquid Majority Judgment
 
-> You know it.  ♪  We want it.  ♬  HERE and NOW!  ♫
-
 This is a **REST API backend** for (Liquid) Majority Judgment.
 
 It is **OpenApi v3 compliant**.
@@ -73,7 +71,17 @@ Browse http://localhost:8000/api/docs
 
 You should do this, it's mesmerizing.  :]
 
+First, copy `behat.yml.dist` to `behat.yml`:
+
+    cp behat.yml.dist behat.yml
+
+You do not need to edit it, but you may.
+Then, run:
+
     vendor/bin/behat -vv
+
+Useful dev options:
+
     vendor/bin/behat -vv --tags wip
     vendor/bin/behat -vv --rerun
 
