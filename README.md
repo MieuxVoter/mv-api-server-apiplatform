@@ -44,7 +44,7 @@ Run:
 Run from root path:
 
     openssl genrsa -out config/jwt/private.pem -aes256 512
-
+    openssl pkey -in config/jwt/private.pem --out config/jwt/public.pem -pubout
 and write your private passphrase, without exotic characters.
 
 Copy that passphrase inside `.env`:
