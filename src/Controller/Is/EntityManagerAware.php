@@ -31,6 +31,7 @@ trait EntityManagerAware {
     }
 
     /**
+     * @required
      * @param EntityManagerInterface $em
      */
     public function setEm(EntityManagerInterface $em): void

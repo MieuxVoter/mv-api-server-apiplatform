@@ -31,13 +31,9 @@ class CreateBallotController
     use Is\UserAware;
 
     public function __construct(
-        BallotHandler $ballotandler,
-        EntityManagerInterface $entityManager,
-        Security $security
+        BallotHandler $ballotandler
     ) {
         $this->ballotHandler = $ballotandler;
-        $this->setEm($entityManager);
-        $this->setSecurity($security);
     }
 
     /**

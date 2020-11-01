@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Security;
  * Class GetOrCreateInvitationsController
  * @package App\Controller
  */
-class GetOrCreateInvitationsController
+final class GetOrCreateInvitationsController
 {
     use Is\EntityAware;
     use Is\UserAware;
@@ -70,7 +70,7 @@ class GetOrCreateInvitationsController
             // once a quota of existing invitations has been "consumed".
             // Or allow overriding the quota from a user property or role.
             // Game design, etc.
-            // Anyways, this need benchmarking.
+            // Anyways, this needs benchmarking.
             //
             // Security Concern(s)
             // -------------------

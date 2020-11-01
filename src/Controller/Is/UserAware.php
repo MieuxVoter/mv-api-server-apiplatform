@@ -15,6 +15,7 @@ trait UserAware {
     protected $security;
 
     /**
+     * @required
      * @param Security $security
      */
     public function setSecurity(Security $security): void
