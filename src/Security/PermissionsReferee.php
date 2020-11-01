@@ -16,7 +16,7 @@ class PermissionsReferee
      * @param Poll $poll
      * @return bool
      */
-    public function canGenerateInvitationsFor(Poll $poll) {
+    public function canGenerateInvitationsFor(?Poll $poll) {
         return $this->canUserGenerateInvitationsFor($this->getUser(), $poll);
     }
 
@@ -28,7 +28,7 @@ class PermissionsReferee
      * @param Poll $poll
      * @return bool
      */
-    public function canUserGenerateInvitationsFor(User $user, Poll $poll)
+    public function canUserGenerateInvitationsFor(?User $user, ?Poll $poll)
     {
         if ((null == $user) || (null == $poll)) {
             return false;

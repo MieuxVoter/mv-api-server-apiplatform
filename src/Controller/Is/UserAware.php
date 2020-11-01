@@ -36,7 +36,7 @@ trait UserAware {
      *
      * @return User
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         /** @var User $user */
         $user = $this->getSecurity()->getUser();
