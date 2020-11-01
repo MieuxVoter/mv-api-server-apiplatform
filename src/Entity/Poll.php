@@ -208,6 +208,18 @@ class Poll
     ///
     ///
 
+    /**
+     * Can the current user generate invitations for this poll or not?
+     * Helps clients show the relevant links and forms.
+     *
+     * @var bool
+     * @Groups({"read"})
+     */
+    protected $canGenerateInvitations = false;
+
+    ///
+    ///
+
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
@@ -377,5 +389,21 @@ class Poll
     public function setScope(string $scope): void
     {
         $this->scope = $scope;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCanGenerateInvitations(): bool
+    {
+        return $this->canGenerateInvitations;
+    }
+
+    /**
+     * @param bool $canGenerateInvitations
+     */
+    public function setCanGenerateInvitations(bool $canGenerateInvitations): void
+    {
+        $this->canGenerateInvitations = $canGenerateInvitations;
     }
 }
