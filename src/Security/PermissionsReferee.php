@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Controller\Is\UserAware;
 use App\Entity\Poll;
+use App\Entity\Poll\Invitation;
 use App\Entity\User;
 
 
@@ -39,5 +40,15 @@ class PermissionsReferee
         }
 
         return false;
+    }
+
+    public function isInvitationAcceptedByYou(Invitation $invitation) : BOOL
+    {
+        $user = $this->getUser();
+        if (null === $user) {
+            return false;
+        }
+
+        return $invitation->getAuthor() === $user;
     }
 }

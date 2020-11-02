@@ -53,6 +53,11 @@ services:
             # Twig also has the extensions and global vars available
             - "@twig"
 
+
+    App\Serializer\ApiNormalizer:
+        decorates: 'api_platform.jsonld.normalizer.item'
+        arguments: [ '@App\Serializer\ApiNormalizer.inner' ]
+
     # Java Web Token shenanigans
     App\Swagger\JwtDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'

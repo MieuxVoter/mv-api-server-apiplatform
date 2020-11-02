@@ -99,7 +99,7 @@ class Invitation
      * Should we make a Participant Entity?
      *
      * @var User|null
-     * @Groups({"read"})
+     * Groups({"read"}) // no need to give this to anyone
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
      *     inversedBy="accepted_invitations"
@@ -135,16 +135,33 @@ class Invitation
         $this->uuid = Uuid::uuid4();
     }
 
+    ///
+    ///
+
     /**
      * Whether this invitation was accepted by someone already.
      *
      * @Groups({"read"})
      * @return bool
      */
-    public function isAccepted()
+    public function isAccepted() : bool
     {
         return null !== $this->participant;
     }
+
+    /**
+     * Whether this invitation was accepted by the current user.
+     *
+     * @Groups({"read"})
+     * @return bool
+     */
+    public function isAcceptedByYou() : bool
+    {
+        return false; // real value is set during normalization, see App\Serializer\ApiNormalizer
+    }
+
+    ///
+    ///
 
     /**
      * @return UuidInterface|null
