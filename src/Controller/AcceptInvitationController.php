@@ -4,10 +4,9 @@
 namespace App\Controller;
 
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Poll\Invitation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
 
 
 /**
@@ -21,22 +20,16 @@ class AcceptInvitationController
     use Is\EntityAware;
     use Is\UserAware;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        Security $security
-    ) {
-        $this->setEm($entityManager);
-        $this->setSecurity($security);
-    }
-
     /**
      * @param Request $request
+     * @return Invitation|null
      */
     public function __invoke(Request $request)
     {
         $invitationId = $request->get('id');
         $invitationsRepo = $this->getInvitationRepository();
         $invitation = $invitationsRepo->findOneByUuid($invitationId);
+        $user = $this->getUser();
 
         if (null === $invitation) {
             // TODO: Resilience
@@ -45,11 +38,12 @@ class AcceptInvitationController
             throw new NotFoundHttpException();
         }
 
-        $user = $this->getUser();
+        if ($invitation->isAccepted()) {
+            return $invitation;
+        }
 
-        if ($invitation->isAccepted() && $user !== $invitation->getParticipant()) {
-            // TODO: Resilience
-            throw new NotFoundHttpException();
+        if (null === $user) {
+            return $invitation;
         }
 
         $invitation->setParticipant($user);
