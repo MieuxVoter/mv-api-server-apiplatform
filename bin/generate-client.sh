@@ -8,7 +8,7 @@ REPO_ID=limaju-client-lib-${TARGET}
 OUTPUT_DIRECTORY=/tmp/${REPO_ID}
 #OUTPUT_DIRECTORY=~/code/snd/${REPO_ID}
 VERSION=0.0.0
-SPEC_FILENAME=./openapi/spec/${USER_ID}.${VERSION}.oas3
+SPEC_FILENAME=./openapi/spec/mvapi.${VERSION}.oas3
 
 ###
 
