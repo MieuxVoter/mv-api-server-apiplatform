@@ -1327,13 +1327,14 @@
                         "description": "The poll this invitation is for.",
                         "$ref": "#\/components\/schemas\/Poll-read"
                     },
-                    "participant": {
-                        "description": "As long as this is empty, the invitation is still open.",
-                        "$ref": "#\/components\/schemas\/User-read"
-                    },
                     "accepted": {
                         "readOnly": true,
                         "description": "Whether this invitation was accepted by someone already.",
+                        "type": "boolean"
+                    },
+                    "acceptedByYou": {
+                        "readOnly": true,
+                        "description": "Whether this invitation was accepted by the current user.",
                         "type": "boolean"
                     }
                 }
@@ -1397,6 +1398,10 @@
                         "items": {
                             "$ref": "#\/components\/schemas\/Grade-read"
                         }
+                    },
+                    "canGenerateInvitations": {
+                        "description": "Can the current user generate invitations for this poll or not?\nHelps clients show the relevant links and forms.",
+                        "type": "boolean"
                     }
                 },
                 "required": [
