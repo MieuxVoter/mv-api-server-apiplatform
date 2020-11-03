@@ -288,6 +288,13 @@ class ApiActor
     }
 
 
+    public function markPreviousRequestAsFailed()
+    {
+        $transaction = $this->getLastTransaction();
+        $transaction->setMarkedAsFailed(true);
+    }
+
+
     public function printRequest($request = null)
     {
         if (null == $request) {
@@ -392,14 +399,20 @@ class ApiActor
         if ( ! $response->isSuccessful()) {
             $statusCode = $response->getStatusCode();
             $failure = sprintf("Response is unsuccessful, with '%d' HTTP status code.".PHP_EOL, $statusCode);
-        } else {
-            // Our GraphQL bundle does not respect the HTTP status codes.
-            // It sends back a 200 even if the query is plain wrong and a 400 is the correct response.
-            // Not sure if relevant to GraphQL or the bundle implementation.
-            // If it's the bundle, patch it somehow and then we can remove this.
-            // https://github.com/overblog/GraphQLBundle/issues/86  …sigh.
-            $failure = $this->getPossibleFailureFromPossibleGqlResponse($response);
         }
+
+        if ($transaction->isMarkedAsFailed()) {
+            $failure = "transaction.marked_as_failed";
+        }
+
+//        else {
+//            // Our GraphQL bundle does not respect the HTTP status codes.
+//            // It sends back a 200 even if the query is plain wrong and a 400 is the correct response.
+//            // Not sure if relevant to GraphQL or the bundle implementation.
+//            // If it's the bundle, patch it somehow and then we can remove this.
+//            // https://github.com/overblog/GraphQLBundle/issues/86  …sigh.
+//            $failure = $this->getPossibleFailureFromPossibleGqlResponse($response);
+//        }
 
         return $failure;
     }

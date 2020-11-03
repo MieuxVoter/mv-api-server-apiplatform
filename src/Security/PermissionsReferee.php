@@ -49,6 +49,6 @@ class PermissionsReferee
             return false;
         }
 
-        return $invitation->getAuthor() === $user;
+        return $invitation->getParticipant() === $user;
     }
 }

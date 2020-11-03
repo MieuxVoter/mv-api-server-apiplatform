@@ -29,6 +29,8 @@ class Transaction
      */
     protected $response;
 
+    protected $marked_as_failed = false;
+
 
     /**
      * Transaction constructor.  Pretty boring.
@@ -78,12 +80,33 @@ class Transaction
         $this->response = $response;
     }
 
+    /**
+     * Get the response as an associative PHP array. (usually)
+     *
+     * @return mixed
+     */
     public function getResponseJson()
     {
         $content = $this->response->getContent();
         $json = json_decode($content, true, 16, JSON_OBJECT_AS_ARRAY);
 
         return $json;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMarkedAsFailed(): bool
+    {
+        return $this->marked_as_failed;
+    }
+
+    /**
+     * @param bool $marked_as_failed
+     */
+    public function setMarkedAsFailed(bool $marked_as_failed): void
+    {
+        $this->marked_as_failed = $marked_as_failed;
     }
 
 }

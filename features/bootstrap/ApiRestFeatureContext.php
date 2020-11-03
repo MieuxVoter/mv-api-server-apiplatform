@@ -338,6 +338,12 @@ class ApiRestFeatureContext extends BaseFeatureContext
             'GET',"/invitations/{$invitationId}",
             [], [], !empty($try)
         );
+
+        $responseInvitation = $actor->getLastTransaction()->getResponseJson();
+
+        if ( ! $responseInvitation['acceptedByYou']) {
+            $actor->markPreviousRequestAsFailed();
+        }
     }
 
 
