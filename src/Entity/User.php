@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
+ * Users organize and participate in Polls.
+ *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, groups={"register", "edit"}, message="Email already in use")
  * @ApiResource(
@@ -76,6 +78,8 @@ class User implements UserInterface
     public $uuid;
 
     /**
+     * When provided, the email must be unique amongst Users.
+     *
      * @ORM\Column(type="string", length=180, unique=true, nullable=true)
      * @Groups({"create", "read", "edit"})
      * @Assert\Email(groups={"register", "edit"})
@@ -83,6 +87,8 @@ class User implements UserInterface
     private $email;
 
     /**
+     * The username must be unique amongst Users.
+     *
      * @ORM\Column(type="string", length=64, unique=true)
      * @Groups({"create", "read", "edit"})
      * @Assert\NotBlank(groups={"register", "edit"})
@@ -95,13 +101,18 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
+     * The hashed password, stored in the database.
+     *
+     * @var string
      * @ORM\Column(type="string")
-     * 
      */
     private $password;
 
     /**
+     * The plain password of the User.
+     * This is not stored in the database.
+     *
+     * @var string
      * @Groups({"create", "edit"})
      * @Assert\NotBlank(groups={"register, login"})
      * @Assert\Length(max=1024, groups={"register", "edit", "login"})
@@ -110,6 +121,8 @@ class User implements UserInterface
     private $plainPassword;
     
     /**
+     * The polls authored by this User.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Poll", mappedBy="author")
      * @Groups({"read"})
      */
@@ -117,7 +130,9 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Poll\Proposal\Ballot", mappedBy="participant")
-     * @Groups({"read"})
+     *
+     * TBD: do we expose the most recent ballots?  It would probably be helpful.
+     * Groups({"read"})
      */
     private $ballots;
 

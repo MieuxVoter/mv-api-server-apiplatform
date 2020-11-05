@@ -27,6 +27,7 @@ final class JwtDecorator implements NormalizerInterface
 
         $docs['components']['schemas']['Token'] = [
             'type' => 'object',
+            'description' => 'An authentication token (JWT) for the Authorization: Bearer header.',
             'properties' => [
                 'token' => [
                     'type' => 'string',
@@ -37,14 +38,15 @@ final class JwtDecorator implements NormalizerInterface
 
         $docs['components']['schemas']['Credentials'] = [
             'type' => 'object',
+            'description' => "User credentials to submit in order to get a perishable authentication token (JWT).",
             'properties' => [
                 'usernameOrEmail' => [
                     'type' => 'string',
-                    'example' => 'api',
+                    'example' => 'michel',
                 ],
                 'password' => [
                     'type' => 'string',
-                    'example' => 'api',
+                    'example' => '~5Up3®$3cR3741337',
                 ],
             ],
         ];
@@ -53,9 +55,9 @@ final class JwtDecorator implements NormalizerInterface
             'paths' => [
                 '/_jwt' => [
                     'post' => [
-                        'tags' => ['Token'],
+                        'tags' => ['Token', 'Login'],
                         'operationId' => 'postCredentialsItem',
-                        'summary' => 'Gets a JWT token to login',
+                        'summary' => 'Login using user credentials in order to get a JWT token',
                         'requestBody' => [
                             'content' => [
                                 'application/ld+json' => [
