@@ -96,12 +96,16 @@ class MainFeatureContext extends BaseFeatureContext
         $gradesKey = $this->t('keys.poll.grades');
         $data = $this->yaml($pystring);
 
-        $poll = new Poll();
+        $uuid = null;
+        if ( isset($data['uuid'])) {
+            $uuid = Ramsey\Uuid\Uuid::fromString($data['uuid']);
+        }
+
+        $poll = new Poll($uuid);
 
         if ( ! isset($data[$subjectKey])) {
             $this->failTrans("poll_has_no_subject");
         }
-
 
         $poll->setSubject($data[$subjectKey]);
         if (isset($data[$scopeKey])) {

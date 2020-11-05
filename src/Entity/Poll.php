@@ -220,11 +220,14 @@ class Poll
     ///
     ///
 
-    public function __construct()
+    public function __construct($uuid = null)
     {
         $this->proposals = new ArrayCollection();
         $this->grades = new ArrayCollection();
-        $this->uuid = Uuid::uuid4();
+        if (null == $uuid) {
+            $uuid = Uuid::uuid4();
+        }
+        $this->uuid = $uuid;
     }
 
     public function getId(): ?int
