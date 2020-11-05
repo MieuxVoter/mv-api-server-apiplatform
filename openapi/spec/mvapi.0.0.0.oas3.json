@@ -3,7 +3,7 @@
     "info": {
         "title": "Majority Judgment API",
         "version": "0.0.0-dev",
-        "description": "This is a **deliberation service** using (liquid) **majority judgment** polling.\nIt's **libre software** made and maintained by [MieuxVoter.fr](https:\/\/mieuxvoter.fr).\nYou're browsing the API documentation.\n\nFor more, head over to [Gitlab](https:\/\/framagit.org\/limaju).\n"
+        "description": "This is a **deliberation service** using **majority judgment** polling.\nIt's **libre software** made and maintained by [MieuxVoter.fr](https:\/\/mieuxvoter.fr).\nYou're browsing the API documentation.\n"
     },
     "paths": {
         "\/ballots\/{id}": {
@@ -1193,10 +1193,11 @@
         "\/_jwt": {
             "post": {
                 "tags": [
-                    "Token"
+                    "Token",
+                    "Login"
                 ],
                 "operationId": "postCredentialsItem",
-                "summary": "Gets a JWT token to login",
+                "summary": "Login using user credentials in order to get a JWT token",
                 "requestBody": {
                     "content": {
                         "application\/ld+json": {
@@ -1375,6 +1376,7 @@
                 "description": "A Liquid Majority Judgment Poll.",
                 "properties": {
                     "uuid": {
+                        "description": "A Universally Unique IDentifier (version 4)\nlike b7e7d328-c1fb-4af7-b258-23d08f6ed2d4\nand you may use the short prefix to fetch a poll as well,\nlike b7e7d328 or even b7e-7d-328 to make it more human-legible.",
                         "type": "string"
                     },
                     "scope": {
@@ -1438,14 +1440,14 @@
             },
             "ProposalGradeResult-read": {
                 "type": "object",
-                "description": "Results for one Grade of one Proposal.  \\n\nBasically the tally of Ballots for this Grade and Proposal,  \\n\nbut there might be more information in there.",
+                "description": "Results for one Grade of one Proposal,\nbasically the tally of Ballots for this Grade and Proposal,\nbut there might be more information in there in the future.",
                 "properties": {
                     "grade": {
-                        "description": "The Grade this Result is about.",
+                        "description": "The IRI of the Grade this Result is about.",
                         "type": "string"
                     },
                     "proposal": {
-                        "description": "The Proposal this Result is about.",
+                        "description": "The IRI of the Proposal this Result is about.",
                         "type": "string"
                     },
                     "tally": {
@@ -1463,7 +1465,7 @@
                         "$ref": "#\/components\/schemas\/Proposal-read"
                     },
                     "rank": {
-                        "description": "The computed rank of the Proposal in the Poll.  \\n\nRank starts at 1 and goes upwards.  \\n\nTwo proposals may have the same rank.",
+                        "description": "The computed rank of the Proposal in the Poll \u2014\nRank starts at 1 and goes upwards, and\ntwo proposals may have the same rank.",
                         "type": "integer"
                     },
                     "medianGrade": {
@@ -1471,101 +1473,104 @@
                         "$ref": "#\/components\/schemas\/Grade-read"
                     },
                     "tally": {
-                        "description": "Total Amount of Ballots emitted for the Proposal this Result is about.  \\n\nThis includes the \"ghost\", default ballots.",
+                        "description": "Total Amount of Ballots emitted for the Proposal this Result is about.",
                         "type": "integer"
                     },
                     "gradesResults": {
-                        "description": "Results for each Grade, on this Proposal.  \\n\nThis is the merit profile of the Proposal.",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/ProposalGradeResultRead"
-                        }
+                        },
+                        "description": "Results for each Grade, on this Proposal \u2014\nThis is the merit profile of the Proposal."
                     }
                 }
             },
             "Result-read": {
                 "type": "object",
-                "description": "A Result of a (Liquid) Majority Judgment Poll.",
+                "description": "A Result of a Majority Judgment Poll.",
                 "properties": {
                     "poll": {
                         "description": "The Poll this Result describes.",
                         "$ref": "#\/components\/schemas\/Poll-read"
                     },
                     "algorithm": {
-                        "description": "The name of the algorithm used to derive this Result.  \\n\nDefault: \"standard\".",
+                        "description": "The name of the algorithm used to derive this Result.",
                         "type": "string"
                     },
                     "leaderboard": {
-                        "description": "In order, each proposals' tally.  \\n\nSome proposals, in extreme, low-participation polls, may have the same rank.  \\n\nIn that case, their order should be the order they were defined in the poll.",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/ProposalResultRead"
-                        }
+                        },
+                        "description": "In order, each Proposals' Result.  In extreme,\nlow-participation polls, some Proposals may have the same rank ;\nin that case, their order should be the order they were added to the poll."
                     }
                 }
             },
             "User-create": {
                 "type": "object",
-                "description": "",
+                "description": "Users organize and participate in Polls.",
                 "properties": {
                     "email": {
+                        "description": "When provided, the email must be unique amongst Users.",
                         "type": "string"
                     },
                     "username": {
+                        "description": "The username must be unique amongst Users.",
                         "type": "string"
                     },
                     "password": {
+                        "description": "The plain password of the User.",
                         "type": "string"
                     }
                 }
             },
             "User-edit": {
                 "type": "object",
-                "description": "",
+                "description": "Users organize and participate in Polls.",
                 "properties": {
                     "email": {
+                        "description": "When provided, the email must be unique amongst Users.",
                         "type": "string"
                     },
                     "username": {
+                        "description": "The username must be unique amongst Users.",
                         "type": "string"
                     },
                     "password": {
+                        "description": "The plain password of the User.",
                         "type": "string"
                     }
                 }
             },
             "User-read": {
                 "type": "object",
-                "description": "",
+                "description": "Users organize and participate in Polls.",
                 "properties": {
                     "uuid": {
                         "readOnly": true,
                         "type": "string"
                     },
                     "email": {
+                        "description": "When provided, the email must be unique amongst Users.",
                         "type": "string"
                     },
                     "username": {
+                        "description": "The username must be unique amongst Users.",
                         "type": "string"
                     },
                     "polls": {
                         "readOnly": true,
+                        "description": "The polls authored by this User.",
                         "type": "array",
                         "items": {
                             "$ref": "#\/components\/schemas\/Poll-read"
-                        }
-                    },
-                    "ballots": {
-                        "readOnly": true,
-                        "type": "array",
-                        "items": {
-                            "$ref": "#\/components\/schemas\/Ballot-read"
                         }
                     }
                 }
             },
             "Token": {
                 "type": "object",
+                "description": "An authentication token (JWT) for the Authorization: Bearer header.",
                 "properties": {
                     "token": {
                         "type": "string",
@@ -1575,14 +1580,15 @@
             },
             "Credentials": {
                 "type": "object",
+                "description": "User credentials to submit in order to get a perishable authentication token (JWT).",
                 "properties": {
                     "usernameOrEmail": {
                         "type": "string",
-                        "example": "api"
+                        "example": "michel"
                     },
                     "password": {
                         "type": "string",
-                        "example": "api"
+                        "example": "~5Up3\u00ae$3cR3741337"
                     }
                 }
             }
