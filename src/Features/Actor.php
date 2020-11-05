@@ -21,7 +21,7 @@ class Actor extends ApiActor
 
     public function addInvitation($invitation, Poll $poll)
     {
-        $pollId = $poll->getUuid()->toString();
+        $pollId = $poll->getUuid();
 
         if ( ! isset($this->invitations[$pollId])) {
             $this->invitations[$pollId] = [];

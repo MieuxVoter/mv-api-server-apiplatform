@@ -20,6 +20,49 @@ class PollRepository extends ServiceEntityRepository
         parent::__construct($registry, Poll::class);
     }
 
+
+    public function findOneByIdLike(string $idLike)
+    {
+        if (8 > count_chars($idLike)) {
+            return null;
+        }
+
+        $pollWithUuid = $this->findOneByUuid($idLike);
+        if ($pollWithUuid) {
+            return $pollWithUuid;
+        }
+
+        $poll = $this->findOneWithUuidStartingWith($idLike);
+        if ($poll) {
+            return $poll;
+        }
+
+        $idLike = str_replace('-', '', $idLike);
+        $poll = $this->findOneWithUuidStartingWith($idLike);
+        if ($poll) {
+            return $poll;
+        }
+
+        return null;
+    }
+
+    protected function findOneWithUuidStartingWith($uuidPrefix)
+    {
+        $polls = $this->createQueryBuilder('p')
+            ->andWhere('p.uuid LIKE :id')
+            ->setParameter('id', addcslashes($uuidPrefix, "%_").'%')
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+        if ( ! empty($polls)) {
+            return $polls[0];
+        }
+
+        return null;
+    }
+
+
     // /**
     //  * @return Poll[] Returns an array of Poll objects
     //  */

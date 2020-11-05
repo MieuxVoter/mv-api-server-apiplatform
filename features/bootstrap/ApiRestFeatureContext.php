@@ -146,7 +146,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
-            'GET',"/polls/".$poll->getUuid()->toString()."/result",
+            'GET',"/polls/".$poll->getUuid()."/result",
             [], [], !empty($try)
         );
 
@@ -252,7 +252,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $this->actor($actor)->api(
-            'DELETE',"/polls/".$poll->getUuid()->toString(),
+            'DELETE',"/polls/".$poll->getUuid(),
             [], [], !empty($try)
         );
     }
@@ -268,7 +268,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $actor = $this->actor($actor);
         $invitationsAmount = $this->number($invitationsAmount);
         $poll = $this->findOnePollFromSubject($pollSubject);
-        $pollId = $poll->getUuid()->toString();
+        $pollId = $poll->getUuid();
 
         $actor->api(
             'GET',"/polls/{$pollId}/invitations",
@@ -355,6 +355,19 @@ class ApiRestFeatureContext extends BaseFeatureContext
     {
         $this->actor($actor)->api(
             'GET',"/polls",
+            [], [], !empty($try)
+        );
+    }
+
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) voir(?: (?:de|à) nouveau)? le scrutin identifié "(?P<pollId>.+)"$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? look at the poll (?:with id|identified(?: by| with)?) "(?P<pollId>.+)"$/iu
+     */
+    public function actorViewsOnePollById($actor, $try, $pollId)
+    {
+        $this->actor($actor)->api(
+            'GET',"/polls/${pollId}",
             [], [], !empty($try)
         );
     }

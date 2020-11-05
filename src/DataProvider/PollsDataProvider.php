@@ -99,7 +99,7 @@ final class PollsDataProvider implements ItemDataProviderInterface, CollectionDa
         $poll = $this->managerRegistry
             ->getManagerForClass($resourceClass)
             ->getRepository($resourceClass)
-            ->findOneByUuid($id); // todo findOneByIdLike
+            ->findOneByIdLike((string) $id);
 
         if ($poll) {
             $poll->setCanGenerateInvitations($this->permissionsReferee->canGenerateInvitationsFor($poll));

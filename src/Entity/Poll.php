@@ -83,9 +83,14 @@ class Poll
     private $id;
 
     /**
-     * @var UuidInterface|null
+     * A Universally Unique IDentifier (version 4)
+     * like b7e7d328-c1fb-4af7-b258-23d08f6ed2d4
+     * and you may use the short prefix to fetch a poll as well,
+     * like b7e7d328 or even b7e-7d-328 to make it more human-legible.
+     *
+     * @var string|null
      * @ApiProperty(identifier=true)
-     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @Groups({"read"})
      */
     public $uuid;
@@ -227,7 +232,7 @@ class Poll
         if (null == $uuid) {
             $uuid = Uuid::uuid4();
         }
-        $this->uuid = $uuid;
+        $this->uuid = $uuid->toString();
     }
 
     public function getId(): ?int
@@ -235,7 +240,7 @@ class Poll
         return $this->id;
     }
 
-    public function getUuid(): ?UuidInterface
+    public function getUuid(): ?string
     {
         return $this->uuid;
     }
