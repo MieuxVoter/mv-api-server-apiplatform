@@ -402,7 +402,7 @@ class Poll
     /**
      * @return bool
      */
-    public function isCanGenerateInvitations(): bool
+    public function getCanGenerateInvitations(): bool
     {
         return $this->canGenerateInvitations;
     }
