@@ -14,7 +14,7 @@ use App\Entity\Poll\Proposal\Result as ProposalResult;
 
 
 /**
- * A Result of a (Liquid) Majority Judgment Poll.
+ * A Result of a Majority Judgment Poll.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
@@ -33,7 +33,7 @@ use App\Entity\Poll\Proposal\Result as ProposalResult;
 class Result
 {
     /**
-     * This a stub to fool ApiPlatform.  See Issue #17.  \n
+     * This a stub to fool ApiPlatform.  See Issue #17.
      * We don't need an identifier, as this entity is not in the database.
      *
      * @var string
@@ -50,7 +50,7 @@ class Result
     private $poll;
 
     /**
-     * The name of the algorithm used to derive this Result.  \n
+     * The name of the algorithm used to derive this Result.
      * Default: "standard".
      *
      * @var string
@@ -61,18 +61,15 @@ class Result
     // algorithm parameters?  perhaps use an entity as $algorithm?
 
     /**
-     * In order, each proposals' tally.  \n
-     * Some proposals, in extreme, low-participation polls, may have the same rank.  \n
-     * In that case, their order should be the order they were defined in the poll.
+     * In order, each Proposals' Result.  In extreme,
+     * low-participation polls, some Proposals may have the same rank ;
+     * in that case, their order should be the order they were added to the poll.
      *
      * @var ProposalResult[]
      * @Groups({"read"})
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
-     *             "description"="In order, each Proposals' Result.
-In extreme, low-participation polls, some proposals may have the exact same rank.
-In that case, their order should be the order they were defined in the poll.",
      *             "type"="array",
      *             "items"={
      *                 "$ref"="#/components/schemas/ProposalResultRead",

@@ -28,9 +28,8 @@ use App\Entity\Poll\Grade\Result as ProposalGradeResult;
  */
 class Result
 {
-    // The \n allows us to pass multiline descriptions to openapi.
     /**
-     * This a stub to fool ApiPlatform.  See Issue #17.  \n
+     * This a stub to fool ApiPlatform.  See Issue #17.
      * We don't need an identifier, as this entity is not in the database.
      *
      * @var string
@@ -47,9 +46,9 @@ class Result
     private $proposal;
 
     /**
-     * The computed rank of the Proposal in the Poll.  \n
-     * Rank starts at 1 and goes upwards.  \n
-     * Two proposals may have the same rank.
+     * The computed rank of the Proposal in the Poll —
+     * Rank starts at 1 and goes upwards, and
+     * two proposals may have the same rank.
      *
      * @var int Rank of the proposal in the poll.
      * @Groups({"read"})
@@ -65,7 +64,7 @@ class Result
     private $medianGrade; // camelCase required by ApiPlatform
 
     /**
-     * Total Amount of Ballots emitted for the Proposal this Result is about.  \n
+     * Total Amount of Ballots emitted for the Proposal this Result is about.
      * This includes the "ghost", default ballots.
      *
      * @var int
@@ -74,14 +73,12 @@ class Result
     private $tally;
 
     /**
-     * Results for each Grade, on this Proposal.  \n
+     * Results for each Grade, on this Proposal —
      * This is the merit profile of the Proposal.
      *
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
-     *             "description"="Results for each Grade, on this Proposal.
-This is the merit profile of the Proposal.",
      *             "type"="array",
      *             "items"={
      *                 "$ref"="#/components/schemas/ProposalGradeResultRead",

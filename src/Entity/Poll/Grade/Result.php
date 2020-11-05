@@ -12,9 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * Results for one Grade of one Proposal.  \n
- * Basically the tally of Ballots for this Grade and Proposal,  \n
- * but there might be more information in there.
+ * Results for one Grade of one Proposal,
+ * basically the tally of Ballots for this Grade and Proposal,
+ * but there might be more information in there in the future.
  *
  * @ApiResource(
  *     shortName="ProposalGradeResult",
@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Result
 {
     /**
-     * This a stub to fool ApiPlatform.  See Issue #17.  \n
+     * This a stub to fool ApiPlatform.  See Issue #17.
      * We don't need an identifier, as this entity is not in the database.
      *
      * @var string
@@ -44,7 +44,11 @@ class Result
      *
      * @var Grade
      * @Groups({"read"})
-     * @ApiProperty(readableLink=false, writableLink=false)
+     * @ApiProperty(
+     *     readableLink=false,
+     *     writableLink=false,
+     *     description="The IRI of the Grade this Result is about.",
+     * )
      */
     private $grade;
 
@@ -53,7 +57,11 @@ class Result
      *
      * @var Proposal
      * @Groups({"read"})
-     * @ApiProperty(readableLink=false, writableLink=false)
+     * @ApiProperty(
+     *     readableLink=false,
+     *     writableLink=false,
+     *     description="The IRI of the Proposal this Result is about.",
+     * )
      */
     private $proposal;
 
