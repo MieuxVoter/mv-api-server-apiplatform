@@ -6,17 +6,15 @@ api_platform:
 
     # The description of the API.
     description: |
-        This is a **deliberation service** using (liquid) **majority judgment** polling.
+        This is a **deliberation service** using **majority judgment** polling.
         It's **libre software** made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
         You're browsing the API documentation.
-
-        For more, head over to [Gitlab](https://framagit.org/limaju).
 
     # The version of the API.
     version: '0.0.0-dev'
 
     # Set this to false if you want Webby to disappear.
-    show_webby: true
+    show_webby: false
 
     # The shenanigans
     mapping:
