@@ -37,8 +37,12 @@ class PollRepository extends ServiceEntityRepository
             return $poll;
         }
 
-        $idLike = str_replace('-', '', $idLike);
-        $poll = $this->findOneWithUuidStartingWith($idLike);
+        $poll = $this->findOneWithUuidStartingWith(str_replace('-', '', $idLike));
+        if ($poll) {
+            return $poll;
+        }
+
+        $poll = $this->findOneBySlug(strtolower($idLike));
         if ($poll) {
             return $poll;
         }

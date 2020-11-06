@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
+use App\Entity\Random\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -88,12 +89,21 @@ class Poll
      * and you may use the short prefix to fetch a poll as well,
      * like b7e7d328 or even b7e-7d-328 to make it more human-legible.
      *
-     * @var string|null
+     * @var string|null  Should be a UuidInterface but ApiPlatform yells (slug support)
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="string", unique=true)
      * @Groups({"read"})
      */
     public $uuid;
+
+    /**
+     * A unique, short, human-friendly identifier for the Poll.
+     *
+     * @var string
+     * @ORM\Column(type="string", unique=true)
+     * @Groups({"read", "create", "update"})
+     */
+    protected $slug;
 
     /**
      * Creating private polls may require this to be set.
@@ -222,6 +232,10 @@ class Poll
      */
     protected $canGenerateInvitations = false;
 
+//    protected $invitationsTotalAmount;
+//    protected $invitationsPendingAmount;
+//    protected $invitationsAcceptedAmount;
+
     ///
     ///
 
@@ -233,6 +247,7 @@ class Poll
             $uuid = Uuid::uuid4();
         }
         $this->uuid = $uuid->toString();
+        $this->slug = Slug::generate();
     }
 
     public function getId(): ?int
@@ -243,6 +258,18 @@ class Poll
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getSubject(): ?string
