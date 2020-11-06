@@ -103,6 +103,10 @@ class MainFeatureContext extends BaseFeatureContext
 
         $poll = new Poll($uuid);
 
+        if ( isset($data['slug'])) {
+            $poll->setSlug($data['slug']);
+        }
+
         if ( ! isset($data[$subjectKey])) {
             $this->failTrans("poll_has_no_subject");
         }
