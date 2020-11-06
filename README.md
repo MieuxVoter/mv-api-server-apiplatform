@@ -41,15 +41,16 @@ Run:
 
 ### Setup JWT
 
-Run from root path:
+Run from project's root path:
 
     openssl genrsa -out config/jwt/private.pem -aes256 512
     openssl pkey -in config/jwt/private.pem --out config/jwt/public.pem -pubout
-and write your private passphrase, without exotic characters.
 
-Copy that passphrase inside `.env`:
+and write a private passphrase, without exotic characters (there are known issues).
 
-    JWT_PASSPHRASE=passphrase
+Copy that passphrase inside `.env.local` *AND* `.env.test.local` (create the files):
+
+    JWT_PASSPHRASE=passphrase_you_chose_above
 
 
 ### References
@@ -60,11 +61,20 @@ Copy that passphrase inside `.env`:
     * https://symfonycasts.com/screencast/api-platform-security/encode-user-password
 
 
-## Browse generated doc
+## Run, Doc, Sandbox
 
     bin/console server:run
 
-Browse http://localhost:8000/api/docs
+Browse http://localhost:8000/
+
+You may also use `0.0.0.0` to make the API available to your local area network (mobile testing),
+as well as a custom port :
+
+    bin/console server:run 0.0.0.0:8001
+
+You may also use the `symfony` utility, if you have it:
+
+    symfony serve --port 8000
 
 
 ## Run the feature suite
