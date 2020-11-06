@@ -91,6 +91,7 @@ class CliPrinter
      */
     static public function printResponse(Response $response, $only_return = false) : string
     {
+        $traceMax = 16;
         $statusStyle = new OutputFormatterStyle(null, null, ['bold']);
         $statusCode = $response->getStatusCode();
 
@@ -113,7 +114,17 @@ class CliPrinter
 
         if (true) { // if behat's verbosity is, say, higher than -v ?
             try {
-                $jsonResponse = json_decode($response->getContent());
+                $jsonResponse = json_decode($response->getContent(), true);
+                if (null == $jsonResponse) {
+                    throw new \Exception();
+                }
+                if (isset($jsonResponse['trace'])) {
+                    $traceTally = count($jsonResponse['trace']);
+                    $jsonResponse['trace'] = array_slice($jsonResponse['trace'], 0, $traceMax);
+                    if ($traceTally > $traceMax) {
+                        $jsonResponse['trace'][] = "… (".($traceTally-$traceMax)." more hidden)";
+                    }
+                }
                 $responseBody = self::dump($jsonResponse);
                 $responseBody = "The actual JSON response is hard to read.\r\n" .
                     "Here is a dump of it, once decoded:\r\n" .
