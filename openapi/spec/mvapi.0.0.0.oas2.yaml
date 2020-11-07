@@ -1,0 +1,968 @@
+swagger: '2.0'
+basePath: /
+info:
+  title: 'Majority Judgment API'
+  version: 0.0.0-dev
+  description: |
+    This is a **deliberation service** using **majority judgment** polling.
+    It's **libre software** made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
+    You're browsing the API documentation.
+    
+paths:
+  '/ballots/{id}':
+    get:
+      tags:
+        - Ballot
+      operationId: getBallotItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Ballot resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Ballot resource response'
+          schema:
+            $ref: '#/definitions/Ballot-read'
+        404:
+          description: 'Resource not found'
+    delete:
+      tags:
+        - Ballot
+      operationId: deleteBallotItem
+      summary: 'Removes the Ballot resource.'
+      responses:
+        204:
+          description: 'Ballot resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  '/grades/{id}':
+    get:
+      tags:
+        - Grade
+      operationId: getGradeItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Grade resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Grade resource response'
+          schema:
+            $ref: '#/definitions/Grade-read'
+        404:
+          description: 'Resource not found'
+  /invitations:
+    get:
+      tags:
+        - Invitation
+      operationId: getInvitationCollection
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Invitation resources.'
+      responses:
+        200:
+          description: 'Invitation collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invitation-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          type: integer
+  '/invitations/{id}':
+    get:
+      tags:
+        - Invitation
+      operationId: getInvitationItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Invitation resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Invitation resource response'
+          schema:
+            $ref: '#/definitions/Invitation-read'
+        404:
+          description: 'Resource not found'
+  /polls:
+    get:
+      tags:
+        - Poll
+      operationId: getPollCollection
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Poll resources.'
+      responses:
+        200:
+          description: 'Poll collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Poll-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          type: integer
+    post:
+      tags:
+        - Poll
+      operationId: postPollCollection
+      consumes:
+        - application/ld+json
+        - application/json
+        - text/html
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Creates a Poll resource.'
+      responses:
+        201:
+          description: 'Poll resource created'
+          schema:
+            $ref: '#/definitions/Poll-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: poll
+          in: body
+          description: 'The new Poll resource'
+          schema:
+            $ref: '#/definitions/Poll-create'
+  '/polls/{id}':
+    get:
+      tags:
+        - Poll
+      operationId: getPollItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Poll resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Poll resource response'
+          schema:
+            $ref: '#/definitions/Poll-read'
+        404:
+          description: 'Resource not found'
+    delete:
+      tags:
+        - Poll
+      operationId: deletePollItem
+      summary: 'Removes the Poll resource.'
+      responses:
+        204:
+          description: 'Poll resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  '/polls/{id}/grades':
+    get:
+      tags:
+        - Grade
+        - Poll
+      operationId: api_polls_grades_get_subresource
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Grade resources.'
+      responses:
+        200:
+          description: 'Grade collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Grade-read'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  '/polls/{id}/invitations':
+    get:
+      tags:
+        - Invitation
+      operationId: get_for_pollInvitationCollection
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Invitation resources.'
+      responses:
+        200:
+          description: 'Invitation collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invitation-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          type: integer
+  '/polls/{id}/proposals':
+    get:
+      tags:
+        - Proposal
+        - Poll
+      operationId: api_polls_proposals_get_subresource
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Proposal resources.'
+      responses:
+        200:
+          description: 'Proposal collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Proposal-read'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  '/polls/{id}/proposals/{proposals}/ballots':
+    get:
+      tags:
+        - Ballot
+        - Proposal
+      operationId: api_polls_proposals_ballots_get_subresource
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Ballot resources.'
+      responses:
+        200:
+          description: 'Ballot collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ballot-read'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+        -
+          name: proposals
+          in: path
+          required: true
+          type: string
+  '/polls/{id}/result':
+    get:
+      tags:
+        - Result
+      operationId: get_for_pollResultItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Result resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Result resource response'
+          schema:
+            $ref: '#/definitions/Result-read'
+        404:
+          description: 'Resource not found'
+  '/polls/{pollId}/proposals/{proposalId}/ballots':
+    post:
+      tags:
+        - Ballot
+      operationId: postBallotCollection
+      consumes:
+        - application/ld+json
+        - application/json
+        - text/html
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Creates a Ballot resource.'
+      responses:
+        201:
+          description: 'Ballot resource created'
+          schema:
+            $ref: '#/definitions/Ballot-created'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: ballot
+          in: body
+          description: 'The new Ballot resource'
+          schema:
+            $ref: '#/definitions/Ballot-create'
+  '/proposal_grade_results/{id}':
+    get:
+      tags:
+        - ProposalGradeResult
+      operationId: getProposalGradeResultItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a ProposalGradeResult resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'ProposalGradeResult resource response'
+          schema:
+            $ref: '#/definitions/ProposalGradeResult-read'
+        404:
+          description: 'Resource not found'
+  '/proposal_results/{id}':
+    get:
+      tags:
+        - ProposalResult
+      operationId: getProposalResultItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a ProposalResult resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'ProposalResult resource response'
+          schema:
+            $ref: '#/definitions/ProposalResult-read'
+        404:
+          description: 'Resource not found'
+  '/proposals/{id}':
+    get:
+      tags:
+        - Proposal
+      operationId: getProposalItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a Proposal resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Proposal resource response'
+          schema:
+            $ref: '#/definitions/Proposal-read'
+        404:
+          description: 'Resource not found'
+  '/proposals/{id}/ballots':
+    get:
+      tags:
+        - Ballot
+        - Proposal
+      operationId: api_proposals_ballots_get_subresource
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of Ballot resources.'
+      responses:
+        200:
+          description: 'Ballot collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ballot-read'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  /users:
+    get:
+      tags:
+        - User
+      operationId: getUserCollection
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves the collection of User resources.'
+      responses:
+        200:
+          description: 'User collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          type: integer
+    post:
+      tags:
+        - User
+      operationId: postUserCollection
+      consumes:
+        - application/ld+json
+        - application/json
+        - text/html
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Creates a User resource.'
+      responses:
+        201:
+          description: 'User resource created'
+          schema:
+            $ref: '#/definitions/User-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: user
+          in: body
+          description: 'The new User resource'
+          schema:
+            $ref: '#/definitions/User-create'
+  '/users/{id}':
+    get:
+      tags:
+        - User
+      operationId: getUserItem
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Retrieves a User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'User resource response'
+          schema:
+            $ref: '#/definitions/User-read'
+        404:
+          description: 'Resource not found'
+    put:
+      tags:
+        - User
+      operationId: putUserItem
+      consumes:
+        - application/ld+json
+        - application/json
+        - text/html
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      summary: 'Replaces the User resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+        -
+          name: user
+          in: body
+          description: 'The updated User resource'
+          schema:
+            $ref: '#/definitions/User-edit'
+      responses:
+        200:
+          description: 'User resource updated'
+          schema:
+            $ref: '#/definitions/User-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+    delete:
+      tags:
+        - User
+      operationId: deleteUserItem
+      summary: 'Removes the User resource.'
+      responses:
+        204:
+          description: 'User resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          type: string
+  /_jwt:
+    post:
+      tags:
+        - Login
+        - User
+      operationId: postCredentialsItem
+      summary: 'Login using user credentials in order to get a JWT.'
+      requestBody:
+        description: 'User Credentials'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      parameters:
+        -
+          name: Credentials
+          in: body
+          description: 'User Credentials'
+          schema:
+            $ref: '#/components/schemas/Credentials'
+      responses:
+        200:
+          description: 'A JSON Web Token (JWT)'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Token'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+          schema:
+            $ref: '#/components/schemas/Token'
+        400:
+          description: 'Bad credentials.'
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    in: header
+    description: 'Value for the Authorization header'
+    name: Authorization
+security:
+  -
+    apiKey: []
+definitions:
+  Ballot-create:
+    type: object
+    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    properties:
+      grade:
+        description: 'The Grade attributed by the Judge to the Proposal.'
+        type: string
+  Ballot-created:
+    type: object
+    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    properties:
+      uuid:
+        type: string
+      proposal:
+        description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
+        type: string
+      grade:
+        description: 'The Grade attributed by the Judge to the Proposal.'
+        type: string
+  Ballot-read:
+    type: object
+    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    properties:
+      uuid:
+        type: string
+      proposal:
+        description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
+        type: string
+      grade:
+        description: 'The Grade attributed by the Judge to the Proposal.'
+        type: string
+  Grade-create:
+    type: object
+    description: 'Grades are attributed to Proposals by Participants, in Ballots.'
+    properties:
+      name:
+        type: string
+      level:
+        description: |
+          Used to compare grades procedurally.  \n
+          Usually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.  \n
+          Grades of the same poll MUST have unique levels between themselves.
+        type: integer
+  Grade-read:
+    type: object
+    description: 'Grades are attributed to Proposals by Participants, in Ballots.'
+    properties:
+      uuid:
+        readOnly: true
+        description: 'Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92'
+        type: string
+      name:
+        type: string
+      level:
+        description: |
+          Used to compare grades procedurally.  \n
+          Usually starts at zero (0) and ends at <MAXIMUM_GRADES>-1.  \n
+          Grades of the same poll MUST have unique levels between themselves.
+        type: integer
+  Invitation-read:
+    type: object
+    description: 'An invitation to a poll.'
+    properties:
+      uuid:
+        readOnly: true
+        description: 'Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92'
+        type: string
+      poll:
+        description: 'The poll this invitation is for.'
+        $ref: '#/definitions/Poll-read'
+      accepted:
+        readOnly: true
+        description: 'Whether this invitation was accepted by someone already.'
+        type: boolean
+      acceptedByYou:
+        readOnly: true
+        description: 'Whether this invitation was accepted by the current user.'
+        type: boolean
+  Poll-create:
+    type: object
+    description: 'A Liquid Majority Judgment Poll.'
+    properties:
+      slug:
+        description: 'A unique, short, human-friendly identifier for the Poll.'
+        type: string
+      scope:
+        description: |
+          The scope defines how the poll is accessible:
+          `public`: Everyone may access the poll, and it will be publicly listed
+          `unlisted`: Everyone may access the poll if they know its URI
+          `private`: Only invited participants may participate
+          The default scope is `unlisted`.
+        type: string
+      subject:
+        description: 'The subject of the poll. Careful consideration should be taken in the writing of this.'
+        type: string
+      proposals:
+        description: |
+          A list of Proposals to judge,
+          that MUST contain at least two proposals,
+          and can have at most 256 proposals
+          but that upper limit is arbitrary
+          and may wildly vary after benchmark and discussion.
+        type: array
+        items:
+          $ref: '#/definitions/Proposal-create'
+      grades:
+        description: |
+          A list of Grades that Participants may give to Proposals –
+          That list MUST contain at least two Grades,
+          and at most 16 (another arbitrary limit to discuss).
+        type: array
+        items:
+          $ref: '#/definitions/Grade-create'
+    required:
+      - subject
+  Poll-read:
+    type: object
+    description: 'A Liquid Majority Judgment Poll.'
+    properties:
+      uuid:
+        description: |
+          A Universally Unique IDentifier (version 4)
+          like b7e7d328-c1fb-4af7-b258-23d08f6ed2d4
+          and you may use the short prefix to fetch a poll as well,
+          like b7e7d328 or even b7e-7d-328 to make it more human-legible.
+        type: string
+      slug:
+        description: 'A unique, short, human-friendly identifier for the Poll.'
+        type: string
+      scope:
+        description: |
+          The scope defines how the poll is accessible:
+          `public`: Everyone may access the poll, and it will be publicly listed
+          `unlisted`: Everyone may access the poll if they know its URI
+          `private`: Only invited participants may participate
+          The default scope is `unlisted`.
+        type: string
+      subject:
+        description: 'The subject of the poll. Careful consideration should be taken in the writing of this.'
+        type: string
+      proposals:
+        description: |
+          A list of Proposals to judge,
+          that MUST contain at least two proposals,
+          and can have at most 256 proposals
+          but that upper limit is arbitrary
+          and may wildly vary after benchmark and discussion.
+        type: array
+        items:
+          $ref: '#/definitions/Proposal-read'
+      grades:
+        description: |
+          A list of Grades that Participants may give to Proposals –
+          That list MUST contain at least two Grades,
+          and at most 16 (another arbitrary limit to discuss).
+        type: array
+        items:
+          $ref: '#/definitions/Grade-read'
+      canGenerateInvitations:
+        description: |
+          Can the current user generate invitations for this poll or not?
+          Helps clients show the relevant links and forms.
+        type: boolean
+    required:
+      - subject
+  Proposal-create:
+    type: object
+    description: 'A Proposal of a Poll whom any Participant can give a Grade to.'
+    properties:
+      title:
+        description: 'The title of the proposal.'
+        type: string
+      poll:
+        description: 'The poll this proposal is attached to.'
+        $ref: '#/definitions/Poll-create'
+  Proposal-read:
+    type: object
+    description: 'A Proposal of a Poll whom any Participant can give a Grade to.'
+    properties:
+      uuid:
+        description: 'Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92'
+        type: string
+      title:
+        description: 'The title of the proposal.'
+        type: string
+  ProposalGradeResult-read:
+    type: object
+    description: |
+      Results for one Grade of one Proposal,
+      basically the tally of Ballots for this Grade and Proposal,
+      but there might be more information in there in the future.
+    properties:
+      grade:
+        description: 'The IRI of the Grade this Result is about.'
+        type: string
+      proposal:
+        description: 'The IRI of the Proposal this Result is about.'
+        type: string
+      tally:
+        description: 'Amount of Ballots emitted for this Grade on the Proposal.'
+        type: integer
+  ProposalResult-read:
+    type: object
+    description: 'The ranked Result of one Proposal in a Poll.'
+    properties:
+      proposal:
+        description: 'The Proposal this Result is for.'
+        $ref: '#/definitions/Proposal-read'
+      rank:
+        description: |
+          The computed rank of the Proposal in the Poll —
+          Rank starts at 1 and goes upwards, and
+          two proposals may have the same rank.
+        type: integer
+      medianGrade:
+        description: 'The median Grade of the Proposal.'
+        $ref: '#/definitions/Grade-read'
+      tally:
+        description: 'Total Amount of Ballots emitted for the Proposal this Result is about.'
+        type: integer
+      gradesResults:
+        description: |
+          Results for each Grade, on this Proposal —
+          This is the merit profile of the Proposal.
+        type: array
+        items:
+          $ref: '#/definitions/ProposalGradeResult-read'
+  Result-read:
+    type: object
+    description: 'A Result of a Majority Judgment Poll.'
+    properties:
+      poll:
+        description: 'The Poll this Result describes.'
+        $ref: '#/definitions/Poll-read'
+      algorithm:
+        description: 'The name of the algorithm used to derive this Result.'
+        type: string
+      leaderboard:
+        description: |
+          In order, each Proposals' Result.  In extreme,
+          low-participation polls, some Proposals may have the same rank ;
+          in that case, their order should be the order they were added to the poll.
+        type: array
+        items:
+          $ref: '#/definitions/ProposalResult-read'
+  User-create:
+    type: object
+    description: 'Users organize and participate in Polls.'
+    properties:
+      email:
+        description: 'When provided, the email must be unique amongst Users.'
+        type: string
+      username:
+        description: 'The username must be unique amongst Users.'
+        type: string
+      password:
+        description: 'The plain password of the User.'
+        type: string
+  User-edit:
+    type: object
+    description: 'Users organize and participate in Polls.'
+    properties:
+      email:
+        description: 'When provided, the email must be unique amongst Users.'
+        type: string
+      username:
+        description: 'The username must be unique amongst Users.'
+        type: string
+      password:
+        description: 'The plain password of the User.'
+        type: string
+  User-read:
+    type: object
+    description: 'Users organize and participate in Polls.'
+    properties:
+      uuid:
+        readOnly: true
+        type: string
+      email:
+        description: 'When provided, the email must be unique amongst Users.'
+        type: string
+      username:
+        description: 'The username must be unique amongst Users.'
+        type: string
+      polls:
+        readOnly: true
+        description: 'The polls authored by this User.'
+        type: array
+        items:
+          $ref: '#/definitions/Poll-read'
+  Token:
+    type: object
+    description: 'An authentication token (JWT) for the `Authorization: Bearer` header.'
+    properties:
+      token:
+        type: string
+        readOnly: true
+  Credentials:
+    type: object
+    description: 'User credentials to submit in order to get a perishable authentication token (JWT).'
+    properties:
+      usernameOrEmail:
+        type: string
+        example: michel
+      password:
+        type: string
+        example: ~5Up3®$3cR3741337
+components:
+  schemas:
+    Token:
+      type: object
+      description: 'An authentication token (JWT) for the `Authorization: Bearer` header.'
+      properties:
+        token:
+          type: string
+          readOnly: true
+    Credentials:
+      type: object
+      description: 'User credentials to submit in order to get a perishable authentication token (JWT).'
+      properties:
+        usernameOrEmail:
+          type: string
+          example: michel
+        password:
+          type: string
+          example: ~5Up3®$3cR3741337
+

@@ -773,11 +773,12 @@ paths:
   /_jwt:
     post:
       tags:
-        - Token
         - Login
+        - User
       operationId: postCredentialsItem
-      summary: 'Login using user credentials in order to get a JWT token'
+      summary: 'Login using user credentials in order to get a JWT.'
       requestBody:
+        description: 'User Credentials'
         content:
           application/ld+json:
             schema:
@@ -785,10 +786,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Credentials'
-        description: 'The new Credentials resource'
+      parameters:
+        -
+          name: Credentials
+          in: body
+          description: 'User Credentials'
+          schema:
+            $ref: '#/components/schemas/Credentials'
       responses:
         200:
-          description: 'Get JWT token'
+          description: 'A JSON Web Token (JWT)'
           content:
             application/ld+json:
               schema:
@@ -796,6 +803,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Token'
+          schema:
+            $ref: '#/components/schemas/Token'
+        400:
+          description: 'Bad credentials.'
 security:
   -
     apiKey: []
@@ -883,6 +894,9 @@ components:
       type: object
       description: 'A Liquid Majority Judgment Poll.'
       properties:
+        slug:
+          description: 'A unique, short, human-friendly identifier for the Poll.'
+          type: string
         scope:
           description: |
             The scope defines how the poll is accessible:
@@ -924,6 +938,9 @@ components:
             like b7e7d328-c1fb-4af7-b258-23d08f6ed2d4
             and you may use the short prefix to fetch a poll as well,
             like b7e7d328 or even b7e-7d-328 to make it more human-legible.
+          type: string
+        slug:
+          description: 'A unique, short, human-friendly identifier for the Poll.'
           type: string
         scope:
           description: |
@@ -1088,7 +1105,7 @@ components:
             $ref: '#/components/schemas/Poll-read'
     Token:
       type: object
-      description: 'An authentication token (JWT) for the Authorization: Bearer header.'
+      description: 'An authentication token (JWT) for the `Authorization: Bearer` header.'
       properties:
         token:
           type: string
@@ -1109,4 +1126,22 @@ components:
       in: header
       description: 'Value for the Authorization header'
       name: Authorization
+definitions:
+  Token:
+    type: object
+    description: 'An authentication token (JWT) for the `Authorization: Bearer` header.'
+    properties:
+      token:
+        type: string
+        readOnly: true
+  Credentials:
+    type: object
+    description: 'User credentials to submit in order to get a perishable authentication token (JWT).'
+    properties:
+      usernameOrEmail:
+        type: string
+        example: michel
+      password:
+        type: string
+        example: ~5Up3®$3cR3741337
 
