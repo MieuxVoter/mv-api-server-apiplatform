@@ -25,18 +25,20 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *     attributes={
  *         "normalization_context"={"groups"={"read"}},
  *         "denormalization_context"={"groups"={"edit"}},
- *         "validation_groups"={"register", "edit"}
+ *         "validation_groups"={"register", "edit"},
  *     },
  *     collectionOperations={
  *         "get"={
  *              "method"="GET",
- *              "access_control"="is_granted('ROLE_ADMIN')"
+ *              "access_control"="is_granted('ROLE_ADMIN')",
  *          },
  *         "post"={
  *              "method"="POST",
  *              "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY') or is_granted('ROLE_ADMIN')",
  *              "denormalization_context"={"groups"={"create"}},
- *              "validation_groups"={"register"}
+ *              "validation_groups"={"register"},
+ *              "swagger_context"=User::POST_OAS_CONTEXT,
+ *              "openapi_context"=User::POST_OAS_CONTEXT,
  *          },
  *     },
  *     itemOperations={
@@ -49,17 +51,23 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *              "method"="PUT",
  *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
  *              "normalization_context"={"groups"={"read"}},
- *              "denormalization_context"={"groups"={"edit"}}
+ *              "denormalization_context"={"groups"={"edit"}},
  *          },
  *         "delete"={
  *              "method"="DELETE",
- *              "access_control"="is_granted('ROLE_ADMIN')"
+ *              "access_control"="is_granted('ROLE_ADMIN')",
  *          },
  *     }
  * )
  */
 class User implements UserInterface
-{    
+{
+    const POST_OAS_CONTEXT = [
+        "summary" => "Register a new User",
+        "description" => "api.users.post.description",  # reminder to try to hook I18N
+        "tags" => ['User', 'Registration'],
+    ];
+
     /**
      * @var int|null
      * @ApiProperty(identifier=false)
