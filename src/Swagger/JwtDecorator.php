@@ -9,7 +9,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class JwtDecorator implements NormalizerInterface
 {
-    private NormalizerInterface $decorated;
+    /** @var NormalizerInterface $decorated */
+    private $decorated;
 
     public function __construct(NormalizerInterface $decorated)
     {
@@ -25,9 +26,10 @@ final class JwtDecorator implements NormalizerInterface
     {
         $docs = $this->decorated->normalize($object, $format, $context);
 
-        $docs['components']['schemas']['Token'] = [
+        $docs['definitions']['Token'] =  # OASv2
+        $docs['components']['schemas']['Token'] = [  # OASv3
             'type' => 'object',
-            'description' => 'An authentication token (JWT) for the Authorization: Bearer header.',
+            'description' => 'An authentication token (JWT) for the `Authorization: Bearer` header.',
             'properties' => [
                 'token' => [
                     'type' => 'string',
@@ -36,7 +38,8 @@ final class JwtDecorator implements NormalizerInterface
             ],
         ];
 
-        $docs['components']['schemas']['Credentials'] = [
+        $docs['definitions']['Credentials'] =  # OASv2
+        $docs['components']['schemas']['Credentials'] = [  # OASv3
             'type' => 'object',
             'description' => "User credentials to submit in order to get a perishable authentication token (JWT).",
             'properties' => [
@@ -55,10 +58,12 @@ final class JwtDecorator implements NormalizerInterface
             'paths' => [
                 '/_jwt' => [
                     'post' => [
-                        'tags' => ['Token', 'Login'],
+                        'tags' => ['Login', 'User'],
                         'operationId' => 'postCredentialsItem',
-                        'summary' => 'Login using user credentials in order to get a JWT token',
+                        'summary' => 'Login using user credentials in order to get a JWT.',
+                        // OASv3
                         'requestBody' => [
+                            "description" => "User Credentials",
                             'content' => [
                                 'application/ld+json' => [
                                     'schema' => [
@@ -71,22 +76,22 @@ final class JwtDecorator implements NormalizerInterface
                                     ],
                                 ],
                             ],
-                            "description" => "The new Credentials resource",
                         ],
-                        // Swagger (OASv2)
-//                        'parameters' => [
-//                            [
-//                                'name' => 'Credentials',
-//                                'in' => "body",
-//                                'description' => 'Create new JWT Token',
-//                                'schema' => [
-//                                    '$ref' => '#/components/schemas/Credentials',
-//                                ],
-//                            ],
-//                        ],
+                        // OASv2
+                        'parameters' => [
+                            [
+                                'name' => 'Credentials',
+                                'in' => "body",
+                                'description' => 'User Credentials',
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Credentials',
+                                ],
+                            ],
+                        ],
                         'responses' => [
                             Response::HTTP_OK => [
-                                'description' => 'Get JWT token',
+                                'description' => 'A JSON Web Token (JWT)',
+                                // OASv3
                                 'content' => [
                                     "application/ld+json" => [
                                         "schema" => [
@@ -99,6 +104,16 @@ final class JwtDecorator implements NormalizerInterface
                                         ],
                                     ],
                                 ],
+                                // OASv2
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Token',
+                                ],
+                            ],
+//                            Response::HTTP_UNAUTHORIZED => [
+//                                'description' => 'Unauthorized credentials.',
+//                            ],
+                            Response::HTTP_BAD_REQUEST => [
+                                'description' => 'Bad credentials.',
                             ],
                         ],
                     ],
