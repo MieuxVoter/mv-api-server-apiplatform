@@ -48,6 +48,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *              "method"="GET",
  *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
  *              "normalization_context"={"groups"={"read"}},
+ *              "swagger_context"=User::ITEM_GET_OAS_CONTEXT,
+ *              "openapi_context"=User::ITEM_GET_OAS_CONTEXT,
  *         },
  *         "put"={
  *              "method"="PUT",
@@ -73,6 +75,11 @@ class User implements UserInterface
         "summary" => "Registers a new User",
         "description" => "api.users.post.description",  # reminder to try to hook I18N
         "tags" => ['User', 'Registration'],
+    ];
+    const ITEM_GET_OAS_CONTEXT = [
+        "summary" => "Gets information about a User.",
+        "description" => "You are authorized to get information about yourself only.",
+        "tags" => ['User'],
     ];
 
     /**
@@ -173,6 +180,7 @@ class User implements UserInterface
      */
     private $authored_invitations;
 
+    ///
     ///
 
     public function __construct()
