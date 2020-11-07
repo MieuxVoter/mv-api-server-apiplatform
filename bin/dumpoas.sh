@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Example usage:
-#     $ VERSION=0.1.0 bin/dumpoas3.sh
+#     $ VERSION=0.1.0 bin/dumpoas.sh
 # We should get the version from git…
 # git describe --tags --abbrev=0 --always
 
