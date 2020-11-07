@@ -58,12 +58,13 @@ services:
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\ApiNormalizer.inner' ]
 
-    # Java Web Token shenanigans
-    App\Swagger\JwtDecorator:
+    # Decorate the normalizer to add our custom doc tidbits
+    App\Swagger\SwaggerDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
-        arguments: ['@App\Swagger\JwtDecorator.inner']
+        arguments: ['@App\Swagger\SwaggerDecorator.inner']
         autoconfigure: false
 
+    # JSON Web Token shenanigans
     app.event.jwt_created_listener:
         class: App\EventListener\JWTCreatedListener
         arguments: [ '@request_stack' ]

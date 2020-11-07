@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
-final class JwtDecorator implements NormalizerInterface
+final class SwaggerDecorator implements NormalizerInterface
 {
     /** @var NormalizerInterface $decorated */
     private $decorated;
