@@ -467,14 +467,16 @@ paths:
           type: string
   /users:
     get:
+      summary: 'Retrieves the collection of Users.'
+      description: 'Only administrators are allowed access to this.'
       tags:
         - User
+        - Administration
       operationId: getUserCollection
       produces:
         - application/ld+json
         - application/json
         - text/html
-      summary: 'Retrieves the collection of User resources.'
       responses:
         200:
           description: 'User collection response'
@@ -490,8 +492,11 @@ paths:
           description: 'The collection page number'
           type: integer
     post:
+      summary: 'Registers a new User'
+      description: api.users.post.description
       tags:
         - User
+        - Registration
       operationId: postUserCollection
       consumes:
         - application/ld+json
@@ -501,7 +506,6 @@ paths:
         - application/ld+json
         - application/json
         - text/html
-      summary: 'Creates a User resource.'
       responses:
         201:
           description: 'User resource created'

@@ -31,14 +31,16 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *         "get"={
  *              "method"="GET",
  *              "access_control"="is_granted('ROLE_ADMIN')",
+ *              "swagger_context"=User::COLLECTION_GET_OAS_CONTEXT,
+ *              "openapi_context"=User::COLLECTION_GET_OAS_CONTEXT,
  *          },
  *         "post"={
  *              "method"="POST",
  *              "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY') or is_granted('ROLE_ADMIN')",
  *              "denormalization_context"={"groups"={"create"}},
  *              "validation_groups"={"register"},
- *              "swagger_context"=User::POST_OAS_CONTEXT,
- *              "openapi_context"=User::POST_OAS_CONTEXT,
+ *              "swagger_context"=User::COLLECTION_POST_OAS_CONTEXT,
+ *              "openapi_context"=User::COLLECTION_POST_OAS_CONTEXT,
  *          },
  *     },
  *     itemOperations={
@@ -62,8 +64,13 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class User implements UserInterface
 {
-    const POST_OAS_CONTEXT = [
-        "summary" => "Register a new User",
+    const COLLECTION_GET_OAS_CONTEXT = [
+        "summary" => "Retrieves the collection of Users.",
+        "description" => "Only administrators are allowed access to this.",
+        "tags" => ['User', 'Administration'],
+    ];
+    const COLLECTION_POST_OAS_CONTEXT = [
+        "summary" => "Registers a new User",
         "description" => "api.users.post.description",  # reminder to try to hook I18N
         "tags" => ['User', 'Registration'],
     ];

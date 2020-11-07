@@ -659,8 +659,11 @@
         },
         "\/users": {
             "get": {
+                "summary": "Retrieves the collection of Users.",
+                "description": "Only administrators are allowed access to this.",
                 "tags": [
-                    "User"
+                    "User",
+                    "Administration"
                 ],
                 "operationId": "getUserCollection",
                 "produces": [
@@ -668,7 +671,6 @@
                     "application\/json",
                     "text\/html"
                 ],
-                "summary": "Retrieves the collection of User resources.",
                 "responses": {
                     "200": {
                         "description": "User collection response",
@@ -691,8 +693,11 @@
                 ]
             },
             "post": {
+                "summary": "Registers a new User",
+                "description": "api.users.post.description",
                 "tags": [
-                    "User"
+                    "User",
+                    "Registration"
                 ],
                 "operationId": "postUserCollection",
                 "consumes": [
@@ -705,7 +710,6 @@
                     "application\/json",
                     "text\/html"
                 ],
-                "summary": "Creates a User resource.",
                 "responses": {
                     "201": {
                         "description": "User resource created",
