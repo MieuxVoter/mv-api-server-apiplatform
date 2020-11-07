@@ -7,6 +7,7 @@ namespace App\Swagger;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+
 final class JwtDecorator implements NormalizerInterface
 {
     /** @var NormalizerInterface $decorated */
@@ -25,6 +26,14 @@ final class JwtDecorator implements NormalizerInterface
     public function normalize($object, $format = null, array $context = [])
     {
         $docs = $this->decorated->normalize($object, $format, $context);
+
+//        dump($format);
+//        "json"
+//        dump($context);
+//        array:2 [
+//          "spec_version" => 2
+//          "api_gateway" => false
+//        ]
 
         $docs['definitions']['Token'] =  # OASv2
         $docs['components']['schemas']['Token'] = [  # OASv3
