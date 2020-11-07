@@ -20,8 +20,9 @@ class Slug
             }
 
             for ($n = 0; $n < $length; $n++) {
+                // which is better?
 //                $slug .= substr($pool, random_int(0, $poolLength-1), 1);
-                $slug .= (string) $pool{random_int(0, $poolLength-1)};
+                $slug .= $pool{random_int(0, $poolLength-1)};
             }
         }
 
