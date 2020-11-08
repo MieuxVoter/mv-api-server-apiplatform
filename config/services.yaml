@@ -15,6 +15,11 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    # Add tags to services implementing a specific interface
+    _instanceof:
+        App\Swagger\DocumenterInterface:
+            tags: ['oas_documenter']
+
     # Makes classes in src/ available to be used as services
     # This creates a service per class whose id is the fully-qualified class name
     App\:
@@ -53,15 +58,18 @@ services:
             # Twig also has the extensions and global vars available
             - "@twig"
 
-
+    # Wrapper for the Normalizer
     App\Serializer\ApiNormalizer:
         decorates: 'api_platform.jsonld.normalizer.item'
         arguments: [ '@App\Serializer\ApiNormalizer.inner' ]
 
-    # Decorate the normalizer to add our custom doc tidbits
+    # Decorate the docs normalizer to add our custom doc tidbits
+    # This SwaggerGenerator is somewhat generic, and could be moved to a Bundle?
     App\Swagger\SwaggerDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
-        arguments: ['@App\Swagger\SwaggerDecorator.inner']
+        arguments:
+            - '@App\Swagger\SwaggerDecorator.inner'
+            - !tagged 'oas_documenter'
         autoconfigure: false
 
     # JSON Web Token shenanigans
