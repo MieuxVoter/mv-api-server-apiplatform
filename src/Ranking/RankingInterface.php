@@ -18,6 +18,7 @@ use App\Entity\Poll\Result as PollResult;
  */
 interface RankingInterface
 {
+
     /**
      * The name of the Ranking, as used in the API when choosing the ranking algorithm.
      * Each ranking must have a unique name.
@@ -26,6 +27,16 @@ interface RankingInterface
      * @return string
      */
     public function getName() : string;
+
+    /**
+     * The returned class MUST validate `class_exists()`.
+     * Probably best to use the `MayAwesomeOptions::class` syntax in here.
+     * This allows each Ranking to have their own custom set of options.
+     * If your ranking has no options, return `\App\Ranking\Options\None::class`.
+     *
+     * @return string
+     */
+    public function getOptionsClass() : string;
 
     /**
      * For a given Poll; this computes a Result and returns it
@@ -37,19 +48,4 @@ interface RankingInterface
      */
     public function resolve(Poll $poll, $options) : PollResult;
 
-    // a way to pass options to the ranking
-//    public function setOptions(array $options) : void;
-    // perhaps a getter returning a FormType or Form instead, or blueprints to create one?
-    // …
-    // perhaps something like this:
-
-    /**
-     * The returned class MUST validate `class_exists()`.
-     * Probably best to use the `MayAwesomeOptions::class` syntax in here.
-     * This allows each Ranking to have their own custom set of options.
-     * If your ranking has no options, return `\App\Ranking\Options\None::class`.
-     *
-     * @return string
-     */
-    public function getOptionsClass() : string;
 }
