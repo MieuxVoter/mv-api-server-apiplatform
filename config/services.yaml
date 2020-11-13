@@ -49,6 +49,11 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    # Configure the Rankings to load all the Ranking services.
+    App\Ranking\Rankings:
+      arguments:
+        - !tagged 'poll_ranking'
+
     # Who doesn't need Twig in translations strings?
     App\Translator\TwiggyTranslator:
         decorates: translator
