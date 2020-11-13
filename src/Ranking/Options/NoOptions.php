@@ -4,7 +4,7 @@
 namespace App\Ranking\Options;
 
 
-class None
+class NoOptions
 {
     // nothing is cool
 }

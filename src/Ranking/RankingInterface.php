@@ -32,7 +32,7 @@ interface RankingInterface
      * The returned class MUST validate `class_exists()`.
      * Probably best to use the `MayAwesomeOptions::class` syntax in here.
      * This allows each Ranking to have their own custom set of options.
-     * If your ranking has no options, return `\App\Ranking\Options\None::class`.
+     * If your ranking has no options, return `\App\Ranking\Options\NoOptions::class`.
      *
      * @return string
      */
