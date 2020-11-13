@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tallier;
+namespace App\Ranking;
 
 
 use App\Entity\Poll;
