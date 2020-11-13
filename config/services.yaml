@@ -19,6 +19,8 @@ services:
     _instanceof:
         App\Swagger\DocumenterInterface:
             tags: ['oas_documenter']
+        App\Ranking\RankingInterface:
+            tags: ['poll_ranking']
 
     # Makes classes in src/ available to be used as services
     # This creates a service per class whose id is the fully-qualified class name
@@ -28,6 +30,7 @@ services:
         exclude:
             - '../src/{Features,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
             - '../src/Tallier/Output'
+            - '../src/Ranking/Options'
 
     # Override the test client to get pretty responses for CLI, and perhaps store some config like URL prefixes.
     test.client:
