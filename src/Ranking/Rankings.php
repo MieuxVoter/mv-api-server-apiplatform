@@ -4,6 +4,8 @@
 namespace App\Ranking;
 
 
+use App\Exception\RankingNameCollisionException;
+
 /**
  * A service to help load the appropriate ranking algorithm from the request parameters.
  *
@@ -28,7 +30,7 @@ class Rankings
      */
     public function __construct(iterable $rankings)
     {
-        // fixme: assert unicity of names
+        $this->assertNameUniqueness($rankings);
         $this->rankings = $rankings;
     }
 
@@ -55,6 +57,24 @@ class Rankings
         }
 
         return null;
+    }
+
+    /**
+     * @param RankingInterface[] $rankings
+     * @throws RankingNameCollisionException
+     */
+    protected function assertNameUniqueness(iterable $rankings) : void
+    {
+        $uniqueNames = [];
+        foreach ($rankings as $ranking) {
+            $name = $ranking->getName();
+
+            if (isset($uniqueNames[$name])) {
+                throw new RankingNameCollisionException("error.ranking.name_collision");
+            }
+
+            $uniqueNames[$name] = $ranking;
+        }
     }
 
 }
