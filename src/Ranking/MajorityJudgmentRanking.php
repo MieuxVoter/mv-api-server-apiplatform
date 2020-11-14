@@ -53,6 +53,17 @@ class MajorityJudgmentRanking implements RankingInterface
      */
     public function resolve(Poll $poll, $options): PollResult
     {
+        $leaderboard = [];
+
+
         // TODO: Implement resolve() method.
+
+
+        $pollResult = new PollResult();
+        $pollResult->setPoll($poll);
+        $pollResult->setAlgorithm($this->getName());
+        $pollResult->setLeaderboard($leaderboard);
+
+        return $pollResult;
     }
 }
