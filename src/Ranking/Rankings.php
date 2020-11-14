@@ -6,6 +6,7 @@ namespace App\Ranking;
 
 use App\Exception\RankingNameCollisionException;
 
+
 /**
  * A service to help load the appropriate ranking algorithm from the request parameters.
  *
