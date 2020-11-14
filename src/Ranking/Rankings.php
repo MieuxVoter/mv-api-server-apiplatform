@@ -61,20 +61,22 @@ class Rankings
     }
 
     /**
+     * Guard against misconfiguration of Rankings.
+     *
      * @param RankingInterface[] $rankings
      * @throws RankingNameCollisionException
      */
     protected function assertNameUniqueness(iterable $rankings) : void
     {
-        $uniqueNames = [];
+        $rankingsByName = [];
         foreach ($rankings as $ranking) {
             $name = $ranking->getName();
 
-            if (isset($uniqueNames[$name])) {
+            if (isset($rankingsByName[$name])) {
                 throw new RankingNameCollisionException("error.ranking.name_collision");
             }
 
-            $uniqueNames[$name] = $ranking;
+            $rankingsByName[$name] = $ranking;
         }
     }
 
