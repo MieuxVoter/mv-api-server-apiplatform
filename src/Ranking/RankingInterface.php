@@ -22,7 +22,7 @@ interface RankingInterface
     /**
      * The name of the Ranking, as used in the API when choosing the ranking algorithm.
      * Each ranking must have a unique name.
-     * If two rankings ever share a name, ??? (we'll see later; we'll probably throw, for safety)
+     * If two rankings ever share a name, we'll throw a `RankingNameCollisionException`.
      *
      * @return string
      */
