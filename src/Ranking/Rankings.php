@@ -18,8 +18,8 @@ class Rankings
 
     /**
      * A list of the Ranking Services defined in this project.
-     * This is auto-loaded by the Dependency Injection Container,
-     * from all the Services tagged with 'poll_ranking',
+     * This is automatically injected by the Dependency Injection Container,
+     * with all the Services tagged with 'poll_ranking',
      * ie. all Services implementing `RankingInterface`.
      *
      * @var RankingInterface[]
@@ -28,6 +28,9 @@ class Rankings
 
     /**
      * Rankings constructor.
+     *
+     * @param iterable $rankings
+     * @throws RankingNameCollisionException
      */
     public function __construct(iterable $rankings)
     {
