@@ -32,7 +32,7 @@ class Rankings
     public function __construct(iterable $rankings)
     {
         $this->assertNameUniqueness($rankings);
-        $this->rankings = $rankings;
+        $this->rankings = iterator_to_array($rankings);
     }
 
     /**
@@ -45,6 +45,7 @@ class Rankings
 
     /**
      * Returns a Ranking matching the provided name, if any.
+     * The `$name` probably do not need to be sanitized and may come directly from userland.
      *
      * @param string $name
      * @return RankingInterface|null
