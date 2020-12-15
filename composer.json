@@ -60,7 +60,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "MieuxVoter\\": "lib/mieuxvoter"
         }
     },
     "autoload-dev": {

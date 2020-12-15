@@ -1,0 +1,24 @@
+<?php
+
+
+namespace MieuxVoter\MajorityJudgment\Tally;
+
+
+/**
+ * The Tally for a Proposal, that is the tallies for each Grade.
+ *
+ * Interface ProposalTallyInterface
+ * @package MieuxVoter\MajorityJudgment\Tally
+ */
+interface ProposalTallyInterface
+{
+    /**
+     * @return mixed
+     */
+    public function getProposal();
+
+    /**
+     * @return ProposalGradeTallyInterface[]
+     */
+    public function getGradesTallies() : iterable;
+}
