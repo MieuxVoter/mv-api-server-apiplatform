@@ -28,15 +28,15 @@ interface ResolverInterface
      * The returned class MUST validate `class_exists()`.
      * Probably best to use the `MayAwesomeOptions::class` syntax in here.
      * This enables each Resolver to have their own custom set of options.
-     * If your resolver has no options,
-     * return `\MieuxVoter\MajorityJudgment\Resolver\Options\NoOptions::class`.
+     * If your resolver has no options, use:
+     * return \MieuxVoter\MajorityJudgment\Resolver\Options\NoOptions::class;
      *
      * @return string
      */
     public function getOptionsClass() : string;
 
     /**
-     * For a given Poll; this computes a Result and returns it
+     * For a given Poll Tally, this computes a Result and returns it.
      * This is the heart of the Ranking, where the business logic resides.
      *
      * @param PollTallyInterface $pollTally
