@@ -4,9 +4,9 @@
 namespace MieuxVoter\MajorityJudgment\Test;
 
 
-use MieuxVoter\MajorityJudgment\Resolver\MajorityJudgmentResolver;
-use MieuxVoter\MajorityJudgment\Resolver\Options\MajorityJudgmentOptions;
-use MieuxVoter\MajorityJudgment\Tally\ArrayPollTally;
+use MieuxVoter\MajorityJudgment\MajorityJudgmentResolver;
+use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions;
+use MieuxVoter\MajorityJudgment\Model\Tally\ArrayPollTally;
 use PHPUnit\Framework\TestCase;
 
 
