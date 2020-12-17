@@ -4,10 +4,12 @@
 namespace MieuxVoter\MajorityJudgment\Resolver;
 
 
+use App\Entity\Poll\Proposal\Result;
 use MieuxVoter\MajorityJudgment\Resolver\Options\MajorityJudgmentOptions;
 use MieuxVoter\MajorityJudgment\Result\GenericPollResult;
 use MieuxVoter\MajorityJudgment\Result\PollResultInterface;
 use MieuxVoter\MajorityJudgment\Tally\PollTallyInterface;
+use MieuxVoter\MajorityJudgment\Tally\ProposalTallyInterface;
 
 
 /**
@@ -63,5 +65,12 @@ class MajorityJudgmentResolver implements ResolverInterface
         $result = new GenericPollResult($ranked_proposals);
 
         return $result;
+    }
+
+    static function computeProposalResultWithoutRank(
+        ProposalTallyInterface $proposalTally
+    ) : Result
+    {
+
     }
 }
