@@ -39,7 +39,17 @@ class MajorityJudgmentResolverTest extends TestCase
         $result = $resolver->resolve($pollTally, $options);
 
         $i = 0;
-        foreach ($result->getRankedProposals() as $rankedProposal) {
+        $rankedProposals = $result->getRankedProposals();
+
+        $this->assertEquals(
+            count($rankedProposals),
+            count($expectedResults),
+            "The amount of proposals is the same."
+        );
+
+//        foreach ($result->getRankedProposals() as $rankedProposal) {
+        foreach ($expectedResults as $expectedResult) {
+            $rankedProposal = $rankedProposals[$i];
             $this->assertEquals(
                 $expectedResults[$i]['proposal'],
                 $rankedProposal->proposal,
