@@ -1,15 +1,15 @@
 <?php
 
 
-namespace MieuxVoter\MajorityJudgment\Resolver;
+namespace MieuxVoter\MajorityJudgment;
 
 
 use App\Entity\Poll\Proposal\Result;
-use MieuxVoter\MajorityJudgment\Resolver\Options\MajorityJudgmentOptions;
-use MieuxVoter\MajorityJudgment\Result\GenericPollResult;
-use MieuxVoter\MajorityJudgment\Result\PollResultInterface;
-use MieuxVoter\MajorityJudgment\Tally\PollTallyInterface;
-use MieuxVoter\MajorityJudgment\Tally\ProposalTallyInterface;
+use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions;
+use MieuxVoter\MajorityJudgment\Model\Result\GenericPollResult;
+use MieuxVoter\MajorityJudgment\Model\Result\PollResultInterface;
+use MieuxVoter\MajorityJudgment\Model\Tally\PollTallyInterface;
+use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
 
 
 /**

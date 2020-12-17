@@ -1,11 +1,11 @@
 <?php
 
 
-namespace MieuxVoter\MajorityJudgment\Resolver;
+namespace MieuxVoter\MajorityJudgment;
 
 
-use MieuxVoter\MajorityJudgment\Result\PollResultInterface;
-use MieuxVoter\MajorityJudgment\Tally\PollTallyInterface;
+use MieuxVoter\MajorityJudgment\Model\Result\PollResultInterface;
+use MieuxVoter\MajorityJudgment\Model\Tally\PollTallyInterface;
 
 
 /**

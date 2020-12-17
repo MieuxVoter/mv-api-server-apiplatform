@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MieuxVoter\MajorityJudgment\Resolver\Options;
+namespace MieuxVoter\MajorityJudgment\Model\Options;
 
 
 /**

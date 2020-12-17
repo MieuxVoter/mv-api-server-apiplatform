@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MieuxVoter\MajorityJudgment\Tally;
+namespace MieuxVoter\MajorityJudgment\Model\Tally;
 
 
 
