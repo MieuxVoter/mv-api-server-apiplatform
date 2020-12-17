@@ -42,4 +42,53 @@ class RankedProposal
     public $proposal;
 
 
+    /**
+     * @return string
+     */
+    public function getScore(): string
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param string $score
+     */
+    public function setScore(string $score): void
+    {
+        $this->score = $score;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRank(): int
+    {
+        return $this->rank;
+    }
+
+    /**
+     * @param int $rank
+     */
+    public function setRank(int $rank): void
+    {
+        $this->rank = $rank;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProposal()
+    {
+        return $this->proposal;
+    }
+
+    /**
+     * @param mixed $proposal
+     */
+    public function setProposal($proposal): void
+    {
+        $this->proposal = $proposal;
+    }
+
+
 }
