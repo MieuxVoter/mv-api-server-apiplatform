@@ -197,8 +197,8 @@ class Poll
      * @Assert\Count(
      *     min=2,
      *     max=16,
-     *     minMessage = "You must specify at least two grades.",
-     *     maxMessage = "You cannot specify more than {{ limit }} grades.",
+     *     minMessage = "validation.poll.proposals.minMessage",
+     *     maxMessage = "validation.poll.proposals.maxMessage",
      * )
      */
     private $grades;
@@ -349,10 +349,6 @@ class Poll
     {
         if ($this->grades->contains($grade)) {
             $this->grades->removeElement($grade);
-            // set the owning side to null (unless already changed)
-            if ($grade->getPoll() === $this) {
-                $grade->setPoll(null);
-            }
         }
 
         return $this;
