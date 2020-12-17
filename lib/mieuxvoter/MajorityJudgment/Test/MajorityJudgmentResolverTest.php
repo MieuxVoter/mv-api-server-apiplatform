@@ -51,12 +51,12 @@ class MajorityJudgmentResolverTest extends TestCase
             $rankedProposal = $rankedProposals[$i];
             $this->assertEquals(
                 $expectedResults[$i]['proposal'],
-                $rankedProposal->proposal,
+                $rankedProposal->getProposal(),
                 "Proposals are sorted adequately"
             );
             $this->assertEquals(
                 $expectedResults[$i]['rank'],
-                $rankedProposal->rank,
+                $rankedProposal->getRank(),
                 "Proposals are ranked adequately"
             );
             $i++;
