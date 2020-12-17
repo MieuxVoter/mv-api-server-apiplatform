@@ -5,12 +5,16 @@ namespace MieuxVoter\MajorityJudgment\Result;
 
 
 /**
- * FIXME
+ * This is the output of a ResolverInterface.
+ * It holds a ranking of the Proposals.
  *
  * Interface PollResultInterface
  * @package MieuxVoter\MajorityJudgment\Result
  */
 interface PollResultInterface
 {
-    // FIXME
+    /**
+     * @return RankedProposal[]
+     */
+    public function getRankedProposals() : iterable;
 }

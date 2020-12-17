@@ -4,6 +4,7 @@
 namespace MieuxVoter\MajorityJudgment\Resolver;
 
 
+use MieuxVoter\MajorityJudgment\Result\PollResultInterface;
 use MieuxVoter\MajorityJudgment\Tally\PollTallyInterface;
 
 
@@ -34,13 +35,13 @@ interface ResolverInterface
      */
     public function getOptionsClass() : string;
 
-//    /**
-//     * For a given Poll; this computes a Result and returns it
-//     * This is the heart of the Ranking, where the business logic resides.
-//     *
-//     * @param Poll $poll
-//     * @param mixed $options An instance of the class provided by `getOptionsClass()`.
-//     * @return PollResult
-//     */
+    /**
+     * For a given Poll; this computes a Result and returns it
+     * This is the heart of the Ranking, where the business logic resides.
+     *
+     * @param PollTallyInterface $pollTally
+     * @param mixed $options An instance of the class provided by `getOptionsClass()`.
+     * @return PollResultInterface
+     */
     public function resolve(PollTallyInterface $pollTally, $options) : PollResultInterface;
 }
