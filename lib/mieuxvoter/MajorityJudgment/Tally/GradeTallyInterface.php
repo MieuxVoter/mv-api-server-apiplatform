@@ -16,7 +16,7 @@ namespace MieuxVoter\MajorityJudgment\Tally;
  * Interface ProposalGradeTallyInterface
  * @package MieuxVoter\MajorityJudgment\Tally
  */
-interface ProposalGradeTallyInterface
+interface GradeTallyInterface
 {
     /**
      * The Grade this tally is about. (for one given Proposal)

@@ -18,7 +18,7 @@ interface ProposalTallyInterface
     public function getProposal();
 
     /**
-     * @return ProposalGradeTallyInterface[]
+     * @return GradeTallyInterface[]
      */
     public function getGradesTallies() : iterable;
 }
