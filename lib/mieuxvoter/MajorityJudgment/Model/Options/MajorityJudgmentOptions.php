@@ -10,7 +10,7 @@ namespace MieuxVoter\MajorityJudgment\Model\Options;
  * Ideas:
  * - [x] Default Grade
  * - [ ] Low|High Median
- * - [ ] Automated liquidity (à la proxyfor.me)
+ * - [ ] Automated liquidity (à la proxyfor.me) → no can do with tallies only
  *
  * Class MajorityJudgmentOptions
  * @package MieuxVoter\MajorityJudgment\Resolver\Options
