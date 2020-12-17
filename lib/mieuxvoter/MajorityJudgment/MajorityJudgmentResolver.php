@@ -128,6 +128,34 @@ class MajorityJudgmentResolver implements ResolverInterface
         $unrankedProposal->setProposal($proposalTally->getProposal());
 
         // FIXME: compute score
+        $gradesTallies = $proposalTally->getGradesTallies();
+
+        $grades = [];  // "worst" to "best"
+        foreach ($gradesTallies as $gradeTally) {
+            assert(
+                $gradeTally->getProposal() == $proposalTally->getProposal(),
+                "Proposals must match."
+            );
+            $grade = $gradeTally->getGrade();
+            assert(
+                ! in_array($grade, $grades),
+                "Grades must be unique."
+            );
+            $grades[] = $gradeTally->getGrade();
+        }
+        $amountOfGrades = count($grades);
+
+        assert(
+            $options->getDefaultGradeIndex() < $amountOfGrades,
+            "Default grade is within range."
+        );
+        $defaultGrade = $grades[$options->getDefaultGradeIndex()];
+
+        foreach ($gradesTallies as $gradeTally) {
+            $gradeTally->getTally();
+            // FIXME: resume coding here
+        }
+
 
         return $unrankedProposal;
     }
