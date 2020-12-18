@@ -3,6 +3,7 @@
 
 namespace MieuxVoter\MajorityJudgment;
 
+
 use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions;
 use MieuxVoter\MajorityJudgment\Model\Result\GenericPollResult;
 use MieuxVoter\MajorityJudgment\Model\Result\PollResultInterface;
@@ -16,8 +17,9 @@ use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
  *
  * https://scholar.google.fr/scholar?q=majority+judgment
  *
- * Ideally, since our algorithm is in theory parallelizable,
- * we should support parallel https://www.php.net/manual/fr/intro.parallel.php
+ * Ideally, since this algorithm is in theory parallelizable per proposal,
+ * we should support `parallel`.
+ * See https://www.php.net/manual/fr/intro.parallel.php
  *
  * This would enable us to get support for huge amounts of proposals.
  *
@@ -56,7 +58,7 @@ class MajorityJudgmentResolver implements ResolverInterface
     {
         $ranked_proposals = [];
 
-        // I. Compute the score of each proposal
+        // I. Compute the score of each proposal, skip the rank for now
         foreach ($pollTally->getProposalsTallies() as $proposalsTally) {
             $unranked_proposal = self::computeUnrankedProposal(
                 $proposalsTally,
@@ -110,27 +112,26 @@ class MajorityJudgmentResolver implements ResolverInterface
     /**
      * Computes the score of the provided proposal.
      * Does not compute the rank ; this will be done by resolve().
-     * Static method for (later) easier parallelization.
+     * Static (context-free) method for (later) easier parallelization.
      *
      * @param ProposalTallyInterface $proposalTally
      * @param int $participantsAmount
      * @param MajorityJudgmentOptions $options
      * @return RankedProposal
      */
-    static function computeUnrankedProposal(
+    static function computeUnrankedProposal( // computeRankedProposalWithScoreOnly
         ProposalTallyInterface $proposalTally,
         int $participantsAmount,
         MajorityJudgmentOptions $options
     ) : RankedProposal
     {
         $unrankedProposal = new RankedProposal();
-
         $unrankedProposal->setProposal($proposalTally->getProposal());
 
-        // FIXME: compute score
+        // I. Collect data and check its sanity
         $gradesTallies = $proposalTally->getGradesTallies();
-
         $grades = [];  // "worst" to "best"
+        $tallies = [];  // same order as grades
         foreach ($gradesTallies as $gradeTally) {
             assert(
                 $gradeTally->getProposal() == $proposalTally->getProposal(),
@@ -141,22 +142,51 @@ class MajorityJudgmentResolver implements ResolverInterface
                 ! in_array($grade, $grades),
                 "Grades must be unique."
             );
-            $grades[] = $gradeTally->getGrade();
+            $grades[] = $grade;
+            $tally = $gradeTally->getTally();
+            assert(
+                0 <= $tally
+                &&
+                $participantsAmount >= $tally,
+                "Tally is within meaningful range."
+            );
+            $tallies[] = $tally;
         }
         $amountOfGrades = count($grades);
 
+        // II. Prepare a default Grade
+        $defaultGradeIndex = $options->getDefaultGradeIndex();
         assert(
-            $options->getDefaultGradeIndex() < $amountOfGrades,
+            0 <= $defaultGradeIndex
+            &&
+            $amountOfGrades > $defaultGradeIndex,
             "Default grade is within range."
         );
-        $defaultGrade = $grades[$options->getDefaultGradeIndex()];
+        $defaultGrade = $grades[$defaultGradeIndex];
 
-        foreach ($gradesTallies as $gradeTally) {
-            $gradeTally->getTally();
-            // FIXME: resume coding here
+        // III. Fills the blanks with the default Grade
+        // FIXME
+
+        // IV. Compute a lexicographical score (higher is "better")
+        $score = "";
+        for ($i = 0 ; $i < $amountOfGrades ; $i++) {
+            $median_grade_index = self::getMedianGradeIndex($tallies);
         }
+
+        $unrankedProposal->setScore($score);
+
+//        foreach ($gradesTallies as $gradeTally) {
+//            $gradeTally->getTally();
+//            // FIXME: resume coding here
+//        }
 
 
         return $unrankedProposal;
     }
+
+    static function getMedianGradeIndex($tallies): int
+    {
+        return 0; // FIXME
+    }
+
 }
