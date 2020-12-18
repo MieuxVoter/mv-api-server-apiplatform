@@ -84,6 +84,26 @@ class MajorityJudgmentResolverTest extends TestCase
                 'tallies' => [2, 2, 5, 1, 3],
                 'index' => 2,
             ],
+            [
+                'tallies' => [2, 3, 5, 7, 11, 13],
+                'index' => 4,
+            ],
+            [
+                'tallies' => [0, 0, 0, 0, 0, 0],
+                'index' => 0,
+            ],
+            [
+                'tallies' => [0, 0, 0, 1, 0, 0],
+                'index' => 3,
+            ],
+            [
+                'tallies' => [0, 0, 1, 0, 1, 0],
+                'index' => 2,
+            ],
+            [
+                'tallies' => [0, 2, 2],
+                'index' => 1,
+            ],
         ];
 
         foreach ($expectations as $expectation) {
