@@ -132,6 +132,34 @@ class MajorityJudgmentResolverTest extends TestCase
                 'sign' => -1,
                 'grade' => 2,
             ],
+            [
+                'tallies' => [1, 2, 1, 0, 6],
+                'around' => 4, // median
+                'size' => 4,
+                'sign' => -1,
+                'grade' => 2,
+            ],
+            [
+                'tallies' => [0, 1, 0, 1, 0],
+                'around' => 1, // median
+                'size' => 1,
+                'sign' => 1,
+                'grade' => 3,
+            ],
+            [
+                'tallies' => [0, 0, 0, 17, 0],
+                'around' => 3, // median
+                'size' => 0,
+                'sign' => -1,
+                'grade' => 0,
+            ],
+            [
+                'tallies' => [5, 0, 0, 0, 0],
+                'around' => 0, // median
+                'size' => 0,
+                'sign' => -1,
+                'grade' => 0,
+            ],
         ];
 
         foreach ($expectations as $expectation) {
