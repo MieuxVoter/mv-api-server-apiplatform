@@ -64,4 +64,35 @@ class MajorityJudgmentResolverTest extends TestCase
 
     }
 
+
+    public function testGetMedianGradeIndex()
+    {
+        $expectations = [
+            [
+                'tallies' => [1, 1],
+                'index' => 0,
+            ],
+            [
+                'tallies' => [2, 2, 2],
+                'index' => 1,
+            ],
+            [
+                'tallies' => [2, 2, 7],
+                'index' => 2,
+            ],
+            [
+                'tallies' => [2, 2, 5, 1, 3],
+                'index' => 2,
+            ],
+        ];
+
+        foreach ($expectations as $expectation) {
+            $this->assertEquals(
+                $expectation['index'],
+                MajorityJudgmentResolver::getMedianGradeIndex($expectation['tallies']),
+                "Found the expected median grade index."
+            );
+        }
+    }
+
 }
