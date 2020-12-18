@@ -115,4 +115,43 @@ class MajorityJudgmentResolverTest extends TestCase
         }
     }
 
+    function testBiggestGroup()
+    {
+        $expectations = [
+            [
+                'tallies' => [1, 4, 7, 0, 6],
+                'around' => 2, // median
+                'size' => 6,
+                'sign' => 1,
+                'grade' => 4,
+            ],
+            [
+                'tallies' => [1, 2, 1, 0, 6],
+                'around' => 4, // median
+                'size' => 4,
+                'sign' => -1,
+                'grade' => 2,
+            ],
+        ];
+
+        foreach ($expectations as $expectation) {
+            [$size, $sign, $grade] = MajorityJudgmentResolver::getBiggestGroup(
+                $expectation['around'],
+                $expectation['tallies']
+            );
+            $this->assertEquals(
+                $expectation['size'], $size,
+                "Group size matches."
+            );
+            $this->assertEquals(
+                $expectation['sign'], $sign,
+                "Group sign matches."
+            );
+            $this->assertEquals(
+                $expectation['grade'], $grade,
+                "Group grade matches."
+            );
+        }
+    }
+
 }
