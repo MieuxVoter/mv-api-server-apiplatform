@@ -20,7 +20,7 @@ class RankedProposal
      *
      * @var string $score
      */
-    public $score;
+    protected $score;
 
     /**
      * Rank of the Proposal, in the Result.
@@ -31,7 +31,7 @@ class RankedProposal
      *
      * @var int $rank
      */
-    public $rank;
+    protected $rank;
 
     /**
      * One of the proposals submitted in the PollTally.
@@ -39,7 +39,7 @@ class RankedProposal
      *
      * @var mixed $proposal
      */
-    public $proposal;
+    protected $proposal;
 
 
     /**
