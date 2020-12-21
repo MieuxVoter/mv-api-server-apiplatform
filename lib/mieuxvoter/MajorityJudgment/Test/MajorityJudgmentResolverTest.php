@@ -25,6 +25,7 @@ class MajorityJudgmentResolverTest extends TestCase
                     'proposal_a' => [1, 1, 4, 3, 7, 4, 1],
                     'proposal_b' => [0, 2, 4, 3, 7, 4, 1],
                     'proposal_c' => [1, 1, 4, 3, 7, 4, 1],
+                    'proposal_d' => [1, 0, 4, 3, 7, 4, 1],
                 ],
                 # Expectation
                 [
@@ -39,6 +40,10 @@ class MajorityJudgmentResolverTest extends TestCase
                     [
                         'proposal' => 'proposal_c',
                         'rank' => 2,
+                    ],
+                    [
+                        'proposal' => 'proposal_d',
+                        'rank' => 4,
                     ],
                 ],
             ],
