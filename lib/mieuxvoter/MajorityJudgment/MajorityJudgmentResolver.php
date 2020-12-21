@@ -15,6 +15,8 @@ use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
 /**
  * Score-based MJ resolver.
  *
+ * Could also be named `Deliberator` ?
+ *
  * TODO: add links to relevant papers and perhaps wikipedia page
  * https://scholar.google.fr/scholar?q=majority+judgment
  *
@@ -137,6 +139,7 @@ class MajorityJudgmentResolver implements ResolverInterface
         $gradesTallies = $proposalTally->getGradesTallies();
         $grades = [];  // "worst" to "best"
         $tallies = [];  // same order as grades, is mutated by algorithm
+        $actualParticipantsAmount = 0;
         foreach ($gradesTallies as $gradeTally) {
             assert(
                 $gradeTally->getProposal() == $proposalTally->getProposal(),
@@ -156,6 +159,7 @@ class MajorityJudgmentResolver implements ResolverInterface
                 "Tally is within meaningful range."
             );
             $tallies[] = $tally;
+            $actualParticipantsAmount += $tally;
         }
         $amountOfGrades = count($grades);
 
@@ -170,7 +174,13 @@ class MajorityJudgmentResolver implements ResolverInterface
         $defaultGrade = $grades[$defaultGradeIndex];
 
         // III. Fill the blanks with the default Grade
-        // FIXME
+        assert(
+            $actualParticipantsAmount <= $participantsAmount,
+            "The amount of participants is correct."
+        );
+        if ($actualParticipantsAmount < $participantsAmount) {
+            $tallies[$defaultGradeIndex] += $participantsAmount - $actualParticipantsAmount;
+        }
 
         // IV. Compute a lexicographical score (higher is "better")
         $score = "";
