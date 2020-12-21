@@ -13,23 +13,38 @@ use PHPUnit\Framework\TestCase;
 class MajorityJudgmentResolverTest extends TestCase
 {
 
-    public function testResolve()
+    public function provideResolve()
     {
-        $amountOfJudgments = 21;
-        $tallyPerProposal = [
-            'proposal_a' => [1, 1, 4, 3, 7, 4, 1],
-            'proposal_b' => [0, 2, 4, 3, 7, 4, 1],
-        ];
-        $expectedResults = [
+        return [
+
             [
-                'proposal' => 'proposal_b',
-                'rank' => 1,
+                # Amount of judgments
+                21,
+                # Tallies
+                [
+                    'proposal_a' => [1, 1, 4, 3, 7, 4, 1],
+                    'proposal_b' => [0, 2, 4, 3, 7, 4, 1],
+                ],
+                # Expectation
+                [
+                    [
+                        'proposal' => 'proposal_b',
+                        'rank' => 1,
+                    ],
+                    [
+                        'proposal' => 'proposal_a',
+                        'rank' => 2,
+                    ],
+                ],
             ],
-            [
-                'proposal' => 'proposal_a',
-                'rank' => 2,
-            ],
+
         ];
+    }
+
+    /**
+     * @dataProvider provideResolve
+     */
+    public function testResolve($amountOfJudgments, $tallyPerProposal, $expectedResults) {
 
         $resolver = new MajorityJudgmentResolver();
         $options = new MajorityJudgmentOptions();
