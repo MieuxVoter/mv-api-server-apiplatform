@@ -171,7 +171,7 @@ class MajorityJudgmentResolver implements ResolverInterface
             $amountOfGrades > $defaultGradeIndex,
             "Default grade is within range."
         );
-        $defaultGrade = $grades[$defaultGradeIndex];
+        //$defaultGrade = $grades[$defaultGradeIndex];
 
         // III. Fill the blanks with the default Grade
         assert(
@@ -206,11 +206,12 @@ class MajorityJudgmentResolver implements ResolverInterface
             );
 
             $score .= '_';
-            // TODO: derive amount of needed leading zeroes from $participantsAmount
-            // TODO: replace 100000000000 by $participantsAmount
+            // Note: the following caps the supported amount of participants
+            // Could be bumped up by deriving the $amountOfDigits from $participantsAmount
+            $amountOfDigits = 11;  # 10 times the amount of humans on Earth in 2020
             $score .= sprintf(
-                "%012d",
-                100000000000 + $groupSign * $groupSize
+                "%0".($amountOfDigits+1)."d",
+                pow(10, $amountOfDigits) + $groupSign * $groupSize
             );
 
             self::regradeJudgments($tallies, $medianGradeIndex, $groupGrade);
