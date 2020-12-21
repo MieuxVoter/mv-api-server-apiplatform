@@ -21,7 +21,7 @@ use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
  * https://scholar.google.fr/scholar?q=majority+judgment
  *
  * Ideally, since this algorithm is in theory parallelizable per proposal,
- * we should support `parallel`.
+ * we could support `parallel` if the need arises.
  * See https://www.php.net/manual/fr/intro.parallel.php
  * This would enable us to get support for huge amounts of proposals.
  *
@@ -32,6 +32,10 @@ use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
  */
 class MajorityJudgmentResolver implements ResolverInterface
 {
+    // These could be derived from the data instead of being set arbitrarily like this
+    const GRADES_AMOUNT_MAX_DIGITS = 3; // 10e3 = 1000 grades should be more than enough
+    const PARTICIPANTS_AMOUNT_MAX_DIGITS = 11; // 10e11 = 10 times the humans on Earth in 2020
+
 
     /**
      * Class name of the Options class to use with this Resolver.
@@ -113,8 +117,6 @@ class MajorityJudgmentResolver implements ResolverInterface
         return $result;
     }
 
-    // This could be derived from the data instead of being set arbitrarily like this
-    const GRADES_AMOUNT_MAX_DIGITS = 3; // 10**3 = 1000 grades should be more than enough
 
     /**
      * Computes the score of the provided proposal.
@@ -206,9 +208,9 @@ class MajorityJudgmentResolver implements ResolverInterface
             );
 
             $score .= '_';
-            // Note: the following caps the supported amount of participants
-            // Could be bumped up by deriving the $amountOfDigits from $participantsAmount
-            $amountOfDigits = 11;  # 10 times the amount of humans on Earth in 2020
+            // Note: the following caps the supported amount of participants.
+            // Could be bumped up by deriving the $amountOfDigits from $participantsAmount.
+            $amountOfDigits = self::PARTICIPANTS_AMOUNT_MAX_DIGITS;
             $score .= sprintf(
                 "%0".($amountOfDigits+1)."d",
                 pow(10, $amountOfDigits) + $groupSign * $groupSize
