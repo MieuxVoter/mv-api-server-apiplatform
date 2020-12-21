@@ -38,8 +38,106 @@ class MajorityJudgmentResolverTest extends TestCase
                 ],
             ],
 
+            # Dataset: https://github.com/MieuxVoter/mvapi/blob/821a53b2c4b6009c1d8647feb96c754b99b9268b/fixtures/election1.yaml
+            [
+                # Amount of judgments
+                18,
+                # Tallies
+                [
+                    [0, 2, 0, 7, 5, 4],
+                    [1, 1, 1, 7, 4, 4],
+                    [2, 4, 2, 1, 5, 4],
+                    [1, 2, 4, 6, 2, 3],
+                    [1, 2, 5, 4, 3, 3],
+                    [1, 4, 3, 2, 5, 3],
+                    [1, 1, 2, 4, 4, 6],
+                    [1, 3, 1, 4, 3, 6],
+                    [1, 2, 2, 6, 3, 4],
+                    [2, 2, 1, 5, 2, 6],
+                    [0, 0, 0, 0, 1, 17],
+                    [1, 0, 2, 3, 7, 5],
+                    [0, 2, 1, 1, 4, 10],
+                    [1, 1, 3, 1, 5, 7],
+                    [1, 1, 0, 1, 11, 4],
+                    [1, 2, 3, 6, 5, 1],
+                    [1, 0, 2, 0, 3, 12],
+                ],
+                # Expectation
+                [
+                    [
+                        'proposal' => 10,
+                        'rank' => 1,
+                    ],
+                    [
+                        'proposal' => 16,
+                        'rank' => 2,
+                    ],
+                    [
+                        'proposal' => 12,
+                        'rank' => 3,
+                    ],
+                    [
+                        'proposal' => 13,
+                        'rank' => 4,
+                    ],
+                    [
+                        'proposal' => 14,
+                        'rank' => 5,
+                    ],
+                    [
+                        'proposal' => 11,
+                        'rank' => 6,
+                    ],
+                    [
+                        'proposal' => 6,
+                        'rank' => 7,
+                    ],
+                    [
+                        'proposal' => 7,
+                        'rank' => 8,
+                    ],
+                    [
+                        'proposal' => 0,
+                        'rank' => 9,
+                    ],
+                    [
+                        'proposal' => 2,
+                        'rank' => 10,
+                    ],
+                    [
+                        'proposal' => 9,
+                        'rank' => 11,
+                    ],
+                    [
+                        'proposal' => 1,
+                        'rank' => 12,
+                    ],
+                    [
+                        'proposal' => 8,
+                        'rank' => 13,
+                    ],
+                    [
+                        'proposal' => 15,
+                        'rank' => 14,
+                    ],
+                    [
+                        'proposal' => 3,
+                        'rank' => 15,
+                    ],
+                    [
+                        'proposal' => 5,
+                        'rank' => 16,
+                    ],
+                    [
+                        'proposal' => 4,
+                        'rank' => 17,
+                    ],
+                ],
+            ],
+
         ];
     }
+
 
     /**
      * @dataProvider provideResolve
