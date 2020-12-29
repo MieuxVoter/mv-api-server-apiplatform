@@ -4,16 +4,16 @@
 namespace MieuxVoter\MajorityJudgment\Test;
 
 
-use MieuxVoter\MajorityJudgment\MajorityJudgmentResolver;
+use MieuxVoter\MajorityJudgment\MajorityJudgmentDeliberator;
 use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions;
 use MieuxVoter\MajorityJudgment\Model\Tally\ArrayPollTally;
 use PHPUnit\Framework\TestCase;
 
 
-class MajorityJudgmentResolverTest extends TestCase
+class MajorityJudgmentDeliberatorTest extends TestCase
 {
 
-    public function provideResolve()
+    public function provideDeliberate()
     {
         return [
 
@@ -150,16 +150,16 @@ class MajorityJudgmentResolverTest extends TestCase
 
 
     /**
-     * @dataProvider provideResolve
+     * @dataProvider provideDeliberate
      */
-    public function testResolve($amountOfJudgments, $tallyPerProposal, $expectedResults) {
+    public function testDeliberate($amountOfJudgments, $tallyPerProposal, $expectedResults) {
 
-        $resolver = new MajorityJudgmentResolver();
+        $deliberator = new MajorityJudgmentDeliberator();
         $options = new MajorityJudgmentOptions();
         $pollTally = new ArrayPollTally(
             $amountOfJudgments, $tallyPerProposal
         );
-        $result = $resolver->resolve($pollTally, $options);
+        $result = $deliberator->deliberate($pollTally, $options);
 
         $rankedProposals = $result->getRankedProposals();
 
@@ -232,7 +232,7 @@ class MajorityJudgmentResolverTest extends TestCase
         foreach ($expectations as $expectation) {
             $this->assertEquals(
                 $expectation['index'],
-                MajorityJudgmentResolver::getMedianGradeIndex($expectation['tallies']),
+                MajorityJudgmentDeliberator::getMedianGradeIndex($expectation['tallies']),
                 "Found the expected median grade index."
             );
         }
@@ -286,7 +286,7 @@ class MajorityJudgmentResolverTest extends TestCase
         ];
 
         foreach ($expectations as $expectation) {
-            [$size, $sign, $grade] = MajorityJudgmentResolver::getBiggestGroup(
+            [$size, $sign, $grade] = MajorityJudgmentDeliberator::getBiggestGroup(
                 $expectation['around'],
                 $expectation['tallies']
             );

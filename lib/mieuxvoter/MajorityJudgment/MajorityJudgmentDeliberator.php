@@ -13,24 +13,22 @@ use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
 
 
 /**
- * Score-based MJ resolver.
- *
- * Could also be named `Deliberator` ?
+ * Score-based Majority Judgment deliberator.
  *
  * TODO: add links to relevant papers and perhaps wikipedia page
  * https://scholar.google.fr/scholar?q=majority+judgment
  *
- * Ideally, since this algorithm is in theory parallelizable per proposal,
+ * Ideally, since this algorithm is parallelizable per proposal,
  * we could support `parallel` if the need arises.
  * See https://www.php.net/manual/fr/intro.parallel.php
  * This would enable us to get support for huge amounts of proposals.
  *
- * Tests: Tests/MajorityJudgmentResolverTest.php
+ * Tests: Tests/MajorityJudgmentDeliberatorTest.php
  *
- * Class MajorityJudgmentResolver
- * @package MieuxVoter\MajorityJudgment\Resolver
+ * Class MajorityJudgmentDeliberator
+ * @package MieuxVoter\MajorityJudgment
  */
-class MajorityJudgmentResolver implements ResolverInterface
+class MajorityJudgmentDeliberator implements DeliberatorInterface
 {
     // These could be derived from the data instead of being set arbitrarily like this
     const GRADES_AMOUNT_MAX_DIGITS = 3; // 10e3 = 1000 grades should be more than enough
@@ -62,7 +60,7 @@ class MajorityJudgmentResolver implements ResolverInterface
      * @param mixed $options An instance of the class provided by `getOptionsClass()`.
      * @return PollResultInterface
      */
-    public function resolve(PollTallyInterface $pollTally, $options): PollResultInterface
+    public function deliberate(PollTallyInterface $pollTally, $options): PollResultInterface
     {
         $rankedProposals = [];
 
@@ -84,7 +82,7 @@ class MajorityJudgmentResolver implements ResolverInterface
                 return strcmp($rpb->getScore(), $rpa->getScore());
             }
         );
-        assert($sortSuccess, "Sorting by score must work!");
+        assert($sortSuccess, "Sorting by score must succeed!");
 
         // III. Compute the rank of each proposal
         $rank = 1;  // human-centric value, so starts at 1 ("best" proposal)
@@ -120,7 +118,7 @@ class MajorityJudgmentResolver implements ResolverInterface
 
     /**
      * Computes the score of the provided proposal.
-     * Does not compute the rank ; this will be done by resolve().
+     * Does not compute the rank ; this will be done by deliberate().
      * Static (context-free) method for (later) easier parallelization.
      *
      * @param ProposalTallyInterface $proposalTally
@@ -128,7 +126,7 @@ class MajorityJudgmentResolver implements ResolverInterface
      * @param MajorityJudgmentOptions $options
      * @return RankedProposal
      */
-    static function computeUnrankedProposal( // computeRankedProposalWithScoreOnly
+    static function computeUnrankedProposal( // computeRankedProposalWithScoreOnly?
         ProposalTallyInterface $proposalTally,
         int $participantsAmount,
         MajorityJudgmentOptions $options
@@ -225,6 +223,7 @@ class MajorityJudgmentResolver implements ResolverInterface
         return $unrankedProposal;
     }
 
+
     /**
      * Find the index of the median grade from the given array of tallies.
      *
@@ -299,7 +298,7 @@ class MajorityJudgmentResolver implements ResolverInterface
      * - -1 by default (no judgments, or only lowest grade) ← coupled to 'LOW' MEDIAN, innit?
      *
      *
-     * THIS ASSUMES A "LOW" ("WORST" grade) MEDIAN IN EVEN SCENARIOS
+     * THIS ASSUMES A "LOW" MEDIAN ("WORST" grade) IN EVEN SCENARIOS
      *
      *
      * @param $aroundGradeIndex
@@ -339,6 +338,7 @@ class MajorityJudgmentResolver implements ResolverInterface
         }
         return [$belowGroupSize, $belowGroupSign, $belowGroupGrade];
     }
+
 
     /**
      * Mutate the $tallies to put the judgments $fromGrade into $intoGrade.
