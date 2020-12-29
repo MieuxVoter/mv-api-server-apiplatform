@@ -151,6 +151,10 @@ class MajorityJudgmentDeliberatorTest extends TestCase
 
     /**
      * @dataProvider provideDeliberate
+     *
+     * @param $amountOfJudgments
+     * @param $tallyPerProposal
+     * @param $expectedResults
      */
     public function testDeliberate($amountOfJudgments, $tallyPerProposal, $expectedResults) {
 
@@ -173,12 +177,12 @@ class MajorityJudgmentDeliberatorTest extends TestCase
         foreach ($expectedResults as $expectedResult) {
             $rankedProposal = $rankedProposals[$i];
             $this->assertEquals(
-                $expectedResults[$i]['proposal'],
+                $expectedResult['proposal'],
                 $rankedProposal->getProposal(),
                 "Proposals are sorted adequately"
             );
             $this->assertEquals(
-                $expectedResults[$i]['rank'],
+                $expectedResult['rank'],
                 $rankedProposal->getRank(),
                 "Proposals are ranked adequately"
             );
