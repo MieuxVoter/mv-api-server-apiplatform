@@ -12,8 +12,8 @@ It supports:
 - other formats can be added if needed
 
 It features:
-- An algorithmic constitution written in plain language
-- 
+- Specifications written in plain language
+- …
 
 
 ## Install
@@ -41,9 +41,15 @@ Run:
 
 ### Setup JWT
 
+#### Using a BASH script
+
+    ./bin/setup_jwt.bash
+
+#### Manually
+
 Run from project's root path:
 
-    openssl genrsa -out config/jwt/private.pem -aes256 512
+    openssl genrsa -out config/jwt/private.pem -aes256 2048
     openssl pkey -in config/jwt/private.pem --out config/jwt/public.pem -pubout
 
 and write a private passphrase, without exotic characters (there are known issues).
@@ -79,22 +85,28 @@ You may also use the `symfony` utility, if you have it:
 
 ## Run the feature suite
 
-You should do this, it's mesmerizing.  :]
+_You should do this, it's mesmerizing._  :]
 
 First, copy `behat.yml.dist` to `behat.yml`:
 
     cp behat.yml.dist behat.yml
 
 You do not need to edit it, but you may.
+
+The features are in their own repositories,
+so make sure you cloned the submodules as well:
+
+    git submodule update --init --recursive
+
 Then, run:
 
-    vendor/bin/behat -vv
+    ./vendor/bin/behat
 
 Useful dev options:
 
-    vendor/bin/behat -vv --tags wip
-    vendor/bin/behat -vv --rerun
+    ./vendor/bin/behat -vv --tags wip
+    ./vendor/bin/behat -vv --rerun
 
 Best mount `var/` to RAM first, for a 4x faster test-suite and to prevent your hard drives from premature aging.
 
-    bin/tmpfs4var
+    ./bin/tmpfs4var.sh
