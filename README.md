@@ -22,8 +22,8 @@ PHP 7.2 and above, with quite a lot of extensions:
 `ctype`, `iconv`, `json`, `mbstring`, `mysqlnd`, `sqlite3`, `xml`
 
 What's `iconv` doing in here?
-
-    apt install fortunes 
+Also, `sqlite3` is only useful in dev and test environments,
+you should use `postgres` in production.
 
 Get [Composer](https://getcomposer.org).
 
@@ -57,6 +57,13 @@ and write a private passphrase, without exotic characters (there are known issue
 Copy that passphrase inside `.env.local` *AND* `.env.test.local` (create the files):
 
     JWT_PASSPHRASE=passphrase_you_chose_above
+
+
+### Optionally
+
+    apt install fortunes
+
+To get positive reinforcement when the test-suite passes. 
 
 
 ### References
