@@ -10,6 +10,9 @@ use App\Exception\RankingNameCollisionException;
 /**
  * A service to help load the appropriate ranking algorithm from the request parameters.
  *
+ * This *could* be done instead with a service locator.
+ * https://symfony.com/doc/current/service_container/service_subscribers_locators.html
+ *
  * Class Rankings
  * @package App\Ranking
  */
