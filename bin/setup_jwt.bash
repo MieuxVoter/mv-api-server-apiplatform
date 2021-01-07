@@ -15,6 +15,7 @@ generate_jwt() {
     read -s PASSPHRASE
     echo $PASSPHRASE
 
+    # Not 100% sure 2048 bits keys are legal in France ; EAFP ; 1024 is considered weak nowadays
     openssl genrsa -out ./config/jwt/private.pem -passout pass:${PASSPHRASE} -aes256 2048
     echo -e "Wrote private key to ./config/jwt/private.pem"
     openssl pkey -in ./config/jwt/private.pem -passin pass:${PASSPHRASE} --out ./config/jwt/public.pem -pubout
