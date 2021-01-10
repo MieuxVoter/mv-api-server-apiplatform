@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Repository;
+
 
 use App\Entity\Poll;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,12 +19,20 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class PollRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Poll::class);
     }
 
 
+    /**
+     * Finds a poll from an identifier or identifier-like string.
+     * Sugar method.
+     *
+     * @param string $idLike
+     * @return Poll|null
+     */
     public function findOneByIdLike(string $idLike)
     {
         if (8 > count_chars($idLike)) {
@@ -53,7 +63,13 @@ class PollRepository extends ServiceEntityRepository
     }
 
 
-    protected function findOneWithUuidStartingWith($uuidPrefix)
+    /**
+     * Finds a poll from a partial uuid.
+     *
+     * @param $uuidPrefix
+     * @return Poll|null
+     */
+    protected function findOneWithUuidStartingWith(string $uuidPrefix)
     {
         $polls = $this->createQueryBuilder('p')
             ->andWhere('p.uuid LIKE :id')
@@ -62,6 +78,7 @@ class PollRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
+
         if ( ! empty($polls)) {
             return $polls[0];
         }
