@@ -354,12 +354,18 @@ class Poll
         return $this;
     }
 
+    /**
+     * Grades are sorted from "worst" (most conservative) to "best".
+     *
+     * @return Grade[]
+     */
     public function getGradesInOrder() : array
     {
         $grades = $this->getGrades()->toArray();
         usort($grades, function (Grade $a, Grade $b) {
             return $a->getLevel() - $b->getLevel();
         });
+
         return $grades;
     }
 
@@ -369,6 +375,7 @@ class Poll
         foreach ($this->getGrades() as $grade) {
             $levels[$grade->getUuid()->toString()] = $grade->getLevel();
         }
+
         return $levels;
     }
 
@@ -393,6 +400,7 @@ class Poll
     {
         $grades = $this->getGradesInOrder();
         assert( ! empty($grades), "Poll should have grades.");
+
         return $grades[0];
     }
 
