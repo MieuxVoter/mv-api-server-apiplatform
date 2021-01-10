@@ -86,4 +86,20 @@ class PollRepository extends ServiceEntityRepository
         return null;
     }
 
+
+    public function countParticipants(Poll $poll)
+    {
+        $qbu = $this->_em->createQueryBuilder();
+        $qbu->select('COUNT(DISTINCT b.participant) as participants_amount')
+            ->from(Poll\Proposal\Ballot::class, 'b');
+        // FIXME: filter per poll
+        $amount = $qbu->getQuery()->getSingleResult();
+
+//        if (empty($amount)) {
+//            throw new \Exception("What? No!");
+//        }
+
+        return $amount['participants_amount'];
+    }
+
 }
