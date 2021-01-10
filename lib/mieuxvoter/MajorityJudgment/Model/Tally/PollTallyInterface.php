@@ -5,8 +5,8 @@ namespace MieuxVoter\MajorityJudgment\Model\Tally;
 
 
 /**
- * A Tally holds the amount of Judgments for each Grade, on each Proposal.
- * It also needs to hold the total amount of Participants, in order to account for default grades.
+ * A Poll Tally holds the amount of Judgments for each Grade, on each Proposal.
+ * It also holds the total amount of Participants, in order to account for default grades.
  *
  * This is the interface of the main input of this library,
  * that which is given to the MajorityJudgmentResolver in order to derive a Result (a ranking of proposals).
