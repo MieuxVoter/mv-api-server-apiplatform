@@ -12,15 +12,15 @@ namespace MieuxVoter\MajorityJudgment\Model\Result;
  */
 class RankedProposal
 {
+
     /**
-     * The higher the score, the better this Proposal is considered.
-     * It depends on the meaning of the grades, of course.
-     * Higher scores means higher grades; and vice-versa.
-     * Scores are strings, compared lexicographically.
+     * One of the proposals submitted in the PollTally.
+     * It may have any type, for convenience.
      *
-     * @var string $score
+     * @var mixed $proposal
      */
-    protected $score;
+    protected $proposal;
+
 
     /**
      * Rank of the Proposal, in the Result.
@@ -33,14 +33,41 @@ class RankedProposal
      */
     protected $rank;
 
-    /**
-     * One of the proposals submitted in the PollTally.
-     * It may have any type, for convenience.
-     *
-     * @var mixed $proposal
-     */
-    protected $proposal;
 
+    /**
+     * The higher the score, the better this Proposal is considered.
+     * It depends on the meaning of the grades, of course.
+     * Higher scores means higher grades; and vice-versa.
+     * Scores are strings, compared lexicographically.
+     *
+     * @var string $score
+     */
+    protected $score;
+
+
+    /**
+     * Median Grade.
+     *
+     * @var mixed $median
+     */
+    protected $median;
+
+
+    /**
+     * @return mixed
+     */
+    public function getProposal()
+    {
+        return $this->proposal;
+    }
+
+    /**
+     * @param mixed $proposal
+     */
+    public function setProposal($proposal): void
+    {
+        $this->proposal = $proposal;
+    }
 
     /**
      * @return string
@@ -77,18 +104,17 @@ class RankedProposal
     /**
      * @return mixed
      */
-    public function getProposal()
+    public function getMedian()
     {
-        return $this->proposal;
+        return $this->median;
     }
 
     /**
-     * @param mixed $proposal
+     * @param mixed $median
      */
-    public function setProposal($proposal): void
+    public function setMedian($median): void
     {
-        $this->proposal = $proposal;
+        $this->median = $median;
     }
-
 
 }

@@ -182,7 +182,12 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
             $tallies[$defaultGradeIndex] += $participantsAmount - $actualParticipantsAmount;
         }
 
-        // IV. Compute a lexicographical score (higher is "better")
+        // IV. Compute the median
+        $medianGradeIndex = self::getMedianGradeIndex($tallies);
+        $median = $grades[$medianGradeIndex];
+        $unrankedProposal->setMedian($median);
+
+        // V. Compute a lexicographical score (higher is "better")
         $score = "";
         for ($i = 0 ; $i < $amountOfGrades ; $i++) {
             if (0 < $i) {
