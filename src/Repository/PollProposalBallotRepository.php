@@ -73,6 +73,66 @@ GROUP BY b.proposal_id
     }
 
 
+    public function getTallyPerProposal(Poll $poll)
+    {
+        $tallyPerProposal = array();
+
+        foreach ($poll->getProposals() as $proposal) {
+
+            $proposalTally = array();
+            foreach ($poll->getGradesInOrder() as $grade) {
+
+                $ballots = $this->findBy([
+                    'proposal' => $proposal->getId(),
+                    'grade' => $grade->getId(),
+                ], [
+                    'createdAt' => 'ASC',
+                ]);
+
+                // FIXME: filter out duplicate ballots, if they're immutable (scenario B)
+
+                $proposalTally[] = count($ballots);
+            }
+
+            $tallyPerProposal[$proposal->getUuid()->toString()] = $proposalTally;
+
+
+
+
+//            $votesCount = count($votes);
+//            $maxVotesCount = max($maxVotesCount, $votesCount);
+//            $gradesTally = array(); // grade_name => integer
+//
+//            usort($votes, function (Ballot $a, Ballot $b) use ($levelOfGrade) {
+//                return (
+//                    $levelOfGrade[$a->getGrade()->getUuid()->toString()]
+//                    -
+//                    $levelOfGrade[$b->getGrade()->getUuid()->toString()]
+//                );
+//            });
+//
+//            foreach ($levelOfGrade as $gradeToTallyUuid => $whoCares) {
+//                $votesForMention = array_filter($votes, function (Ballot $v) use ($gradeToTallyUuid) {
+//                    return $v->getGrade()->getUuid()->toString() === $gradeToTallyUuid;
+//                });
+//                $gradesTally[$gradeToTallyUuid] = count($votesForMention);
+//            }
+
+//            $proposalTally = new PollProposalTally();
+//            $proposalTally->setPollProposalId($proposal->getUuid());
+//            $proposalTally->setGradesUuids($poll->getGradesUuids());
+//            $proposalTally->setGradesTally($gradesTally);
+//            // Setting these later once we have all the tallies
+//            //$proposalTally->setGrade(?);
+//            //$proposalTally->setRank(?);
+//
+//            $proposalsTallies[] = $proposalTally;
+        }
+
+        return $tallyPerProposal;
+    }
+
+
     // /**
     //  * @return Ballot[] Returns an array of Ballot objects
     //  */
