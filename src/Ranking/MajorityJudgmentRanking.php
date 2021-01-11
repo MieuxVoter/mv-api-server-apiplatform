@@ -29,6 +29,7 @@ class MajorityJudgmentRanking implements RankingInterface
      */
     protected $pollRepository;
 
+
     /**
      * @var PollProposalBallotRepository
      */
@@ -64,7 +65,7 @@ class MajorityJudgmentRanking implements RankingInterface
 
     /**
      * The returned class MUST validate `class_exists()`.
-     * Probably best to use the `MayAwesomeOptions::class` syntax in here.
+     * Probably best to use the `MayAwesomeOptions::class` syntax in here instead of strings.
      * This allows each Ranking to have their own custom set of options.
      * If your ranking has no options, return `\App\Ranking\Options\NoOptions::class`.
      *
@@ -92,22 +93,24 @@ class MajorityJudgmentRanking implements RankingInterface
         $amountOfParticipants = $this->pollRepository->countParticipants($poll);
         $tallyPerProposal = $this->ballotRepository->getTallyPerProposal($poll);
         $pollTally = new TwoArraysPollTally($amountOfParticipants, $poll->getProposals()->toArray(), array_values($tallyPerProposal));
-        $result = $deliberator->deliberate($pollTally, $options);
         $grades = $poll->getGradesInOrder();
+
+        // Use the PHP library deliberator
+        $result = $deliberator->deliberate($pollTally, $options);
 
 //        $proposalsByUuidString = array_map(function (Proposal $p) {
 //            return $p->getUuid()->toString();
 //        }, $poll->getProposals()->toArray());
 
-        foreach ($result->getRankedProposals() as $rankedProposal) {
+        foreach ($result->getProposalResults() as $competitor) {
 
             /** @var Proposal $proposal */
-            $proposal = $rankedProposal->getProposal();
+            $proposal = $competitor->getProposal();
             $proposalResult = new Poll\Proposal\Result();
             $proposalResult->setProposal($proposal);
-            $proposalResult->setRank($rankedProposal->getRank());
+            $proposalResult->setRank($competitor->getRank());
             $proposalResult->setTally($amountOfParticipants);
-            $proposalResult->setMedianGrade($grades[$rankedProposal->getMedian()]);
+            $proposalResult->setMedianGrade($grades[$competitor->getMedian()]);
 
             $gradesResults = [];
             $i = 0;

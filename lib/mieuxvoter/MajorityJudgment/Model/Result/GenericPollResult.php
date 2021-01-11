@@ -26,9 +26,9 @@ class GenericPollResult implements PollResultInterface
     }
 
     /**
-     * @return RankedProposal[]
+     * @return ProposalResult[]
      */
-    public function getRankedProposals(): iterable
+    public function getProposalResults(): iterable
     {
         return $this->ranked_proposals;
     }

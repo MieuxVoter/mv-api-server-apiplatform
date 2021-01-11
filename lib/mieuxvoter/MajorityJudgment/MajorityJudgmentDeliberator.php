@@ -7,7 +7,7 @@ namespace MieuxVoter\MajorityJudgment;
 use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions;
 use MieuxVoter\MajorityJudgment\Model\Result\GenericPollResult;
 use MieuxVoter\MajorityJudgment\Model\Result\PollResultInterface;
-use MieuxVoter\MajorityJudgment\Model\Result\RankedProposal;
+use MieuxVoter\MajorityJudgment\Model\Result\ProposalResult;
 use MieuxVoter\MajorityJudgment\Model\Tally\PollTallyInterface;
 use MieuxVoter\MajorityJudgment\Model\Tally\ProposalTallyInterface;
 
@@ -62,22 +62,22 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
      */
     public function deliberate(PollTallyInterface $pollTally, $options): PollResultInterface
     {
-        $rankedProposals = [];
+        $proposalResults = [];
 
         // I. Compute the score of each proposal, skip the rank for now
         foreach ($pollTally->getProposalsTallies() as $proposalsTally) {
-            $scoredProposal = self::computeUnrankedProposal(
+            $scoredProposal = self::computeUnproposalResult(
                 $proposalsTally,
                 $pollTally->getParticipantsAmount(),
                 $options
             );
-            $rankedProposals[] = $scoredProposal;
+            $proposalResults[] = $scoredProposal;
         }
 
         // II. Sort the proposals using their score (higher is "better")
         $sortSuccess = usort(
-            $rankedProposals,
-            function(RankedProposal $rpa, RankedProposal $rpb)
+            $proposalResults,
+            function(ProposalResult $rpa, ProposalResult $rpb)
             {
                 return strcmp($rpb->getScore(), $rpa->getScore());
             }
@@ -86,23 +86,23 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
 
         // III. Compute the rank of each proposal
         $rank = 1;  // human-centric value, so starts at 1 ("best" proposal)
-        $amountOfProposals = count($rankedProposals);
+        $amountOfProposals = count($proposalResults);
         for ($i = 0 ; $i < $amountOfProposals ; $i++) {
 
             if ($i == 0) {
-                $rankedProposals[$i]->setRank($rank);
+                $proposalResults[$i]->setRank($rank);
             } else {
                 if (
-                    $rankedProposals[$i]->getScore()
+                    $proposalResults[$i]->getScore()
                     ==
-                    $rankedProposals[$i-1]->getScore()
+                    $proposalResults[$i-1]->getScore()
                 ) {
                     // Wow, we have a *perfect* ex-æquo!
-                    $rankedProposals[$i]->setRank(
-                        $rankedProposals[$i-1]->getRank()
+                    $proposalResults[$i]->setRank(
+                        $proposalResults[$i-1]->getRank()
                     );
                 } else {
-                    $rankedProposals[$i]->setRank($rank);
+                    $proposalResults[$i]->setRank($rank);
                 }
             }
 
@@ -110,7 +110,7 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
         }
 
         // IV. We've got everything we need, time to build the Result
-        $result = new GenericPollResult($rankedProposals);
+        $result = new GenericPollResult($proposalResults);
 
         return $result;
     }
@@ -124,16 +124,16 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
      * @param ProposalTallyInterface $proposalTally
      * @param int $participantsAmount
      * @param MajorityJudgmentOptions $options
-     * @return RankedProposal
+     * @return ProposalResult
      */
-    static function computeUnrankedProposal( // computeRankedProposalWithScoreOnly?
+    static function computeUnproposalResult( // computeProposalResultWithScoreOnly?
         ProposalTallyInterface $proposalTally,
         int $participantsAmount,
         MajorityJudgmentOptions $options
-    ) : RankedProposal
+    ) : ProposalResult
     {
-        $unrankedProposal = new RankedProposal();
-        $unrankedProposal->setProposal($proposalTally->getProposal());
+        $unproposalResult = new ProposalResult();
+        $unproposalResult->setProposal($proposalTally->getProposal());
 
         // I. Collect data and check its sanity
         $gradesTallies = $proposalTally->getGradesTallies();
@@ -185,7 +185,7 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
         // IV. Compute the median
         $medianGradeIndex = self::getMedianGradeIndex($tallies);
         $median = $grades[$medianGradeIndex];
-        $unrankedProposal->setMedian($median);
+        $unproposalResult->setMedian($median);
 
         // V. Compute a lexicographical score (higher is "better")
         $score = "";
@@ -223,9 +223,9 @@ class MajorityJudgmentDeliberator implements DeliberatorInterface
         }
 
         //dump("Score", $proposalTally->getProposal(), $score);
-        $unrankedProposal->setScore($score);
+        $unproposalResult->setScore($score);
 
-        return $unrankedProposal;
+        return $unproposalResult;
     }
 
 

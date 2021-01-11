@@ -165,25 +165,25 @@ class MajorityJudgmentDeliberatorTest extends TestCase
         );
         $result = $deliberator->deliberate($pollTally, $options);
 
-        $rankedProposals = $result->getRankedProposals();
+        $proposalResults = $result->getProposalResults();
 
         $this->assertEquals(
-            count($rankedProposals),
+            count($proposalResults),
             count($expectedResults),
             "The amount of proposals is the same."
         );
 
         $i = 0;
         foreach ($expectedResults as $expectedResult) {
-            $rankedProposal = $rankedProposals[$i];
+            $proposalResult = $proposalResults[$i];
             $this->assertEquals(
                 $expectedResult['proposal'],
-                $rankedProposal->getProposal(),
+                $proposalResult->getProposal(),
                 "Proposals are sorted adequately"
             );
             $this->assertEquals(
                 $expectedResult['rank'],
-                $rankedProposal->getRank(),
+                $proposalResult->getRank(),
                 "Proposals are ranked adequately"
             );
             $i++;

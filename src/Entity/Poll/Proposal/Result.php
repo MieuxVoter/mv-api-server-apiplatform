@@ -16,7 +16,7 @@ use App\Entity\Poll\Grade\Result as ProposalGradeResult;
  * The ranked Result of one Proposal in a Poll.
  *
  * @ApiResource(
- *     shortName="ProposalResult",
+ *     shortName="ProposalooResult",
  *     normalizationContext={"groups"={"read"}},
  *     itemOperations={
  *         "get",

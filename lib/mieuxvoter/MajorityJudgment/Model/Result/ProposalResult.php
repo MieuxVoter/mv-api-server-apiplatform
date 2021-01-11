@@ -7,10 +7,10 @@ namespace MieuxVoter\MajorityJudgment\Model\Result;
 /**
  * An element of the leaderboard of a PollResult.
  *
- * Class RankedProposal
+ * Class ProposalResult
  * @package MieuxVoter\MajorityJudgment\Result
  */
-class RankedProposal
+class ProposalResult
 {
 
     /**
