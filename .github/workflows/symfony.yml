@@ -1,0 +1,131 @@
+# https://help.github.com/en/actions
+name: Full CI process for Symfony 5
+on:
+  push:
+    branches:
+      - master
+env:
+  ES_HTTP_PORT: 9209
+jobs:
+  symfony:
+    name: Symfony 5.2 (PHP ${{ matrix.php-versions }})
+    # Try out an alpine here perhaps?
+    # https://hub.docker.com/_/ubuntu/
+    runs-on: ubuntu-18.04
+    services:
+      # https://docs.docker.com/samples/library/mysql/
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      # https://hub.docker.com/_/elasticsearch/
+#      elasticsearch:
+#        image: elasticsearch:6.8.10
+#        ports:
+#          - 9209:9200
+#        options: -e="discovery.type=single-node" --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=10
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['7.4']
+#        php-versions: ['7.4', '8.0']
+    steps:
+      # —— Check Elasticsearch 🔎 ——————————————————————————————————————————————
+#      - name: Check the Elasticsearch connection from runner host
+#        run: |
+#          curl -fsSL "http://localhost:$ES_HTTP_PORT"
+#          curl -fsSL "http://localhost:$ES_HTTP_PORT/_cluster/health?pretty"
+
+      # —— Setup Github actions 🐙 —————————————————————————————————————————————
+      # https://github.com/actions/checkout (official)
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # https://github.com/shivammathur/setup-php (community)
+      - name: Setup PHP, extensions and composer with shivammathur/setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+        env:
+          update: true
+
+      - name: Check PHP Version
+        run: php -v
+
+      # https://github.com/zhulik/redis-action (community)
+      - name: Setup Redis with zhulik/redis-action
+        uses: zhulik/redis-action@1.1.0
+        with:
+          redis version: '5'
+
+      ## —— Yarn 🐱 ————————————————————————————————————————————————————————————
+      - name: Yarn install
+        uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+          auth-token: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+          registry-url: npm.fontawesome.com
+      - name: Yarn build
+        uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: run encore production
+
+      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: make install
+
+      # —— Symfony 🎵 ——————————————————————————————————————————————————————————
+      - name: Check Symfony requirements
+        run: vendor/bin/requirements-checker
+
+      - name: Check the Symfony console
+        run: |
+          bin/console -V
+          bin/console strangebuzz:version
+
+      ## —— Coding standards ✨ ————————————————————————————————————————————————
+      # Can't handle PHP8 for now
+      - name: Coding standards checks (php_codesniffer + php-cs-fixer)
+        run: make cs
+        if: matrix.php-versions == '7.4'
+
+      ## —— Static analysis ✨ —————————————————————————————————————————————————
+      - name: Static analysis of PHP code (PHPStan)
+        run: make static-analysis
+        if: matrix.php-versions == '7.4'
+
+      ## —— Tests ✅ ———————————————————————————————————————————————————————————
+#      - name: Load Doctrine fixtures and populate the Elasticsearch indexes
+#        run: |
+#          make load-fixtures
+#          make populate
+
+#      - name: Run functional and unit tests
+#        run: |
+#          cp phpunit.xml.ci phpunit.xml
+#          make test
+
+      - name: Run integration tests
+        run: |
+          cp behat.yml.dist behat.yml
+          cp config/jwt/private.pem.dist config/jwt/private.pem
+          cp config/jwt/public.pem.dist config/jwt/public.pem
+          vendor/bin/behat -vv --tags='~wip&&~noci'
