@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Poll;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 
 /**
@@ -91,8 +92,9 @@ class PollRepository extends ServiceEntityRepository
     {
         $qbu = $this->_em->createQueryBuilder();
         $qbu->select('COUNT(DISTINCT b.participant) as participants_amount')
-            ->from(Poll\Proposal\Ballot::class, 'b');
-        // FIXME: filter per poll
+            ->from(Poll\Proposal\Ballot::class, 'b')
+            ->where('b.proposal IN (:proposals)')
+            ->setParameter('proposals', $poll->getProposals());
         $amount = $qbu->getQuery()->getSingleResult();
 
 //        if (empty($amount)) {
