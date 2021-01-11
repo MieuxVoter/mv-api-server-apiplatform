@@ -1,9 +1,13 @@
 # Configuration file for Gitlab's Continuous Integration
 # https://docs.gitlab.com/ee/ci/yaml/
 test:
-  # Get docker image (see https://docs.gitlab.com/ee/ci/docker/using_docker_images.html)
-  # Note: with the php:latest we don't use debian's 'php' packages. Don't try to install them.
-  image: php:latest
+  # Use a generic docker image (see https://docs.gitlab.com/ee/ci/docker/using_docker_images.html)
+  # Note: with the php:xxx image we don't use debian's 'php' packages. Installing them won't work as expected.
+  # It would also be nice to assert support of 5.x and 7.x  and 8.x series as well.
+  # Patch number is 14 right now and may grow; check
+  # https://hub.docker.com/_/php?tab=tags&page=1&ordering=last_updated&name=7.4
+  # for updates.
+  image: php:7.4.14
 
   cache:
     paths:
