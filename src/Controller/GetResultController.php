@@ -8,7 +8,6 @@ use App\Controller\Is\EntityAware;
 use App\Entity\Poll\Result;
 use App\Ranking\Options\MajorityJudgmentOptions;
 use App\Ranking\Rankings;
-use App\Tallier\TallierFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -24,8 +23,7 @@ final class GetResultController
 
     public function __invoke(
         Request $request,
-        Rankings $rankings,
-        TallierFactory $tallierFactory
+        Rankings $rankings
     ): Result
     {
         $pollId = $request->get('id');
