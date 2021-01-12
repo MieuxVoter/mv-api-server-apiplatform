@@ -29,7 +29,6 @@ services:
         resource: '../src/*'
         exclude:
             - '../src/{Features,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-            - '../src/Tallier/Output'
             - '../src/Ranking/Options'
 
     # Override the test client to get pretty responses for CLI, and perhaps store some config like URL prefixes.
