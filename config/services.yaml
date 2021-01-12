@@ -51,8 +51,9 @@ services:
 
     # Configure the Rankings to load all the Ranking services.
     App\Ranking\Rankings:
-      arguments:
-        - !tagged 'poll_ranking'
+        public: true
+        arguments:
+            - !tagged 'poll_ranking'
 
     # Who doesn't need Twig in translations strings?
     App\Translator\TwiggyTranslator:
