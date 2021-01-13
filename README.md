@@ -1,4 +1,7 @@
-# Liquid Majority Judgment
+# Majority Judgment OpenAPI Server with APIPlatform
+
+<!-- We'll use a badge for this -->
+**Demo**: https://oas.mieuxvoter.fr
 
 This is a **REST API backend** for (Liquid) Majority Judgment.
 
@@ -16,7 +19,18 @@ It features:
 - …
 
 
-## Install
+## ⚙ Install
+
+### 🐋 Via docker
+
+Install [Docker Compose](https://docs.docker.com/compose/install/).
+
+Run:
+
+    docker-compose up
+
+
+### Manually
 
 PHP 7.2 and above, with quite a lot of extensions:
 `ctype`, `iconv`, `json`, `mbstring`, `mysqlnd`, `sqlite3`, `xml`
@@ -28,15 +42,6 @@ you should use `postgres` in production.
 Get [Composer](https://getcomposer.org).
 
     composer install
-
-
-### Via docker
-
-Install [Docker Compose](https://docs.docker.com/compose/install/).
-
-Run:
-
-    docker-compose up
 
 
 ### Setup JWT
