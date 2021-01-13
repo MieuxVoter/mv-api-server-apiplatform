@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - ranking-refacto
 env:
   ES_HTTP_PORT: 9209
 jobs:
