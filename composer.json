@@ -14,6 +14,7 @@
         "api-platform/core": "2.4.*",
         "lexik/jwt-authentication-bundle": "^2.8",
         "matthewbaggett/clamp": "^1.1",
+        "mieuxvoter/mj-library-php": "@dev",
         "ramsey/uuid": "^3 || ^4",
         "ramsey/uuid-doctrine": "1.5.*",
         "sensio/framework-extra-bundle": "5.3.*",
@@ -60,8 +61,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "MieuxVoter\\": "lib/mieuxvoter"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {
