@@ -30,7 +30,7 @@ Run:
     docker-compose up
 
 
-### Manually
+### ✋ Manually
 
 PHP 7.2 and above, with quite a lot of extensions:
 `ctype`, `iconv`, `json`, `mbstring`, `mysqlnd`, `sqlite3`, `xml`
@@ -44,7 +44,7 @@ Get [Composer](https://getcomposer.org).
     composer install
 
 
-### Setup JWT
+### 🔐 Setup JWT
 
 #### Using a BASH script
 
@@ -64,14 +64,14 @@ Copy that passphrase inside `.env.local` *AND* `.env.test.local` (create the fil
     JWT_PASSPHRASE=passphrase_you_chose_above
 
 
-### Optionally
+### 🐉 Optionally
 
     apt install fortunes
 
 To get positive reinforcement when the test-suite passes. 
 
 
-### References
+### 📚 References
 
 * JWT : https://api-platform.com/docs/core/jwt/#jwt-authentication
 * docker-compose : https://github.com/dunglas/symfony-docker
@@ -79,7 +79,7 @@ To get positive reinforcement when the test-suite passes.
     * https://symfonycasts.com/screencast/api-platform-security/encode-user-password
 
 
-## Run, Doc, Sandbox
+## 💃 Run, Doc, Sandbox
 
     bin/console server:run
 
@@ -95,7 +95,7 @@ You may also use the `symfony` utility, if you have it:
     symfony serve --port 8000
 
 
-## Run the feature suite
+## 🔍 Run the feature suite
 
 _You should do this, it's mesmerizing._  :]
 
