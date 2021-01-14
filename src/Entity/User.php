@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+
 /**
  * Users organize and participate in Polls.
  *
@@ -56,6 +57,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *              "access_control"="is_granted('ROLE_USER') and object == user or is_granted('ROLE_ADMIN')",
  *              "normalization_context"={"groups"={"read"}},
  *              "denormalization_context"={"groups"={"edit"}},
+ *              "swagger_context"=User::ITEM_PUT_OAS_CONTEXT,
+ *              "openapi_context"=User::ITEM_PUT_OAS_CONTEXT,
  *          },
  *         "delete"={
  *              "method"="DELETE",
@@ -68,11 +71,11 @@ class User implements UserInterface
 {
     const COLLECTION_GET_OAS_CONTEXT = [
         "summary" => "Retrieves the collection of Users.",
-        "description" => "Only administrators are allowed access to this.",
+        "description" => "Only administrators are allowed to access this.",
         "tags" => ['User', 'Administration'],
     ];
     const COLLECTION_POST_OAS_CONTEXT = [
-        "summary" => "Registers a new User",
+        "summary" => "Registers a new User.",
         "description" => "api.users.post.description",  # reminder to try to hook I18N
         "tags" => ['User', 'Registration'],
     ];
@@ -81,6 +84,14 @@ class User implements UserInterface
         "description" => "You are authorized to get information about yourself only.",
         "tags" => ['User'],
     ];
+    const ITEM_PUT_OAS_CONTEXT = [
+        "summary" => "Updates information about a User.",
+        "description" => "Logged-in users are authorized to update information about themselves only.",
+        "tags" => ['User'],
+    ];
+
+    ///
+    ///
 
     /**
      * @var int|null

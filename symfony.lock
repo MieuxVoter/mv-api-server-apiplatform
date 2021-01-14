@@ -158,6 +158,9 @@
     "justinrainbow/json-schema": {
         "version": "5.2.10"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
     "lcobucci/jwt": {
         "version": "3.3.3"
     },
@@ -181,6 +184,9 @@
     },
     "matthewbaggett/clamp": {
         "version": "v1.1"
+    },
+    "mieuxvoter/mj-library-php": {
+        "version": "dev-master"
     },
     "monolog/monolog": {
         "version": "1.25.1"
@@ -417,6 +423,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v4.3.4"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.3.4"

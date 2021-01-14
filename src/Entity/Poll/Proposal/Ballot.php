@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
@@ -32,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A Ballot is mutable.
  * Only one Ballot per Proposal and Participant.
  *
- * Right now we implement neither A nor B.  There are no Gherkin features for this yet.  Help us!
+ * Right now we implement neither A nor B.  There are no Gherkin features for this yet.  Help us decide!
  *
  * @ApiResource(
  *     itemOperations={
@@ -138,6 +139,14 @@ class Ballot
      */
     private $participant;
 
+    /**
+     * @var \DateTime $createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     ///
     ///
 
@@ -202,6 +211,22 @@ class Ballot
         $this->participant = $participant;
 
         return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
 }

@@ -197,8 +197,8 @@ class Poll
      * @Assert\Count(
      *     min=2,
      *     max=16,
-     *     minMessage = "You must specify at least two grades.",
-     *     maxMessage = "You cannot specify more than {{ limit }} grades.",
+     *     minMessage = "validation.poll.proposals.minMessage",
+     *     maxMessage = "validation.poll.proposals.maxMessage",
      * )
      */
     private $grades;
@@ -349,21 +349,23 @@ class Poll
     {
         if ($this->grades->contains($grade)) {
             $this->grades->removeElement($grade);
-            // set the owning side to null (unless already changed)
-            if ($grade->getPoll() === $this) {
-                $grade->setPoll(null);
-            }
         }
 
         return $this;
     }
 
+    /**
+     * Grades are sorted from "worst" (most conservative) to "best".
+     *
+     * @return Grade[]
+     */
     public function getGradesInOrder() : array
     {
         $grades = $this->getGrades()->toArray();
         usort($grades, function (Grade $a, Grade $b) {
             return $a->getLevel() - $b->getLevel();
         });
+
         return $grades;
     }
 
@@ -373,6 +375,7 @@ class Poll
         foreach ($this->getGrades() as $grade) {
             $levels[$grade->getUuid()->toString()] = $grade->getLevel();
         }
+
         return $levels;
     }
 
@@ -397,6 +400,7 @@ class Poll
     {
         $grades = $this->getGradesInOrder();
         assert( ! empty($grades), "Poll should have grades.");
+
         return $grades[0];
     }
 

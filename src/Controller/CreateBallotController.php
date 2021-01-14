@@ -62,8 +62,6 @@ class CreateBallotController
             if (null == $invitation) {
                 throw new HttpException(Response::HTTP_FORBIDDEN);
             }
-
-            //throw new NotFoundHttpException("Nope");
         }
 
         return $ballot;

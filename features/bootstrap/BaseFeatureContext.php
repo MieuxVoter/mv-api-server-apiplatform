@@ -9,6 +9,8 @@ use App\Entity\Poll\Proposal;
 use App\Entity\User;
 use App\Features\Actor;
 use App\Features\Actors;
+use App\Ranking\RankingInterface;
+use App\Ranking\Rankings;
 use App\Repository\PollGradeRepository;
 use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
@@ -21,6 +23,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use MieuxVoter\MajorityJudgment\DeliberatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -50,7 +53,6 @@ class BaseFeatureContext extends WebTestCase implements Context
 
     /**
      * A context bag for each actor, shared between all FeatureContexts.
-     * Yes, sharing contexts is BAD. Please suggest another way forward :3
      * @var Actors
      */
     protected $actors;
@@ -208,16 +210,32 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
+//    /**
+//     * @param string $tallyName
+//     * @return TallierInterface
+//     */
+//    protected function getTallyBot(string $tallyName) : TallierInterface
+//    {
+//        return $this->get(TallierFactory::class)->findByName($tallyName);
+//    }
+
+
     /**
      *
      *
      * @param string $tallyName
-     * @return TallierInterface
+     * @return RankingInterface
      */
-    protected function getTallyBot(string $tallyName) : TallierInterface
+    protected function getRankingService(string $tallyName) : RankingInterface
     {
-        // TODO: I18N the $tallyName
-        return $this->get(TallierFactory::class)->findByName($tallyName);
+        $aliases = [
+            'Majority Judgment' => [
+                'majority judgment',
+                'jugement majoritaire',
+            ],
+        ];
+
+        return $this->get(Rankings::class)->findByName($this->unalias($aliases, $tallyName));
     }
 
 
@@ -226,10 +244,22 @@ class BaseFeatureContext extends WebTestCase implements Context
     /// Reverse I18N
     ///
 
-    public function unlocalizePollMention($localizedMention)
+    public function unalias(array $aliases, string $something)
     {
-        return $this->t("value.majority_judgment_poll.mention.$localizedMention");
+        $something = mb_strtolower($something);
+        foreach ($aliases as $main => $alias) {
+            if (in_array($something, $alias)) {
+                return $main;
+            }
+        }
+
+        throw new InvalidArgumentException("Cannot unalias `$something'.");
     }
+
+//    public function unlocalizePollGrade($localizedGrade)
+//    {
+//        return $this->t("value.grade.$localizedGrade");
+//    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///
@@ -531,7 +561,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     {
         $actorName = strtolower(trim($actorName));
 
-        // fixme: we need something sane and scalable about this
+        // todo: we need something sane and scalable about this, in testing utopia
         if ("j'" == $actorName) {
             $actorName = "je";
         }
