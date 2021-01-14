@@ -51,6 +51,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+          #coverage: xdebug
         env:
           update: true
 
@@ -102,13 +103,14 @@ jobs:
 
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
-      - name: Check Symfony requirements
-        run: vendor/bin/requirements-checker
+#      - name: Check Symfony requirements
+#        run: vendor/bin/requirements-checker
 
       - name: Check the Symfony console
         run: |
           bin/console -V
 #          bin/console strangebuzz:version
+
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       # Can't handle PHP8 for now
@@ -132,9 +134,13 @@ jobs:
 #          cp phpunit.xml.ci phpunit.xml
 #          make test
 
-      - name: Run integration tests
+      - name: Prepare integration tests
         run: |
           cp behat.yml.dist behat.yml
           cp config/jwt/private.pem.dist config/jwt/private.pem
           cp config/jwt/public.pem.dist config/jwt/public.pem
+          bin/console lexik:jwt:check-config
+
+      - name: Run integration tests
+        run: |
           vendor/bin/behat -vv --tags='~wip&&~noci'
