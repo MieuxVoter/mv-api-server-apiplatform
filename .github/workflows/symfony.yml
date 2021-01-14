@@ -15,13 +15,13 @@ jobs:
     runs-on: ubuntu-18.04
     services:
       # https://docs.docker.com/samples/library/mysql/
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#      mysql:
+#        image: mysql:5.7
+#        env:
+#          MYSQL_ROOT_PASSWORD: root
+#        ports:
+#          - 3306:3306
+#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       # https://hub.docker.com/_/elasticsearch/
 #      elasticsearch:
 #        image: elasticsearch:6.8.10
@@ -80,12 +80,11 @@ jobs:
 #        with:
 #          cmd: run encore production
 
-      - name: Look around
-        run: |
-          pwd
-          ls -la
-          ls -la ../
-
+#      - name: Look around
+#        run: |
+#          pwd
+#          ls -la
+#          ls -la ../
 
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer.json and composer.lock
@@ -102,7 +101,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
+      - name: Install dependencies using composer
         run: composer install --dev
 
 
@@ -113,7 +112,6 @@ jobs:
       - name: Check the Symfony console
         run: |
           bin/console -V
-#          bin/console strangebuzz:version
 
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
