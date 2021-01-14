@@ -1,5 +1,5 @@
 # https://help.github.com/en/actions
-name: Full CI process for Symfony 5
+name: Full CI process
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ env:
   ES_HTTP_PORT: 9209
 jobs:
   symfony:
-    name: Symfony 5.2 (PHP ${{ matrix.php-versions }})
+    name: MV OpenAPI (PHP ${{ matrix.php-versions }})
     # Try out an alpine here perhaps?
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-18.04
@@ -32,7 +32,7 @@ jobs:
       fail-fast: true
       matrix:
         php-versions: ['7.4']
-#        php-versions: ['7.4', '8.0']
+#        php-versions: ['5.4', '7.4', '8.0']
     steps:
       # —— Check Elasticsearch 🔎 ——————————————————————————————————————————————
 #      - name: Check the Elasticsearch connection from runner host
@@ -58,10 +58,10 @@ jobs:
         run: php -v
 
       # https://github.com/zhulik/redis-action (community)
-      - name: Setup Redis with zhulik/redis-action
-        uses: zhulik/redis-action@1.1.0
-        with:
-          redis version: '5'
+#      - name: Setup Redis with zhulik/redis-action
+#        uses: zhulik/redis-action@1.1.0
+#        with:
+#          redis version: '5'
 
       ## —— Yarn 🐱 ————————————————————————————————————————————————————————————
 #      - name: Yarn install
@@ -98,7 +98,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: make install
+        run: composer install --dev
 
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
@@ -108,7 +108,7 @@ jobs:
       - name: Check the Symfony console
         run: |
           bin/console -V
-          bin/console strangebuzz:version
+#          bin/console strangebuzz:version
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       # Can't handle PHP8 for now
