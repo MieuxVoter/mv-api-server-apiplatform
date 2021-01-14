@@ -75,6 +75,12 @@ jobs:
 #        with:
 #          cmd: run encore production
 
+      - name: Look around
+        run: |
+          pwd
+          ls -la
+
+
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -92,6 +98,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: make install
+
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
       - name: Check Symfony requirements
