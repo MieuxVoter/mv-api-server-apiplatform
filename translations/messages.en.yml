@@ -1,0 +1,5 @@
+validation:
+    poll:
+        proposals:
+            minMessage: You must specify at least two proposals.
+            maxMessage: You cannot specify more than {{ limit }} proposals.

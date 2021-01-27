@@ -10,6 +10,7 @@ use App\Entity\Poll;
 use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use App\Entity\User;
+use App\Ranking\Options\MajorityJudgmentOptions;
 
 
 /**
@@ -239,7 +240,7 @@ class MainFeatureContext extends BaseFeatureContext
      * This step is too long and needs refactoring and simplification.
      *
      * fixme: en step
-     * @Then /^le dépouillement(?: de)? (?P<tally>standard) du scrutin(?: au jugement majoritaire)? (?:de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.*)" devrait être *:?$/u
+     * @Then /^le dépouillement(?: de)? (?P<tally>standard|) ?du scrutin(?: au jugement majoritaire)? (?:de|titré|intitulé|assujetti(?:ssant)?) "(?P<pollSubject>.*)" devrait être *:?$/u
      */
     public function theTallyOfThePollTitledShouldBeLikeYaml($tally, $pollSubject, $pystring)
     {
@@ -268,15 +269,18 @@ class MainFeatureContext extends BaseFeatureContext
             $expected[$pollProposalId] = $gradeOrData;
         }
 
-        $tallier = $this->getTallyBot($tally);
-        $actual = $tallier->tally($poll);
+        $deliberator = $this->getRankingService('Majority Judgment');
+//        $tallier = $this->getTallyBot($tally);
+//        $actual = $tallier->tally($poll);
+        /** @var Poll\Result $actual */
+        $actual = $deliberator->resolve($poll, new MajorityJudgmentOptions());
 
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);
 
-        foreach ($actual->proposals as $proposalTally) {
-
-            $proposalUuid = $proposalTally->poll_proposal_id->toString();
+        foreach ($actual->getLeaderboard() as $proposalTally) {
+            /** @var Proposal\Result $proposalTally */
+            $proposalUuid = $proposalTally->getProposal()->getUuid()->toString();
 
             if (isset($expected[$proposalUuid])) {
                 $assertedSomething = true;
@@ -284,21 +288,21 @@ class MainFeatureContext extends BaseFeatureContext
 
                 $pollProposal = $this->findOnePollProposalFromId($proposalUuid);
 
-                if ($expected[$proposalUuid][$gradeAtom] !== $proposalTally->median_grade) {
+                if ($expected[$proposalUuid][$gradeAtom] !== $proposalTally->getMedianGrade()->getUuid()->toString()) {
                     //dump("Actual proposal tally", $proposalTally);
                     $this->failTrans("proposal_median_grade_mismatch", [
                         'expected_grade' => $expected[$proposalUuid][$gradeAtom],
-                        'actual_grade' => $proposalTally->median_grade,
+                        'actual_grade' => $proposalTally->getMedianGrade()->getUuid()->toString(),
                         'proposal' => $pollProposal,
                     ]);
                 }
 
                 if (isset($expected[$proposalUuid][$rankAtom])) {
-                    if ($expected[$proposalUuid][$rankAtom] !== $proposalTally->rank) {
+                    if ($expected[$proposalUuid][$rankAtom] !== $proposalTally->getRank()) {
                         dump("Actual poll tally", $actual);
                         $this->failTrans('proposal_rank_mismatch', [
                             'expected_rank' => $expected[$proposalUuid][$rankAtom],
-                            'actual_rank' => $proposalTally->rank,
+                            'actual_rank' => $proposalTally->getRank(),
                             'proposal' => $pollProposal,
                         ]);
                     }
