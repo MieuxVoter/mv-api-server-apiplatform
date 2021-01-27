@@ -25,6 +25,12 @@
     "behat/mink": {
         "version": "v1.8.1"
     },
+    "behat/mink-extension": {
+        "version": "2.3.1"
+    },
+    "behat/mink-selenium2-driver": {
+        "version": "v1.4.0"
+    },
     "behat/symfony2-extension": {
         "version": "2.1",
         "recipe": {
@@ -131,6 +137,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "elkan/behatformatter": {
+        "version": "dev-mj"
+    },
     "exsyst/swagger": {
         "version": "v0.4.1"
     },
@@ -151,6 +160,9 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.6.1"
+    },
+    "instaclick/php-webdriver": {
+        "version": "1.4.7"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"

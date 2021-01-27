@@ -1,5 +1,5 @@
 # You need to copy this file to `behat.yaml`.
-# We should automate this copy with a hook on Composer.  NIH
+# We should automate this copy with a hook on Composer?  NIH
 
 default:
   suites:
@@ -15,21 +15,25 @@ default:
             actors: '@App\Features\Actors'
         - ApiRestFeatureContext:
             actors: '@App\Features\Actors'
-#    graphql:
-#      contexts:
-#        - MainFeatureContext:
-#            actors: '@App\Features\Actors'
-#        - HookFeatureContext:
-#            actors: '@App\Features\Actors'
-#        - ToolFeatureContext:
-#            actors: '@App\Features\Actors'
-#        - PoetryFeatureContext:
-#            actors: '@App\Features\Actors'
-#        - ApiGraphFeatureContext:
-#            actors: '@App\Features\Actors'
 
   extensions:
+    # Integrate with Symfony
     Behat\Symfony2Extension:
       kernel:
         bootstrap: features/bootstrap/bootstrap.php
         class: App\Kernel
+    # Generate a HTML summary
+    elkan\BehatFormatter\BehatFormatterExtension:
+      projectName: BehatTest
+      name: html
+      renderer: Twig
+      file_name: index
+      print_args: true
+      print_outp: true
+      loop_break: true
+      show_tags: true
+
+  formatters:
+    pretty: true
+    html:
+      output_path: var/features-report
