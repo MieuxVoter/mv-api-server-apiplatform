@@ -4,6 +4,10 @@
 default:
   suites:
     rest:
+      # This is not the most comfortable way of adding new steps,
+      # since we have to list the contexts here.
+      # We could perhaps remove these and use traits and only one Context.
+      # The Actors are shared between all these contexts.
       contexts:
         - MainFeatureContext:
             actors: '@App\Features\Actors'
