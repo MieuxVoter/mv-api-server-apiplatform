@@ -7,8 +7,8 @@ api_platform:
     # The description of the API.
     description: |
         This is a **deliberation service** using **majority judgment** polling.
-        It's **libre software** made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
-        You're browsing the API documentation.
+        It's **libre software** ([source](https://github.com/mieuxvoter)) made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
+        You're browsing the API documentation and sandbox.
 
     # The version of the API.
     version: '0.0.0-dev'
