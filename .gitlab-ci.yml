@@ -18,8 +18,9 @@ test:
 
   before_script:
     - apt-get update
-    #- apt-get install -y unzip
-    - apt-get install -y fortunes
+
+    # We show a fortune cookie when the feature suite passes
+    - apt-get install -y fortunes cowsay
 
     # Install xdebug for code coverage
     # We cannot use docker-php-ext-install here
@@ -29,7 +30,7 @@ test:
 
     # Install Composer
     # Remember, we can't use the php packages from debian repos in this image
-    #    - apt-get install composer
+    # - apt-get install -y composer
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     - php composer-setup.php
     - php -r "unlink('composer-setup.php');"
@@ -42,7 +43,7 @@ test:
   script:
     # Configure the feature suite with the defaults
     - cp behat.yml.dist behat.yml
-    # Configure JWT
+    # Configure JWT with dummy keys
     - cp config/jwt/private.pem.dist config/jwt/private.pem
     - cp config/jwt/public.pem.dist config/jwt/public.pem
     # Run the feature suite, ignore Works in Progress and Not Continuous Integration
