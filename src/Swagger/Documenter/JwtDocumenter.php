@@ -59,6 +59,7 @@ class JwtDocumenter implements DocumenterInterface
                 $docs['definitions']['Token'] = $tokenSchema;
                 $docs['definitions']['Credentials'] = $credentialsSchema;
                 break;
+            case 3:
             default:
                 $docs['components']['schemas']['Token'] = $tokenSchema;
                 $docs['components']['schemas']['Credentials'] = $credentialsSchema;
@@ -126,6 +127,7 @@ class JwtDocumenter implements DocumenterInterface
                     ],
                 ]);
                 break;
+            case 3:
             default:
                 $tokenDocumentation = array_merge_recursive($tokenDocumentation, [
                     'paths' => [
