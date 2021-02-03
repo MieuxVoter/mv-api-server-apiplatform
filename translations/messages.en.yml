@@ -1,3 +1,9 @@
+result:
+    get_for_poll:
+        summary: Gets the result of a poll
+        description: |
+            This endpoint computes a fresh result from the ballots currently received.
+            For now, you may read a poll's result _at any time_.
 validation:
     poll:
         proposals:
