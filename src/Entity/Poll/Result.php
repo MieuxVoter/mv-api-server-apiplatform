@@ -14,7 +14,7 @@ use App\Entity\Poll\Proposal\Result as ProposalResult;
 
 
 /**
- * A Result of a Majority Judgment Poll.
+ * A Result of a Majority Judgment Poll.  Holds a leaderboard of the proposals.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
