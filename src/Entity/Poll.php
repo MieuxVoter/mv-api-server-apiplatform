@@ -58,21 +58,6 @@ class Poll
     const SCOPE_UNLISTED = 'unlisted';
     const SCOPE_PRIVATE = 'private';
 
-    /** @deprecated */
-    const MENTION_EXCELLENT  = 'bonega';
-    /** @deprecated */
-    const MENTION_VERY_GOOD  = 'trebona';
-    /** @deprecated */
-    const MENTION_GOOD       = 'bona';
-    /** @deprecated */
-    const MENTION_PASSABLE   = 'trairebla';
-    /** @deprecated */
-    const MENTION_INADEQUATE = 'neadekvata';
-    /** @deprecated */
-    const MENTION_MEDIOCRE   = 'malboneta';
-    /** @deprecated */
-    const MENTION_TO_REJECT  = 'malakcepti';
-
     /**
      * @var int|null
      * @ApiProperty(identifier=false)
