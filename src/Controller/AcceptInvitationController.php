@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
- * See App\Entity\Poll\Invitation where this controller is declared and configured.
+ * See \App\Entity\Poll\Invitation where this controller is declared and configured.
  *
  * Class AcceptInvitationController
  * @package App\Controller
@@ -26,10 +26,11 @@ class AcceptInvitationController
      */
     public function __invoke(Request $request)
     {
-        $invitationId = $request->get('id');
+        $invitationIdentifier = $request->get('uuid', $request->get('id'));
+        assert(!empty($invitationIdentifier), "Invitation Identifier should be read.");
+
         $invitationsRepo = $this->getInvitationRepository();
-        $invitation = $invitationsRepo->findOneByUuid($invitationId);
-        $user = $this->getUser();
+        $invitation = $invitationsRepo->findOneByUuid($invitationIdentifier);
 
         if (null === $invitation) {
             // TODO: Resilience
@@ -41,6 +42,8 @@ class AcceptInvitationController
         if ($invitation->isAccepted()) {
             return $invitation;
         }
+
+        $user = $this->getUser();
 
         if (null === $user) {
             return $invitation;
