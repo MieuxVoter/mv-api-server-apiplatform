@@ -11,7 +11,8 @@ use App\Swagger\DocumenterInterface;
 
 
 /**
- * Extends the documentation with any Services tagged as oas_documenter
+ * Extends the documentation with any Services tagged as `oas_documenter`.
+ * Which, in our current configuration, means implementing `DocumenterInterface`.
  *
  * Documenter ~= Doxxer?
  *
