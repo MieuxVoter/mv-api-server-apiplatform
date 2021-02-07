@@ -1,10 +1,11 @@
 #!/bin/env sh
 
 TARGET="php"
-NAME=MjOpenApi
-GIT_HOST=framagit.org
-USER_ID=limaju
-REPO_ID=limaju-client-lib-${TARGET}
+#TARGET="mathematica"
+NAME=MvOpenApi
+GIT_HOST=github.com
+USER_ID=MieuxVoter
+REPO_ID=mv-api-client-lib-${TARGET}
 OUTPUT_DIRECTORY=/tmp/${REPO_ID}
 #OUTPUT_DIRECTORY=~/code/snd/${REPO_ID}
 VERSION=0.0.0
