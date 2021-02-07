@@ -33,13 +33,10 @@ class ResultsDocumenter implements DocumenterInterface
     {
         //$version = $context['spec_version'];
 
-        //var_dump($docs['paths']['/polls/{id}/result']['get']);
-
         $extraDocumentation = [
             'paths' => [
                 '/polls/{id}/result' => [
                     'get' => [
-//                        'tags' => ['Poll', 'Result'],
                         'tags' => ['Poll'],
 
                     // This is appended to the previous summary
