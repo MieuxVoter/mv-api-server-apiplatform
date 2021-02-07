@@ -12,8 +12,8 @@
         "ext-mysqlnd": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
-        "api-platform/api-pack": "1.2.*",
-        "api-platform/core": "2.4.*",
+        "api-platform/api-pack": "1.3.*",
+        "api-platform/core": "2.6.*",
         "lexik/jwt-authentication-bundle": "^2.8",
         "matthewbaggett/clamp": "^1.1",
         "mieuxvoter/mj-library-php": "@dev",
@@ -21,16 +21,16 @@
         "ramsey/uuid-doctrine": "1.5.*",
         "sensio/framework-extra-bundle": "5.3.*",
         "stof/doctrine-extensions-bundle": "1.5.*",
-        "symfony/console": "4.3.*",
-        "symfony/dotenv": "4.3.*",
+        "symfony/console": "4.4.*",
+        "symfony/dotenv": "4.4.*",
         "symfony/flex": "^1.9.10",
-        "symfony/form": "4.3.*",
-        "symfony/framework-bundle": "4.3.*",
-        "symfony/messenger": "4.3.*",
-        "symfony/templating": "4.3.*",
-        "symfony/twig-bundle": "4.3.*",
-        "symfony/validator": "4.3.*",
-        "symfony/yaml": "4.3.*"
+        "symfony/form": "4.4.*",
+        "symfony/framework-bundle": "4.4.*",
+        "symfony/messenger": "4.4.*",
+        "symfony/templating": "4.4.*",
+        "symfony/twig-bundle": "4.4.*",
+        "symfony/validator": "4.4.*",
+        "symfony/yaml": "4.4.*"
     },
     "require-dev": {
         "behat/behat": "^3.7",
@@ -43,12 +43,12 @@
         "nelmio/api-doc-bundle": "3.4.*",
         "phpunit/phpunit": "7.5.*",
         "softonic/graphql-client": "1.2.*",
-        "symfony/debug-bundle": "4.3.*",
+        "symfony/debug-bundle": "4.4.*",
         "symfony/maker-bundle": "^1.13",
         "symfony/monolog-bundle": "^3.4",
         "symfony/profiler-pack": "^1.0",
-        "symfony/var-dumper": "4.3.*",
-        "symfony/web-server-bundle": "4.3.*"
+        "symfony/var-dumper": "4.4.*",
+        "symfony/web-server-bundle": "4.4.*"
     },
     "repositories": [
         {
@@ -102,7 +102,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.3.*"
+            "require": "4.4.*"
         }
     }
 }

@@ -25,9 +25,6 @@
     "behat/mink": {
         "version": "v1.8.1"
     },
-    "behat/mink-extension": {
-        "version": "2.3.1"
-    },
     "behat/mink-selenium2-driver": {
         "version": "v1.4.0"
     },
@@ -116,6 +113,19 @@
             "src/DataFixtures/AppFixtures.php"
         ]
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.2",
+            "ref": "baaa439e3e3179e69e3da84b671f0a3e4a2f56ad"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
+        ]
+    },
     "doctrine/event-manager": {
         "version": "v1.0.0"
     },
@@ -127,6 +137,9 @@
     },
     "doctrine/lexer": {
         "version": "1.1.0"
+    },
+    "doctrine/migrations": {
+        "version": "3.0.2"
     },
     "doctrine/orm": {
         "version": "v2.6.4"
@@ -149,6 +162,9 @@
     "friends-of-behat/mink-extension": {
         "version": "2.3.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
@@ -169,6 +185,15 @@
     },
     "justinrainbow/json-schema": {
         "version": "5.2.10"
+    },
+    "laminas/laminas-code": {
+        "version": "4.0.0"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.0"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "lcobucci/clock": {
         "version": "2.0.0"
@@ -448,6 +473,9 @@
     "symfony/dotenv": {
         "version": "v4.3.4"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.19"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.3.4"
     },
@@ -496,6 +524,9 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.3.1"
     },
     "symfony/http-foundation": {
         "version": "v4.3.4"
@@ -553,6 +584,9 @@
     "symfony/options-resolver": {
         "version": "v4.3.4"
     },
+    "symfony/orm-pack": {
+        "version": "v2.1.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.12.0"
     },
@@ -571,6 +605,9 @@
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
     },
+    "symfony/polyfill-php80": {
+        "version": "v1.22.0"
+    },
     "symfony/process": {
         "version": "v4.3.4"
     },
@@ -582,6 +619,9 @@
     },
     "symfony/property-info": {
         "version": "v4.3.4"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.19"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -624,6 +664,9 @@
     },
     "symfony/serializer": {
         "version": "v4.3.4"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.4"
     },
     "symfony/service-contracts": {
         "version": "v1.1.6"
