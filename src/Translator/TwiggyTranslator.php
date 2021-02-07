@@ -1,18 +1,16 @@
 <?php
 
 // This code is public domain.
-// You can ingratiate the authors by helping someone you don't know… to not drown in a sea for example.
+// Enabling Twig in translations may be a mild security issue depending on how contributions to translations are handled.
+// You can ingratiate the authors by helping someone to not drown in the Mediterranean sea.
+// Support the Mv Louise Michel!
 
 
 namespace App\Translator;
 
 
-use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorBagInterface;
-// We're using the deprecated interface for `bin/console debug:event-dispatcher`.
-use Symfony\Component\Translation\TranslatorInterface as DeprecatedTranslatorInterface;
-//use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
@@ -38,7 +36,7 @@ use Twig\Environment as TwigEnvironment ;
  * Class TwiggyTranslator
  * @package App\Translator
  */
-class TwiggyTranslator implements DeprecatedTranslatorInterface, TranslatorInterface, TranslatorBagInterface//, LocaleAwareInterface
+class TwiggyTranslator implements TranslatorInterface, TranslatorBagInterface, LocaleAwareInterface
 {
     use TranslatorTrait;
 
@@ -67,14 +65,14 @@ class TwiggyTranslator implements DeprecatedTranslatorInterface, TranslatorInter
     /**
      * @inheritDoc
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
     {
         //$domain = $domain ?? 'tests';
         if (in_array($domain, $this->domains)) {
             $template = $this->translator->trans($id, [], $domain, $locale);
             $name = "${domain}__${id}";
             $tw = $this->twig->createTemplate($template, $name);
-            $parameters['e'] = (0 == random_int(0, 1)) ? 'e' : '';
+            $parameters['e'] = (0 == random_int(0, 1)) ? 'e' : '';  // :(|)
             return $this->twig->render($tw, $parameters);
         }
 
@@ -87,26 +85,5 @@ class TwiggyTranslator implements DeprecatedTranslatorInterface, TranslatorInter
     public function getCatalogue($locale = null)
     {
         return $this->translator->getCatalogue($locale);
-    }
-
-    /**
-     * Translates the given choice message by choosing a translation according to a number.
-     * This won't use Twig.  It's here because of legacy support of things like debug:event-dispatcher
-     *
-     * @deprecated
-     *
-     * @param string $id The message id (may also be an object that can be cast to string)
-     * @param int $number The number to use to find the index of the message
-     * @param array $parameters An array of parameters for the message
-     * @param string|null $domain The domain for the message or null to use the default
-     * @param string|null $locale The locale or null to use the default
-     *
-     * @return string The translated string
-     *
-     * @throws InvalidArgumentException If the locale contains invalid characters
-     */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
-    {
-        return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
     }
 }
