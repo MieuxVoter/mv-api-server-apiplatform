@@ -88,7 +88,7 @@ class PollRepository extends ServiceEntityRepository
     }
 
 
-    public function countParticipants(Poll $poll)
+    public function countParticipants(Poll $poll) : int
     {
         $qbu = $this->_em->createQueryBuilder();
         $qbu->select('COUNT(DISTINCT b.participant) as participants_amount')
@@ -101,7 +101,7 @@ class PollRepository extends ServiceEntityRepository
 //            throw new \Exception("What? No!");
 //        }
 
-        return $amount['participants_amount'];
+        return (int) $amount['participants_amount'];
     }
 
 }
