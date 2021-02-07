@@ -49,13 +49,14 @@ bin/console api:openapi:export --spec-version=3 --yaml > ${SPEC_FILEPATH_NOEXT}.
 
 ###
 
+# In this directory we may override the mustache templates
 mkdir -p ${TEMPLATE_DIRECTORY}
 
 # install: https://openapi-generator.tech/
 npx @openapitools/openapi-generator-cli generate \
     --skip-validate-spec \
     --config ./openapi/generator/config.yml \
-    --template-dir ./openapi/generator/${TARGET}-templates \
+    --template-dir ${TEMPLATE_DIRECTORY} \
     --input-spec ${SPEC_FILEPATH_NOEXT}.json \
     --generator-name ${TARGET} \
     --output ${LIBRARY_OUTPUT_DIRECTORY} \
