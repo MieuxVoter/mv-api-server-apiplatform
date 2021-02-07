@@ -90,9 +90,13 @@ class MajorityJudgmentRanking implements RankingInterface
 
         $deliberator = new MajorityJudgmentDeliberator();
         $options = new DeliberatorOptions();
-        $amountOfParticipants = $this->pollRepository->countParticipants($poll);
+        $participantsAmount = $this->pollRepository->countParticipants($poll);
         $tallyPerProposal = $this->ballotRepository->getTallyPerProposal($poll);
-        $pollTally = new TwoArraysPollTally($amountOfParticipants, $poll->getProposals()->toArray(), array_values($tallyPerProposal));
+        $pollTally = new TwoArraysPollTally(
+            $participantsAmount,
+            $poll->getProposals()->toArray(),
+            array_values($tallyPerProposal)
+        );
         $grades = $poll->getGradesInOrder();
 
         // Use the PHP library deliberator
@@ -109,7 +113,7 @@ class MajorityJudgmentRanking implements RankingInterface
             $proposalResult = new Poll\Proposal\Result();
             $proposalResult->setProposal($proposal);
             $proposalResult->setRank($competitor->getRank());
-            $proposalResult->setTally($amountOfParticipants);
+            $proposalResult->setTally($participantsAmount);
             $proposalResult->setMedianGrade($grades[$competitor->getMedian()]);
 
             $gradesResults = [];
