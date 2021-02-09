@@ -13,7 +13,7 @@
         "ext-sqlite3": "*",
         "ext-xml": "*",
         "api-platform/api-pack": "1.3.*",
-        "api-platform/core": "2.6.*",
+        "api-platform/core": "2.5.*",
         "lexik/jwt-authentication-bundle": "^2.8",
         "matthewbaggett/clamp": "^1.1",
         "mieuxvoter/mj-library-php": "@dev",
