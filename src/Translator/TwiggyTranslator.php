@@ -14,7 +14,7 @@ use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
-use Twig\Environment as TwigEnvironment ;
+use Twig\Environment as TwigEnvironment;
 
 
 /**
