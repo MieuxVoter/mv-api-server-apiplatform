@@ -4,6 +4,70 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    api_documentation_extras_v2:
+        servers:
+            -   url: https://oas.mieuxvoter.fr
+                description: Demo server of the MieuxVoter association
+    api_documentation_extras_v3:
+        servers:
+            -   url: https://oas.mieuxvoter.fr
+                description: Demo server of the MieuxVoter association
+
+#            -   url: //petstore.swagger.io/sandbox
+#                description: Sandbox server
+#        info:
+#            description: |
+#                This is a sample server Petstore server.
+#                You can find out more about Swagger at
+#                [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).
+#                For this sample, you can use the api key `special-key` to test the authorization filters.
+#
+#                # Introduction
+#                This API is documented in **OpenAPI format** and is based on
+#                [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
+#                It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
+#                tool and [ReDoc](https://github.com/Rebilly/ReDoc) documentation. In addition to standard
+#                OpenAPI syntax we use a few [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
+#
+#                # OpenAPI Specification
+#                This API is documented in **OpenAPI format** and is based on
+#                [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
+#                It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
+#                tool and [ReDoc](https://github.com/Rebilly/ReDoc) documentation. In addition to standard
+#                OpenAPI syntax we use a few [vendor extensions](https://github.com/Rebilly/ReDoc/blob/master/docs/redoc-vendor-extensions.md).
+#
+#                # Cross-Origin Resource Sharing
+#                This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
+#                And that allows cross-domain communication from the browser.
+#                All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+#
+#                # Authentication
+#
+#                Petstore offers two forms of authentication:
+#                  - API Key
+#                  - OAuth2
+#                OAuth2 - an open protocol to allow secure authorization in a simple
+#                and standard method from web, mobile and desktop applications.
+#
+#                <security-definitions />
+#
+#            version: 1.0.0
+#            title: 'FOO BAR TITLE'
+#            termsOfService: 'http://swagger.io/terms/'
+#            contact:
+#                name: API Support
+#                email: apiteam@swagger.io
+#                url: https://github.com/Rebilly/ReDoc
+#            x-logo:
+#                url: 'https://rebilly.github.io/ReDoc/petstore-logo.png'
+#                altText: Petstore logo
+#            license:
+#                name: Apache 2.0
+#                url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+#        externalDocs:
+#            description: Find out how to create Github repo for your OpenAPI spec.
+#            url: 'https://github.com/Rebilly/generator-openapi-repo'
+
 
 services:
 
@@ -78,6 +142,8 @@ services:
         arguments:
             - '@App\Swagger\SwaggerDecorator.inner'
             - !tagged 'oas_documenter'
+            - '%api_documentation_extras_v2%'
+            - '%api_documentation_extras_v3%'
         autoconfigure: false
 
     # JSON Web Token shenanigans

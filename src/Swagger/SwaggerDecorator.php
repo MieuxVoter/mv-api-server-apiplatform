@@ -30,10 +30,22 @@ final class SwaggerDecorator implements NormalizerInterface
      */
     private $documenters;
 
-    public function __construct(NormalizerInterface $decorated, iterable $documenters)
+    /**
+     * @var array
+     */
+    private $extra_v2;
+
+    /**
+     * @var array
+     */
+    private $extra_v3;
+
+    public function __construct(NormalizerInterface $decorated, iterable $documenters, array $extra_v2, array $extra_v3)
     {
         $this->decorated = $decorated;
         $this->documenters = $documenters;
+        $this->extra_v2 = $extra_v2;
+        $this->extra_v3 = $extra_v3;
     }
 
     public function supportsNormalization($data, $format = null)
@@ -57,6 +69,13 @@ final class SwaggerDecorator implements NormalizerInterface
         foreach ($this->documenters as $documenter) {
             /** @var DocumenterInterface $documenter */
             $docs = $documenter->document($docs, $object, $format, $context);
+        }
+
+        if (2 == $context['spec_version']) {
+            $docs = array_merge_recursive($docs, $this->extra_v2);
+        }
+        if (3 == $context['spec_version']) {
+            $docs = array_merge_recursive($docs, $this->extra_v3);
         }
 
         return $docs;

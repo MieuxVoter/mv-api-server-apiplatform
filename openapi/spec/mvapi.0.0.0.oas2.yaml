@@ -993,4 +993,8 @@ definitions:
       password:
         type: string
         example: ~5Up3®$3cR3741337
+servers:
+  -
+    url: 'https://oas.mieuxvoter.fr'
+    description: 'Demo server of the MieuxVoter association'
 

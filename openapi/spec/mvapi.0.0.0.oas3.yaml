@@ -1751,4 +1751,8 @@ components:
       in: header
       description: 'Value for the Authorization header'
       name: Authorization
+servers:
+  -
+    url: 'https://oas.mieuxvoter.fr'
+    description: 'Demo server of the MieuxVoter association'
 

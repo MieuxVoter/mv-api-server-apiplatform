@@ -2900,5 +2900,11 @@
                 "name": "Authorization"
             }
         }
-    }
+    },
+    "servers": [
+        {
+            "url": "https://oas.mieuxvoter.fr",
+            "description": "Demo server of the MieuxVoter association"
+        }
+    ]
 }
