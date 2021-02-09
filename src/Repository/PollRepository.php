@@ -88,6 +88,14 @@ class PollRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * This method relies on Ballots having a participant set.
+     *
+     * @param Poll $poll
+     * @return int
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function countParticipants(Poll $poll) : int
     {
         $qbu = $this->_em->createQueryBuilder();
