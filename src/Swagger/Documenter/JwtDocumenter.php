@@ -7,6 +7,10 @@ namespace App\Swagger\Documenter;
 use App\Swagger\DocumenterInterface;
 use Symfony\Component\HttpFoundation\Response;
 
+
+/** @noinspection PhpUnused */
+
+
 class JwtDocumenter implements DocumenterInterface
 {
 
