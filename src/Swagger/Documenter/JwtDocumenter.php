@@ -45,15 +45,17 @@ class JwtDocumenter implements DocumenterInterface
 
         $credentialsSchema = [
             'type' => 'object',
-            'description' => "User credentials to submit in order to get a perishable authentication token (JWT).",
+            'description' => "User credentials to submit to the login endpoint in order to get a perishable authentication token (Json Web Token).",
             'properties' => [
                 'usernameOrEmail' => [
                     'type' => 'string',
                     'example' => 'michel',
+                    'description' => 'The email or username you chose during registration.',
                 ],
                 'password' => [
                     'type' => 'string',
                     'example' => '~5Up3®$3cR3741337',
+                    'description' => 'The password or passphrase you chose during registration.',
                 ],
             ],
         ];
@@ -82,11 +84,11 @@ class JwtDocumenter implements DocumenterInterface
                             Response::HTTP_OK => [
                                 'description' => 'A JSON Web Token (JWT)',
                             ],
-//                            Response::HTTP_UNAUTHORIZED => [
-//                                'description' => 'Unauthorized credentials.',
-//                            ],
                             Response::HTTP_BAD_REQUEST => [
                                 'description' => 'Bad credentials.',
+                            ],
+                            Response::HTTP_UNAUTHORIZED => [
+                                'description' => 'Unauthorized credentials.',
                             ],
                         ],
                     ],
@@ -101,6 +103,10 @@ class JwtDocumenter implements DocumenterInterface
                         '/_jwt' => [
                             'post' => [
                                 'consumes' => [
+                                    'application/ld+json',
+                                    'application/json',
+                                ],
+                                'produces' => [
                                     'application/ld+json',
                                     'application/json',
 //                                    'text/html',
@@ -120,12 +126,12 @@ class JwtDocumenter implements DocumenterInterface
                                         'content' => [
                                             "application/ld+json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/components/schemas/Token',
+                                                    '$ref' =>  '#/definitions/Token',
                                                 ],
                                             ],
                                             "application/json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/components/schemas/Token',
+                                                    '$ref' =>  '#/definitions/Token',
                                                 ],
                                             ],
                                         ],
@@ -143,7 +149,7 @@ class JwtDocumenter implements DocumenterInterface
                         '/_jwt' => [
                             'post' => [
                                 'requestBody' => [
-                                    "description" => "User Credentials yolo V3",
+                                    "description" => "User Credentials",
                                     'content' => [
                                         'application/ld+json' => [
                                             'schema' => [
