@@ -100,13 +100,18 @@ class JwtDocumenter implements DocumenterInterface
                     'paths' => [
                         '/_jwt' => [
                             'post' => [
+                                'consumes' => [
+                                    'application/ld+json',
+                                    'application/json',
+//                                    'text/html',
+                                ],
                                 'parameters' => [
                                     [
                                         'name' => 'Credentials',
                                         'in' => "body",
                                         'description' => 'User Credentials',
                                         'schema' => [
-                                            '$ref' => '#/components/schemas/Credentials',
+                                            '$ref' => '#/definitions/Credentials',
                                         ],
                                     ],
                                 ],
@@ -138,7 +143,7 @@ class JwtDocumenter implements DocumenterInterface
                         '/_jwt' => [
                             'post' => [
                                 'requestBody' => [
-                                    "description" => "User Credentials",
+                                    "description" => "User Credentials yolo V3",
                                     'content' => [
                                         'application/ld+json' => [
                                             'schema' => [
