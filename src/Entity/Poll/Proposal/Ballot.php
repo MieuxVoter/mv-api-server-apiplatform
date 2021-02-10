@@ -30,6 +30,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     itemOperations={
  *         "get"={
  *             "normalization_context"={"groups"={"read"}},
+ *             "swagger_context"={
+ *                 "description"="Inspect a previously submitted Ballot.",
+ *             },
+ *             "openapi_context"={
+ *                 "description"="Inspect a previously submitted Ballot.",
+ *             },
  *         },
  *         "delete"={
  *             "access_control"="is_granted('can_delete', object)",
@@ -114,6 +120,8 @@ class Ballot
     private $id;
 
     /**
+     * Universally Unique IDentifier of the Ballot.
+     *
      * @var UuidInterface|null
      * @ApiProperty(identifier=true)
      * @ORM\Column(type="uuid", unique=true)
