@@ -54,9 +54,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Poll
 {
 
-    const SCOPE_PUBLIC = 'public';
-    const SCOPE_UNLISTED = 'unlisted';
-    const SCOPE_PRIVATE = 'private';
+    const SCOPE_PUBLIC = 'public';      // poll is publicly listed and indexable
+    const SCOPE_UNLISTED = 'unlisted';  // poll can only be accessed through direct URI
+    const SCOPE_PRIVATE = 'private';    // poll can only be accessed using an invitation
 
     /**
      * @var int|null
@@ -99,10 +99,10 @@ class Poll
     private $author;
 
     /**
-     * The scope defines how the poll is accessible:
-     * `public`: Everyone may access the poll, and it will be publicly listed
-     * `unlisted`: Everyone may access the poll if they know its URI
-     * `private`: Only invited participants may participate
+     * The scope defines how and by whom the poll is accessible:
+     * `public`: Everyone may access the poll, and it will be publicly listed ;
+     * `unlisted`: Everyone may access the poll if they know its URI ;
+     * `private`: Only invited participants may participate ;
      * The default scope is `unlisted`.
      *
      * @var string One of Poll::SCOPE_*
@@ -113,7 +113,8 @@ class Poll
      *         self::SCOPE_PUBLIC,
      *         self::SCOPE_UNLISTED,
      *         self::SCOPE_PRIVATE,
-     *     }
+     *     },
+     *     message = "The provided scope is not recognized.  Allowed values are `public`, `unlisted` and `private`.",
      * )
      */
     private $scope = self::SCOPE_UNLISTED;
