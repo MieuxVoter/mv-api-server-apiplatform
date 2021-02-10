@@ -373,43 +373,6 @@ paths:
           required: false
           description: 'The collection page number'
           type: integer
-  '/polls/{id}/proposals/{proposals}/ballots':
-    get:
-      tags:
-        - Ballot
-        - Proposal
-      operationId: api_polls_proposals_ballots_get_subresource
-      summary: 'Retrieves the collection of Ballot resources.'
-      produces:
-        - application/ld+json
-        - application/json
-        - text/html
-      responses:
-        200:
-          description: 'Ballot collection response'
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Ballot'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          type: string
-        -
-          name: proposals
-          in: path
-          required: true
-          type: string
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          type: integer
   '/polls/{id}/result':
     get:
       tags:
@@ -467,6 +430,46 @@ paths:
           description: 'The new Ballot resource'
           schema:
             $ref: '#/definitions/Ballot-create'
+    get:
+      tags:
+        - Ballot
+        - Proposal
+      operationId: api_polls_proposals_ballots_get_subresource
+      summary: 'Retrieves the collection of Ballot resources.'
+      produces:
+        - application/ld+json
+        - application/json
+        - text/html
+      responses:
+        200:
+          description: 'Ballot collection response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Ballot'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: pollId
+          in: path
+          required: true
+          type: string
+          description: 'Universally Unique IDentifier of the poll.'
+          example: 6c1c8973-2df3-4b5a-a17d-a3a921dba448
+        -
+          name: proposalId
+          in: path
+          required: true
+          type: string
+          description: 'Universally Unique IDentifier of the proposal.'
+          example: ebf2fda8-5f45-4a33-9758-40d7f5a74998
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          type: integer
   '/proposals/{id}':
     get:
       tags:
@@ -702,13 +705,14 @@ security:
 definitions:
   Ballot:
     type: object
-    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
     properties:
       uuid:
         type: string
         format: uuid
       id:
         readOnly: true
+        description: 'Internal numerical id, technical pragmatism for ApiPlatform.'
         type: integer
       proposal:
         description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
@@ -728,14 +732,14 @@ definitions:
         format: date-time
   Ballot-create:
     type: object
-    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
     properties:
       grade:
         description: 'The Grade attributed by the Judge to the Proposal.'
         $ref: '#/definitions/Grade-create'
   Ballot-created:
     type: object
-    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
     properties:
       uuid:
         type: string
@@ -750,7 +754,7 @@ definitions:
         format: iri-reference
   Ballot-read:
     type: object
-    description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+    description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
     properties:
       uuid:
         type: string
@@ -819,10 +823,10 @@ definitions:
         type: string
       scope:
         description: |-
-          The scope defines how the poll is accessible:
-          `public`: Everyone may access the poll, and it will be publicly listed
-          `unlisted`: Everyone may access the poll if they know its URI
-          `private`: Only invited participants may participate
+          The scope defines how and by whom the poll is accessible:
+          `public`: Everyone may access the poll, and it will be publicly listed ;
+          `unlisted`: Everyone may access the poll if they know its URI ;
+          `private`: Only invited participants may participate ;
           The default scope is `unlisted`.
         type: string
       subject:
@@ -864,10 +868,10 @@ definitions:
         type: string
       scope:
         description: |-
-          The scope defines how the poll is accessible:
-          `public`: Everyone may access the poll, and it will be publicly listed
-          `unlisted`: Everyone may access the poll if they know its URI
-          `private`: Only invited participants may participate
+          The scope defines how and by whom the poll is accessible:
+          `public`: Everyone may access the poll, and it will be publicly listed ;
+          `unlisted`: Everyone may access the poll if they know its URI ;
+          `private`: Only invited participants may participate ;
           The default scope is `unlisted`.
         type: string
       subject:

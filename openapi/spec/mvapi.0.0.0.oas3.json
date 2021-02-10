@@ -1017,149 +1017,6 @@
                 ]
             }
         },
-        "/polls/{id}/proposals/{proposals}/ballots": {
-            "get": {
-                "tags": [
-                    "Ballot",
-                    "Proposal"
-                ],
-                "operationId": "api_polls_proposals_ballots_get_subresource",
-                "summary": "Retrieves the collection of Ballot resources.",
-                "responses": {
-                    "200": {
-                        "description": "Ballot collection response",
-                        "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "hydra:member": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Ballot:jsonld"
-                                            }
-                                        },
-                                        "hydra:totalItems": {
-                                            "type": "integer",
-                                            "minimum": 0
-                                        },
-                                        "hydra:view": {
-                                            "type": "object",
-                                            "properties": {
-                                                "@id": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "@type": {
-                                                    "type": "string"
-                                                },
-                                                "hydra:first": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "hydra:last": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "hydra:next": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                }
-                                            }
-                                        },
-                                        "hydra:search": {
-                                            "type": "object",
-                                            "properties": {
-                                                "@type": {
-                                                    "type": "string"
-                                                },
-                                                "hydra:template": {
-                                                    "type": "string"
-                                                },
-                                                "hydra:variableRepresentation": {
-                                                    "type": "string"
-                                                },
-                                                "hydra:mapping": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "@type": {
-                                                                "type": "string"
-                                                            },
-                                                            "variable": {
-                                                                "type": "string"
-                                                            },
-                                                            "property": {
-                                                                "type": "string",
-                                                                "nullable": true
-                                                            },
-                                                            "required": {
-                                                                "type": "boolean"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "hydra:member"
-                                    ]
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resource not found"
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "proposals",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "required": false,
-                        "description": "The collection page number",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1
-                        }
-                    }
-                ]
-            }
-        },
         "/polls/{id}/result": {
             "get": {
                 "tags": [
@@ -1288,6 +1145,151 @@
                     },
                     "description": "The new Ballot resource"
                 }
+            },
+            "get": {
+                "tags": [
+                    "Ballot",
+                    "Proposal"
+                ],
+                "operationId": "api_polls_proposals_ballots_get_subresource",
+                "summary": "Retrieves the collection of Ballot resources.",
+                "responses": {
+                    "200": {
+                        "description": "Ballot collection response",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "hydra:member": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ballot:jsonld"
+                                            }
+                                        },
+                                        "hydra:totalItems": {
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "hydra:view": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@id": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "hydra:first": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "hydra:last": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                },
+                                                "hydra:next": {
+                                                    "type": "string",
+                                                    "format": "iri-reference"
+                                                }
+                                            }
+                                        },
+                                        "hydra:search": {
+                                            "type": "object",
+                                            "properties": {
+                                                "@type": {
+                                                    "type": "string"
+                                                },
+                                                "hydra:template": {
+                                                    "type": "string"
+                                                },
+                                                "hydra:variableRepresentation": {
+                                                    "type": "string"
+                                                },
+                                                "hydra:mapping": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "@type": {
+                                                                "type": "string"
+                                                            },
+                                                            "variable": {
+                                                                "type": "string"
+                                                            },
+                                                            "property": {
+                                                                "type": "string",
+                                                                "nullable": true
+                                                            },
+                                                            "required": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "hydra:member"
+                                    ]
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "pollId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Universally Unique IDentifier of the poll.",
+                        "example": "6c1c8973-2df3-4b5a-a17d-a3a921dba448"
+                    },
+                    {
+                        "name": "proposalId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Universally Unique IDentifier of the proposal.",
+                        "example": "ebf2fda8-5f45-4a33-9758-40d7f5a74998"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ]
             }
         },
         "/proposals/{id}": {
@@ -1848,7 +1850,7 @@
         "schemas": {
             "Ballot": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "uuid": {
                         "type": "string",
@@ -1857,6 +1859,7 @@
                     },
                     "id": {
                         "readOnly": true,
+                        "description": "Internal numerical id, technical pragmatism for ApiPlatform.",
                         "type": "integer"
                     },
                     "proposal": {
@@ -1887,7 +1890,7 @@
             },
             "Ballot-create": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
@@ -1902,7 +1905,7 @@
             },
             "Ballot-created": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "uuid": {
                         "type": "string",
@@ -1924,7 +1927,7 @@
             },
             "Ballot-read": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "uuid": {
                         "type": "string",
@@ -1948,7 +1951,7 @@
             },
             "Ballot:jsonld": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "@id": {
                         "readOnly": true,
@@ -1965,6 +1968,7 @@
                     },
                     "id": {
                         "readOnly": true,
+                        "description": "Internal numerical id, technical pragmatism for ApiPlatform.",
                         "type": "integer"
                     },
                     "proposal": {
@@ -1995,7 +1999,7 @@
             },
             "Ballot:jsonld-create": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "@context": {
                         "readOnly": true,
@@ -2022,7 +2026,7 @@
             },
             "Ballot:jsonld-created": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "@context": {
                         "readOnly": true,
@@ -2056,7 +2060,7 @@
             },
             "Ballot:jsonld-read": {
                 "type": "object",
-                "description": "A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.",
+                "description": "A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.",
                 "properties": {
                     "@context": {
                         "readOnly": true,
@@ -2255,7 +2259,7 @@
                         "type": "string"
                     },
                     "scope": {
-                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
+                        "description": "The scope defines how and by whom the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed ;\n`unlisted`: Everyone may access the poll if they know its URI ;\n`private`: Only invited participants may participate ;\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {
@@ -2294,7 +2298,7 @@
                         "type": "string"
                     },
                     "scope": {
-                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
+                        "description": "The scope defines how and by whom the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed ;\n`unlisted`: Everyone may access the poll if they know its URI ;\n`private`: Only invited participants may participate ;\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {
@@ -2345,7 +2349,7 @@
                         "type": "string"
                     },
                     "scope": {
-                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
+                        "description": "The scope defines how and by whom the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed ;\n`unlisted`: Everyone may access the poll if they know its URI ;\n`private`: Only invited participants may participate ;\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {
@@ -2396,7 +2400,7 @@
                         "type": "string"
                     },
                     "scope": {
-                        "description": "The scope defines how the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed\n`unlisted`: Everyone may access the poll if they know its URI\n`private`: Only invited participants may participate\nThe default scope is `unlisted`.",
+                        "description": "The scope defines how and by whom the poll is accessible:\n`public`: Everyone may access the poll, and it will be publicly listed ;\n`unlisted`: Everyone may access the poll if they know its URI ;\n`private`: Only invited participants may participate ;\nThe default scope is `unlisted`.",
                         "type": "string"
                     },
                     "subject": {

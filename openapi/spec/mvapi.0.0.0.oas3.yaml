@@ -506,60 +506,6 @@ paths:
           schema:
             type: integer
             default: 1
-  '/polls/{id}/proposals/{proposals}/ballots':
-    get:
-      tags:
-        - Ballot
-        - Proposal
-      operationId: api_polls_proposals_ballots_get_subresource
-      summary: 'Retrieves the collection of Ballot resources.'
-      responses:
-        200:
-          description: 'Ballot collection response'
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Ballot:jsonld' } }
-                  'hydra:totalItems': { type: integer, minimum: 0 }
-                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
-                required:
-                  - 'hydra:member'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ballot'
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ballot'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: proposals
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          schema:
-            type: integer
-            default: 1
   '/polls/{id}/result':
     get:
       tags:
@@ -646,6 +592,63 @@ paths:
             schema:
               $ref: '#/components/schemas/Ballot-create'
         description: 'The new Ballot resource'
+    get:
+      tags:
+        - Ballot
+        - Proposal
+      operationId: api_polls_proposals_ballots_get_subresource
+      summary: 'Retrieves the collection of Ballot resources.'
+      responses:
+        200:
+          description: 'Ballot collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Ballot:jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ballot'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ballot'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: pollId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Universally Unique IDentifier of the poll.'
+          example: 6c1c8973-2df3-4b5a-a17d-a3a921dba448
+        -
+          name: proposalId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'Universally Unique IDentifier of the proposal.'
+          example: ebf2fda8-5f45-4a33-9758-40d7f5a74998
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
   '/proposals/{id}':
     get:
       tags:
@@ -927,7 +930,7 @@ components:
   schemas:
     Ballot:
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
           type: string
@@ -935,6 +938,7 @@ components:
           nullable: true
         id:
           readOnly: true
+          description: 'Internal numerical id, technical pragmatism for ApiPlatform.'
           type: integer
         proposal:
           description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
@@ -957,7 +961,7 @@ components:
           format: date-time
     Ballot-create:
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         grade:
           description: 'The Grade attributed by the Judge to the Proposal.'
@@ -967,7 +971,7 @@ components:
               $ref: '#/components/schemas/Grade-create'
     Ballot-created:
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
           type: string
@@ -984,7 +988,7 @@ components:
           nullable: true
     Ballot-read:
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
           type: string
@@ -1001,7 +1005,7 @@ components:
               $ref: '#/components/schemas/Grade-read'
     'Ballot:jsonld':
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         '@id':
           readOnly: true
@@ -1015,6 +1019,7 @@ components:
           nullable: true
         id:
           readOnly: true
+          description: 'Internal numerical id, technical pragmatism for ApiPlatform.'
           type: integer
         proposal:
           description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
@@ -1037,7 +1042,7 @@ components:
           format: date-time
     'Ballot:jsonld-create':
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         '@context':
           readOnly: true
@@ -1056,7 +1061,7 @@ components:
               $ref: '#/components/schemas/Grade:jsonld-create'
     'Ballot:jsonld-created':
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         '@context':
           readOnly: true
@@ -1082,7 +1087,7 @@ components:
           nullable: true
     'Ballot:jsonld-read':
       type: object
-      description: 'A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.'
+      description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         '@context':
           readOnly: true
@@ -1244,10 +1249,10 @@ components:
           type: string
         scope:
           description: |-
-            The scope defines how the poll is accessible:
-            `public`: Everyone may access the poll, and it will be publicly listed
-            `unlisted`: Everyone may access the poll if they know its URI
-            `private`: Only invited participants may participate
+            The scope defines how and by whom the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed ;
+            `unlisted`: Everyone may access the poll if they know its URI ;
+            `private`: Only invited participants may participate ;
             The default scope is `unlisted`.
           type: string
         subject:
@@ -1289,10 +1294,10 @@ components:
           type: string
         scope:
           description: |-
-            The scope defines how the poll is accessible:
-            `public`: Everyone may access the poll, and it will be publicly listed
-            `unlisted`: Everyone may access the poll if they know its URI
-            `private`: Only invited participants may participate
+            The scope defines how and by whom the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed ;
+            `unlisted`: Everyone may access the poll if they know its URI ;
+            `private`: Only invited participants may participate ;
             The default scope is `unlisted`.
           type: string
         subject:
@@ -1341,10 +1346,10 @@ components:
           type: string
         scope:
           description: |-
-            The scope defines how the poll is accessible:
-            `public`: Everyone may access the poll, and it will be publicly listed
-            `unlisted`: Everyone may access the poll if they know its URI
-            `private`: Only invited participants may participate
+            The scope defines how and by whom the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed ;
+            `unlisted`: Everyone may access the poll if they know its URI ;
+            `private`: Only invited participants may participate ;
             The default scope is `unlisted`.
           type: string
         subject:
@@ -1395,10 +1400,10 @@ components:
           type: string
         scope:
           description: |-
-            The scope defines how the poll is accessible:
-            `public`: Everyone may access the poll, and it will be publicly listed
-            `unlisted`: Everyone may access the poll if they know its URI
-            `private`: Only invited participants may participate
+            The scope defines how and by whom the poll is accessible:
+            `public`: Everyone may access the poll, and it will be publicly listed ;
+            `unlisted`: Everyone may access the poll if they know its URI ;
+            `private`: Only invited participants may participate ;
             The default scope is `unlisted`.
           type: string
         subject:
