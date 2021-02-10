@@ -6,16 +6,19 @@
 This is a **REST API backend** for (Liquid) Majority Judgment.
 
 It is **OpenApi v3 compliant**.
-The Swagger (OpenApi v2) support is partial, it's hard to get both, so we chose to go with v3.
+The Swagger (OpenApi v2) support is partial ; it's tricky to get both, so we chose to privilege v3.
 
 It supports:
 - JSON
 - LD+JSON
 - HTML (sandbox)
-- other formats can be added if needed
+- other formats can be added as-needed
 
 It features:
-- Specifications written in plain language
+- Specifications written in plain language (french and english)
+- A public endpoint to compute a ranking from a tally (todo)
+- Authentication via a Json Web Token (JWT)
+- Authenticated endpoints to create private polls and invitations to participate
 - …
 
 
@@ -105,6 +108,10 @@ First, copy `behat.yml.dist` to `behat.yml`:
 
 You do not need to edit it, but you may.
 
+> This step of copy will eventually be automated using composer hooks.
+> That's a good first issue if you feel like it ;)
+
+
 The features are in their own repositories,
 so make sure you cloned the submodules as well:
 
@@ -119,6 +126,6 @@ Useful dev options:
     ./vendor/bin/behat -vv --tags wip
     ./vendor/bin/behat -vv --rerun
 
-Best mount `var/` to RAM first, for a 4x faster test-suite and to prevent your hard drives from premature aging.
+Best mount `var/` to RAM first, for a _4x_ faster test-suite and to prevent your hard drives from premature aging.
 
     ./bin/tmpfs4var.sh
