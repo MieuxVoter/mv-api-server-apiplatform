@@ -133,14 +133,14 @@ class Ballot
      */
     private $proposal;
 
-    /**
-     * The name of the author of the vote, if any was specified.
-     * TBD: May be deprecated soon, and is probably never set.
-     *
-     * Groups({"create", "read"})
-     * @ORM\Column(type="string", length=32, nullable=true)
-     */
-    private $author_name;
+//    /**
+//     * The name of the author of the vote, if any was specified.
+//     * TBD: May be deprecated soon, and is probably never set.
+//     *
+//     * Groups({"create", "read"})
+//     * @ORM\Column(type="string", length=32, nullable=true)
+//     */
+//    private $author_name;
 
     /**
      * The Grade attributed by the Judge to the Proposal.
@@ -211,17 +211,17 @@ class Ballot
         return $this;
     }
 
-    public function getAuthorName(): ?string
-    {
-        return $this->author_name;
-    }
-
-    public function setAuthorName(?string $author_name): self
-    {
-        $this->author_name = $author_name;
-
-        return $this;
-    }
+//    public function getAuthorName(): ?string
+//    {
+//        return $this->author_name;
+//    }
+//
+//    public function setAuthorName(?string $author_name): self
+//    {
+//        $this->author_name = $author_name;
+//
+//        return $this;
+//    }
 
     public function getParticipant(): ?User
     {
