@@ -44,32 +44,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *             },
  *         },
  *     },
- *     subresourceOperations={
- *         "api_polls_proposals_get_subresource"={
- *             "description"="",
- *             "method"="GET",
- *             "normalization_context"={"groups"={"read"}},
- *             "path"="/polls/{id}/proposals",
- *             "openapi_context"={
- *                 "parameters"={
- *                     {
- *                         "name"="id",
- *                         "in"="path",
- *                         "required"=true,
- *                         "schema"={
- *                             "type"="string",
- *                         },
- *                     },
- *                 },
- *             },
- *         },
- *     },
  *
  * )
  * @ORM\Entity(
  *     repositoryClass="App\Repository\PollProposalRepository",
  * )
  */
+// *     subresourceOperations={
+// *         "api_polls_proposals_get_subresource"={
+// *             "description"="Get details about the proposals of a poll.",
+// *             "method"="GET",
+// *             "normalization_context"={"groups"={"read"}},
+// *             "path"="/polls/{id}/proposalsYOLO",
+// *             "openapi_context"={
+// *                 "parameters"={
+// *                     {
+// *                         "name"="id",
+// *                         "in"="path",
+// *                         "required"=true,
+// *                         "schema"={
+// *                             "type"="string",
+// *                         },
+// *                     },
+// *                 },
+// *             },
+// *         },
+// *     },
 class Proposal
 {
     /**
