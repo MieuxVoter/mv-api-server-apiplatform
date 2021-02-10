@@ -48,6 +48,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *                         "name": "pollId",
  *                         "in": "path",
  *                         "required": true,
+ *                         "description": "Universally Unique IDentifier of the poll whose proposal we are judging.",
+ *                         "example": "ed8c2754-4220-4f54-94e9-5e86982e85ac",
  *                         "schema"={
  *                             "type"="string",
  *                         },
@@ -56,6 +58,32 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *                         "name": "proposalId",
  *                         "in": "path",
  *                         "required": true,
+ *                         "description": "Universally Unique IDentifier of the proposal we are judging.",
+ *                         "example": "368bd23a-6f19-4d8a-bb21-ff168ae2efc6",
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                 },
+ *             },
+ *             "swagger_context"={
+ *                 "parameters"={
+ *                     {
+ *                         "name": "pollId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "description": "Universally Unique IDentifier of the poll whose proposal we are judging.",
+ *                         "example": "ed8c2754-4220-4f54-94e9-5e86982e85ac",
+ *                         "schema"={
+ *                             "type"="string",
+ *                         },
+ *                     },
+ *                     {
+ *                         "name": "proposalId",
+ *                         "in": "path",
+ *                         "required": true,
+ *                         "description": "Universally Unique IDentifier of the proposal we are judging.  It must belong to the specified poll.",
+ *                         "example": "368bd23a-6f19-4d8a-bb21-ff168ae2efc6",
  *                         "schema"={
  *                             "type"="string",
  *                         },
