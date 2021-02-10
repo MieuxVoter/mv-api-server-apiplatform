@@ -18,22 +18,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
- * A Ballot holds a Judgment on a Proposal, by a Participant of a Poll.
+ * A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.
  *
  * The sacred text is titled "Judge! Don't Vote."  ;)
  *
- * Rules TBD:
- *
- * RULESET A: Immutability
- * A Ballot is immutable.
- * A Ballot cannot be deleted.
+ * ## Immutability
+ * A Ballot is immutable, ie. a Ballot cannot be modified nor deleted.
  * Multiple Ballots may be recorded, and only the most recent one should matter in the Result.
- *
- * RULESET B: Mutability
- * A Ballot is mutable.
- * Only one Ballot per Proposal and Participant.
- *
- * Right now we implement neither A nor B.  There are no Gherkin features for this yet.  Help us decide!
  *
  * @ApiResource(
  *     itemOperations={
@@ -82,6 +73,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Ballot
 {
     /**
+     * Internal numerical id, technical pragmatism for ApiPlatform.
+     * Publicly, we use UUIDs.
+     *
      * @var int|null
      * @ApiProperty(identifier=false)
      *
