@@ -69,6 +69,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class User implements UserInterface
 {
+    // These constants are not translation-friendly.
+
     const COLLECTION_GET_OAS_CONTEXT = [
         "summary" => "Retrieves the collection of Users.",
         "description" => "Only administrators are allowed to access this.",
@@ -76,7 +78,7 @@ class User implements UserInterface
     ];
     const COLLECTION_POST_OAS_CONTEXT = [
         "summary" => "Registers a new User.",
-        "description" => "api.users.post.description",  # reminder to try to hook I18N
+        "description" => "Registers a new User in the database.  The email is optional and will help you reset a forgotten password.",
         "tags" => ['User', 'Registration'],
     ];
     const ITEM_GET_OAS_CONTEXT = [
