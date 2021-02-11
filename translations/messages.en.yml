@@ -9,3 +9,9 @@ validation:
         proposals:
             minMessage: You must specify at least two proposals.
             maxMessage: You cannot specify more than {{ limit }} proposals.
+
+oas:
+    parameter:
+        uuid:
+            description: |
+                Universally Unique IDentifier (UUID)
