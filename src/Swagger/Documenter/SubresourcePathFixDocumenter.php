@@ -5,7 +5,6 @@ namespace App\Swagger\Documenter;
 
 
 use App\Swagger\DocumenterInterface;
-use Ramsey\Uuid\Uuid;
 
 
 /** @noinspection PhpUnused */
@@ -40,14 +39,12 @@ class SubresourcePathFixDocumenter implements DocumenterInterface {
             if ('id' == $parameter['name']) {
                 $docs['paths'][$new_path]['get']['parameters'][$k]['name'] = 'pollId';
                 $docs['paths'][$new_path]['get']['parameters'][$k]['description'] = "Universally Unique IDentifier of the poll.";
-//                $docs['paths'][$new_path]['get']['parameters'][$k]['example'] = Uuid::uuid4();
                 $docs['paths'][$new_path]['get']['parameters'][$k]['example'] = "6c1c8973-2df3-4b5a-a17d-a3a921dba448";
                 continue;
             }
             if ('proposals' == $parameter['name']) {
                 $docs['paths'][$new_path]['get']['parameters'][$k]['name'] = 'proposalId';
                 $docs['paths'][$new_path]['get']['parameters'][$k]['description'] = "Universally Unique IDentifier of the proposal.";
-//                $docs['paths'][$new_path]['get']['parameters'][$k]['example'] = Uuid::uuid4();
                 $docs['paths'][$new_path]['get']['parameters'][$k]['example'] = "ebf2fda8-5f45-4a33-9758-40d7f5a74998";
                 continue;
             }
