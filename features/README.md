@@ -5,7 +5,7 @@ This project is feature-driven, in Gherkin.
 ``` gherkin
 Feature: Write specifications in a language that everyone understands
   In order to welcome everyone
-  As a development team
+  As a software development team
   We want features written in plain language
 ```
 
