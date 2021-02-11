@@ -11,7 +11,19 @@ class ApiRestFeatureContext extends BaseFeatureContext
 {
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisateur avec le mot de passe "(?P<password>.*)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?) (?:ainsi|comme suit) *:?$/ui
+     */
+    public function actorRegistersLikeSo($actor, $try, $pystring)
+    {
+        $data = $this->yaml($pystring);
+        $this->actor($actor, true)->api(
+            'POST',"/users",
+            $data, [], !empty($try)
+        );
+    }
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?)s? avec le mot de passe "(?P<password>.*)"$/ui
      */
     public function actorRegistersWithPassword($actor, $try, $password)
     {
@@ -25,7 +37,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     }
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisateur avec le courriel "(?P<email>.*)" et le mot de passe "(?P<password>.*)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?)s? avec le courriel "(?P<email>.*)" et le mot de passe "(?P<password>.*)"$/ui
      */
     public function actorRegistersWithEmailAndPassword($actor, $try, $email, $password)
     {
