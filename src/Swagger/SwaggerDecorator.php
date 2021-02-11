@@ -42,8 +42,18 @@ final class SwaggerDecorator implements NormalizerInterface
 
     public function __construct(NormalizerInterface $decorated, iterable $documenters, array $extra_v2, array $extra_v3)
     {
+//        $documenters_array = (array) $documenters;  // NOPE, DON'T
+        $documenters_array = array();
+        foreach ($documenters as $documenter) {
+            $documenters_array[] = $documenter;
+        }
+
+        usort($documenters_array, function (DocumenterInterface $a, DocumenterInterface $b) {
+            return $a->getOrder() - $b->getOrder();
+        });
+
         $this->decorated = $decorated;
-        $this->documenters = $documenters;
+        $this->documenters = $documenters_array;
         $this->extra_v2 = $extra_v2;
         $this->extra_v3 = $extra_v3;
     }

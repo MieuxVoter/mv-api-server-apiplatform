@@ -40,4 +40,17 @@ class HideDummiesDocumenter implements DocumenterInterface
 
         return $docs;
     }
+
+    /**
+     * Documenters are applied in increasing order.
+     * Negative values are allowed.  The default value should be 0.
+     * When two or more documenters have the same order,
+     * they are applied in the lexicographical order of their class name/.
+     *
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return self::ORDER_VERY_FIRST;
+    }
 }

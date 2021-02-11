@@ -54,4 +54,18 @@ class ResultsDocumenter implements DocumenterInterface
 
         return array_merge_recursive($docs, $extraDocumentation);
     }
+
+    /**
+     * Documenters are applied in increasing order.
+     * Negative values are allowed.  The default value should be 0.
+     * You may use the ORDER_XXX constants for this, if you wish.
+     * When two or more documenters have the same order,
+     * they are applied in the lexicographical order of their class name.
+     *
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return self::ORDER_DEFAULT;
+    }
 }
