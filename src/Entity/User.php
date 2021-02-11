@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Poll\Invitation;
 use App\Entity\Poll\Proposal\Ballot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -369,5 +370,21 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Invitation[]
+     */
+    public function getAcceptedInvitations()
+    {
+        return $this->accepted_invitations;
+    }
+
+    /**
+     * @return Collection|Invitation[]
+     */
+    public function getAuthoredInvitations()
+    {
+        return $this->authored_invitations;
     }
 }
