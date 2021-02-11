@@ -70,7 +70,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 class User implements UserInterface
 {
-    // These constants are not translation-friendly.
+    // These constants are not translation-friendly?  Do ApiPlatform have its own domain?
 
     const COLLECTION_GET_OAS_CONTEXT = [
         "summary" => "Retrieves the collection of Users.",
