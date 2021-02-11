@@ -30,7 +30,7 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Given /^un(?:⋅?e)? (?:visit(?:eu[rs]e?|rice))(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^un(?:⋅?e)? (?:visit(?:eu[rs]⋅?e?|rice))(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a visitor named (?P<name>.+)$/ui
      * @throws Exception
      */
@@ -157,7 +157,7 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) utilisateur(?:⋅?e)?s? dans la base de données$/ui
+     * @Then /^(?:qu')?il(?: ne)? d(?:oi|evrai)t(?: maintenant)? y avoir (?P<thatMuch>.+) utilisat(?:rice|eur(?:⋅?e)?)s? dans la base de données$/ui
      * @Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) users? in the database$/ui
      */
     public function thereShouldBeSomeUsersInTheDatabase($thatMuch)
