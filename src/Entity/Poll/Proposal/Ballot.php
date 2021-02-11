@@ -23,8 +23,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * The sacred text is titled "Judge! Don't Vote."  ;)
  *
  * ## Immutability
- * A Ballot is immutable, ie. a Ballot cannot be modified nor deleted.
- * Multiple Ballots may be recorded, and only the most recent one should matter in the Result.
+ * A Ballot is immutable, ie. a Ballot cannot be modified nor deleted by anyone.
+ * However, multiple Ballots may be recorded,
+ * and only the most recent one should matter in the Result.
  *
  * @ApiResource(
  *     itemOperations={
