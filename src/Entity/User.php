@@ -22,7 +22,16 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * Users organize and participate in Polls.
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"email"}, groups={"register", "edit"}, message="Email already in use")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     groups={"register", "edit"},
+ *     message="Email already in use."
+ * )
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     groups={"register", "edit"},
+ *     message="Username already in use."
+ * )
  * @ApiResource(
  *     attributes={
  *         "normalization_context"={"groups"={"read"}},
