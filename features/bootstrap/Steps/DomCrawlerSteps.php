@@ -20,7 +20,7 @@ trait DomCrawlerSteps
 //    use AssertApi;
 
     /**
-     * @When /^(?:que )?(?P<actor>.+?) devr(?:ai(?:t|s|ent)|ions) obtenir un SVG validant *:?/ui
+     * @When /^(?:que )?(?P<actor>.+?) devr(?:ai(?:t|s|ent)|ions) (?:obtenir|re[çc]evoir) un SVG validant *:?/ui
      * @When /^(?P<actor>.+?) should obtain an SVG validating *:?/ui
      */
     public function actorShouldObtainSvg($actor, $pystring)
