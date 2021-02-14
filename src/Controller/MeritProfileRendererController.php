@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Serializer\TallyDeserializer;
 use Miprem\Renderer;
+use Miprem\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +103,7 @@ class MeritProfileRendererController extends AbstractController
 
 
         try {
-            $miprem = new Renderer(Renderer::getMeritProfileTemplate(), $options, $css);
+            $miprem = new Renderer(Template::MERIT_PROFILE, $options, $css);
             $svg = $miprem->render($poll);
         } catch (\Exception $e) {
             return $this->respondDemoUsage($svg_w, $svg_h, "Miprem:".$e->getMessage());
