@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpDocSignatureInspection */
 
+use Symfony\Component\DomCrawler\Crawler;
+
 
 /**
  * Steps using the REST form of the API.
@@ -384,6 +386,34 @@ class ApiRestFeatureContext extends BaseFeatureContext
         );
     }
 
+
+    /**
+     * @When /^(?:que )?(?P<actor>.+?) devrait obtenir un SVG validant *:?/ui
+     * @When /^(?P<actor>.+?) should obtain an SVG validating *:?/ui
+     */
+    public function actorShouldObtainSvg($actor, $pystring)
+    {
+        $constraints = $this->yaml($pystring);
+        $response = $this->actor($actor)->getLastTransaction()->getResponse();
+
+        $svg = new Crawler($response->getContent());
+
+        foreach ($constraints as $constraint) {
+            if (isset($constraint['selector'])) {
+
+                if (isset($constraint['amount'])) {
+
+                    $found = $svg->filter($constraint['selector']);
+                    $this->assertEquals(
+                        $constraint['amount'],
+                        $found->count(),
+                        "Incorrect amount of ".$constraint['selector']
+                    );
+
+                }
+            }
+        }
+    }
 
 
 //    /**
