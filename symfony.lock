@@ -346,6 +346,9 @@
             "config/packages/ramsey_uuid_doctrine.yaml"
         ]
     },
+    "roipoussiere/miprem-php": {
+        "version": "dev-master"
+    },
     "sebastian/code-unit-reverse-lookup": {
         "version": "1.0.1"
     },
@@ -772,5 +775,8 @@
     },
     "zircote/swagger-php": {
         "version": "2.0.14"
+    },
+    "zordius/lightncandy": {
+        "version": "v1.2.5"
     }
 }
