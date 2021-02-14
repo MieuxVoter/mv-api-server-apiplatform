@@ -35,7 +35,7 @@ class TallyDeserializer
 
         $pattern = "/" .
             "\\s*" .
-            "(?P<proposals>" .
+            "(?P<proposal_tally>" .
             "(?:\\s*[0-9][0-9 ]*\\s*[,]?\\s*)+" .
             ")" .
             "\\s*" .
@@ -47,7 +47,7 @@ class TallyDeserializer
             $matches
         );
         if ($has_matched) {
-            foreach ($matches['proposals'] as $proposal_tally_string) {
+            foreach ($matches['proposal_tally'] as $proposal_tally_string) {
                 $proposal_tally_string = preg_replace("/\\s+/ui", "", $proposal_tally_string);
                 $proposal_matches = [];
                 $has_matched_proposal = preg_match_all(
