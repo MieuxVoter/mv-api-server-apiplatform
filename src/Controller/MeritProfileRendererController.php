@@ -116,7 +116,7 @@ class MeritProfileRendererController extends AbstractController
         $svg = <<<DEMOSVG
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="$w" height="$h">
 
-<text y="20">$msg</text>
+<text y="20" class="error">$msg</text>
 <text y="40">📖 Usage:</text>
 <text y="60">merit-profile.svg?tally=11,4,5,3/7,4,10,2/7,5,8,3</text>
 <text y="80">{tally} = {proposal A tally} / {proposal B tally} / …</text>
