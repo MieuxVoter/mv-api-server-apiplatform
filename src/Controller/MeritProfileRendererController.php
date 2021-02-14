@@ -108,7 +108,7 @@ class MeritProfileRendererController extends AbstractController
             return $this->respondDemoUsage($svg_w, $svg_h, "Miprem:".$e->getMessage());
         }
 
-        return new Response($svg);
+        return new Response($svg, Response::HTTP_OK, ['Content-Type' => 'text/svg']);
     }
 
     public function respondDemoUsage($w, $h, $msg="")
@@ -129,7 +129,9 @@ class MeritProfileRendererController extends AbstractController
 </svg>
 DEMOSVG;
 
-        return Response::create($svg); // should we send back a 400 as well?
+//        return Response::create($svg, Response::HTTP_OK);
+        return Response::create($svg, Response::HTTP_OK, ['Content-Type' => 'text/svg']);
+        // should we send back a 400 and not a 200?
     }
 
     // RequestSugar trait?
