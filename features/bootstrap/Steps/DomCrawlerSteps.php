@@ -36,9 +36,14 @@ trait DomCrawlerSteps
                 if (isset($constraint['amount'])) {
 
                     $found = $svg->filter($constraint['selector']);
+                    $actual_amount = $found->count();
+
+                    if ($constraint['amount'] !== $actual_amount) {
+                        $this->actor($actor)->printTransaction();
+                    }
                     $this->assertEquals(
                         $constraint['amount'],
-                        $found->count(),
+                        $actual_amount,
                         "Incorrect amount of ".$constraint['selector']
                     );
 
