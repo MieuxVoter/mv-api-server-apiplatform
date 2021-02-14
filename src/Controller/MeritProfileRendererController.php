@@ -27,7 +27,6 @@ class MeritProfileRendererController extends AbstractController
         $svg_w = (int) $this->getAnyFromRequest($request, ['width', 'w', 'x'], $default_width);
         $svg_h = (int) $this->getAnyFromRequest($request, ['height', 'h', 'y'], $default_height);
 
-
         // Support for ?tally[]=0,2,5&tally[]=4,1,2
         //         and ?tally[0]=0,2,5&tally[1]=4,1,2
         //         and ?tally[0,0]=0&tally[0,1]=2 … (etc.)
@@ -44,7 +43,6 @@ class MeritProfileRendererController extends AbstractController
                         if (is_numeric($amount)) {
                             $flat .= $amount.$amount_separator;
                         } else {
-                            trigger_error("WRONG TALLY");
                             return $this->respondDemoUsage($svg_w, $svg_h,"Tally is not consistent.");
                         }
                     }
@@ -77,6 +75,7 @@ class MeritProfileRendererController extends AbstractController
 //            return new Response("Invalid request content.", Response::HTTP_BAD_REQUEST);
 //        }
 
+        $css = "";
 
         $options = [
             "width" => $svg_w,
@@ -101,9 +100,6 @@ class MeritProfileRendererController extends AbstractController
 //            'grades' => array_map(function ($t, $i) {return "grade $i";}, $tally[0], range(0, count($tally[0])-1)),
         ];
 
-//        dump($poll); die();
-
-        $css = "";
 
         try {
             $miprem = new Renderer(Renderer::getMeritProfileTemplate(), $options, $css);
@@ -119,7 +115,17 @@ class MeritProfileRendererController extends AbstractController
     {
         $svg = <<<DEMOSVG
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="$w" height="$h">
-<text>$msg</text>
+
+<text y="20">$msg</text>
+<text y="40">📖 Usage:</text>
+<text y="60">merit-profile.svg?tally=11,4,5,3/7,4,10,2/7,5,8,3</text>
+<text y="80">{tally} = {proposal A tally} / {proposal B tally} / …</text>
+<text y="100">{proposal tally} = {worse grade count}, …, {best grade count}</text>
+<text y="120"></text>
+<text y="140">🛠 Settings</text>
+<text y="160">merit-profile.svg?width=800&height=600&tally=…</text>
+<text y="200">🔗 <a href="/render/merit-profile.svg?tally=11,4,5,3/7,4,10,2/7,5,8,3&w=800&h=600">Complete example</a></text>
+
 </svg>
 DEMOSVG;
 
