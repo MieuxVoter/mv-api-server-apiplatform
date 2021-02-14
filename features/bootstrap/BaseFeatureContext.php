@@ -16,14 +16,11 @@ use App\Repository\PollProposalRepository;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use App\Repository\UserRepository;
-use App\Tallier\TallierFactory;
-use App\Tallier\TallierInterface;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use MieuxVoter\MajorityJudgment\DeliberatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -428,7 +425,6 @@ class BaseFeatureContext extends WebTestCase implements Context
     {
         $pollProposal = $this->getRepository(Proposal::class)->findOneByUuid($uuid);
         if (( ! $lenient) && (null == $pollProposal)) {
-//            $this->fail("No Proposal with UUID `$uuid' could be found.");
             $this->failTrans("no_proposal_matching_uuid", ['uuid' => $uuid]);
         }
 
@@ -561,7 +557,7 @@ class BaseFeatureContext extends WebTestCase implements Context
     {
         $actorName = strtolower(trim($actorName));
 
-        // todo: we need something sane and scalable about this, in testing utopia
+        // we need something sane and scalable about this, in testing utopia
         if ("j'" == $actorName) {
             $actorName = "je";
         }
@@ -570,8 +566,12 @@ class BaseFeatureContext extends WebTestCase implements Context
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public function iri($item)
     {
         return $this->app()->iri($item);
     }
+
 }
