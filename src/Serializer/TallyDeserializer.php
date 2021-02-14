@@ -4,6 +4,9 @@
 namespace App\Serializer;
 
 
+use InvalidArgumentException;
+
+
 /**
  * See the afferent unit-tests in `tests/`.
  *
@@ -23,6 +26,7 @@ class TallyDeserializer
      *    '0,4,2 / 1,5,1 / 2,3,1 / 3,3,0',
      *
      * @param string $tally_string
+     * @throws InvalidArgumentException
      * @return mixed
      */
     public function deserialize(string $tally_string)
@@ -44,7 +48,7 @@ class TallyDeserializer
         );
         if ($has_matched) {
             foreach ($matches['proposals'] as $proposal_tally_string) {
-                $proposal_tally_string = str_replace([" ", "\t"], "", $proposal_tally_string);
+                $proposal_tally_string = preg_replace("/\\s+/ui", "", $proposal_tally_string);
                 $proposal_matches = [];
                 $has_matched_proposal = preg_match_all(
                     "/[0-9]+/ui",
@@ -55,7 +59,7 @@ class TallyDeserializer
                 if ($has_matched_proposal) {
                     $tally[] = array_map(function ($p) { return (int) $p; }, $proposal_matches[0]);
                 } else {
-                    throw new \InvalidArgumentException(
+                    throw new InvalidArgumentException(
                         "Invalid tally substring.  Recognized example format: 1,4,2,4/4,3,3,1/0,6,4,1"
                     );
                 }
@@ -66,7 +70,7 @@ class TallyDeserializer
         // … add more matchers here if needed
 
         if ( ! $has_matched) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Invalid tally string.  Example format: 1,4,2,4 / 4,3,3,1 / 0,6,4,1"
             );
         }
