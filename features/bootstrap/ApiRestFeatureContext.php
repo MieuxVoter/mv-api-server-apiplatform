@@ -12,6 +12,8 @@ use Symfony\Component\DomCrawler\Crawler;
 class ApiRestFeatureContext extends BaseFeatureContext
 {
 
+    use \Features\Steps\DomCrawlerSteps;
+
     /**
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?) (?:ainsi|comme suit) *:?$/ui
      */
@@ -387,33 +389,33 @@ class ApiRestFeatureContext extends BaseFeatureContext
     }
 
 
-    /**
-     * @When /^(?:que )?(?P<actor>.+?) devrait obtenir un SVG validant *:?/ui
-     * @When /^(?P<actor>.+?) should obtain an SVG validating *:?/ui
-     */
-    public function actorShouldObtainSvg($actor, $pystring)
-    {
-        $constraints = $this->yaml($pystring);
-        $response = $this->actor($actor)->getLastTransaction()->getResponse();
-
-        $svg = new Crawler($response->getContent());
-
-        foreach ($constraints as $constraint) {
-            if (isset($constraint['selector'])) {
-
-                if (isset($constraint['amount'])) {
-
-                    $found = $svg->filter($constraint['selector']);
-                    $this->assertEquals(
-                        $constraint['amount'],
-                        $found->count(),
-                        "Incorrect amount of ".$constraint['selector']
-                    );
-
-                }
-            }
-        }
-    }
+//    /**
+//     * @When /^(?:que )?(?P<actor>.+?) devrait obtenir un SVG validant *:?/ui
+//     * @When /^(?P<actor>.+?) should obtain an SVG validating *:?/ui
+//     */
+//    public function actorShouldObtainSvg($actor, $pystring)
+//    {
+//        $constraints = $this->yaml($pystring);
+//        $response = $this->actor($actor)->getLastTransaction()->getResponse();
+//
+//        $svg = new Crawler($response->getContent());
+//
+//        foreach ($constraints as $constraint) {
+//            if (isset($constraint['selector'])) {
+//
+//                if (isset($constraint['amount'])) {
+//
+//                    $found = $svg->filter($constraint['selector']);
+//                    $this->assertEquals(
+//                        $constraint['amount'],
+//                        $found->count(),
+//                        "Incorrect amount of ".$constraint['selector']
+//                    );
+//
+//                }
+//            }
+//        }
+//    }
 
 
 //    /**
