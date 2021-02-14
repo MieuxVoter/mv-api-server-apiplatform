@@ -402,7 +402,7 @@ class MainFeatureContext extends BaseFeatureContext
     public function actorGeneratesMeritProfileSvg($actor, $pystring)
     {
         $actor = $this->actor($actor);
-        $parameters = $this->yaml($pystring);
+        $parameters = $this->yaml($pystring) ?? [];
 
         $actor->api("GET", "/render/merit-profile.svg", [], $parameters);
     }
