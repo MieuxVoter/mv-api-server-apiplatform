@@ -384,6 +384,31 @@ class MainFeatureContext extends BaseFeatureContext
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? (?:re[cç]e)?voir *:?$/ui
+     */
+    public function actorShouldReceive($actor, $pystring)
+    {
+        $actor = $this->actor($actor);
+        $expected = (string) $pystring;
+        $actual = $actor->getLastTransaction()->getResponse()->getContent();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @Then /^(?P<actor>.+?) g[ée]n[èe]r(?:e[s]?|ent|ons) (?:un|le) SVG d[ue] profil de mérite d'un scrutin comme suit *:?$/ui
+     */
+    public function actorGeneratesMeritProfileSvg($actor, $pystring)
+    {
+        $actor = $this->actor($actor);
+        $parameters = $this->yaml($pystring);
+
+        $actor->api("GET", "/render/merit-profile.svg", [], $parameters);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * @Then /^(?P<actor>.+?) devr(?:ai[st]|aient|ions)(?: encore| aussi)? (?:(?P<ok>réussir)|(?P<ko>échouer))$/u
