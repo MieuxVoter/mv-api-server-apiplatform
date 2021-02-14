@@ -1,13 +1,8 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\AfterScenarioScope;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Testwork\Hook\Scope\AfterSuiteScope;
-use Doctrine\DBAL\Connection;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
+
+use Symfony\Component\DomCrawler\Crawler;
+
 
 /**
  * Useful steps during development.
@@ -53,6 +48,33 @@ class ToolFeatureContext extends BaseFeatureContext
     public function actorPrintsThatManyLastTransactions($actor, $count)
     {
         $this->actor($actor)->printLastTransactions($this->number($count));
+    }
+
+    /**
+     * @When /^(?:que )?(?P<actor>.+?) devrait obtenir un SVG validant *:?/ui
+     */
+    public function actorShouldObtainSvg($actor, $pystring)
+    {
+        $constraints = $this->yaml($pystring);
+        $response = $this->actor($actor)->getLastTransaction()->getResponse();
+
+        $svg = new Crawler($response->getContent());
+
+        foreach ($constraints as $constraint) {
+            if (isset($constraint['selector'])) {
+
+                if (isset($constraint['amount'])) {
+
+                    $found = $svg->filter($constraint['selector']);
+                    $this->assertEquals(
+                        $constraint['amount'],
+                        $found->count(),
+                        "Incorrect amount of ".$constraint['selector']
+                    );
+
+                }
+            }
+        }
     }
 
 
