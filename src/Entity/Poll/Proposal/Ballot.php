@@ -10,6 +10,7 @@ use App\Controller\CreateBallotController;
 use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use App\Entity\User;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -108,7 +109,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Ballot
 {
     /**
-     * Internal numerical id, technical pragmatism for ApiPlatform.
+     * Internal, incrementing numerical id, unused by ApiPlatform
+     * but used in tallying to ignore old|stale|overriden ballots by fetching the highest id,
+     * since ballots are immutable and new submissions after opinion changes create new ballots.
+     *
      * Publicly, we use UUIDs.
      *
      * @var int|null
@@ -171,7 +175,7 @@ class Ballot
     private $participant;
 
     /**
-     * @var \DateTime $createdAt
+     * @var DateTime $createdAt
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -181,6 +185,9 @@ class Ballot
     ///
     ///
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
@@ -245,17 +252,17 @@ class Ballot
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      */
-    public function setCreatedAt(\DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
