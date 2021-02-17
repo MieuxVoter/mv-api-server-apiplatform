@@ -3089,7 +3089,7 @@
             "source": {
                 "type": "git",
                 "url": "https://framagit.org/roipoussiere/miprem-php.git",
-                "reference": "b13231ced4efd607ab569a0e7ff1ec4d692e9ccc"
+                "reference": "ce1c889df4cc04c88c22e6179efc1a1934367787"
             },
             "require": {
                 "php": ">=7",
@@ -3111,7 +3111,7 @@
                 }
             ],
             "description": "A merit profile renderer for majority judgment.",
-            "time": "2021-02-14T14:34:39+00:00"
+            "time": "2021-02-15T05:18:01+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
