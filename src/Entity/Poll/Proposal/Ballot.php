@@ -21,6 +21,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.
  *
+ * ## Discuss !
+ * → rename this entity into _Judgment_, and make _Ballot_ a "synthetic" entity holding multiple Judgments for API convenience ?
+ *
+ *
  * The sacred text is titled "Judge! Don't Vote."  ;)
  *
  * ## Immutability
