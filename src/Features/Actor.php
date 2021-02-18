@@ -33,12 +33,22 @@ class Actor extends ApiActor
 
     }
 
+    /**
+     * @param Poll|null $poll If specified, count only invitations for this $poll.
+     * @return int
+     */
     public function countInvitations(?Poll $poll = null) : int
     {
-        assert(null === $poll); // todo: filter per poll if specified
+        if (null !== $poll) {
+            if (isset($this->invitations[$poll->getUuid()])) {
+                return count($this->invitations[$poll->getUuid()]);
+            } else {
+                return 0; // or throw?
+            }
+        }
 
         $amount = 0;
-        foreach ($this->invitations as $pollId => $invitations) {
+        foreach ($this->invitations as $pollUuid => $invitations) {
             $amount += count($invitations);
         }
 
@@ -47,7 +57,7 @@ class Actor extends ApiActor
 
     public function getInvitationByNumber($index)
     {
-        assert($index > 0);
+        assert($index > 0, "Invitation numbers start at 1.");
         $current = 1;
         foreach ($this->invitations as $invitations) {
             // inefficient, can be optimized
