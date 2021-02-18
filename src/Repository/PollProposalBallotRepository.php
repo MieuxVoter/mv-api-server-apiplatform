@@ -7,8 +7,10 @@ use App\Entity\Poll\Proposal;
 use App\Entity\Poll\Proposal\Ballot;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Exception;
 
 
 /**
@@ -89,32 +91,23 @@ GROUP BY b.proposal_id
      * since judging all the proposals is not mandatory.
      * In other words, the "default grade" logic has not been applied yet.
      *
+     * The current implementation (one SQL query per proposal, left join) may not scale overly well
+     * with the amount of ballots|judgments.   This needs stress testing!
+     * An alternative would be to archive past judgments in another table,
+     * in order to remove the expensive left join here.
+     *
      * @param Poll $poll
      * @return array Associative array of proposal's UUID as string => [1, 4, 2, …]
+     * @throws NonUniqueResultException
+     * @throws Exception
      */
-    public function getTallyPerProposal(Poll $poll)
+    public function getTallyPerProposal(Poll $poll) : array
     {
         $tallyPerProposal = array();
-        $gs = $poll->getGradesInOrder();
+        $grades = $poll->getGradesInOrder();
 
-//        $hashtable = [];
         foreach ($poll->getProposals() as $proposal) {
 
-            $rsm = new ResultSetMapping();
-            $rsm->addScalarResult('uuid', 'uuid');
-            $rsm->addScalarResult('amount', 'amount');
-
-//            $query = $this->getEntityManager()->createNativeQuery("
-//SELECT
-//    COUNT(*) AS total
-//FROM Ballot b
-//WHERE b.proposal_id == :proposal_id
-//GROUP BY b.participant HAVING FUN YOLO
-//", $rsm);
-//            $query->setParameter('proposal_id', $proposal->getId());
-//            dump($query->getArrayResult());
-
-//            $g = $gs[0];
             $qb = $this->createQueryBuilder('j')
                 ->select("COUNT(j) total")
                 ->andWhere('j.proposal = :proposal')
@@ -131,88 +124,30 @@ GROUP BY b.proposal_id
                 ->andWhere('jnw.proposal IS NULL')
                 ->setParameter('proposal', $proposal)
                 ->orderBy('j.id', 'ASC');
-            foreach ($gs as $k => $grade) {
-                $qb->addSelect("SUM(case when j.grade = :g$k then 1 else 0 end) grade$k");
+            foreach ($grades as $k => $grade) {
+                $qb->addSelect("SUM(CASE WHEN j.grade = :g$k THEN 1 ELSE 0 END) grade$k");
                 $qb->setParameter("g$k", $grade);
             }
 
 //            dump($qb->getQuery()->getSQL());
+            // SELECT COUNT(b0_.id) AS sclr_0, SUM(CASE WHEN b0_.grade_id = ? THEN 1 ELSE 0 END) AS sclr_1, SUM(CASE WHEN b0_.grade_id = ? THEN 1 ELSE 0 END) AS sclr_2, SUM(CASE WHEN b0_.grade_id = ? THEN 1 ELSE 0 END) AS sclr_3 FROM ballot b0_ LEFT JOIN ballot b1_ ON (b0_.proposal_id = b1_.proposal_id AND b0_.participant_id = b1_.participant_id AND b0_.id < b1_.id) WHERE b0_.proposal_id = ? AND b1_.proposal_id IS NULL ORDER BY b0_.id ASC
+            // ~430 chars, ~60 chars per grade, 3 grades here
+            // How low is the SQL limit ?  It's not 1024, I've done bigger than this.
 
-            $test = $qb
+            $proposalTallyRow = $qb
                     ->getQuery()
                     ->getOneOrNullResult();
 
-//            dump($proposal->getTitle(), $test);
-
-            if (null == $test) {
-                throw new \Exception("getTallyPerProposal() failed");
+            if (null === $proposalTallyRow) {
+                throw new Exception("getTallyPerProposal() failed");
             }
 
             $proposalTally = array();
-
-            foreach ($gs as $k => $grade) {
-                $proposalTally[] = (int)$test['grade'.$k];
+            foreach ($grades as $k => $grade) {
+                $proposalTally[] = (int) $proposalTallyRow['grade'.$k];
             }
 
-//            foreach ($poll->getGradesInOrder() as $grade) {
-//
-//                $ballots = $this->findBy([
-//                    'proposal' => $proposal->getId(),
-//                    'grade' => $grade->getId(),
-//                ], [
-//                    'createdAt' => 'ASC',
-//                ]);
-//
-//                $ballots = array_filter($ballots, function (Ballot $e) use (&$hashtable) {
-//                    $h = $e->getProposal()->getUuid()->toString() . ":" .
-//                        $e->getParticipant()->getUuid()->toString();
-//                    if (in_array($h, $hashtable)) {
-//                        return false;
-//                    }
-//                    $hashtable[] = $h;
-//                    return true;
-//                });
-//
-////                dump($hashtable);
-//
-//                // … filter out duplicate ballots, if they're immutable (scenario B)
-//
-//                $proposalTally[] = count($ballots);
-//            }
-
             $tallyPerProposal[$proposal->getUuid()->toString()] = $proposalTally;
-
-
-
-
-//            $votesCount = count($votes);
-//            $maxVotesCount = max($maxVotesCount, $votesCount);
-//            $gradesTally = array(); // grade_name => integer
-//
-//            usort($votes, function (Ballot $a, Ballot $b) use ($levelOfGrade) {
-//                return (
-//                    $levelOfGrade[$a->getGrade()->getUuid()->toString()]
-//                    -
-//                    $levelOfGrade[$b->getGrade()->getUuid()->toString()]
-//                );
-//            });
-//
-//            foreach ($levelOfGrade as $gradeToTallyUuid => $whoCares) {
-//                $votesForMention = array_filter($votes, function (Ballot $v) use ($gradeToTallyUuid) {
-//                    return $v->getGrade()->getUuid()->toString() === $gradeToTallyUuid;
-//                });
-//                $gradesTally[$gradeToTallyUuid] = count($votesForMention);
-//            }
-
-//            $proposalTally = new PollProposalTally();
-//            $proposalTally->setPollProposalId($proposal->getUuid());
-//            $proposalTally->setGradesUuids($poll->getGradesUuids());
-//            $proposalTally->setGradesTally($gradesTally);
-//            // Setting these later once we have all the tallies
-//            //$proposalTally->setGrade(?);
-//            //$proposalTally->setRank(?);
-//
-//            $proposalsTallies[] = $proposalTally;
         }
 
         return $tallyPerProposal;
