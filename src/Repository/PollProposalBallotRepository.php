@@ -51,37 +51,37 @@ class PollProposalBallotRepository extends ServiceEntityRepository
     }
 
 
-    /**
-     * Count the expressed ballots for each proposal.
-     * Some proposals may have received more ballots than others,
-     * since it is not mandatory for participants to give a grade to every proposal.
-     *
-     * This method helps when filling the blanks with the default grade, for example.
-     *
-     * @deprecated (and wrong for immutability)
-     * @param Poll $poll
-     * @return array of Proposal.uuid => amount
-     */
-    public function countParticipantsPerProposal(Poll $poll) : array
-    {
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('uuid', 'uuid');
-        $rsm->addScalarResult('amount', 'amount');
-
-        $query = $this->getEntityManager()->createNativeQuery("
-SELECT p.uuid, COUNT(*) AS amount
-FROM Ballot b, Proposal p
-WHERE p.id == b.proposal_id
-GROUP BY b.proposal_id
-", $rsm);
-
-        $amountPerProposal = [];
-        foreach ($query->getArrayResult() as $row) {
-            $amountPerProposal[$row['uuid']] = (int) $row['amount'];
-        }
-
-        return $amountPerProposal;
-    }
+//    /**
+//     * Count the expressed ballots for each proposal.
+//     * Some proposals may have received more ballots than others,
+//     * since it is not mandatory for participants to give a grade to every proposal.
+//     *
+//     * This method helps when filling the blanks with the default grade, for example.
+//     *
+//     * @deprecated (and wrong for immutability)
+//     * @param Poll $poll
+//     * @return array of Proposal.uuid => amount
+//     */
+//    public function countParticipantsPerProposal(Poll $poll) : array
+//    {
+//        $rsm = new ResultSetMapping();
+//        $rsm->addScalarResult('uuid', 'uuid');
+//        $rsm->addScalarResult('amount', 'amount');
+//
+//        $query = $this->getEntityManager()->createNativeQuery("
+//SELECT p.uuid, COUNT(*) AS amount
+//FROM Ballot b, Proposal p
+//WHERE p.id == b.proposal_id
+//GROUP BY b.proposal_id
+//", $rsm);
+//
+//        $amountPerProposal = [];
+//        foreach ($query->getArrayResult() as $row) {
+//            $amountPerProposal[$row['uuid']] = (int) $row['amount'];
+//        }
+//
+//        return $amountPerProposal;
+//    }
 
 
     /**
