@@ -113,7 +113,7 @@ GROUP BY b.proposal_id
                 ->andWhere('j.proposal = :proposal')
                 ->leftJoin(
                     Ballot::class,
-                    'jnw',
+                    'jnw', // NeWer Judgment
                     Join::WITH,
                     'j.proposal = jnw.proposal' .
                     ' AND ' .
