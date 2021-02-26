@@ -43,15 +43,15 @@ class RenderMeritProfileDocumenter implements DocumenterInterface
                 $path => [
                     $method => [
                         'tags' => ['Tools'],
-                        'operationId' => 'getMeritProfileFromTally',
-                        'summary' => "Generates a merit profile as SVG of the provided tally.",
-                        'description' => "This endpoint requires no authentication.",
+                        'operationId' => 'getSvgMeritProfileFromTally',
+                        'summary' => $this->trans('oas.merit_profile.summary'),
+                        'description' => $this->trans('oas.merit_profile.description'),
                         'responses' => [
                             Response::HTTP_OK => [
                                 'description' => 'A SVG image.',
                             ],
 //                            Response::HTTP_BAD_REQUEST => [
-//                                'description' => 'Bad credentials.',
+//                                'description' => 'Provided tally or options cannot be parsed.',
 //                            ],
                         ],
                     ],
@@ -72,11 +72,31 @@ class RenderMeritProfileDocumenter implements DocumenterInterface
                                     [
                                         'name' => 'tally',
                                         'in' => "query",
-                                        'description' => $this->trans('oas.merit_profile.tally.description'),
-                                        'example' => $this->trans('oas.merit_profile.tally.example'),
+                                        'description' => $this->trans('oas.merit_profile.parameters.tally.description'),
+                                        'example' => $this->trans('oas.merit_profile.parameters.tally.example'),
                                         'required' => true,
                                         'schema' => [
                                             'type' => 'string',
+                                        ],
+                                    ],
+                                    [
+                                        'name' => 'width',
+                                        'in' => "query",
+                                        'description' => $this->trans('oas.merit_profile.parameters.width.description'),
+                                        'example' => $this->trans('oas.merit_profile.parameters.width.example'),
+                                        'required' => false,
+                                        'schema' => [
+                                            'type' => 'integer',
+                                        ],
+                                    ],
+                                    [
+                                        'name' => 'height',
+                                        'in' => "query",
+                                        'description' => $this->trans('oas.merit_profile.parameters.height.description'),
+                                        'example' => $this->trans('oas.merit_profile.parameters.height.example'),
+                                        'required' => false,
+                                        'schema' => [
+                                            'type' => 'integer',
                                         ],
                                     ],
                                 ],
@@ -128,7 +148,7 @@ class RenderMeritProfileDocumenter implements DocumenterInterface
      * Negative values are allowed.  The default value should be 0.
      * You may use the ORDER_XXX constants for this, if you wish.
      * When two or more documenters have the same order,
-     * they are applied in the lexicographical order of their class name/.
+     * they are applied in the lexicographical order of their class name.
      *
      * @return int
      */
