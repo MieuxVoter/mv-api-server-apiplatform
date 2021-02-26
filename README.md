@@ -69,7 +69,7 @@ Copy that passphrase inside `.env.local` *AND* `.env.test.local` (create the fil
 
 ### 🐉 Optionally
 
-    apt install fortunes
+    apt install fortunes cowsay
 
 To get positive reinforcement when the test-suite passes. 
 
