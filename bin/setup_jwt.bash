@@ -13,7 +13,7 @@ generate_jwt() {
     echo -ne "(do not use any special characters, there are known issues)\n"
     echo -ne "?\n"
     read -s PASSPHRASE
-    echo $PASSPHRASE
+    #echo $PASSPHRASE
 
     # Not 100% sure 2048 bits keys are legal in France ; EAFP ; 1024 is considered weak nowadays
     openssl genrsa -out ./config/jwt/private.pem -passout pass:${PASSPHRASE} -aes256 2048
