@@ -4,23 +4,24 @@
 namespace App\Controller;
 
 
-use App\Serializer\TallyDeserializer;
+use App\Form\DataTransformer\TallyTransformer;
 use Miprem\Renderer;
 use Miprem\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
+ * This route renders a SVG of the merit profile of the provided tally.
+ * See the related Swagger\Documenter for ApiPlatform documentation and more information.
+ *
  * @Route("/render/merit-profile.svg", name="merit_profile_renderer_svg")
  */
 class MeritProfileRendererController extends AbstractController
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, TallyTransformer $tallyTransformer): Response
     {
         $tally_string = $request->get('tally', '');
         $default_width = 800;
@@ -28,46 +29,20 @@ class MeritProfileRendererController extends AbstractController
         $svg_w = (int) $this->getAnyFromRequest($request, ['width', 'w', 'x'], $default_width);
         $svg_h = (int) $this->getAnyFromRequest($request, ['height', 'h', 'y'], $default_height);
 
-        // Support for ?tally[]=0,2,5&tally[]=4,1,2
-        //         and ?tally[0]=0,2,5&tally[1]=4,1,2
-        //         and ?tally[0,0]=0&tally[0,1]=2 … (etc.)
-        // Refacto ideas to keep the Controller short:
-        // → combine this and the TallyDenormalizer into a Request parameter handler?
-        // → Forms?
-        if (is_array($tally_string)) {
-            $amount_separator = ",";
-            $proposal_separator = "/";
-            $flat = "";
-            foreach ($tally_string as $proposal_tally_string) {
-                if (is_array($proposal_tally_string)) {
-                    foreach ($proposal_tally_string as $amount) {
-                        if (is_numeric($amount)) {
-                            $flat .= $amount.$amount_separator;
-                        } else {
-                            return $this->respondDemoUsage($svg_w, $svg_h,"Tally is not consistent.");
-                        }
-                    }
-                    $flat .= $proposal_separator;
-                } else {
-                    $flat .= $proposal_tally_string.$proposal_separator;
-                }
-            }
-            $tally_string = $flat;
-        }
-
-        if ( ! is_string($tally_string)) {
-            return $this->respondDemoUsage($svg_w, $svg_h,"Tally is not a string.");
-        }
-
+        $tally = null;
         try {
-            $td = new TallyDeserializer();
-            $tally = $td->deserialize($tally_string);
-        } catch (\InvalidArgumentException $e) {
+            $tally = $tallyTransformer->reverseTransform($tally_string);
+        } catch (\Exception $e) {
             // → Generate a SVG with usage documentation
-            return $this->respondDemoUsage($svg_w, $svg_h, "Invalid Tally.");
+            return $this->respondDemoUsage($svg_w, $svg_h, $e->getMessage());
         }
 
-        // From JSON in request body ; should we bother merging?
+        if (empty($tally)) {
+            return $this->respondDemoUsage($svg_w, $svg_h, "Provided tally is empty.");
+        }
+
+
+        // From JSON in request body ; should we even bother merging?
 //        try {
 //            $content = json_decode($request->getContent(), true);
 //            $tally = $content['tally'];
