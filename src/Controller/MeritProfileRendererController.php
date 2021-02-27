@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Form\DataTransformer\TallyTransformer;
+use Exception;
 use Miprem\Renderer;
 use Miprem\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +33,7 @@ class MeritProfileRendererController extends AbstractController
         $tally = null;
         try {
             $tally = $tallyTransformer->reverseTransform($tally_string);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // → Generate a SVG with usage documentation
             return $this->respondDemoUsage($svg_w, $svg_h, $e->getMessage());
         }
@@ -80,7 +81,7 @@ class MeritProfileRendererController extends AbstractController
         try {
             $miprem = new Renderer(Template::MERIT_PROFILE, $options, $css);
             $svg = $miprem->render($poll);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->respondDemoUsage($svg_w, $svg_h, "Miprem:".$e->getMessage());
         }
 
