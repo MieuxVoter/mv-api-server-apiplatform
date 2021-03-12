@@ -14,17 +14,50 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
+
+/** @noinspection PhpUnused */
 /**
  * This route renders a SVG of the merit profile of the provided tally.
  * See the related Swagger\Documenter for ApiPlatform documentation and more information.
  *
- * @Route("/render/merit-profile.svg", name="merit_profile_renderer_svg")
  */
 class MeritProfileRendererController extends AbstractController
 {
-    public function __invoke(Request $request, TallyTransformer $tallyTransformer): Response
+    /** @noinspection PhpUnused */
+    /**
+     * @Route("/render/merit-profile.svg", name="merit_profile_svg_query")
+     *
+     * @param Request $request
+     * @param TallyTransformer $tallyTransformer
+     * @return Response
+     */
+    public function tallyFromGet(Request $request, TallyTransformer $tallyTransformer): Response
     {
-        $tally_string = $request->get('tally', '');
+        $tally_thing = $request->get('tally', ''); // string, array of string, array of array of int
+        return $this->respondSvgForTally(
+            $tally_thing, $request, $tallyTransformer
+        );
+    }
+
+    /** @noinspection PhpUnused */
+    /**
+     * @Route("/{filepath}.svg", name="merit_profile_svg_path")
+     *
+     * @param string $filepath
+     * @param Request $request
+     * @param TallyTransformer $tallyTransformer
+     * @return Response
+     */
+    public function tallyFromFilepath(string $filepath, Request $request, TallyTransformer $tallyTransformer): Response
+    {
+        $filepath = str_replace('-', ',', $filepath);
+        return $this->respondSvgForTally(
+            $filepath, $request, $tallyTransformer
+        );
+    }
+
+    public function respondSvgForTally($tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
+    {
         $default_width = 800;
         $default_height = round($default_width*0.618);
         $svg_w = (int) $this->getAnyFromRequest($request, ['width', 'w', 'x'], $default_width);
@@ -32,7 +65,7 @@ class MeritProfileRendererController extends AbstractController
 
         $tally = null;
         try {
-            $tally = $tallyTransformer->reverseTransform($tally_string);
+            $tally = $tallyTransformer->reverseTransform($tally_thing);
         } catch (Exception $e) {
             // → Generate a SVG with usage documentation
             return $this->respondDemoUsage($svg_w, $svg_h, $e->getMessage());
@@ -58,7 +91,7 @@ class MeritProfileRendererController extends AbstractController
             "width" => $svg_w,
             "height" => $svg_h,
 //            "sidebar_width" => 5,
-//            "colors" => ["#ff0000", "#ff5500", "#ffaa00", "#ffff00", "#bbff00", "#55ff00", "#00dd00"],
+//            "colors" => ["#0000ff", "#ff5500", "#ffaa00", "#ffff00", "#bbff00", "#55ff00", "#00dd00"],
 //            "ext_border" => 5,
 //            "int_border" => 2,
 //            "header_height" => 10,
