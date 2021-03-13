@@ -14,9 +14,10 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
     use \Features\Steps\DomCrawlerSteps;
     use \Features\Steps\BasicGetTrait;
+    use \Features\Steps\ResponseAnalysisSteps;
 
     // Let's try and use traits from now on.
-    // What's below ought to be refactored in Traits.
+    // What's below probably ought to be refactored in Traits.
 
     /**
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?) (?:ainsi|comme suit) *:?$/ui
