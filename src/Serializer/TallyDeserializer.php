@@ -24,10 +24,12 @@ class TallyDeserializer
      *    '(0,4,2), (1,5,1), (2,3,1), (3,3,0)',
      * or
      *    '0,4,2 / 1,5,1 / 2,3,1 / 3,3,0',
+     * or
+     *    '0-4-2_1-5-1_2-3-1_3-3-0',
      *
      * @param string $tally_string
      * @throws InvalidArgumentException
-     * @return mixed
+     * @return mixed An array of array of int of all goes well
      */
     public function deserialize(string $tally_string)
     {
@@ -36,7 +38,7 @@ class TallyDeserializer
         $pattern = "/" .
             "\\s*" .
             "(?P<proposal_tally>" .
-            "(?:\\s*[0-9][0-9 ]*\\s*[,]?\\s*)+" .
+            "(?:\\s*[0-9][0-9 ]*\\s*[-,]?\\s*)+" .
             ")" .
             "\\s*" .
             "/ui";
@@ -71,7 +73,7 @@ class TallyDeserializer
 
         if ( ! $has_matched) {
             throw new InvalidArgumentException(
-                "Invalid tally string.  Example format: 1,4,2,4 / 4,3,3,1 / 0,6,4,1"
+                "Invalid tally string.  Example format: 1,4,2,4- / 4,3,3,1 / 0,6,4,1"
             );
         }
 
