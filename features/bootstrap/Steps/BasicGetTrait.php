@@ -9,12 +9,12 @@ trait BasicGetTrait
     use ActorApi;
 
     /**
-     * @When /^(?:que )?(?P<actor>.+?) télécharge le fichier (?P<filepath>[^ ]+)/ui
-     * @When /^(?P<actor>.+?) downloads the file (?P<filepath>[^ ]+)/ui
+     * @When /^(?:que )?(?P<actor>.+?)(?P<try> tente de|) télécharger? le fichier (?P<filepath>[^ ]+)/ui
+     * @When /^(?P<actor>.+?)(?P<try> tries to|) downloads? the file (?P<filepath>[^ ]+)/ui
      */
-    public function actorGetsFile($actor, $filepath)
+    public function actorGetsFile($actor, $try, $filepath)
     {
         $actor = $this->actor($actor);
-        $actor->api('GET', $filepath);
+        $actor->api('GET', $filepath, null, [], !empty($try));
     }
 }
