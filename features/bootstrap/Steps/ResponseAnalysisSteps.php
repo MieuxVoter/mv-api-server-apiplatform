@@ -57,7 +57,7 @@ trait ResponseAnalysisSteps
     }
 
 
-    public function assertArrayContains($expected, $actual)
+    public function assertArrayContains($expected, $actual, $keys=[])
     {
         if ( ! is_array($expected)) {
             $this->fail("Expectations must be an array (for now).");
@@ -70,9 +70,10 @@ trait ResponseAnalysisSteps
                 $this->fail("Key $k was not found.");
             }
             if (is_array($sub_expected)) {
-                $this->assertArrayContains($expected[$k], $actual[$k]);
+                $this->assertArrayContains($expected[$k], $actual[$k], array_merge($keys, [$k]));
             } else {
-                $this->assertEquals($sub_expected, $actual[$k]);
+                $key = implode(".", array_merge($keys, [$k]));
+                $this->assertEquals($sub_expected, $actual[$k], "Mismatch at key $key:");
             }
         }
 
