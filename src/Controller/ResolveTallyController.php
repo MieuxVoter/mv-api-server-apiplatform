@@ -53,6 +53,9 @@ class ResolveTallyController extends AbstractController
      * @Route(
      *     path="/{filepath}.json",
      *     name="deliberation_via_path",
+     *     requirements={
+     *         "filepath"="[0-9-_]+",
+     *     }
      * )
      *
      * @param string $filepath
