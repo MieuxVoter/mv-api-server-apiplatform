@@ -11,7 +11,7 @@ use App\Ranking\Options\MajorityJudgmentOptions;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use MieuxVoter\MajorityJudgment\MajorityJudgmentDeliberator;
-use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions as DeliberatorOptions;
+use MieuxVoter\MajorityJudgment\Model\Settings\MajorityJudgmentSettings;
 use MieuxVoter\MajorityJudgment\Model\Tally\TwoArraysPollTally;
 
 
@@ -81,15 +81,17 @@ class MajorityJudgmentRanking implements RankingInterface
      * This is the heart of the Ranking, where the business logic resides.
      *
      * @param Poll $poll
-     * @param mixed $options An instance of the class provided by `getOptionsClass()`.
+     * @param mixed $settings An instance of the class provided by `getOptionsClass()`.
      * @return PollResult
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function resolve(Poll $poll, $options): PollResult
+    public function resolve(Poll $poll, $settings): PollResult
     {
         $leaderboard = [];
 
         $deliberator = new MajorityJudgmentDeliberator();
-        $options = new DeliberatorOptions();
+        $settings = new MajorityJudgmentSettings();
         $participantsAmount = $this->pollRepository->countParticipants($poll);
         $tallyPerProposal = $this->ballotRepository->getTallyPerProposal($poll);
         $pollTally = new TwoArraysPollTally(
@@ -100,7 +102,7 @@ class MajorityJudgmentRanking implements RankingInterface
         $grades = $poll->getGradesInOrder();
 
         // Use the PHP library deliberator
-        $result = $deliberator->deliberate($pollTally, $options);
+        $result = $deliberator->deliberate($pollTally, $settings);
 
 //        $proposalsByUuidString = array_map(function (Proposal $p) {
 //            return $p->getUuid()->toString();

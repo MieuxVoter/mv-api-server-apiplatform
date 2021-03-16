@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Form\DataTransformer\TallyTransformer;
 use Exception;
 use MieuxVoter\MajorityJudgment\MajorityJudgmentDeliberator;
-use MieuxVoter\MajorityJudgment\Model\Options\MajorityJudgmentOptions as DeliberatorOptions;
+use MieuxVoter\MajorityJudgment\Model\Settings\MajorityJudgmentSettings;
 use MieuxVoter\MajorityJudgment\Model\Tally\ArrayPollTally;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -108,18 +108,19 @@ class ResolveTallyController extends AbstractController
         }
 
         $deliberator = new MajorityJudgmentDeliberator();
-        $options = new DeliberatorOptions();
+        $settings = new MajorityJudgmentSettings();
         $pollTally = new ArrayPollTally(
             $participantsAmount,
             $tally
         );
-        $result = $deliberator->deliberate($pollTally, $options);
+        $result = $deliberator->deliberate($pollTally, $settings);
 
         $proposals = [];
         foreach ($result->getProposalResults() as $proposalResult) {
+
             $proposals[] = [
                 'proposal' => $proposalResult->getProposal(),
-                'tally' => $tally[$proposalResult->getProposal()],
+                'tally' => $proposalResult->getTally(),
                 'rank' => $proposalResult->getRank(),
                 'median' => $proposalResult->getMedian(),
             ];

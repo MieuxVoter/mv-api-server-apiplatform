@@ -43,9 +43,9 @@ interface RankingInterface
      * This is the heart of the Ranking, where the business logic resides.
      *
      * @param Poll $poll
-     * @param mixed $options An instance of the class provided by `getOptionsClass()`.
+     * @param mixed $settings An instance of the class provided by `getOptionsClass()`.
      * @return PollResult
      */
-    public function resolve(Poll $poll, $options) : PollResult;
+    public function resolve(Poll $poll, $settings) : PollResult;
 
 }
