@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - ranking-refacto
 env:
   ES_HTTP_PORT: 9209
 jobs:
@@ -22,17 +21,13 @@ jobs:
 #        ports:
 #          - 3306:3306
 #        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      # https://hub.docker.com/_/elasticsearch/
-#      elasticsearch:
-#        image: elasticsearch:6.8.10
-#        ports:
-#          - 9209:9200
-#        options: -e="discovery.type=single-node" --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=10
+
     strategy:
       fail-fast: true
       matrix:
         php-versions: ['7.4']
 #        php-versions: ['5.4', '7.4', '8.0']
+
     steps:
       # —— Check Elasticsearch 🔎 ——————————————————————————————————————————————
 #      - name: Check the Elasticsearch connection from runner host
@@ -62,30 +57,6 @@ jobs:
       - name: Check PHP Version
         run: php -v
 
-      # https://github.com/zhulik/redis-action (community)
-#      - name: Setup Redis with zhulik/redis-action
-#        uses: zhulik/redis-action@1.1.0
-#        with:
-#          redis version: '5'
-
-      ## —— Yarn 🐱 ————————————————————————————————————————————————————————————
-#      - name: Yarn install
-#        uses: borales/actions-yarn@v2.0.0
-#        with:
-#          cmd: install
-#          auth-token: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
-#          registry-url: npm.fontawesome.com
-#      - name: Yarn build
-#        uses: borales/actions-yarn@v2.0.0
-#        with:
-#          cmd: run encore production
-
-#      - name: Look around
-#        run: |
-#          pwd
-#          ls -la
-#          ls -la ../
-
       # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -104,7 +75,6 @@ jobs:
       - name: Install dependencies using composer
         run: composer install --dev
 
-
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
 #      - name: Check Symfony requirements
 #        run: vendor/bin/requirements-checker
@@ -112,7 +82,6 @@ jobs:
       - name: Check the Symfony console
         run: |
           bin/console -V
-
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       # Can't handle PHP8 for now
