@@ -7,7 +7,7 @@ namespace App\Ranking;
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal;
 use App\Entity\Poll\Result as PollResult;
-use App\Ranking\Options\MajorityJudgmentOptions;
+use App\Ranking\Settings\MajorityJudgmentSettings as RankingSettings;
 use App\Repository\PollProposalBallotRepository;
 use App\Repository\PollRepository;
 use MieuxVoter\MajorityJudgment\MajorityJudgmentDeliberator;
@@ -65,15 +65,15 @@ class MajorityJudgmentRanking implements RankingInterface
 
     /**
      * The returned class MUST validate `class_exists()`.
-     * Probably best to use the `MayAwesomeOptions::class` syntax in here instead of strings.
+     * Probably best to use the `MayAwesomeSettings::class` syntax in here instead of strings.
      * This allows each Ranking to have their own custom set of options.
-     * If your ranking has no options, return `\App\Ranking\Options\NoOptions::class`.
+     * If your ranking has no options, return `\App\Ranking\Settings\NoSettings::class`.
      *
      * @return string
      */
-    public function getOptionsClass(): string
+    public function getSettingsClass(): string
     {
-        return MajorityJudgmentOptions::class;
+        return RankingSettings::class;
     }
 
     /**
@@ -81,7 +81,7 @@ class MajorityJudgmentRanking implements RankingInterface
      * This is the heart of the Ranking, where the business logic resides.
      *
      * @param Poll $poll
-     * @param mixed $settings An instance of the class provided by `getOptionsClass()`.
+     * @param mixed $settings An instance of the class provided by `getSettingsClass()`.
      * @return PollResult
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -91,7 +91,7 @@ class MajorityJudgmentRanking implements RankingInterface
         $leaderboard = [];
 
         $deliberator = new MajorityJudgmentDeliberator();
-        $settings = new MajorityJudgmentSettings();
+        $deliberatorSettings = new MajorityJudgmentSettings(); // TODO: configure using $settings
         $participantsAmount = $this->pollRepository->countParticipants($poll);
         $tallyPerProposal = $this->ballotRepository->getTallyPerProposal($poll);
         $pollTally = new TwoArraysPollTally(
@@ -102,7 +102,7 @@ class MajorityJudgmentRanking implements RankingInterface
         $grades = $poll->getGradesInOrder();
 
         // Use the PHP library deliberator
-        $result = $deliberator->deliberate($pollTally, $settings);
+        $result = $deliberator->deliberate($pollTally, $deliberatorSettings);
 
 //        $proposalsByUuidString = array_map(function (Proposal $p) {
 //            return $p->getUuid()->toString();

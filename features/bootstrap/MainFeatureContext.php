@@ -10,7 +10,7 @@ use App\Entity\Poll;
 use App\Entity\Poll\Grade;
 use App\Entity\Poll\Proposal;
 use App\Entity\User;
-use App\Ranking\Options\MajorityJudgmentOptions;
+use App\Ranking\Settings\MajorityJudgmentSettings;
 
 
 /**
@@ -273,7 +273,7 @@ class MainFeatureContext extends BaseFeatureContext
 //        $tallier = $this->getTallyBot($tally);
 //        $actual = $tallier->tally($poll);
         /** @var Poll\Result $actual */
-        $actual = $deliberator->resolve($poll, new MajorityJudgmentOptions());
+        $actual = $deliberator->resolve($poll, new MajorityJudgmentSettings());
 
         $assertedSomething = false;
         $expectationsLeftToProcess = array_keys($expected);

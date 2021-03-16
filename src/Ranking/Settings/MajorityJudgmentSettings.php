@@ -1,16 +1,13 @@
 <?php
 
 
-namespace App\Ranking\Options;
+namespace App\Ranking\Settings;
 
 
-class MajorityJudgmentOptions
+class MajorityJudgmentSettings
 {
 
     protected $default_grade_index = 0;
-
-    ///
-    ///
 
     /**
      * @return int

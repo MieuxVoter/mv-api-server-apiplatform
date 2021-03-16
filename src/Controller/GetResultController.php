@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Controller\Is\EntityAware;
 use App\Entity\Poll\Result;
-use App\Ranking\Options\MajorityJudgmentOptions;
+use App\Ranking\Settings\MajorityJudgmentSettings;
 use App\Ranking\Rankings;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +42,7 @@ final class GetResultController
 
         $rankingAlgorithmName = "Majority Judgment";
         $ranking = $rankings->findByName($rankingAlgorithmName);
-        $options = new MajorityJudgmentOptions();
+        $options = new MajorityJudgmentSettings();
 
         return $ranking->resolve($poll, $options);
     }
