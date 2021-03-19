@@ -34,6 +34,14 @@ oas:
                     Default height in pixels of the generated SVG image.
                 example: 600
 
+    resolve_tally:
+        summary: |
+            Resolves the provided tally.
+        description: |
+            This endpoint requires no authentication.
+        response:
+            ok: A JSON with information about the proposals, notably their rank.
+
 
     parameter:
         uuid:
