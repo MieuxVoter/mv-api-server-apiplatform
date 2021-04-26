@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 
 /**
- * Users organize and participate in Polls.
+ * Users create, maintain and participate in Polls.
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(
