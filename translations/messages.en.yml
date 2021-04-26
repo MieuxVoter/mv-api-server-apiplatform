@@ -47,3 +47,10 @@ oas:
         uuid:
             description: |
                 Universally Unique IDentifier (UUID)
+error:
+    transformer:
+        tally:
+            empty: Tally is empty.
+            invalid: Tally is invalid.
+            not_a_string: Tally is not even a string!
+            not_consistent: Tally is inconsistent.

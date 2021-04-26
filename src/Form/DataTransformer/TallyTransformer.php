@@ -18,8 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TallyTransformer implements DataTransformerInterface
 {
-
-    // FIXME: Add these to messages YAML
     const MSG_TALLY_EMPTY = "error.transformer.tally.empty";
     const MSG_TALLY_INVALID = "error.transformer.tally.invalid";
     const MSG_TALLY_NOT_STRING = "error.transformer.tally.not_a_string";
