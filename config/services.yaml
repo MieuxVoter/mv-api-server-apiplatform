@@ -137,10 +137,10 @@ services:
 
     # Decorate the docs normalizer to add our custom doc tidbits
     # This SwaggerGenerator is somewhat generic, and could be moved to a Bundle?
-    App\Swagger\SwaggerDecorator:
+    App\Swagger\SwaggerDocumentationDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
         arguments:
-            - '@App\Swagger\SwaggerDecorator.inner'
+            - '@App\Swagger\SwaggerDocumentationDecorator.inner'
             - !tagged 'oas_documenter'
             - '%api_documentation_extras_v2%'
             - '%api_documentation_extras_v3%'

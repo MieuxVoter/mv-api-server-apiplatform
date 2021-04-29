@@ -14,12 +14,10 @@ use App\Swagger\DocumenterInterface;
  * Extends the documentation with any Services tagged as `oas_documenter`.
  * Which, in our current configuration, means implementing `DocumenterInterface`.
  *
- * Documenter ~= Doxxer?
- *
- * Class SwaggerDecorator
+ * Class SwaggerDocumentationDecorator
  * @package App\Swagger
  */
-final class SwaggerDecorator implements NormalizerInterface
+final class SwaggerDocumentationDecorator implements NormalizerInterface
 {
     /** @var NormalizerInterface $decorated */
     private $decorated;
