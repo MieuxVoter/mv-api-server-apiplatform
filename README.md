@@ -49,6 +49,8 @@ Get [Composer](https://getcomposer.org).
 
 ### 🔐 Setup JWT
 
+> php bin/console lexik:jwt:generate-keypair
+
 #### Using a BASH script
 
     ./bin/setup_jwt.bash
