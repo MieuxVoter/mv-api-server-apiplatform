@@ -131,3 +131,8 @@ Useful dev options:
 Best mount `var/` to RAM first, for a _4x_ faster test-suite and to prevent your hard drives from premature aging.
 
     ./bin/tmpfs4var.sh
+
+## Generate Client Libraries
+
+    make client-typescript-node 
+    make client-php
