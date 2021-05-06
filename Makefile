@@ -33,7 +33,7 @@ cuisine:  ## Run the subset of Work In Progress tests
 	vendor/bin/behat -vv --tags="wip"
 
 client-typescript-node:  ## Generate in /tmp a client library that can consume our API
-	bash bin/generate-client.bash typescript-node
+	bash bin/generate-client.bash -t typescript-node
 
 client-php:  ## Generate in /tmp a client library that can consume our API
-	bash bin/generate-client.bash php
+	bash bin/generate-client.bash -t php
