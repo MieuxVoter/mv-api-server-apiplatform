@@ -63,6 +63,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
 
     /**
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tentez?) d'|)obt(?:enir|ien[st]) un jeton avec le mot de passe "(?P<password>.*)"$/ui
+     * @When /^(?P<actor>.+?)(?P<try> tr(:?y|ies)|) to get an authentication token using password "(?P<password>.*)"$/ui
      */
     public function actorRequestsAuthenticationTokenWithPassword($actor, $try, $password)
     {

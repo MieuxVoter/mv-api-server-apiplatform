@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Ranking;
 
@@ -79,6 +80,8 @@ class MajorityJudgmentRanking implements RankingInterface
     /**
      * For a given Poll, this computes a Result and returns it
      * This is the heart of the Ranking, where the business logic resides.
+     *
+     * This uses the external PHP Majority Judgment library (made by MieuxVoter as well).
      *
      * @param Poll $poll
      * @param mixed $settings An instance of the class provided by `getSettingsClass()`.

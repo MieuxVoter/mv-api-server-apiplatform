@@ -21,8 +21,6 @@ namespace App\Features;
  * - [?] response crawler
  * - …
  *
- * Really not sure we're going to use the "current actor" business. Hence, it's there but commented out.
- *
  * Class Actors
  * @package App\Features
  */
