@@ -56,6 +56,7 @@ info:
 paths:
   '/ballots/{id}':
     get:
+      description: 'Inspect a previously submitted Ballot.'
       tags:
         - Ballot
       operationId: getBallotItem
@@ -67,6 +68,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Ballot resource response'
@@ -99,6 +103,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
   '/grades/{id}':
     get:
       tags:
@@ -112,6 +119,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Grade resource response'
@@ -179,6 +189,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Invitation resource response'
@@ -286,6 +299,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Poll resource response'
@@ -318,6 +334,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
   '/polls/{id}/grades':
     get:
       tags:
@@ -358,6 +377,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
         -
           name: page
           in: query
@@ -375,6 +397,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
         -
           name: page
           in: query
@@ -412,53 +437,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Invitation-read'
   '/polls/{id}/proposals':
-    post:
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      tags:
-        - Proposal
-      operationId: postProposalCollection
-      summary: 'Creates a Proposal resource.'
-      responses:
-        201:
-          description: 'Proposal resource created'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Proposal:jsonld-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Proposal-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Proposal-read'
-          links:
-            GetProposalItem:
-              parameters:
-                uuid: '$response.body#/uuid'
-              operationId: getProposalItem
-              description: 'The `uuid` value returned in the response can be used as the `uuid` parameter in `GET /proposals/{id}`.'
-        400:
-          description: 'Invalid input'
-        404:
-          description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Proposal:jsonld-create'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Proposal-create'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Proposal-create'
-        description: 'The new Proposal resource'
     get:
       tags:
         - Proposal
@@ -498,6 +476,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
         -
           name: page
           in: query
@@ -506,6 +487,56 @@ paths:
           schema:
             type: integer
             default: 1
+    post:
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
+      tags:
+        - Proposal
+      operationId: postProposalCollection
+      summary: 'Creates a Proposal resource.'
+      responses:
+        201:
+          description: 'Proposal resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Proposal:jsonld-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Proposal-read'
+          links:
+            GetProposalItem:
+              parameters:
+                uuid: '$response.body#/uuid'
+              operationId: getProposalItem
+              description: 'The `uuid` value returned in the response can be used as the `uuid` parameter in `GET /proposals/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Proposal:jsonld-create'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Proposal-create'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Proposal-create'
+        description: 'The new Proposal resource'
   '/polls/{id}/result':
     get:
       tags:
@@ -520,6 +551,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Result resource response'
@@ -545,12 +579,16 @@ paths:
           name: pollId
           in: path
           required: true
+          description: 'Universally Unique IDentifier of the poll whose proposal we are judging.'
+          example: ed8c2754-4220-4f54-94e9-5e86982e85ac
           schema:
             type: string
         -
           name: proposalId
           in: path
           required: true
+          description: 'Universally Unique IDentifier of the proposal we are judging.'
+          example: 368bd23a-6f19-4d8a-bb21-ff168ae2efc6
           schema:
             type: string
       tags:
@@ -662,6 +700,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'Proposal resource response'
@@ -717,6 +758,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
         -
           name: page
           in: query
@@ -768,7 +812,7 @@ paths:
             default: 1
     post:
       summary: 'Registers a new User.'
-      description: api.users.post.description
+      description: 'Registers a new User in the database.  The email is optional and will help you reset a forgotten password.'
       tags:
         - User
         - Registration
@@ -822,6 +866,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'User resource response'
@@ -850,6 +897,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
       responses:
         200:
           description: 'User resource updated'
@@ -896,6 +946,9 @@ paths:
           required: true
           schema:
             type: string
+          description: |
+            Universally Unique IDentifier (UUID)
+          example: d434a72c-20cb-480f-9955-1fa2ce2e91b1
   /_jwt:
     post:
       tags:
@@ -923,6 +976,33 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Credentials'
+  /render/merit-profile.svg:
+    get:
+      tags:
+        - Tools
+      operationId: getSvgMeritProfileFromTally
+      summary: |
+        Generates a merit profile as SVG of the provided tally.
+      description: |
+        The resulting merit profile is not ranked, proposals are shown in the order they were submitted.
+        This endpoint requires no authentication.
+      responses:
+        200:
+          description: 'A SVG image.'
+        201: []
+  '/{tally}.json':
+    get:
+      tags:
+        - Tools
+      operationId: getJsonResultFromTally
+      summary: |
+        Resolves the provided tally.
+      description: |
+        This endpoint requires no authentication.
+      responses:
+        200:
+          description: 'A JSON with information about the proposals, notably their rank.'
+        201: []
 security:
   -
     apiKey: []
@@ -933,12 +1013,16 @@ components:
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
         id:
           readOnly: true
-          description: 'Internal numerical id, technical pragmatism for ApiPlatform.'
+          description: |-
+            Internal, incrementing numerical id, unused by ApiPlatform
+            but used in tallying to ignore old|stale|overriden ballots by fetching the highest id,
+            since ballots are immutable and new submissions after opinion changes create new ballots.
           type: integer
         proposal:
           description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
@@ -948,9 +1032,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
-        authorName:
-          type: string
           nullable: true
         participant:
           type: string
@@ -974,6 +1055,7 @@ components:
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
@@ -991,6 +1073,7 @@ components:
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
       properties:
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
@@ -1014,12 +1097,16 @@ components:
           readOnly: true
           type: string
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
         id:
           readOnly: true
-          description: 'Internal numerical id, technical pragmatism for ApiPlatform.'
+          description: |-
+            Internal, incrementing numerical id, unused by ApiPlatform
+            but used in tallying to ignore old|stale|overriden ballots by fetching the highest id,
+            since ballots are immutable and new submissions after opinion changes create new ballots.
           type: integer
         proposal:
           description: 'The Majority Judgment Poll Proposal the author is giving a grade to.'
@@ -1029,9 +1116,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
-        authorName:
-          type: string
           nullable: true
         participant:
           type: string
@@ -1073,6 +1157,7 @@ components:
           readOnly: true
           type: string
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
@@ -1099,6 +1184,7 @@ components:
           readOnly: true
           type: string
         uuid:
+          description: 'Universally Unique IDentifier of the Ballot.'
           type: string
           format: uuid
           nullable: true
@@ -1166,13 +1252,13 @@ components:
       type: object
       description: 'Grades are attributed to Proposals by Participants, in Ballots.'
       properties:
+        '@context':
+          readOnly: true
+          type: string
         '@id':
           readOnly: true
           type: string
         '@type':
-          readOnly: true
-          type: string
-        '@context':
           readOnly: true
           type: string
         uuid:
@@ -1479,13 +1565,13 @@ components:
       type: object
       description: 'A Proposal of a Poll whom any Participant can give a Grade to.'
       properties:
+        '@context':
+          readOnly: true
+          type: string
         '@id':
           readOnly: true
           type: string
         '@type':
-          readOnly: true
-          type: string
-        '@context':
           readOnly: true
           type: string
         uuid:
@@ -1649,7 +1735,7 @@ components:
             in that case, their order should be the order they were added to the poll.
     User-create:
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         email:
           description: 'When provided, the email must be unique amongst Users.'
@@ -1665,7 +1751,7 @@ components:
         - username
     User-edit:
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         email:
           description: 'When provided, the email must be unique amongst Users.'
@@ -1681,7 +1767,7 @@ components:
         - username
     User-read:
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         uuid:
           type: string
@@ -1703,7 +1789,7 @@ components:
         - username
     'User:jsonld-create':
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         '@context':
           readOnly: true
@@ -1728,7 +1814,7 @@ components:
         - username
     'User:jsonld-edit':
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         '@context':
           readOnly: true
@@ -1753,7 +1839,7 @@ components:
         - username
     'User:jsonld-read':
       type: object
-      description: 'Users organize and participate in Polls.'
+      description: 'Users create, maintain and participate in Polls.'
       properties:
         '@context':
           readOnly: true
