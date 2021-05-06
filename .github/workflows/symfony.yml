@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-env:
-  ES_HTTP_PORT: 9209
+#env:
+#  ES_HTTP_PORT: 9209
 jobs:
   symfony:
     name: MV OpenAPI (PHP ${{ matrix.php-versions }})
@@ -29,12 +29,6 @@ jobs:
 #        php-versions: ['5.4', '7.4', '8.0']
 
     steps:
-      # —— Check Elasticsearch 🔎 ——————————————————————————————————————————————
-#      - name: Check the Elasticsearch connection from runner host
-#        run: |
-#          curl -fsSL "http://localhost:$ES_HTTP_PORT"
-#          curl -fsSL "http://localhost:$ES_HTTP_PORT/_cluster/health?pretty"
-
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
       - name: Checkout
@@ -95,16 +89,6 @@ jobs:
 #        if: matrix.php-versions == '7.4'
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
-#      - name: Load Doctrine fixtures and populate the Elasticsearch indexes
-#        run: |
-#          make load-fixtures
-#          make populate
-
-#      - name: Run functional and unit tests
-#        run: |
-#          cp phpunit.xml.ci phpunit.xml
-#          make test
-
       - name: Prepare integration tests
         run: |
           cp behat.yml.dist behat.yml

@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * A Proposal of a Poll whom any Participant can give a Grade to.
+ * A Proposal (aka. Candidate) of a Poll, whom any Participant can give a Grade to.
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},

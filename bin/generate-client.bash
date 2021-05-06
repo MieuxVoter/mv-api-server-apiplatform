@@ -6,7 +6,7 @@ TARGET="php"
 NAME=MvApi
 GIT_HOST=github.com
 USER_ID=MieuxVoter
-REPO_PREFIX=mv-api-client-lib-
+REPO_PREFIX=mv-api-client-lib
 OUTPUT_DIRECTORY=/tmp
 
 VERSION=0.0.0
@@ -53,7 +53,13 @@ bin/console api:openapi:export --spec-version=3 --yaml > ${SPEC_FILEPATH_NOEXT}.
 mkdir -p ${TEMPLATE_DIRECTORY}
 
 # install: https://openapi-generator.tech/
-npx @openapitools/openapi-generator-cli generate \
+#GENERATOR=npx @openapitools/openapi-generator-cli
+
+# or
+# wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.1.0/openapi-generator-cli-5.1.0.jar -O openapi-generator-cli.jar
+GENERATOR="java -jar ./openapi-generator-cli.jar"
+
+${GENERATOR} generate \
     --skip-validate-spec \
     --config ./openapi/generator/config.yml \
     --template-dir ${TEMPLATE_DIRECTORY} \
