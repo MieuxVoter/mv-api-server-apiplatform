@@ -2499,7 +2499,7 @@
             },
             "Proposal-create": {
                 "type": "object",
-                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "description": "A Proposal (aka. Candidate) of a Poll, whom any Participant can give a Grade to.",
                 "properties": {
                     "title": {
                         "description": "The title of the proposal.",
@@ -2513,7 +2513,7 @@
             },
             "Proposal-read": {
                 "type": "object",
-                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "description": "A Proposal (aka. Candidate) of a Poll, whom any Participant can give a Grade to.",
                 "properties": {
                     "uuid": {
                         "description": "Universally Unique IDentifier, something like this: 10e3c5e8-4a7d-4d23-a20a-8c175bf45a92",
@@ -2529,7 +2529,7 @@
             },
             "Proposal:jsonld-create": {
                 "type": "object",
-                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "description": "A Proposal (aka. Candidate) of a Poll, whom any Participant can give a Grade to.",
                 "properties": {
                     "@context": {
                         "readOnly": true,
@@ -2555,7 +2555,7 @@
             },
             "Proposal:jsonld-read": {
                 "type": "object",
-                "description": "A Proposal of a Poll whom any Participant can give a Grade to.",
+                "description": "A Proposal (aka. Candidate) of a Poll, whom any Participant can give a Grade to.",
                 "properties": {
                     "@context": {
                         "readOnly": true,
