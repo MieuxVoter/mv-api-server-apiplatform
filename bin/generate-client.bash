@@ -61,7 +61,7 @@ GENERATOR="java -jar ./openapi-generator-cli.jar"
 
 ${GENERATOR} generate \
     --skip-validate-spec \
-    --config ./openapi/generator/config.yml \
+    --config ${TEMPLATE_DIRECTORY}/generator-config.yml \
     --template-dir ${TEMPLATE_DIRECTORY} \
     --input-spec ${SPEC_FILEPATH_NOEXT}.json \
     --generator-name ${TARGET} \
