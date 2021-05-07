@@ -1,0 +1,15 @@
+
+# To get available options:
+# java -jar ./openapi-generator-cli.jar config-help -g javascript
+
+projectName: "mv-api-client-lib"
+usePromises: true
+licenseName: MIT
+invokerPackage: MieuxVoter
+emitModelMethods: true
+files:
+  LICENSE: {}
+  README.md: {}
+#  api_interfaces.mustache:
+#    templateType: API
+#    destinationFilename: Interface.kt

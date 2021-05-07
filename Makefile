@@ -32,8 +32,11 @@ inspection-automated:  ## Run the subset of tests suitable for Continuous Integr
 cuisine:  ## Run the subset of Work In Progress tests
 	vendor/bin/behat -vv --tags="wip"
 
-client-typescript-node:  ## Generate in /tmp a client library that can consume our API
+client-typescript-node:  ## Generate a client library that can consume our API
 	bash bin/generate-client.bash -t typescript-node
 
-client-php:  ## Generate in /tmp a client library that can consume our API
+client-php:  ## Generate a client library that can consume our API
 	bash bin/generate-client.bash -t php
+
+client-javascript:  ## Generate a client library that can consume our API
+	bash bin/generate-client.bash -t javascript
