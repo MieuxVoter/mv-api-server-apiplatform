@@ -3,6 +3,10 @@
 # java -jar ./openapi-generator-cli.jar config-help -g javascript
 
 projectName: "mv-api-client-lib"
+projectDescription: |
+  A javascript client for the Majority Judgment OpenAPI of MieuxVoter.
+  Sandbox: https://oas.mieuxvoter.fr
+  This library was generated automatically, best not edit it directly.
 usePromises: true
 licenseName: MIT
 invokerPackage: MieuxVoter
