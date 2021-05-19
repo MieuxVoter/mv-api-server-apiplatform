@@ -1128,9 +1128,9 @@ material:
 - Cheese
 - Epoxy
 - Fire
+- Gas
 - Glace
 - Glass
-- Gas
 - Ice
 - Iron
 - Marble
@@ -1139,8 +1139,8 @@ material:
 - Steel
 - Stone
 - Titanium
-- Wood
 - Wine
+- Wood
 origin:
 - African
 - Algerian
@@ -1213,6 +1213,7 @@ qualifier:
 - Grassland
 - Island
 - Jungle
+- Morning
 - Mountain
 - Nile
 - Oceanic
@@ -1231,7 +1232,6 @@ quality:
 - Acid
 - Adamant
 - Adept
-- Tractor
 - Adorable
 - Adventurous
 - Aerial
@@ -1613,6 +1613,7 @@ quality:
 - Thoughtful
 - Tired
 - Tough
+- Tractor
 - Troubled
 - Twinkling
 - Tyrannic
