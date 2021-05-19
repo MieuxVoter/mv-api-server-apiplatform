@@ -2,20 +2,56 @@
 # coding: utf-8
 import yaml
 import os
+import sys
 
 # Util to help sort and fix the lists of words.
 
 words_path = r'words.en.yml'
 confs_path = r'confs.en.yml'
 
-words = {}  # keys: 'age', 'being', 'color', 'material', 'origin', 'qualifier', 'quality', 'quantity', 'shape', 'size'
+words = {}  # keys are adjective types: 'age', 'being', 'color', 'material', 'origin', 'qualifier', 'quality', 'quantity', 'shape', 'size'
 confs = {}  # config for this util, see load_confs()
+
+import argparse
+
+def bake_options():
+    return [
+        [
+            ['--verbose', '-v'],
+            {
+                'action': 'store_true',
+                'help': 'Pass to be verbose with commands'
+            },
+        ],
+        [
+            ['--add', '-a'],
+            {
+                'action': 'store_true',
+                'help': 'Add new words from standard input'
+            },
+        ],
+    ]
+    #             help:'',
+    #             default:'',
+    #             required:'',
+    #             choices:'',
+    #             action:'',
+    #             type:'',
+
+
+
+parser = argparse.ArgumentParser()
+
+[parser.add_argument(*x[0], **x[1]) for x in bake_options()]
+
+cli_args = parser.parse_args()
+#print(vars(cli_args))
+
 
 def load_words():
     global words
     with open(words_path) as file:
         words = yaml.load(file, Loader=yaml.FullLoader)
-    print(words.keys())
 
 def load_confs():
     global confs
@@ -36,8 +72,31 @@ def save_confs():
     with open(confs_path, 'w') as file:
         yaml.dump(confs, file)
 
+def add_words():
+    for line in [l for l in sys.stdin]:
+        word = line.rstrip()
+        print("New word: %s" % word)
+        add_word(word)
+
+def add_word(word):
+    global words
+    types = [k for k in words.keys()]
+    print("  ".join(["%d: %s"%(i+1, at) for i, at in enumerate(types)]))
+    sys.stdin = open('/dev/tty')
+    decision = input("Type of the word: ")
+    chosen_type_key = int(decision)
+    if chosen_type_key > 0 and chosen_type_key <= len(types):
+        chosen_type = types[chosen_type_key-1]
+        words[chosen_type].append(word)
+
 load_confs()
 load_words()
+
+if cli_args.add:
+    add_words()
+    save_words()
+#    exit()
+
 unique_words = []
 unique_words_adjectives = []
 for adjective_type in words:
@@ -55,6 +114,8 @@ for adjective_type in words:
             other_adjective_type = unique_words_adjectives[i]
 
             if word in confs['allowed_duplicates']:
+                if cli_args.verbose:
+                    print("Skipping allowed duplicate `%s'…" % word)
                 continue
 
             print("Duplicate!  %s  is in both  %s (1) and %s (2)" % (
