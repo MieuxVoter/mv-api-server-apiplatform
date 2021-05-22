@@ -43,7 +43,9 @@ class RegisterUserController
      */
     public function __invoke(User $data)
     {
-        $data->setUsername($this->usernameGenerator->generateUsername(true));
+        if (empty($data->getUsername())) {
+            $data->setUsername($this->usernameGenerator->generateUsername(true));
+        }
 
         return $data;
     }
