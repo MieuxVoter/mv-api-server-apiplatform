@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use App\Controller\RegisterUserController;
 
 
 /**
@@ -47,6 +48,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *          },
  *         "post"={
  *              "method"="POST",
+ *              "controller"=RegisterUserController::class,
  *              "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY') or is_granted('ROLE_ADMIN')",
  *              "denormalization_context"={"groups"={"create"}},
  *              "validation_groups"={"register"},
@@ -136,7 +138,8 @@ class User implements UserInterface
      *
      * @ORM\Column(type="string", length=64, unique=true)
      * @Groups({"create", "read", "edit"})
-     * @Assert\NotBlank(groups={"register", "edit"})
+     *
+     * Assert\NotBlank(groups={"register", "edit"})
      */
     private $username;
 

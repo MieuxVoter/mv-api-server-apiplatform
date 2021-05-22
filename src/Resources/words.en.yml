@@ -242,7 +242,6 @@ being:
 - Grouse
 - Guanaco
 - Guerza
-- Guinea
 - Gull
 - Hanuman
 - Hare
@@ -254,7 +253,7 @@ being:
 - Hen
 - Heron
 - Herring
-- Highland
+- Herring
 - Hippopotamus
 - Hoary
 - Hoffmans
@@ -1142,6 +1141,7 @@ material:
 - Wine
 - Wood
 origin:
+- Guinea
 - African
 - Algerian
 - Alien
@@ -1211,6 +1211,7 @@ qualifier:
 - Earth
 - Forest
 - Grassland
+- Highland
 - Island
 - Jungle
 - Morning
