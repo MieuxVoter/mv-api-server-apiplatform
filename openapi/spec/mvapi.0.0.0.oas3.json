@@ -1940,8 +1940,7 @@
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
                         "type": "string",
-                        "format": "iri-reference",
-                        "nullable": true
+                        "format": "iri-reference"
                     },
                     "participant": {
                         "type": "string",
@@ -1960,12 +1959,7 @@
                 "properties": {
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
-                        "nullable": true,
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/Grade-create"
-                            }
-                        ]
+                        "$ref": "#/components/schemas/Grade-create"
                     }
                 }
             },
@@ -1987,8 +1981,7 @@
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
                         "type": "string",
-                        "format": "iri-reference",
-                        "nullable": true
+                        "format": "iri-reference"
                     }
                 }
             },
@@ -2008,12 +2001,7 @@
                     },
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
-                        "nullable": true,
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/Grade-read"
-                            }
-                        ]
+                        "$ref": "#/components/schemas/Grade-read"
                     }
                 }
             },
@@ -2048,8 +2036,7 @@
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
                         "type": "string",
-                        "format": "iri-reference",
-                        "nullable": true
+                        "format": "iri-reference"
                     },
                     "participant": {
                         "type": "string",
@@ -2080,12 +2067,7 @@
                     },
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
-                        "nullable": true,
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/Grade:jsonld-create"
-                            }
-                        ]
+                        "$ref": "#/components/schemas/Grade:jsonld-create"
                     }
                 }
             },
@@ -2119,8 +2101,7 @@
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
                         "type": "string",
-                        "format": "iri-reference",
-                        "nullable": true
+                        "format": "iri-reference"
                     }
                 }
             },
@@ -2152,12 +2133,7 @@
                     },
                     "grade": {
                         "description": "The Grade attributed by the Judge to the Proposal.",
-                        "nullable": true,
-                        "anyOf": [
-                            {
-                                "$ref": "#/components/schemas/Grade:jsonld-read"
-                            }
-                        ]
+                        "$ref": "#/components/schemas/Grade:jsonld-read"
                     }
                 }
             },
@@ -2774,10 +2750,7 @@
                         "description": "The plain password of the User.",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "User-edit": {
                 "type": "object",
@@ -2796,10 +2769,7 @@
                         "description": "The plain password of the User.",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "User-read": {
                 "type": "object",
@@ -2826,10 +2796,7 @@
                             "$ref": "#/components/schemas/Poll-read"
                         }
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "User:jsonld-create": {
                 "type": "object",
@@ -2860,10 +2827,7 @@
                         "description": "The plain password of the User.",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "User:jsonld-edit": {
                 "type": "object",
@@ -2894,10 +2858,7 @@
                         "description": "The plain password of the User.",
                         "type": "string"
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "User:jsonld-read": {
                 "type": "object",
@@ -2936,10 +2897,7 @@
                             "$ref": "#/components/schemas/Poll:jsonld-read"
                         }
                     }
-                },
-                "required": [
-                    "username"
-                ]
+                }
             },
             "Token": {
                 "type": "object",

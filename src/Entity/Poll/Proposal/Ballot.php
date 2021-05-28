@@ -167,13 +167,14 @@ class Ballot
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Poll\Grade",
      * )
+     * @ORM\JoinColumn(nullable=false)
      */
     private $grade;
 
     /**
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\User",
-     *     inversedBy="ballots"
+     *     inversedBy="ballots",
      * )
      */
     private $participant;
@@ -219,7 +220,7 @@ class Ballot
         return $this;
     }
     
-    public function getGrade(): ?Grade
+    public function getGrade(): Grade
     {
         return $this->grade;
     }

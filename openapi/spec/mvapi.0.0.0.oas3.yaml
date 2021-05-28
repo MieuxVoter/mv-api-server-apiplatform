@@ -1032,7 +1032,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
         participant:
           type: string
           format: iri-reference
@@ -1046,10 +1045,7 @@ components:
       properties:
         grade:
           description: 'The Grade attributed by the Judge to the Proposal.'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Grade-create'
+          $ref: '#/components/schemas/Grade-create'
     Ballot-created:
       type: object
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
@@ -1067,7 +1063,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
     Ballot-read:
       type: object
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
@@ -1082,10 +1077,7 @@ components:
           $ref: '#/components/schemas/Proposal-read'
         grade:
           description: 'The Grade attributed by the Judge to the Proposal.'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Grade-read'
+          $ref: '#/components/schemas/Grade-read'
     'Ballot:jsonld':
       type: object
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
@@ -1116,7 +1108,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
         participant:
           type: string
           format: iri-reference
@@ -1139,10 +1130,7 @@ components:
           type: string
         grade:
           description: 'The Grade attributed by the Judge to the Proposal.'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Grade:jsonld-create'
+          $ref: '#/components/schemas/Grade:jsonld-create'
     'Ballot:jsonld-created':
       type: object
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
@@ -1169,7 +1157,6 @@ components:
           description: 'The Grade attributed by the Judge to the Proposal.'
           type: string
           format: iri-reference
-          nullable: true
     'Ballot:jsonld-read':
       type: object
       description: 'A Ballot holds a (single) Judgment on a Proposal, by a Participant of a Poll.'
@@ -1193,10 +1180,7 @@ components:
           $ref: '#/components/schemas/Proposal:jsonld-read'
         grade:
           description: 'The Grade attributed by the Judge to the Proposal.'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Grade:jsonld-read'
+          $ref: '#/components/schemas/Grade:jsonld-read'
     Grade-create:
       type: object
       description: 'Grades are attributed to Proposals by Participants, in Ballots.'
@@ -1747,8 +1731,6 @@ components:
         password:
           description: 'The plain password of the User.'
           type: string
-      required:
-        - username
     User-edit:
       type: object
       description: 'Users create, maintain and participate in Polls.'
@@ -1763,8 +1745,6 @@ components:
         password:
           description: 'The plain password of the User.'
           type: string
-      required:
-        - username
     User-read:
       type: object
       description: 'Users create, maintain and participate in Polls.'
@@ -1785,8 +1765,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Poll-read'
-      required:
-        - username
     'User:jsonld-create':
       type: object
       description: 'Users create, maintain and participate in Polls.'
@@ -1810,8 +1788,6 @@ components:
         password:
           description: 'The plain password of the User.'
           type: string
-      required:
-        - username
     'User:jsonld-edit':
       type: object
       description: 'Users create, maintain and participate in Polls.'
@@ -1835,8 +1811,6 @@ components:
         password:
           description: 'The plain password of the User.'
           type: string
-      required:
-        - username
     'User:jsonld-read':
       type: object
       description: 'Users create, maintain and participate in Polls.'
@@ -1866,8 +1840,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Poll:jsonld-read'
-      required:
-        - username
     Token:
       type: object
       description: 'An authentication token ([JWT](https://jwt.io/)) for the `Authorization: Bearer` header.'
