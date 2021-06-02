@@ -7,7 +7,8 @@ namespace App\Repository;
 use App\Entity\Poll;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 
 /**
@@ -93,8 +94,8 @@ class PollRepository extends ServiceEntityRepository
      *
      * @param Poll $poll
      * @return int
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countParticipants(Poll $poll) : int
     {
