@@ -105,11 +105,19 @@ class PollRepository extends ServiceEntityRepository
             ->setParameter('proposals', $poll->getProposals());
         $amount = $qbu->getQuery()->getSingleResult();
 
-//        if (empty($amount)) {
-//            throw new \Exception("What? No!");
-//        }
+        $qbn = $this->_em->createQueryBuilder();
+        $qbn->select('COUNT(b.id) as participants_amount')
+            ->from(Poll\Proposal\Ballot::class, 'b')
+            ->where('b.proposal IN (:proposals)')
+            ->andWhere('b.participant IS NULL')
+            ->setParameter('proposals', $poll->getProposals());
+        $amountAnonymous = $qbn->getQuery()->getSingleResult();
 
-        return (int) $amount['participants_amount'];
+        return (
+            (int) $amount['participants_amount']
+            +
+            (int) $amountAnonymous['participants_amount']
+        );
     }
 
 }
