@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
 /**
+ * Computes the result of a poll stored in the database.
+ *
  * See App\Entity\Poll\Result where this controller is declared in annotations.
  */
 final class GetResultController
@@ -40,10 +42,12 @@ final class GetResultController
             );
         }
 
+        // The ranking algorithm parameter may be publicly exposed in the future
         $rankingAlgorithmName = "Majority Judgment";
         $ranking = $rankings->findByName($rankingAlgorithmName);
-        $options = new MajorityJudgmentSettings();
 
-        return $ranking->resolve($poll, $options);
+        $settings = new MajorityJudgmentSettings();
+
+        return $ranking->resolve($poll, $settings);
     }
 }
