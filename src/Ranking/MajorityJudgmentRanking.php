@@ -16,6 +16,7 @@ use MieuxVoter\MajorityJudgment\Model\Settings\MajorityJudgmentSettings;
 use MieuxVoter\MajorityJudgment\Model\Tally\TwoArraysPollTally;
 
 
+/** @noinspection PhpUnused */
 /**
  * Standard Majority Judgment, as described by Balinski & Laraki (2002)
  *
@@ -102,6 +103,7 @@ class MajorityJudgmentRanking implements RankingInterface
             $poll->getProposals()->toArray(),
             array_values($tallyPerProposal)
         );
+
         $grades = $poll->getGradesInOrder();
 
         // Use the PHP library deliberator
