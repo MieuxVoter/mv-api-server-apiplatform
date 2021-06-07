@@ -16,7 +16,7 @@
         "api-platform/core": "2.5.*",
         "lexik/jwt-authentication-bundle": "^2.8",
         "matthewbaggett/clamp": "^1.1",
-        "mieuxvoter/mj-library-php": "^1",
+        "mieuxvoter/majority-judgment": "^1.0",
         "nelmio/cors-bundle": "^2.1",
         "ramsey/uuid": "^3 || ^4",
         "ramsey/uuid-doctrine": "1.5.*",

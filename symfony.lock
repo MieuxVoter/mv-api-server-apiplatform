@@ -83,6 +83,9 @@
     "doctrine/dbal": {
         "version": "v2.9.2"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.6",
         "recipe": {
@@ -222,8 +225,8 @@
     "matthewbaggett/clamp": {
         "version": "v1.1"
     },
-    "mieuxvoter/mj-library-php": {
-        "version": "dev-master"
+    "mieuxvoter/majority-judgment": {
+        "version": "1.0.3"
     },
     "monolog/monolog": {
         "version": "1.25.1"
@@ -610,6 +613,9 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.22.0"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.23.0"
     },
     "symfony/process": {
         "version": "v4.3.4"
