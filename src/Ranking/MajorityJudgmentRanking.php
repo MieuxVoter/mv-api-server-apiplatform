@@ -105,6 +105,7 @@ class MajorityJudgmentRanking implements RankingInterface
         );
 
         $grades = $poll->getGradesInOrder();
+        $amountOfGrades = count($grades);
 
         // Use the PHP library deliberator
         $result = $deliberator->deliberate($pollTally, $deliberatorSettings);
@@ -124,15 +125,22 @@ class MajorityJudgmentRanking implements RankingInterface
             $proposalResult->setMedianGrade($grades[$competitor->getMedian()]);
 
             $gradesResults = [];
-            $i = 0;
-            foreach ($tallyPerProposal[$proposal->getUuid()->toString()] as $gradeTally) {
+
+            $proposalTally = $tallyPerProposal[$proposal->getUuid()->toString()];
+            assert(
+                count($proposalTally) === $amountOfGrades,
+                "Collected tally for proposal " . $proposal->getUuid()->toString() .
+                " must hold the correct amount of grades.  " .
+                "Expected `$amountOfGrades' bu got `".count($proposalTally)."'"
+            );
+
+            for ($i = 0 ; $i < $amountOfGrades ; $i++) {
                 $gradeResult = new Poll\Grade\Result();
                 $gradeResult->setProposal($proposal);
                 $gradeResult->setGrade($grades[$i]);
-                $gradeResult->setTally($gradeTally);
+                $gradeResult->setTally($proposalTally[$i]);
 
                 $gradesResults[] = $gradeResult;
-                $i++;
             }
             $proposalResult->setGradesResults($gradesResults);
 
