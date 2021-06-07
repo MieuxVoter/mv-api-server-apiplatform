@@ -41,7 +41,7 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Given /^un(?:⋅?e)? (?:utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
+     * @Given /^un(?:⋅?e)? (?:juge|utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a citizen named (?P<name>.+)$/ui
      * @throws Exception
      */
