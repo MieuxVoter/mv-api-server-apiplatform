@@ -19,18 +19,47 @@ security:
         ROLE_SUPER: ROLE_ADMIN
 
     firewalls:
+        # The API requires authentication to be used, for the most part.
+        # This is because:
+        # - Ballots are submitted individually  (in case of big amounts of proposals)
+        # - We need to be able to revert abuse
+        # - We will be able to "link" our accounts to France Connect, to authenticate
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         api_documentation_sandbox:
-            pattern:  ^/api/docs?(?:[.](?:html|xml|json|ya?ml))?$
+            pattern:  ^/docs?(?:[.](?:html|xml|json|ya?ml))?$
+            security: false
+
+        api_documentation_sandbox_root:
+            pattern:  ^/$
+            security: false
+
+        api_register:
+            pattern: ^/users$
+            methods: ['POST']
+            stateless: true
+            anonymous: true
+
+        api_read_public_poll:
+            pattern: ^/polls/[a-z0-9_-]+$
+            methods: ['GET']
+            stateless: true
+            anonymous: true
+
+        api_tool_merit_profile_via_query:
+            pattern: ^/render
+            security: false
+
+        api_tool_merit_profile_via_path:
+            pattern: ^/[0-9_-]+[.](?:json|svg)$
             security: false
 
         api:
             pattern: ^/
             stateless: true
-            anonymous: true
             provider: app_user_provider
             http_basic:
                 realm: "Authentication Desk"
