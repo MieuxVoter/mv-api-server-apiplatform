@@ -38,13 +38,19 @@ security:
             security: false
 
         api_register:
-            pattern: ^/users$
+            pattern: ^/users/?$
             methods: ['POST']
             stateless: true
             anonymous: true
 
+        api_read_public_polls:
+            pattern: ^/polls/?$
+            methods: ['GET']
+            stateless: true
+            anonymous: true
+
         api_read_public_poll:
-            pattern: ^/polls/[a-z0-9_-]+$
+            pattern: ^/polls/[a-z0-9_-]+/?$
             methods: ['GET']
             stateless: true
             anonymous: true
