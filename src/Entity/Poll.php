@@ -212,6 +212,7 @@ class Poll
     /**
      * Can the current user generate invitations for this poll or not?
      * Helps clients show the relevant links and forms.
+     * The PollsDataProvider fills this value using the permissions referee, since entities may not access Services.
      *
      * @var bool
      * @Groups({"read"})

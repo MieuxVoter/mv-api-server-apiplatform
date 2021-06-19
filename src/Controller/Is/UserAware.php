@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Security;
 
 
 trait UserAware {
+
     /**
      * @var Security
      */
