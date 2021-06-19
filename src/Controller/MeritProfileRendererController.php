@@ -6,8 +6,9 @@ namespace App\Controller;
 
 use App\Form\DataTransformer\TallyTransformer;
 use Exception;
-use Miprem\Renderer;
-use Miprem\Template;
+use Miprem\Model\Poll;
+use Miprem\Model\SvgConfig;
+use Miprem\Renderer\SvgRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * This route renders a SVG of the merit profile of the provided tally.
  * See the related Swagger\Documenter for ApiPlatform documentation and more information.
- *
  */
 class MeritProfileRendererController extends AbstractController
 {
@@ -85,7 +85,22 @@ class MeritProfileRendererController extends AbstractController
 //            return new Response("Invalid request content.", Response::HTTP_BAD_REQUEST);
 //        }
 
-        $css = "";
+//        $css = <<<MIPREM_CSS
+//#background {
+//  /*fill: floralwhite;*/
+//}
+///*#question, .proposal-ref {*/
+///*  font-size: 18px;*/
+///*  font-family: sans-serif;*/
+///*}*/
+///*#error {*/
+///*  fill: red;*/
+///*}*/
+//.proposal-bar > rect:nth-child(1) {
+//    /*fill: #00ff00;*/
+//}
+//MIPREM_CSS;
+//        $css = preg_replace("!</?style>!ui", '', $css);  // code completion shenanigans
 
         $options = [
             "width" => $svg_w,
@@ -98,9 +113,9 @@ class MeritProfileRendererController extends AbstractController
 //            "grades_gap" => 1
         ];
 
-        $poll = [
-            'question' => [
-                'label' => $request->get('question', ""),
+        $poll = Poll::fromArray([
+            'subject' => [
+                'label' => $request->get('subject', ""),
             ],
             'tally' => $tally,
             'proposals' => array_map(function ($i) {
@@ -108,16 +123,18 @@ class MeritProfileRendererController extends AbstractController
                 return ['label' => $label];
             }, range(0, count($tally)-1)),
 //            'grades' => array_map(function ($t, $i) {return "grade $i";}, $tally[0], range(0, count($tally[0])-1)),
-        ];
+        ]);
 
+        $config = SvgConfig::sample()->setSidebarWidth(0);
 
         try {
-            $miprem = new Renderer(Template::MERIT_PROFILE, $options, $css);
+            $miprem = new SvgRenderer($config);
             $svg = $miprem->render($poll);
         } catch (Exception $e) {
             return $this->respondDemoUsage($svg_w, $svg_h, "Miprem:".$e->getMessage());
         }
 
+//        return new Response($svg, Response::HTTP_OK);
         return new Response($svg, Response::HTTP_OK, ['Content-Type' => 'text/svg']);
     }
 
