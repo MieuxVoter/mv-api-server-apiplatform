@@ -60,7 +60,7 @@ security:
             security: false
 
         api_tool_merit_profile_via_path:
-            pattern: ^/[0-9_-]+[.](?:json|svg)$
+            pattern: ^/[0-9_-]+[.](?:json|svg|png)$
             security: false
 
         api:

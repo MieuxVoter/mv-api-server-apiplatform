@@ -8,6 +8,7 @@ use App\Form\DataTransformer\TallyTransformer;
 use Exception;
 use Miprem\Model\Poll;
 use Miprem\Model\SvgConfig;
+use Miprem\Renderer\PngIMRenderer;
 use Miprem\Renderer\SvgRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,63 +49,68 @@ class MeritProfileRendererController extends AbstractController
      * @param TallyTransformer $tallyTransformer
      * @return Response
      */
-    public function tallyFromFilepath(string $filepath, Request $request, TallyTransformer $tallyTransformer): Response
+    public function svgtallyFromFilepath(string $filepath, Request $request, TallyTransformer $tallyTransformer): Response
     {
         $filepath = str_replace('-', ',', $filepath);
-        return $this->respondSvgForTally(
-            $filepath, $request, $tallyTransformer
-        );
+        return $this->respondSvgForTally($filepath, $request, $tallyTransformer);
+    }
+
+    /** @noinspection PhpUnused */
+    /**
+     * @Route("/{filepath}.png", name="merit_profile_png_path")
+     *
+     * @param string $filepath
+     * @param Request $request
+     * @param TallyTransformer $tallyTransformer
+     * @return Response
+     */
+    public function pngTallyFromFilepath(string $filepath, Request $request, TallyTransformer $tallyTransformer): Response
+    {
+        $filepath = str_replace('-', ',', $filepath);
+        return $this->respondPngForTally($filepath, $request, $tallyTransformer);
     }
 
     public function respondSvgForTally($tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
     {
+        return $this->respondImageForTally('svg', $tally_thing, $request, $tallyTransformer);
+    }
+
+    public function respondPngForTally($tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
+    {
+        return $this->respondImageForTally('png', $tally_thing, $request, $tallyTransformer);
+    }
+
+    public function respondImageForTally($type, $tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
+    {
         $default_width = 800;
         $default_height = round($default_width*0.618);
-        $svg_w = (int) $this->getAnyFromRequest($request, ['width', 'w', 'x'], $default_width);
-        $svg_h = (int) $this->getAnyFromRequest($request, ['height', 'h', 'y'], $default_height);
+        $img_w = (int) $this->getAnyFromRequest($request, ['width', 'w', 'x'], $default_width);
+        $img_h = (int) $this->getAnyFromRequest($request, ['height', 'h', 'y'], $default_height);
 
         $tally = null;
         try {
             $tally = $tallyTransformer->reverseTransform($tally_thing);
         } catch (Exception $e) {
-            // → Generate a SVG with usage documentation
-            return $this->respondDemoUsage($svg_w, $svg_h, $e->getMessage());
+            // → Generate an image with usage documentation
+            return $this->respondDemoUsage($img_w, $img_h, $e->getMessage());
         }
 
         if (empty($tally)) {
-            return $this->respondDemoUsage($svg_w, $svg_h, "Provided tally is empty.");
+            return $this->respondDemoUsage($img_w, $img_h, "Provided tally is empty.");
         }
-
 
         // From JSON in request body ; should we even bother merging?
 //        try {
 //            $content = json_decode($request->getContent(), true);
 //            $tally = $content['tally'];
 //        } catch (\Exception $e) {
-//            // Perhaps render a svg here as well?
+//            // Perhaps render a img here as well?
 //            return new Response("Invalid request content.", Response::HTTP_BAD_REQUEST);
 //        }
 
-//        $css = <<<MIPREM_CSS
-//#background {
-//  /*fill: floralwhite;*/
-//}
-///*#question, .proposal-ref {*/
-///*  font-size: 18px;*/
-///*  font-family: sans-serif;*/
-///*}*/
-///*#error {*/
-///*  fill: red;*/
-///*}*/
-//.proposal-bar > rect:nth-child(1) {
-//    /*fill: #00ff00;*/
-//}
-//MIPREM_CSS;
-//        $css = preg_replace("!</?style>!ui", '', $css);  // code completion shenanigans
-
         $options = [
-            "width" => $svg_w,
-            "height" => $svg_h,
+            "width" => $img_w,
+            "height" => $img_h,
 //            "sidebar_width" => 5,
 //            "colors" => ["#0000ff", "#ff5500", "#ffaa00", "#ffff00", "#bbff00", "#55ff00", "#00dd00"],
 //            "ext_border" => 5,
@@ -128,14 +134,22 @@ class MeritProfileRendererController extends AbstractController
         $config = SvgConfig::sample()->setSidebarWidth(0);
 
         try {
-            $miprem = new SvgRenderer($config);
-            $svg = $miprem->render($poll);
+            if ('png' === $type) {
+                $miprem = new PngIMRenderer($config);
+            } else {
+                $miprem = new SvgRenderer($config);
+            }
+            $img = $miprem->render($poll);
         } catch (Exception $e) {
-            return $this->respondDemoUsage($svg_w, $svg_h, "Miprem:".$e->getMessage());
+            return $this->respondDemoUsage($img_w, $img_h, "Miprem:".$e->getMessage());
         }
 
-//        return new Response($svg, Response::HTTP_OK);
-        return new Response($svg, Response::HTTP_OK, ['Content-Type' => 'text/svg']);
+        $contentType = 'text/img';
+        if ('png' === $type) {
+            $contentType = 'image/png';
+        }
+//        return new Response($img, Response::HTTP_OK);
+        return new Response($img, Response::HTTP_OK, ['Content-Type' => $contentType]);
     }
 
     public function respondDemoUsage($w, $h, $msg="")
