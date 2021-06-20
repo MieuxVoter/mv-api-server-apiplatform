@@ -190,8 +190,8 @@ class MeritProfileRendererController extends AbstractController
 <text y="100">{proposal tally} = {worse grade count}, …, {best grade count}</text>
 <text y="120"></text>
 <text y="140">🛠 Settings</text>
-<text y="160">merit-profile.svg?width=800&height=600&tally=…</text>
-<text y="200">🔗 <a href="/render/merit-profile.svg?tally=11,4,5,3/7,4,10,2/7,5,8,3&w=800&h=600">Complete example</a></text>
+<text y="160">merit-profile.svg?width=800&amp;height=600&amp;tally=…</text>
+<text y="200">🔗 <a href="/render/merit-profile.svg?tally=11,4,5,3/7,4,10,2/7,5,8,3&amp;w=800&amp;h=600">Complete example</a></text>
 
 </svg>
 DEMOSVG;
