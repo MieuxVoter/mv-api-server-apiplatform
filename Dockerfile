@@ -21,42 +21,81 @@ RUN apk add --no-cache \
     ;
 
 ARG APCU_VERSION=5.1.18
-RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
-	    $PHPIZE_DEPS \
+
+
+RUN apk add --update
+        autoconf \
+        g++ \
+        libtool \
+        make \
 	    icu-dev \
 	    libzip-dev \
 	    zlib-dev \
-	    imagemagick \
-	    imagemagick-dev \
-	; \
-	\
-	docker-php-ext-configure zip; \
-	docker-php-ext-install -j$(nproc) \
-	    intl \
-	    zip \
-		pdo_mysql \
-	; \
-	pecl install \
-	    apcu-${APCU_VERSION} \
-        imagick \
-	; \
-	pecl clear-cache; \
-	docker-php-ext-enable \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libxml2-dev \
+        imagemagick-dev \
+    && docker-php-ext-configure gd \
+        --with-gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-png-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install \
+        gd \
+        mbstring \
+        mysqli \
+        opcache \
+        soap \
+        intl \
+        zip \
+        pdo_mysql \
+    && pecl install apcu-${APCU_VERSION} \
+    && pecl install imagick \
+    && docker-php-ext-enable \
 	    apcu \
 	    imagick \
 	    opcache \
-	; \
-	\
-	runDeps="$( \
-	    scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-	        | tr ',' '\n' \
-	        | sort -u \
-	        | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-	)"; \
-	apk add --no-cache --virtual .phpexts-rundeps $runDeps; \
-	\
-	apk del .build-deps
+    && apk del autoconf g++ libtool make \
+    && rm -rf /tmp/* /var/cache/apk/*
+
+#RUN set -eux; \
+#	apk add --no-cache --virtual .build-deps \
+#	    $PHPIZE_DEPS \
+#	    icu-dev \
+#	    libzip-dev \
+#	    zlib-dev \
+#	    imagemagick \
+#	    imagemagick-dev \
+#	; \
+#	\
+#	docker-php-ext-configure zip; \
+#	docker-php-ext-install -j$(nproc) \
+#	    intl \
+#	    zip \
+#		pdo_mysql \
+#	; \
+#	pecl install \
+#	    apcu-${APCU_VERSION} \
+#        imagick \
+#	; \
+#	pecl clear-cache; \
+#	docker-php-ext-enable \
+#	    apcu \
+#	    imagick \
+#	    opcache \
+#	; \
+#	\
+#	runDeps="$( \
+#	    scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+#	        | tr ',' '\n' \
+#	        | sort -u \
+#	        | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+#	)"; \
+#	apk add --no-cache --virtual .phpexts-rundeps $runDeps; \
+#	\
+#	apk del .build-deps
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -96,7 +135,7 @@ ARG SYMFONY_VERSION="4"
 #	composer clear-cache
 
 RUN composer install \
-    --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+    --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
 	composer clear-cache
 
 ###> recipes ###
