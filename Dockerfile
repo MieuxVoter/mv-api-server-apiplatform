@@ -93,6 +93,7 @@ RUN set -eux; \
         php7-pdo \
         php7-pdo_mysql \
         php7-session \
+        php7-gd \
         php7-simplexml \
         php7-tokenizer \
         php7-xml \
