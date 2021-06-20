@@ -9,7 +9,7 @@ use Exception;
 use Miprem\Model\Poll;
 use Miprem\Model\SvgConfig;
 use Miprem\Renderer\PngGDRenderer;
-use Miprem\Renderer\PngIMRenderer; // dropped because we get 0 supported formats -- needs werkdocker
+// use Miprem\Renderer\PngIMRenderer; // dropped because we get 0 supported formats -- needs docker work
 //    $ php --ri imagick
 //
 //    imagick
@@ -153,6 +153,9 @@ class MeritProfileRendererController extends AbstractController
         ]);
 
         $config = SvgConfig::sample()->setSidebarWidth(0);
+        if ('png' == $type) {
+            $config->setHeaderHeight(0);
+        }
 
         try {
             if ('png' === $type) {
