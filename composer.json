@@ -20,7 +20,7 @@
         "nelmio/cors-bundle": "^2.1",
         "ramsey/uuid": "^3 || ^4",
         "ramsey/uuid-doctrine": "1.5.*",
-        "roipoussiere/miprem-php": "@dev",
+        "roipoussiere/miprem-php": "^0 || ^1",
         "sensio/framework-extra-bundle": "5.3.*",
         "stof/doctrine-extensions-bundle": "1.5.*",
         "symfony/console": "4.4.*",
@@ -62,10 +62,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/domi41/behatformatter.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://framagit.org/roipoussiere/miprem-php.git"
         }
     ],
     "config": {
