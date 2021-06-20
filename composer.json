@@ -109,6 +109,7 @@
         "symfony/symfony": "*"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "symfony": {
             "allow-contrib": false,
