@@ -8,7 +8,28 @@ use App\Form\DataTransformer\TallyTransformer;
 use Exception;
 use Miprem\Model\Poll;
 use Miprem\Model\SvgConfig;
-use Miprem\Renderer\PngIMRenderer;
+use Miprem\Renderer\PngGDRenderer;
+use Miprem\Renderer\PngIMRenderer; // dropped because we get 0 supported formats -- needs werkdocker
+//    $ php --ri imagick
+//
+//    imagick
+//
+//    imagick module => enabled
+//    imagick module version => 3.5.0
+//    imagick classes => Imagick, ImagickDraw, ImagickPixel, ImagickPixelIterator, ImagickKernel
+//    Imagick compiled with ImageMagick version => ImageMagick 7.0.10-48 Q16 x86_64 2020-12-12 https://imagemagick.org
+//    Imagick using ImageMagick library version => ImageMagick 7.0.10-48 Q16 x86_64 2020-12-12 https://imagemagick.org
+//    ImageMagick copyright => © 1999-2020 ImageMagick Studio LLC
+//    ImageMagick release date => 2020-12-12
+//    ImageMagick number of supported formats:  => 0
+//
+//    Directive => Local Value => Master Value
+//    imagick.locale_fix => 0 => 0
+//    imagick.skip_version_check => 0 => 0
+//    imagick.progress_monitor => 0 => 0
+//    imagick.set_single_thread => 1 => 1
+//    imagick.shutdown_sleep_count => 10 => 10
+//    imagick.allow_zero_dimension_images => 0 => 0
 use Miprem\Renderer\SvgRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,7 +156,7 @@ class MeritProfileRendererController extends AbstractController
 
         try {
             if ('png' === $type) {
-                $miprem = new PngIMRenderer($config);
+                $miprem = new PngGdRenderer($config);
             } else {
                 $miprem = new SvgRenderer($config);
             }
