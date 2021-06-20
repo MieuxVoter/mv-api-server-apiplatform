@@ -129,6 +129,8 @@ class MeritProfileRendererController extends AbstractController
 //            return new Response("Invalid request content.", Response::HTTP_BAD_REQUEST);
 //        }
 
+        $subject = $request->get('subject', "");
+
         $options = [
             "width" => $img_w,
             "height" => $img_h,
@@ -142,7 +144,7 @@ class MeritProfileRendererController extends AbstractController
 
         $poll = Poll::fromArray([
             'subject' => [
-                'label' => $request->get('subject', ""),
+                'label' => $subject,
             ],
             'tally' => $tally,
             'proposals' => array_map(function ($i) {
@@ -153,7 +155,7 @@ class MeritProfileRendererController extends AbstractController
         ]);
 
         $config = SvgConfig::sample()->setSidebarWidth(0);
-        if ('png' == $type) {
+        if (empty($subject)) {
             $config->setHeaderHeight(0);
         }
 
