@@ -23,7 +23,7 @@ RUN apk add --no-cache \
 ARG APCU_VERSION=5.1.18
 
 
-RUN apk add --update
+RUN apk add --update \
         autoconf \
         g++ \
         libtool \
