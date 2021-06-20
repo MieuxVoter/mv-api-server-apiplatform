@@ -64,6 +64,7 @@ ARG APCU_VERSION=5.1.18
 
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
+	    $PHPIZE_DEPS \
 #	    icu-dev \
 #	    libzip-dev \
 #	    zlib-dev \
@@ -80,12 +81,29 @@ RUN set -eux; \
         libpng-dev \
         libjpeg-turbo-dev \
         libxml2-dev \
+        libgomp \
         imagemagick \
+        imagemagick-libs \
         imagemagick-dev \
         oniguruma-dev \
+#        git \
+#        openssh-client \
+        php7-json \
+        php7-openssl \
+        php7-pdo \
+        php7-pdo_mysql \
+        php7-session \
+        php7-simplexml \
+        php7-tokenizer \
+        php7-xml \
+        php7-imagick \
+        php7-pcntl \
+        php7-zip \
+#        sqlite \
 	; \
 	\
 	docker-php-ext-configure zip; \
+	docker-php-ext-configure gd; \
 	docker-php-ext-install -j$(nproc) \
 #	    intl \
 #	    zip \
