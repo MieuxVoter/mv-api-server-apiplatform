@@ -36,6 +36,7 @@ RUN apk add --update \
         libjpeg-turbo-dev \
         libxml2-dev \
         imagemagick-dev \
+        oniguruma-dev \
     && docker-php-ext-configure gd \
 #        --with-gd \
 #        --with-freetype-dir=/usr/include/ \
