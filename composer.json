@@ -62,6 +62,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/domi41/behatformatter.git"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/roipoussiere/php-svg.git"
         }
     ],
     "config": {
@@ -104,6 +108,7 @@
     "conflict": {
         "symfony/symfony": "*"
     },
+    "minimum-stability": "dev",
     "extra": {
         "symfony": {
             "allow-contrib": false,
