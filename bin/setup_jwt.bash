@@ -21,12 +21,12 @@ generate_jwt() {
     openssl pkey -in ./config/jwt/private.pem -passin pass:${PASSPHRASE} --out ./config/jwt/public.pem -pubout
     echo -e "Wrote public key to ./config/jwt/public.pem"
 
-    echo "JWT_PASSPHRASE=${PASSPHRASE}" >> .env.local
+    echo "JWT_PASSPHRASE='${PASSPHRASE}'" >> .env.local
     echo -e "Wrote passphrase to .env.local"
-    echo "JWT_PASSPHRASE=${PASSPHRASE}" >> .env.test.local
+    echo "JWT_PASSPHRASE='${PASSPHRASE}'" >> .env.test.local
     echo -e "Wrote passphrase to .env.test.local"
 }
 
 generate_jwt
 
-echo -ne "Done!"
+echo -e "Done!"
