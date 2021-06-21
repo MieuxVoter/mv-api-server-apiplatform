@@ -53,10 +53,26 @@ class MeritProfileRendererController extends AbstractController
      * @param TallyTransformer $tallyTransformer
      * @return Response
      */
-    public function tallyFromGet(Request $request, TallyTransformer $tallyTransformer): Response
+    public function svgTallyFromGet(Request $request, TallyTransformer $tallyTransformer): Response
     {
         $tally_thing = $request->get('tally', ''); // string, array of string, array of array of int
         return $this->respondSvgForTally(
+            $tally_thing, $request, $tallyTransformer
+        );
+    }
+
+    /** @noinspection PhpUnused */
+    /**
+     * @Route("/render/merit-profile.png", name="merit_profile_png_query")
+     *
+     * @param Request $request
+     * @param TallyTransformer $tallyTransformer
+     * @return Response
+     */
+    public function pngTallyFromGet(Request $request, TallyTransformer $tallyTransformer): Response
+    {
+        $tally_thing = $request->get('tally', ''); // string, array of string, array of array of int
+        return $this->respondPngForTally(
             $tally_thing, $request, $tallyTransformer
         );
     }
@@ -154,7 +170,7 @@ class MeritProfileRendererController extends AbstractController
 //            'grades' => array_map(function ($t, $i) {return "grade $i";}, $tally[0], range(0, count($tally[0])-1)),
         ]);
 
-        $config = SvgConfig::sample()->setSidebarWidth(0);
+        $config = SvgConfig::sample()->setSidebarWidth(0)->setReverseGradesColors(True);
         if (empty($subject)) {
             $config->setHeaderHeight(0);
         }
@@ -170,12 +186,15 @@ class MeritProfileRendererController extends AbstractController
             return $this->respondDemoUsage($img_w, $img_h, "Miprem:".$e->getMessage());
         }
 
-        $contentType = 'text/img';
+        $contentType = 'image/svg';
         if ('png' === $type) {
             $contentType = 'image/png';
         }
 //        return new Response($img, Response::HTTP_OK);
-        return new Response($img, Response::HTTP_OK, ['Content-Type' => $contentType]);
+        return new Response($img, Response::HTTP_OK, [
+            'Content-Disposition' => 'inline',
+            'Content-Type' => $contentType
+        ]);
     }
 
     public function respondDemoUsage($w, $h, $msg="")

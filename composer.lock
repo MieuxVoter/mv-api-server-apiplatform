@@ -3212,11 +3212,11 @@
         },
         {
             "name": "roipoussiere/miprem-php",
-            "version": "0.1.8",
+            "version": "0.1.12",
             "source": {
                 "type": "git",
                 "url": "https://framagit.org/roipoussiere/miprem-php",
-                "reference": "09bf12f38f75a92588a5130f67070d3b8b685960"
+                "reference": "5173f3e6392116e14feb68119c113e6400db10f4"
             },
             "require": {
                 "meyfa/php-svg": "dev-master",
@@ -3249,7 +3249,7 @@
                 }
             ],
             "description": "A merit profile renderer for majority judgment.",
-            "time": "2021-06-20T19:38:05+00:00"
+            "time": "2021-06-21T11:52:50+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
