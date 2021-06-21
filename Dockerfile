@@ -104,7 +104,9 @@ RUN set -eux; \
 	; \
 	\
 	docker-php-ext-configure zip; \
-	docker-php-ext-configure gd; \
+	docker-php-ext-configure gd \
+	    --with-freetype \
+	; \
 	docker-php-ext-install -j$(nproc) \
 #	    intl \
 #	    zip \
