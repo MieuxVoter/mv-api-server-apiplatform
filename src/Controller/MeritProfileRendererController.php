@@ -170,7 +170,7 @@ class MeritProfileRendererController extends AbstractController
 //            'grades' => array_map(function ($t, $i) {return "grade $i";}, $tally[0], range(0, count($tally[0])-1)),
         ]);
 
-        $config = SvgConfig::sample()->setSidebarWidth(0)->setReverseGradesColors(True);
+        $config = SvgConfig::sample()->setSidebarWidth(0);
         if (empty($subject)) {
             $config->setHeaderHeight(0);
         }
