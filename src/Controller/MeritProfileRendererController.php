@@ -125,11 +125,11 @@ class MeritProfileRendererController extends AbstractController
             $tally = $tallyTransformer->reverseTransform($tally_thing);
         } catch (Exception $e) {
             // → Generate an image with usage documentation
-            return $this->respondDemoUsage($img_w, $img_h, $e->getMessage());
+            return $this->respondDemoUsage($type, $img_w, $img_h, $e->getMessage());
         }
 
         if (empty($tally)) {
-            return $this->respondDemoUsage($img_w, $img_h, "Provided tally is empty.");
+            return $this->respondDemoUsage($type, $img_w, $img_h, "Provided tally is empty.");
         }
 
         // From JSON in request body ; should we even bother merging?
@@ -142,6 +142,19 @@ class MeritProfileRendererController extends AbstractController
 //        }
 
         $subject = $request->get('subject', "");
+
+        $proposals = array_map(function ($i) {
+            $label = chr($i+65); // A, B, C, …
+            return ['label' => $label];
+        }, range(0, count($tally)-1));
+
+        $queryProposals = $request->get('proposals', []);
+        if ( ! empty($queryProposals) && count($queryProposals) === count($tally)) {
+            $proposals = array_map(function ($p) {
+                $label = mb_strimwidth($p, 0, 20);
+                return ['label' => $label];
+            }, $queryProposals);
+        }
 
         $options = [
             "width" => $img_w,
@@ -159,10 +172,7 @@ class MeritProfileRendererController extends AbstractController
                 'label' => $subject,
             ],
             'tally' => $tally,
-            'proposals' => array_map(function ($i) {
-                $label = chr($i+65); // A, B, C, …
-                return ['label' => $label];
-            }, range(0, count($tally)-1)),
+            'proposals' => $proposals,
 //            'grades' => array_map(function ($t, $i) {return "grade $i";}, $tally[0], range(0, count($tally[0])-1)),
         ]);
 
@@ -170,6 +180,8 @@ class MeritProfileRendererController extends AbstractController
         if (empty($subject)) {
             $config->setHeaderHeight(0);
         }
+        $config->setWidth($img_w);
+        $config->setHeight($img_h);
 
         try {
             if ('png' === $type) {
@@ -179,7 +191,7 @@ class MeritProfileRendererController extends AbstractController
             }
             $img = $miprem->render($poll);
         } catch (Exception $e) {
-            return $this->respondDemoUsage($img_w, $img_h, "Miprem:".$e->getMessage());
+            return $this->respondDemoUsage($type, $img_w, $img_h, "Miprem:".$e->getMessage());
         }
 
         $contentType = 'image/svg';
@@ -192,8 +204,10 @@ class MeritProfileRendererController extends AbstractController
         ]);
     }
 
-    public function respondDemoUsage($w, $h, $msg="")
+    public function respondDemoUsage($type, $w, $h, $msg="")
     {
+        // TODO: handle $type === 'png'
+
         $svg = <<<DEMOSVG
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="$w" height="$h">
 
