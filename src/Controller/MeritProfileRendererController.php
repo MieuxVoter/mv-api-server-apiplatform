@@ -30,6 +30,7 @@ use Miprem\Renderer\PngGDRenderer;
 //    imagick.set_single_thread => 1 => 1
 //    imagick.shutdown_sleep_count => 10 => 10
 //    imagick.allow_zero_dimension_images => 0 => 0
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 use Miprem\Renderer\SvgRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,14 +39,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 
-/** @noinspection PhpUnused */
 /**
- * This route renders a SVG of the merit profile of the provided tally.
- * See the related Swagger\Documenter for ApiPlatform documentation and more information.
+ * This route renders a SVG|PNG of the merit profile of the provided tally.
+ * See the related \App\Swagger\Documenter for ApiPlatform documentation and more information.
  */
 class MeritProfileRendererController extends AbstractController
 {
-    /** @noinspection PhpUnused */
     /**
      * @Route("/render/merit-profile.svg", name="merit_profile_svg_query")
      *
@@ -61,7 +60,6 @@ class MeritProfileRendererController extends AbstractController
         );
     }
 
-    /** @noinspection PhpUnused */
     /**
      * @Route("/render/merit-profile.png", name="merit_profile_png_query")
      *
@@ -77,7 +75,6 @@ class MeritProfileRendererController extends AbstractController
         );
     }
 
-    /** @noinspection PhpUnused */
     /**
      * @Route("/{filepath}.svg", name="merit_profile_svg_path")
      *
@@ -92,7 +89,6 @@ class MeritProfileRendererController extends AbstractController
         return $this->respondSvgForTally($filepath, $request, $tallyTransformer);
     }
 
-    /** @noinspection PhpUnused */
     /**
      * @Route("/{filepath}.png", name="merit_profile_png_path")
      *
@@ -190,10 +186,9 @@ class MeritProfileRendererController extends AbstractController
         if ('png' === $type) {
             $contentType = 'image/png';
         }
-//        return new Response($img, Response::HTTP_OK);
         return new Response($img, Response::HTTP_OK, [
             'Content-Disposition' => 'inline',
-            'Content-Type' => $contentType
+            'Content-Type' => $contentType,
         ]);
     }
 
@@ -215,8 +210,10 @@ class MeritProfileRendererController extends AbstractController
 </svg>
 DEMOSVG;
 
-//        return Response::create($svg, Response::HTTP_OK);
-        return Response::create($svg, Response::HTTP_OK, ['Content-Type' => 'text/svg']);
+        return Response::create($svg, Response::HTTP_OK, [
+            'Content-Type' => 'text/svg',
+            'Content-Disposition' => 'inline',
+        ]);
         // should we send back a 400 and not a 200?
     }
 
