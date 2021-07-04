@@ -42,6 +42,9 @@ client-javascript:  ## Generate a client library that can consume our API
 	bash bin/generate-client.bash -t javascript
 	# You may need to run `npx babel src -d dist` in the target lib
 
+client-dart:  ## Generate a client library that can consume our API
+	bash bin/generate-client.bash -t dart
+
 # Adding this as well, until we figure out how NOT to hardcode the target directory
 client-javascript-domi:  ## Generate & Babel a client library that can consume our API
 	bash bin/generate-client.bash -t javascript -o ~/code/snd/
