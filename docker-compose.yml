@@ -54,11 +54,11 @@ services:
   db:
     image: mariadb:10.5.5
     environment:
-      - MYSQL_DATABASE=limaju
+      - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:-limaju}
+      - MYSQL_USER=${MVOAS_MYSQL_USERNAME:-limaju}
       # You should definitely change the password in production
-      - MYSQL_PASSWORD=limaju
+      - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:-limaju}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-      - MYSQL_USER=limaju
     volumes:
       - ./var/db/data:/var/lib/mysql:rw
     ports:
