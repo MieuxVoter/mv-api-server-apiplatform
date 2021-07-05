@@ -48,12 +48,24 @@ security:
             methods: ['GET']
             stateless: true
             anonymous: true
+            # We HAVE TO repeat the config here for Security to trigger and find the User if any.
+            http_basic:
+                realm: "Authentication Desk"
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         api_read_public_poll:
             pattern: ^/polls/[a-z0-9_-]+/?$
             methods: ['GET']
             stateless: true
             anonymous: true
+            # We HAVE TO repeat the config here for Security to trigger and find the User if any.
+            http_basic:
+                realm: "Authentication Desk"
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         api_tool_merit_profile_via_query:
             pattern: ^/render
@@ -77,9 +89,14 @@ security:
                 username_path: usernameOrEmail
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure        
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # Is the "main" even used, now that api matches ^/ ?
         main:
-            anonymous: true
+#            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
             http_basic:
                 realm: "Authentication Desk"
             
