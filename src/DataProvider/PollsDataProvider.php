@@ -71,6 +71,7 @@ final class PollsDataProvider implements ItemDataProviderInterface, CollectionDa
 
         $queryBuilder = $queryBuilder
             ->where($predicate)
+            ->orderBy('poll.id', 'DESC')
             ->setParameter('scope', 'public');
 
         $this->paginationExtension->applyToCollection(
