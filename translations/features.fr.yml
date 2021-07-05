@@ -6,6 +6,7 @@ balloting:
 
 keys:
   poll:
+    author: 'auteur'
     subject: 'sujet'
     title: 'titre'
     proposals: 'propositions'

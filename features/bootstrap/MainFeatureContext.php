@@ -91,6 +91,7 @@ class MainFeatureContext extends BaseFeatureContext
      */
     public function givenPollLikeSo($pystring)
     {
+        $authorKey = $this->t('keys.poll.author');
         $scopeKey = $this->t('keys.poll.scope');
         $subjectKey = $this->t('keys.poll.subject');
         $proposalsKey = $this->t('keys.poll.proposals');
@@ -111,10 +112,16 @@ class MainFeatureContext extends BaseFeatureContext
         if ( ! isset($data[$subjectKey])) {
             $this->failTrans("poll_has_no_subject");
         }
-
         $poll->setSubject($data[$subjectKey]);
+
         if (isset($data[$scopeKey])) {
             $poll->setScope($this->t('values.poll.scope.'.$data[$scopeKey]));
+        }
+
+        if (isset($data[$authorKey])) {
+            $author = $this->actor($data[$authorKey], false);
+            $user = $this->getRepository(User::class)->find($author->getUser()->getId());
+            $poll->setAuthor($user);
         }
 
         $this->persist($poll);
@@ -378,7 +385,7 @@ class MainFeatureContext extends BaseFeatureContext
         $actual = $actor->getLastTransaction()->getResponseJson();
 
         $this->assertEquals("/contexts/".$entityClass, $actual['@context']);
-        $this->assertEquals($amount, $actual['hydra:totalItems']);
+        $this->assertEquals($amount, $actual['hydra:totalItems'], "The amount of seen entities is incorrect");
     }
 
 

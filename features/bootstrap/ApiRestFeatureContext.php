@@ -1,6 +1,8 @@
 <?php /** @noinspection PhpDocSignatureInspection */
 
-use Symfony\Component\DomCrawler\Crawler;
+use Features\Steps\BasicGetTrait;
+use Features\Steps\DomCrawlerSteps;
+use Features\Steps\ResponseAnalysisSteps;
 
 
 /**
@@ -12,12 +14,12 @@ use Symfony\Component\DomCrawler\Crawler;
 class ApiRestFeatureContext extends BaseFeatureContext
 {
 
-    use \Features\Steps\DomCrawlerSteps;
-    use \Features\Steps\BasicGetTrait;
-    use \Features\Steps\ResponseAnalysisSteps;
+    use DomCrawlerSteps;
+    use BasicGetTrait;
+    use ResponseAnalysisSteps;
 
     // Let's try and use traits from now on.
-    // What's below probably ought to be refactored in Traits.
+    // Registration below perhaps ought to be refactored in a Trait as well.
 
     /**
      * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) créer? un compte utilisat(?:rice|eur(?:⋅?e)?) (?:ainsi|comme suit) *:?$/ui
@@ -26,7 +28,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     {
         $data = $this->yaml($pystring);
         $this->actor($actor, true)->api(
-            'POST',"/users",
+            'POST', "/users",
             $data, [], !empty($try)
         );
     }
@@ -37,7 +39,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public function actorRegistersWithPassword($actor, $try, $password)
     {
         $this->actor($actor, true)->api(
-            'POST',"/users",
+            'POST', "/users",
             [
                 'username' => $actor,
                 'password' => $password,
@@ -51,7 +53,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public function actorRegistersWithEmailAndPassword($actor, $try, $email, $password)
     {
         $this->actor($actor, true)->api(
-            'POST',"/users",
+            'POST', "/users",
             [
                 'username' => $actor,
                 'email' => $email,
@@ -69,7 +71,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     {
 
         $this->actor($actor, true)->api(
-            'POST',"/_jwt",
+            'POST', "/_jwt",
             [
                 'usernameOrEmail' => $actor,
 //                'email' => $email,
@@ -93,12 +95,12 @@ class ApiRestFeatureContext extends BaseFeatureContext
             $proposal = $this->findOneProposalFromTitleAndPoll($proposalTitle, $poll);
             $grade = $this->getGradeRepository()->findOneByPollAndName($poll, $gradeName);
             if (null === $grade) {
-                $this->failTrans("no_grade_matching_name", ['name'=>$gradeName]);
+                $this->failTrans("no_grade_matching_name", ['name' => $gradeName]);
             }
             $pollId = $poll->getUuid();
             $proposalId = $proposal->getUuid();
             $this->actor($actor)->api(
-                'POST',"/polls/{$pollId}/proposals/{$proposalId}/ballots",
+                'POST', "/polls/{$pollId}/proposals/{$proposalId}/ballots",
                 [
                     // the author is inferred from auth
 //                    'author' => $this->iri($this->actor($actor)->getUser()),
@@ -146,7 +148,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         }
 
         $this->actor($actor)->api(
-            'POST',"/polls",
+            'POST', "/polls",
             [
                 'subject' => $data[$this->t('keys.poll.subject')],
                 'proposals' => $proposals,
@@ -168,7 +170,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $tx = $this->actor($actor)->api(
-            'GET',"/polls/".$poll->getUuid()."/result",
+            'GET', "/polls/" . $poll->getUuid() . "/result",
             [], [], !empty($try)
         );
 
@@ -190,9 +192,6 @@ class ApiRestFeatureContext extends BaseFeatureContext
         if (null == $this->that_tally) {
             $this->failTrans("that_tally_undefined");
         }
-
-        $data = $this->yaml($pystring);
-
 //        dump($this->that_tally);
 //        array:7 [
 //          "@context" => "/api/contexts/Tally"
@@ -217,9 +216,9 @@ class ApiRestFeatureContext extends BaseFeatureContext
 //                "name": "très bien"
 //                "level": 5
 //              }
-
 //            ]
 
+        $data = $this->yaml($pystring);
 
         foreach ($data as $proposalTitle => $datum) {
             $rank = $datum[$this->t('keys.proposal.rank')];
@@ -274,7 +273,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $poll = $this->findOnePollFromSubject($title);
 
         $this->actor($actor)->api(
-            'DELETE',"/polls/".$poll->getUuid(),
+            'DELETE', "/polls/" . $poll->getUuid(),
             [], [], !empty($try)
         );
     }
@@ -293,10 +292,10 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $pollId = $poll->getUuid();
 
         $actor->api(
-            'GET',"/polls/{$pollId}/invitations",
+            'GET', "/polls/{$pollId}/invitations",
             [], [
-                'limit' => $invitationsAmount,
-            ], !empty($try)
+            'limit' => $invitationsAmount,
+        ], !empty($try)
         );
 
         $content = $actor->getLastTransaction()->getResponseJson();
@@ -357,27 +356,57 @@ class ApiRestFeatureContext extends BaseFeatureContext
         $invitationId = $invitation['uuid'];
 
         $actor->api(
-            'GET',"/invitations/{$invitationId}",
+            'GET', "/invitations/{$invitationId}",
             [], [], !empty($try)
         );
 
         $responseInvitation = $actor->getLastTransaction()->getResponseJson();
 
-        if ( ! $responseInvitation['acceptedByYou']) {
+        if (!$responseInvitation['acceptedByYou']) {
             $actor->markPreviousRequestAsFailed();
         }
     }
 
 
     /**
-     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) list(?:e[szr]?|ent)(?: (?:de|à) nouveau)? les scrutins publics$/iu
-     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? browse the polls$/iu
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) list(?:e[szr]?|ent)(?: (?:de|à) nouveau)? les scrutins$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? (?:list|browse)s? the polls$/iu
      */
     public function actorListsPolls($actor, $try)
     {
         $this->actor($actor)->api(
-            'GET',"/polls",
+            'GET', "/polls",
             [], [], !empty($try)
+        );
+    }
+
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) list(?:e[szr]?|ent)(?: (?:de|à) nouveau)? les scrutins publics$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? (?:list|browse)s? the public polls$/iu
+     */
+    public function actorListsPublicPolls($actor, $try)
+    {
+        $this->actor($actor)->api(
+            'GET', "/polls", [],
+            [
+                'scope' => 'public',
+            ], !empty($try)
+        );
+    }
+
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) de|) list(?:e[szr]?|ent)(?: (?:de|à) nouveau)? ses(?: propres)? scrutins$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? (?:list|browse)s? (?:his|her|their) own polls$/iu
+     */
+    public function actorListsOwnPolls($actor, $try)
+    {
+        $this->actor($actor)->api(
+            'GET', "/polls", [],
+            [
+                'author' => $this->actor($actor)->getUser()->getUuid(),
+            ], !empty($try)
         );
     }
 
@@ -389,7 +418,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     public function actorViewsOnePollById($actor, $try, $pollId)
     {
         $this->actor($actor)->api(
-            'GET',"/polls/${pollId}",
+            'GET', "/polls/${pollId}",
             [], [], !empty($try)
         );
     }
