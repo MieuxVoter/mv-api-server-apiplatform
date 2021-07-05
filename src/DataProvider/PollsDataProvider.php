@@ -10,7 +10,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGenerator;
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
+use App\Controller\Is\UserAware;
 use App\Entity\Poll;
 use App\Security\PermissionsReferee;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -30,6 +30,8 @@ final class PollsDataProvider implements ItemDataProviderInterface, CollectionDa
     private $paginationExtension;
     private $permissionsReferee;
     private $context;
+
+    use UserAware;
 
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -54,8 +56,21 @@ final class PollsDataProvider implements ItemDataProviderInterface, CollectionDa
         $queryBuilder = $this->managerRegistry
             ->getManagerForClass($resourceClass)
             ->getRepository($resourceClass)
-            ->createQueryBuilder('poll')
-            ->where('poll.scope = :scope')
+            ->createQueryBuilder('poll');
+
+        $predicate = $queryBuilder->expr()->eq('poll.scope', ':scope');
+
+        $currentUser = $this->getUser();
+        if (null != $currentUser) {
+            $predicate = $queryBuilder->expr()->orX(
+                $predicate,
+                $queryBuilder->expr()->eq('poll.author', ':author')
+            );
+            $queryBuilder = $queryBuilder->setParameter('author', $currentUser->getId());
+        }
+
+        $queryBuilder = $queryBuilder
+            ->where($predicate)
             ->setParameter('scope', 'public');
 
         $this->paginationExtension->applyToCollection(
@@ -99,7 +114,7 @@ final class PollsDataProvider implements ItemDataProviderInterface, CollectionDa
         $poll = $this->managerRegistry
             ->getManagerForClass($resourceClass)
             ->getRepository($resourceClass)
-            ->findOneByIdLike((string) $id);
+            ->findOneByIdLike((string)$id);
 
         if ($poll) {
             $poll->setCanGenerateInvitations($this->permissionsReferee->canGenerateInvitationsFor($poll));
