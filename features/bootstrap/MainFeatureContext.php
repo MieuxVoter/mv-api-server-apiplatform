@@ -362,7 +362,7 @@ class MainFeatureContext extends BaseFeatureContext
 
 
     /**
-     * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? voir(?: qu[e'])? ?(?P<amount>.+?) scrutins?$/iu
+     * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? voir(?: seulement| qu[e'])? ?(?P<amount>.+?) scrutins?$/iu
      * @Then /^(?P<actor>.+?) should(?: now)? see (?P<amount>.+?) polls?$/iu
      * @throws Exception
      */

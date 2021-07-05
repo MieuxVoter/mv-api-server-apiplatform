@@ -502,7 +502,7 @@ class BaseFeatureContext extends WebTestCase implements Context
 
         // We use App\DataProvider\UserDataProvider::persist() to ensure password encryption
         $this->get("App\DataPersister\UserDataPersister")->persist($user);
-//        $this->getEntityManager()->persist($user); // no, no
+        //$this->getEntityManager()->persist($user);  // no, no
 
         return ['user' => $user, 'token' => $password];
     }
