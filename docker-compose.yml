@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   php:
+    container_name: oas
     build:
       context: .
       target: symfony_php
@@ -24,14 +25,15 @@ services:
     environment:
       - SYMFONY_VERSION
     depends_on:
-      - db
+      - oas_db
 
   nginx:
+    container_name: oas_nginx
     build:
       context: .
       target: symfony_nginx
     depends_on:
-      - php
+      - oas
     volumes:
       # Comment out the next line in production
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
@@ -45,13 +47,14 @@ services:
       context: .
       target: symfony_h2-proxy
     depends_on:
-      - nginx
+      - oas_nginx
     volumes:
       - ./docker/h2-proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "443:443"
 
   db:
+    container_name: oas_db
     image: mariadb:10.5.5
     environment:
       - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:-limaju}
