@@ -1,0 +1,9 @@
+
+packageName: "MvApi"
+invokerPackage: "MvApi"
+files:
+  LICENSE: {}
+#  INFO.md: {}
+#  api_interfaces.mustache:
+#    templateType: API
+#    destinationFilename: Interface.kt
