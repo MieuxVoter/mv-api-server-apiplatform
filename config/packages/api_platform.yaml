@@ -27,13 +27,48 @@ api_platform:
         ### Authenticate
 
         Use your credentials in the **Login** → `POST /_jwt`, and the API will return a Json Web Token valid for one hour.
-        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button.
+        Copy the token (not the whole response, and without quotes) in the field behind the `Authorize 🔒` button,
+        prefixed by the word `Bearer `.
+
+        It should look like: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ…`
 
         ### Create a poll
 
         **Poll** → `POST /polls`
 
+        Here is an example of what you could send:
+
+        ```
+        {
+          "slug": "france-presidence-2027",
+          "scope": "public",
+          "subject": "Présidentielle Française 2027",
+          "proposals": [
+            {
+              "title": "Continuer le néolibéralisme"
+            },
+            {
+              "title": "Ne pas prendre plus à la nature que ce qu'elle est capable de renouveler"
+            },
+            {
+              "title": "Former une Assemblée Constituante (Liquide)"
+            }
+          ],
+          "grades": [
+            { "name": "À Rejeter", "level": 0 },
+            { "name": "Insuffisant", "level": 1 },
+            { "name": "Passable", "level": 2 },
+            { "name": "Assez Bien", "level": 3 },
+            { "name": "Bien", "level": 4 },
+            { "name": "Très Bien", "level": 5 },
+            { "name": "Excellent", "level": 6 }
+          ]
+        }
+        ```
+
         Keep the response, you'll need the uuids.
+
+        ### Invite people to private polls
 
         > TODO: document invitation generation
 
@@ -49,8 +84,8 @@ api_platform:
 
         ## Use a generated client library
 
-        - for php  (link!)
-        - for typescript-node  (link!!)
+        - for [php](https://github.com/MieuxVoter/mv-api-client-lib-php)
+        - for [typescript](https://github.com/MieuxVoter/mv-api-client-lib-typescript)
         - …
 
         There are clients we can generate for most languages.
