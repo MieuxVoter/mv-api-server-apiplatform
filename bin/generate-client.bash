@@ -3,6 +3,7 @@
 # For a list of available targets, and further documpentation, see
 # https://github.com/OpenAPITools/openapi-generator
 
+# This is set by -t TARGET
 TARGET="php"
 #TARGET="typescript-node"
 #TARGET="mathematica"
