@@ -14,6 +14,9 @@ use Doctrine\Persistence\ObjectManager;
  *
  * We might add some preset mentions.  Might not.  Clients ought to do it?
  *
+ * To set up a database with specific fixtures, use a Scenario.
+ * The test database is cleared before each scenario, not after.
+ *
  * Class AppFixtures
  * @package App\DataFixtures
  */

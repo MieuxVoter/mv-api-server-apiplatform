@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\DataPersister;
 
@@ -13,19 +14,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 final class UserDataPersister implements ContextAwareDataPersisterInterface
 {
     /**
-     *
      * @var EntityManagerInterface
      */
     private $em;
 
     /**
-     * 
      * @var UserPasswordEncoderInterface
      */
     private $userPasswordEncoder;
 
     /**
-     *
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      */
@@ -36,8 +34,6 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
     }
 
     /**
-     * 
-     *
      * @param $data
      * @param array $context
      * @return boolean
@@ -48,7 +44,6 @@ final class UserDataPersister implements ContextAwareDataPersisterInterface
     }
 
     /**
-     *
      * @param User $data
      * @param array $context
      */
