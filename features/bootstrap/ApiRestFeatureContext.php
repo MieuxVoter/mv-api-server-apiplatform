@@ -18,7 +18,7 @@ class ApiRestFeatureContext extends BaseFeatureContext
     use BasicGetTrait;
     use ResponseAnalysisSteps;
 
-    // Let's try and use traits from now on.
+    // Let's try and use traits from now on for generic steps.
     // Registration below perhaps ought to be refactored in a Trait as well.
 
     /**
@@ -365,6 +365,19 @@ class ApiRestFeatureContext extends BaseFeatureContext
         if (!$responseInvitation['acceptedByYou']) {
             $actor->markPreviousRequestAsFailed();
         }
+    }
+
+
+    /**
+     * @When /^(?P<actor>.+?)(?P<try> (?:essa[iy]ez?|tente) d[e']|) ?obt(?:enir|ient)(?: (?:de|à) nouveau)? des informations sur (?:il|elles?|iels?|eux|nous)-mêmes?$/iu
+     * @When /^(?P<actor>.+?)(?P<try> tr(?:y|ies) to)? (get|obtain)s? information about (?:her|him|them)sel(?:f|ves)$/iu
+     */
+    public function actorGetsInfoAboutSelf($actor, $try)
+    {
+        $this->actor($actor)->api(
+            'GET', "/me",
+            [], [], !empty($try)
+        );
     }
 
 
