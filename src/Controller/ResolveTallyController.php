@@ -25,6 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * TODO: document endpoint
  * See the related Swagger\Documenter for ApiPlatform documentation and more information.
+ * We're waiting on the bump to the latest ApiPlatform (looks more stable now, 2022)
  *
  * How to better integrate this endpoint with ApiPlatform?
  */
@@ -72,7 +73,7 @@ final class ResolveTallyController extends AbstractController
         );
     }
 
-    public function respondJsonForTally($tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
+    protected function respondJsonForTally($tally_thing, Request $request, TallyTransformer $tallyTransformer): Response
     {
         $tally = null;
         try {
@@ -139,7 +140,7 @@ final class ResolveTallyController extends AbstractController
         return JsonResponse::create($response);
     }
 
-    public function respondErrorWithDemo($msg="")
+    protected function respondErrorWithDemo($msg="")
     {
         $msg = <<<DOCMSG
 $msg

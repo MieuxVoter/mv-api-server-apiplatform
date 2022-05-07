@@ -48,11 +48,16 @@ final class ApiNormalizer implements NormalizerInterface, DenormalizerInterface,
 //            $data['date'] = date(\DateTime::RFC3339);
         }
 
+        // This code has got to be moved to its own file.
+        // Now we need tagged services (but can/should we change what's injected in here?)
+        // Kind of like we did with the Documenter, but that was our own service,
+        // this ApiNormalizer is replacing a service already: api_platform.jsonld.normalizer.item
         if ($object instanceof Invitation) {
 //            $acceptedByYou = false;
             $acceptedByYou = $this->referee->isInvitationAcceptedByYou($object);
             $data['acceptedByYou'] = $acceptedByYou;
         }
+        ////////////////////////////////////////////////////////////////////////
 
         return $data;
     }
