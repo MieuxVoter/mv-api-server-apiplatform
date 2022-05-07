@@ -12,7 +12,7 @@ api_platform:
 
         ## Use one of the known clients
 
-        - TODO: add an URL to a client of the API
+        - https://cli.mieuxvoter.fr
 
 
         ## Try it out the hard way
