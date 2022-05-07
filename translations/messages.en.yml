@@ -34,6 +34,15 @@ oas:
                     Default height in pixels of the generated SVG image.
                 example: 600
 
+    get_myself:
+        summary: |
+            Gets information about the authenticating user.
+        description: |
+            This endpoint requires authentication.
+            You can use this right after login to get the user UUID for instance.
+        response:
+            ok: A `User-read` model (see bottom) of the user using the JWT we authenticated with.
+
     resolve_tally:
         summary: |
             Resolves the provided tally.
