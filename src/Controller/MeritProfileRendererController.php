@@ -45,7 +45,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * This route renders a SVG|PNG of the merit profile of the provided tally.
  * See the related \App\Swagger\Documenter for ApiPlatform documentation and more information.
  */
-class MeritProfileRendererController extends AbstractController
+final class MeritProfileRendererController extends AbstractController
 {
     /**
      * @Route("/render/merit-profile.svg", name="merit_profile_svg_query")

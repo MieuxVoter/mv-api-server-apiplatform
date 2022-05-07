@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Class RegisterUserController
  * @package App\Controller
  */
-class RegisterUserController
+final class RegisterUserController
 {
 //    use Is\EntityAware;
 //    use Is\UserAware;

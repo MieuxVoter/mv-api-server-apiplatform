@@ -16,7 +16,7 @@ namespace App\Controller;
  * Class GetInvitationsStubController
  * @package App\Controller
  */
-class GetInvitationsStubController
+final class GetInvitationsStubController
 {
     /**
      * @return array

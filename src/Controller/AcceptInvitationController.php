@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Class AcceptInvitationController
  * @package App\Controller
  */
-class AcceptInvitationController
+final class AcceptInvitationController
 {
     use Is\EntityAware;
     use Is\UserAware;

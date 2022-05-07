@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Security;
  * Class CreateBallotController
  * @package App\Controller
  */
-class CreateBallotController
+final class CreateBallotController
 {
     protected $ballotHandler;
 

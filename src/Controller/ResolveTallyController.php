@@ -28,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * How to better integrate this endpoint with ApiPlatform?
  */
-class ResolveTallyController extends AbstractController
+final class ResolveTallyController extends AbstractController
 {
     /** @noinspection PhpUnused */
     /**
