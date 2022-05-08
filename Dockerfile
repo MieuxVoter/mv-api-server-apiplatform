@@ -23,60 +23,15 @@ RUN apk add --no-cache \
 ARG APCU_VERSION=5.1.18
 
 
-#RUN apk add --update \
-#        autoconf \
-#        g++ \
-#        libtool \
-#        make \
-#	    icu-dev \
-#	    libzip-dev \
-#	    zlib-dev \
-#        freetype-dev \
-#        libpng-dev \
-#        libjpeg-turbo-dev \
-#        libxml2-dev \
-#        imagemagick \
-#        imagemagick-dev \
-#        oniguruma-dev \
-#    && docker-php-ext-configure gd \
-##        --with-gd \
-##        --with-freetype-dir=/usr/include/ \
-##        --with-png-dir=/usr/include/ \
-##        --with-jpeg-dir=/usr/include/ \
-#    && docker-php-ext-configure zip \
-#    && docker-php-ext-install \
-#        gd \
-#        mbstring \
-#        mysqli \
-#        opcache \
-#        soap \
-#        intl \
-#        zip \
-#        pdo_mysql \
-#    && pecl install apcu-${APCU_VERSION} \
-#    && pecl install imagick \
-#    && docker-php-ext-enable \
-#	    apcu \
-#	    imagick \
-#	    opcache \
-#    && apk del autoconf g++ libtool make \
-#    && rm -rf /tmp/* /var/cache/apk/*
-
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	    $PHPIZE_DEPS \
-#	    icu-dev \
-#	    libzip-dev \
-#	    zlib-dev \
-#	    imagemagick \
-#	    imagemagick-dev \
         autoconf \
         g++ \
         libtool \
         make \
         icu-dev \
         libzip-dev \
-        zlib-dev \
         freetype-dev \
         libpng-dev \
         libjpeg-turbo-dev \
@@ -101,6 +56,7 @@ RUN set -eux; \
         php7-pcntl \
         php7-zip \
 #        sqlite \
+        zlib-dev \
 	; \
 	\
 	docker-php-ext-configure zip; \
@@ -136,7 +92,8 @@ RUN set -eux; \
 	)"; \
 	apk add --no-cache --virtual .phpexts-rundeps $runDeps; \
 	\
-	apk del .build-deps
+	apk del .build-deps; \
+    rm -rf /tmp/* /var/cache/apk/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -171,14 +128,15 @@ ENV STABILITY ${STABILITY:-stable}
 ARG SYMFONY_VERSION="4"
 
 # Download the Symfony skeleton and leverage Docker cache layers
+# This is clever ; let's try to prepare as much as we can before the COPY.
 #RUN composer create-project "symfony/skeleton ${SYMFONY_VERSION}" \
 #    . \
 #    --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+# But… Why would one want to clear the cache at this point?
 #	composer clear-cache
 
 # Copy the project files into the image
 COPY . .
-
 
 # Re-enable the --no-dev once we don't need to debug prod.
 # (the lies we tell ourselves…)

@@ -1,5 +1,8 @@
 version: "3.4"
 
+# docker-compose up --build
+# docker-compose down
+
 services:
   php:
     container_name: oas
@@ -10,7 +13,7 @@ services:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         STABILITY: ${STABILITY:-stable}
     healthcheck:
-      interval: 600s
+      interval: 3600s
       timeout: 20s
       retries: 3
       start_period: 30s
@@ -62,10 +65,11 @@ services:
       # You should definitely change the password in production
       - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:-limaju}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-    volumes:
-      - ./var/db/data:/var/lib/mysql:rw
-    ports:
-      - 3308
+    # If we need this, let's mount it somewhere other than ./var (conflicts with symfony)
+    #volumes:
+    #  - ./var/db/data:/var/lib/mysql:rw
+    #ports:
+    #  - "3308:3306"
 
 
   
