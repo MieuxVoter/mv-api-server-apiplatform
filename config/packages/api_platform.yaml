@@ -5,6 +5,7 @@ api_platform:
     title: 'Majority Judgment API'
 
     # The description of the API.
+    # That description ends up on the generated sandbox and in the generated libraries.
     description: |
         This is a **deliberation service** using **majority judgment** polling.
         It's **libre software** ([source](https://github.com/mieuxvoter)) made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).
@@ -94,9 +95,11 @@ api_platform:
 
 
     # The version of the API.
+    # I think we're allowed to access ENV vars in here.
+    # → This should be a variable, and reflect `git describe …`
     version: '0.0.0-dev'
 
-    # Set this to false if you want Webby to disappear.
+    # I love Webby, although it is disabled.
     show_webby: false
 
     # The shenanigans
