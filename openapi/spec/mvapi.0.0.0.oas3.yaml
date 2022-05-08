@@ -1001,10 +1001,10 @@ paths:
           content:
             application/ld+json:
               schema:
-                $ref: '#/definitions/User'
+                $ref: '#/components/schemas/User-read'
             application/json:
               schema:
-                $ref: '#/definitions/User'
+                $ref: '#/components/schemas/User-read'
         401:
           description: 'This endpoint requires JWT authentication, since it returns the user behind that token.'
   /_jwt:

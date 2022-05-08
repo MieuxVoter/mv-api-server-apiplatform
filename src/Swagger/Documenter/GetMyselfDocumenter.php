@@ -98,12 +98,12 @@ class GetMyselfDocumenter implements DocumenterInterface
                                         'content' => [
                                             "application/ld+json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/definitions/User',
+                                                    '$ref' =>  '#/components/schemas/User-read',
                                                 ],
                                             ],
                                             "application/json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/definitions/User',
+                                                    '$ref' =>  '#/components/schemas/User-read',
                                                 ],
                                             ],
                                         ],
@@ -125,12 +125,12 @@ class GetMyselfDocumenter implements DocumenterInterface
                                         'content' => [
                                             "application/ld+json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/definitions/User',
+                                                    '$ref' =>  '#/components/schemas/User-read',
                                                 ],
                                             ],
                                             "application/json" => [
                                                 "schema" => [
-                                                    '$ref' =>  '#/definitions/User',
+                                                    '$ref' =>  '#/components/schemas/User-read',
                                                 ],
                                             ],
                                         ],
