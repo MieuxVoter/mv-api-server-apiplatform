@@ -3,7 +3,7 @@
     "info": {
         "title": "Majority Judgment API",
         "version": "0.0.0-dev",
-        "description": "This is a **deliberation service** using **majority judgment** polling.\nIt's **libre software** ([source](https://github.com/mieuxvoter)) made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).\nYou're browsing the API documentation and sandbox.\n\n## Use one of the known clients\n\n- TODO: add an URL to a client of the API\n\n\n## Try it out the hard way\n\n### Create an account\n\nYou will need a user account to interact with polls.\nHead to **Registration** \u2192 `POST /users` below.\nClick _Try it out_, set your desired credentials, and execute the query.\nScroll down to see the response.\n\n### Authenticate\n\nUse your credentials in the **Login** \u2192 `POST /_jwt`, and the API will return a Json Web Token valid for one hour.\nCopy the token (not the whole response, and without quotes) in the field behind the `Authorize \ud83d\udd12` button.\n\n### Create a poll\n\n**Poll** \u2192 `POST /polls`\n\nKeep the response, you'll need the uuids.\n\n> TODO: document invitation generation\n\n### Submit judgments\n\n**Ballot** \u2192 `POST /polls/{pollId}/proposals/{proposalId}/ballots`\n\nOne request per proposal, for now.  We plan on making an endpoint to submit them all at once.\n\n### Collect the results\n\n**Result** \u2192 `GET /polls/{id}/result`\n\n## Use a generated client library\n\n- for php  (link!)\n- for typescript-node  (link!!)\n- \u2026\n\nThere are clients we can generate for most languages.\nGet in touch if you'd like one in particular!\nOr clone this project and use `bin/generate-client.bash -t whatever`.\n"
+        "description": "This is a **deliberation service** using **majority judgment** polling.\nIt's **libre software** ([source](https://github.com/mieuxvoter)) made and maintained by [MieuxVoter.fr](https://mieuxvoter.fr).\nYou're browsing the API documentation and sandbox.\n\n## Use one of the known clients\n\n- https://cli.mieuxvoter.fr\n\n\n## Try it out the hard way\n\n### Create an account\n\nYou will need a user account to interact with polls.\nHead to **Registration** \u2192 `POST /users` below.\nClick _Try it out_, set your desired credentials, and execute the query.\nScroll down to see the response.\n\n### Authenticate\n\nUse your credentials in the **Login** \u2192 `POST /_jwt`, and the API will return a Json Web Token valid for one hour.\nCopy the token (not the whole response, and without quotes) in the field behind the `Authorize \ud83d\udd12` button,\nprefixed by the word `Bearer `.\n\nIt should look like: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ\u2026`\n\n### Create a poll\n\n**Poll** \u2192 `POST /polls`\n\nHere is an example of what you could send:\n\n```\n{\n  \"slug\": \"france-presidence-2027\",\n  \"scope\": \"public\",\n  \"subject\": \"Pr\u00e9sidentielle Fran\u00e7aise 2027\",\n  \"proposals\": [\n    {\n      \"title\": \"Continuer le n\u00e9olib\u00e9ralisme\"\n    },\n    {\n      \"title\": \"Ne pas prendre plus \u00e0 la nature que ce qu'elle est capable de renouveler\"\n    },\n    {\n      \"title\": \"Former une Assembl\u00e9e Constituante (Liquide)\"\n    }\n  ],\n  \"grades\": [\n    { \"name\": \"\u00c0 Rejeter\", \"level\": 0 },\n    { \"name\": \"Insuffisant\", \"level\": 1 },\n    { \"name\": \"Passable\", \"level\": 2 },\n    { \"name\": \"Assez Bien\", \"level\": 3 },\n    { \"name\": \"Bien\", \"level\": 4 },\n    { \"name\": \"Tr\u00e8s Bien\", \"level\": 5 },\n    { \"name\": \"Excellent\", \"level\": 6 }\n  ]\n}\n```\n\nKeep the response, you'll need the uuids.\n\n### Invite people to private polls\n\n> TODO: document invitation generation\n\n### Submit judgments\n\n**Ballot** \u2192 `POST /polls/{pollId}/proposals/{proposalId}/ballots`\n\nOne request per proposal, for now.  We plan on making an endpoint to submit them all at once.\n\n### Collect the results\n\n**Result** \u2192 `GET /polls/{id}/result`\n\n## Use a generated client library\n\n- for [php](https://github.com/MieuxVoter/mv-api-client-lib-php)\n- for [typescript](https://github.com/MieuxVoter/mv-api-client-lib-typescript)\n- \u2026\n\nThere are clients we can generate for most languages.\nGet in touch if you'd like one in particular!\nOr clone this project and use `bin/generate-client.bash -t whatever`.\n"
     },
     "paths": {
         "/ballots/{id}": {
@@ -1833,6 +1833,30 @@
                         "example": "d434a72c-20cb-480f-9955-1fa2ce2e91b1"
                     }
                 ]
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": [
+                    "User",
+                    "Login"
+                ],
+                "operationId": "getMyself",
+                "summary": "Gets information about the authenticating user.\n",
+                "description": "This endpoint requires authentication.\nYou can use this right after login to get the user UUID for instance.\n",
+                "responses": {
+                    "200": {
+                        "description": "A `User-read` model (see bottom) of the user using the JWT we authenticated with."
+                    },
+                    "401": {
+                        "description": "This endpoint requires JWT authentication, since it returns the user behind that token."
+                    },
+                    "402": {
+                        "schema": {
+                            "$ref": "#/components/schemas/User-read"
+                        }
+                    }
+                }
             }
         },
         "/_jwt": {
