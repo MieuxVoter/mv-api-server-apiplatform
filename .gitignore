@@ -1,7 +1,17 @@
+# Files described in here will be ignroed by git
 
+# OSes & IDEs
 .idea
 .directory
 .vscode
+
+# Misc
+/openapi-generator-cli.jar
+/gource-*.png
+
+
+
+## BELOW IS MANAGED AUTOMATICALLY BY BUNDLES ##
 
 ###> symfony/framework-bundle ###
 /.env.local
