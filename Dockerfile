@@ -108,9 +108,6 @@ RUN set -eux; \
 	    --with-freetype \
 	; \
 	docker-php-ext-install -j$(nproc) \
-#	    intl \
-#	    zip \
-#		pdo_mysql \
         gd \
         mbstring \
         mysqli \
@@ -155,9 +152,10 @@ RUN set -eux; \
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 # install Symfony Flex globally to speed up download of Composer packages (parallelized prefetching)
-RUN set -eux; \
-	composer global require "symfony/flex" --prefer-dist --no-progress --no-suggest --classmap-authoritative; \
-	composer clear-cache
+# Disabled to try to bypass flex.symfony.com abandon -- perhaps safe to re-enable
+#RUN set -eux; \
+#	composer global require "symfony/flex" --prefer-dist --no-progress --no-suggest --classmap-authoritative; \
+#	composer clear-cache
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 WORKDIR /srv/app
@@ -178,25 +176,34 @@ ARG SYMFONY_VERSION="4"
 #    --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
 #	composer clear-cache
 
+# Copy the project files into the image
+COPY . .
+
+
+# Re-enable the --no-dev once we don't need to debug prod.
+# (the lies we tell ourselves…)
 RUN composer install \
-    --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+#    --no-dev \
+    --prefer-dist --no-progress --no-scripts --no-interaction; \
 	composer clear-cache
 
 ###> recipes ###
 ###< recipes ###
 
-COPY . .
-
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
-	composer run-script --no-dev post-install-cmd; sync
+	composer dump-autoload \
+#	--no-dev \
+	--classmap-authoritative; \
+	composer run-script \
+#	--no-dev \
+	post-install-cmd; sync
 VOLUME /srv/app/var
 
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+HEALTHCHECK --interval=3600s --timeout=30s --retries=3 CMD ["docker-healthcheck"]
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
