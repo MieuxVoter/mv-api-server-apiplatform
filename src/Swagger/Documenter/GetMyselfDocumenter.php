@@ -64,7 +64,7 @@ class GetMyselfDocumenter implements DocumenterInterface
 
         switch ($version) {
             case 2:
-                $extraDocumentation = array_merge_recursive($extraDocumentation, [
+                $extraDocumentation = array_replace_recursive($extraDocumentation, [
                     'paths' => [
                         $path => [
                             $method => [
@@ -116,14 +116,23 @@ class GetMyselfDocumenter implements DocumenterInterface
                 break;
             case 3:
             default:
-                $extraDocumentation = array_merge_recursive($extraDocumentation, [
+                $extraDocumentation = array_replace_recursive($extraDocumentation, [
                     'paths' => [
                         $path => [
                             $method => [
                                 'responses' => [
                                     Response::HTTP_OK => [
-                                        'schema' => [
-                                            '$ref' => '#/components/schemas/User-read',
+                                        'content' => [
+                                            "application/ld+json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/User',
+                                                ],
+                                            ],
+                                            "application/json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/User',
+                                                ],
+                                            ],
                                         ],
                                     ],
                                 ],

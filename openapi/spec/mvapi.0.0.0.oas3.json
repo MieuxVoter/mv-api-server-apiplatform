@@ -1846,15 +1846,22 @@
                 "description": "This endpoint requires authentication.\nYou can use this right after login to get the user UUID for instance.\n",
                 "responses": {
                     "200": {
-                        "description": "A `User-read` model (see bottom) of the user using the JWT we authenticated with."
+                        "description": "A `User-read` model (see bottom) of the user using the JWT we authenticated with.",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "This endpoint requires JWT authentication, since it returns the user behind that token."
-                    },
-                    "402": {
-                        "schema": {
-                            "$ref": "#/components/schemas/User-read"
-                        }
                     }
                 }
             }
@@ -1870,18 +1877,25 @@
                 "description": "Creating and participating to private polls require authentication.  The Token returned is a [JWT](https://jwt.io/) valid for one hour.",
                 "responses": {
                     "200": {
-                        "description": "A JSON Web Token (JWT)"
+                        "description": "A JSON Web Token (JWT)",
+                        "content": {
+                            "application/ld+json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Token"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Token"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Bad credentials."
                     },
                     "401": {
                         "description": "Unauthorized credentials."
-                    },
-                    "402": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Token"
-                        }
                     }
                 },
                 "requestBody": {

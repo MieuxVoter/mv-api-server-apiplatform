@@ -99,7 +99,7 @@ class JwtDocumenter implements DocumenterInterface
 
         switch ($version) {
             case 2:
-                $tokenDocumentation = array_merge_recursive($tokenDocumentation, [
+                $tokenDocumentation = array_replace_recursive($tokenDocumentation, [
                     'paths' => [
                         '/_jwt' => [
                             'post' => [
@@ -145,7 +145,9 @@ class JwtDocumenter implements DocumenterInterface
                 break;
             case 3:
             default:
-                $tokenDocumentation = array_merge_recursive($tokenDocumentation, [
+//                $tokenDocumentation = array_merge_recursive($tokenDocumentation, [
+                // Use array_replace_recursive to preserve numeric keys (like HTTP_OK)
+                $tokenDocumentation = array_replace_recursive($tokenDocumentation, [
                     'paths' => [
                         '/_jwt' => [
                             'post' => [
@@ -166,8 +168,17 @@ class JwtDocumenter implements DocumenterInterface
                                 ],
                                 'responses' => [
                                     Response::HTTP_OK => [
-                                        'schema' => [
-                                            '$ref' => '#/components/schemas/Token',
+                                        'content' => [
+                                            "application/ld+json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/Token',
+                                                ],
+                                            ],
+                                            "application/json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/Token',
+                                                ],
+                                            ],
                                         ],
                                     ],
                                 ],
