@@ -93,22 +93,22 @@ class GetMyselfDocumenter implements DocumenterInterface
 //                                        ],
 //                                    ],
 //                                ],
-//                                'responses' => [
-//                                    Response::HTTP_OK => [
-//                                        'content' => [
-//                                            "application/ld+json" => [
-//                                                "schema" => [
-//                                                    '$ref' =>  '#/definitions/Token',
-//                                                ],
-//                                            ],
-//                                            "application/json" => [
-//                                                "schema" => [
-//                                                    '$ref' =>  '#/definitions/Token',
-//                                                ],
-//                                            ],
-//                                        ],
-//                                    ],
-//                                ],
+                                'responses' => [
+                                    Response::HTTP_OK => [
+                                        'content' => [
+                                            "application/ld+json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/User',
+                                                ],
+                                            ],
+                                            "application/json" => [
+                                                "schema" => [
+                                                    '$ref' =>  '#/definitions/User',
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ],
                         ],
                     ],
