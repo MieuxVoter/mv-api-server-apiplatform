@@ -78,6 +78,7 @@ security:
         api:
             pattern: ^/
             stateless: true
+            anonymous: false
             provider: app_user_provider
             http_basic:
                 realm: "Authentication Desk"
