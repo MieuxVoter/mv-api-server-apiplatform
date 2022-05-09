@@ -4,9 +4,11 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+# Note: some apk deps are hardcoded to 7 below
 ARG PHP_VERSION=7.4
 ARG NGINX_VERSION=1.17
 
+########################################################################################################################
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 
@@ -22,7 +24,7 @@ RUN apk add --no-cache \
 
 ARG APCU_VERSION=5.1.18
 
-
+# build deps that are deleted except for phpext deps
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	    $PHPIZE_DEPS \
@@ -95,6 +97,8 @@ RUN set -eux; \
 	apk del .build-deps; \
     rm -rf /tmp/* /var/cache/apk/*
 
+# Right now this is composer 2, but composer 3 is on the way.
+# Perhaps replace "latest" by a 2 ?
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
@@ -170,6 +174,7 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 
+########################################################################################################################
 # "nginx" stage
 # depends on the "php" stage above
 FROM nginx:${NGINX_VERSION}-alpine AS symfony_nginx
@@ -193,6 +198,8 @@ RUN openssl req -new -passout pass:NotSecure -key server.key -out server.csr \
 	-subj '/C=SS/ST=SS/L=Gotham City/O=Symfony/CN=localhost'
 RUN openssl x509 -req -sha256 -days 365 -in server.csr -signkey server.key -out server.crt
 
+
+########################################################################################################################
 ### "h2-proxy" stage
 FROM nginx:${NGINX_VERSION}-alpine AS symfony_h2-proxy
 
@@ -200,6 +207,8 @@ RUN mkdir -p /etc/nginx/ssl/
 COPY --from=symfony_h2-proxy-cert server.key server.crt /etc/nginx/ssl/
 COPY ./docker/h2-proxy/default.conf /etc/nginx/conf.d/default.conf
 
+
+########################################################################################################################
 # Dockerfile
 FROM symfony_php as symfony_php_dev
 
