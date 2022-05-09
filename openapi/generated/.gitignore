@@ -1,0 +1,3 @@
+# Output directory of the generated libraries.
+# We don't want them in this source, and they have their own git tree.
+*
