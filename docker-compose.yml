@@ -66,6 +66,8 @@ services:
       - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:-limaju}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     # If we need this, let's mount it somewhere other than ./var (conflicts with symfony)
+    # Perhaps we do need to mount _some_ volumes to preserve the database.
+    # I noticed the database being reset last time I built.
     #volumes:
     #  - ./var/db/data:/var/lib/mysql:rw
     #ports:

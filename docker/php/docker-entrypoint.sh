@@ -28,6 +28,10 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
         rm -Rf tmp/
     elif [ "$APP_ENV" != 'prod' ]; then
         composer --version
+        # Unless we absolutely HAVE TO, let's not install composer deps twice.
+        # The Dockerfile already handles those (for now)
+        # We could manage to configure all this so that we seldom have to --build.
+        # That would mean perhaps doing the composer install phase in here.
         #composer install --prefer-dist --no-progress --no-interaction
     fi
 
