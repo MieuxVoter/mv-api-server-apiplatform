@@ -33,10 +33,13 @@ jobs:
       # https://github.com/actions/checkout (official)
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
+      # This is broken, now.
       # https://github.com/marketplace/actions/checkout-submodules
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
+#      - name: Checkout submodules
+#        uses: textbook/git-checkout-submodule-action@master
 
       # https://github.com/shivammathur/setup-php (community)
       - name: Setup PHP, extensions and composer with shivammathur/setup-php
@@ -99,3 +102,18 @@ jobs:
       - name: Run integration tests
         run: |
           vendor/bin/behat -vv --tags='~wip&&~noci'
+
+# Future Client Library Code Generation
+#  codegen:
+#    name: Client Libraries Generation
+#    runs-on: ubuntu-18.04
+#    strategy:
+#      fail-fast: true
+#      matrix:
+#        php-versions: ['7.4']
+#
+#    steps:
+#      # —— Setup Github actions 🐙 —————————————————————————————————————————————
+#      # https://github.com/actions/checkout (official)
+#      - name: Checkout
+#        uses: actions/checkout@v2
