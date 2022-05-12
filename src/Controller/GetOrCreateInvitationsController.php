@@ -27,17 +27,17 @@ final class GetOrCreateInvitationsController
     use Is\EntityAware;
     use Is\UserAware;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        Security $security
-    ) {
-        $this->setEm($entityManager);
-        $this->setSecurity($security);
-    }
+//    public function __construct(
+//        EntityManagerInterface $entityManager,
+//        Security $security
+//    ) {
+//        $this->setEm($entityManager);
+//        $this->setSecurity($security);
+//    }
 
     /**
      * @param Request $request
-     * @return array
+     * @return Invitation[]
      */
     public function __invoke(Request $request): array
     {
@@ -85,11 +85,11 @@ final class GetOrCreateInvitationsController
                 $invitation = new Invitation();
                 $invitation->setPoll($poll);
                 $invitation->setAuthor($user);
-                $this->em->persist($invitation);
+                $this->getEm()->persist($invitation);
                 $invitations[] = $invitation;
             }
 
-            $this->em->flush();
+            $this->getEm()->flush();
         }
 
         return $invitations;
