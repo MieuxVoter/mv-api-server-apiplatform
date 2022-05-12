@@ -112,6 +112,7 @@ api_platform:
         # The active versions of OpenAPI to be exported or used in the swagger_ui. The first value is the default.
         versions:
             - 3
+            # It's somewhat safe to remove support for v2 now, if need be.
             - 2
         api_keys:
             apiKey:
@@ -120,14 +121,15 @@ api_platform:
 
     # Available format.  The order matters.
     # We use json first because our collections of models in jsonld are of type object, not array.
-    # I'm not sure if it's intended, but it makes the generator create inline models of responses -> BOUERK
+    # I'm not sure if it's intended, and it makes the generator create inline models of responses -> BOUERK
     # Since the generator uses the first format in the response's content in the OAS, we want json first.
+    # The html format needs to be there for the doc sandbox to appear.
     formats:
         json:     ['application/json']
         jsonld:   ['application/ld+json']
+        html:     ['text/html']
 #        jsonhal:  ['application/hal+json']
 #        jsonapi:  ['application/vnd.api+json']
 #        xml:      ['application/xml', 'text/xml']
 #        yaml:     ['application/x-yaml']
 #        csv:      ['text/csv']
-#        html:     ['text/html']
