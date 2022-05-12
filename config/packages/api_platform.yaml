@@ -109,7 +109,25 @@ api_platform:
     enable_profiler: true
     
     swagger:
-         api_keys:
-             apiKey:
+        # The active versions of OpenAPI to be exported or used in the swagger_ui. The first value is the default.
+        versions:
+            - 3
+            - 2
+        api_keys:
+            apiKey:
                 name: Authorization
                 type: header
+
+    # Available format.  The order matters.
+    # We use json first because our collections of models in jsonld are of type object, not array.
+    # I'm not sure if it's intended, but it makes the generator create inline models of responses -> BOUERK
+    # Since the generator uses the first format in the response's content in the OAS, we want json first.
+    formats:
+        json:     ['application/json']
+        jsonld:   ['application/ld+json']
+#        jsonhal:  ['application/hal+json']
+#        jsonapi:  ['application/vnd.api+json']
+#        xml:      ['application/xml', 'text/xml']
+#        yaml:     ['application/x-yaml']
+#        csv:      ['text/csv']
+#        html:     ['text/html']
