@@ -6,11 +6,11 @@
 parameters:
     api_documentation_extras_v2:
         servers:
-            -   url: https://oas.mieuxvoter.fr
+            -   url: '%env(resolve:MVOAS_SERVER)%'
                 description: Demo server of the MieuxVoter association
     api_documentation_extras_v3:
         servers:
-            -   url: https://oas.mieuxvoter.fr
+            -   url: '%env(resolve:MVOAS_SERVER)%'
                 description: Demo server of the MieuxVoter association
 
 #            -   url: //petstore.swagger.io/sandbox
