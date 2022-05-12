@@ -39,6 +39,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Ballot:jsonld-read"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ballot-read"
+                                }
                             }
                         }
                     },
@@ -106,6 +111,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Grade:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Grade-read"
                                 }
                             }
                         }
@@ -213,6 +223,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Invitation-read"
+                                    }
+                                }
                             }
                         }
                     }
@@ -262,6 +280,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Invitation:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Invitation-read"
                                 }
                             }
                         }
@@ -369,6 +392,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Poll-read"
+                                    }
+                                }
                             }
                         }
                     }
@@ -405,6 +436,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Poll:jsonld-read"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Poll-read"
+                                }
                             }
                         },
                         "links": {
@@ -434,6 +470,11 @@
                         "application/ld+json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Poll:jsonld-create"
+                            }
+                        },
+                        "text/html": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Poll-create"
                             }
                         }
                     },
@@ -472,6 +513,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Poll:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Poll-read"
                                 }
                             }
                         }
@@ -606,6 +652,14 @@
                                     "required": [
                                         "hydra:member"
                                     ]
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Grade-read"
+                                    }
                                 }
                             }
                         }
@@ -757,6 +811,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Invitation-read"
+                                    }
+                                }
                             }
                         }
                     }
@@ -861,6 +923,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Proposal-read"
+                                    }
+                                }
                             }
                         }
                     },
@@ -922,6 +992,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Proposal:jsonld-read"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Proposal-read"
+                                }
                             }
                         },
                         "links": {
@@ -951,6 +1026,11 @@
                         "application/ld+json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Proposal:jsonld-create"
+                            }
+                        },
+                        "text/html": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Proposal-create"
                             }
                         }
                     },
@@ -990,6 +1070,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Result:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Result-read"
                                 }
                             }
                         }
@@ -1043,6 +1128,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Ballot:jsonld-created"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ballot-created"
+                                }
                             }
                         },
                         "links": {
@@ -1072,6 +1162,11 @@
                         "application/ld+json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Ballot:jsonld-create"
+                            }
+                        },
+                        "text/html": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ballot-create"
                             }
                         }
                     },
@@ -1175,6 +1270,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
+                                }
                             }
                         }
                     },
@@ -1247,6 +1350,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Proposal:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Proposal-read"
                                 }
                             }
                         }
@@ -1354,6 +1462,14 @@
                                     "required": [
                                         "hydra:member"
                                     ]
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
                                 }
                             }
                         }
@@ -1485,6 +1601,14 @@
                                         "hydra:member"
                                     ]
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User-read"
+                                    }
+                                }
                             }
                         }
                     }
@@ -1523,6 +1647,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/User:jsonld-read"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User-read"
+                                }
                             }
                         },
                         "links": {
@@ -1552,6 +1681,11 @@
                         "application/ld+json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User:jsonld-create"
+                            }
+                        },
+                        "text/html": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User-create"
                             }
                         }
                     },
@@ -1591,6 +1725,11 @@
                             "application/ld+json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/User:jsonld-read"
+                                }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User-read"
                                 }
                             }
                         }
@@ -1632,6 +1771,11 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/User:jsonld-read"
                                 }
+                            },
+                            "text/html": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User-read"
+                                }
                             }
                         }
                     },
@@ -1652,6 +1796,11 @@
                         "application/ld+json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User:jsonld-edit"
+                            }
+                        },
+                        "text/html": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User-edit"
                             }
                         }
                     },
