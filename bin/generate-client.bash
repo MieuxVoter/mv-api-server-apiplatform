@@ -3,20 +3,19 @@
 # For a list of available targets, and further documpentation, see
 # https://github.com/OpenAPITools/openapi-generator
 
-# This is set by -t TARGET
-TARGET="php"
-#TARGET="typescript-node"
-#TARGET="mathematica"
+# Bunch of params to configure or move to args or env
 NAME=MvApi
 GIT_HOST=github.com
-USER_ID=MieuxVoter
+# Lowercase is preferred
+USER_ID=mieuxvoter
 REPO_PREFIX=mv-api-client-lib
 DEFAULT_OUTPUT_DIRECTORY=./openapi/generated
+# This is set by -t TARGET
+TARGET="php"
+# This is set by -o DIR
 OUTPUT_DIRECTORY=${DEFAULT_OUTPUT_DIRECTORY}
-#OUTPUT_DIRECTORY=${OUTPUT_DIRECTORY:-./openapi/generated}
-#OUTPUT_DIRECTORY=${OUTPUT_DIRECTORY:-DEFAULT_OUTPUT_DIRECTORY}
-#OUTPUT_DIRECTORY=/tmp
 
+# todo: fetch version from git describe
 VERSION=0.0.0
 SPEC_FILEPATH_NOEXT=./openapi/spec/mvapi.${VERSION}.oas3
 
