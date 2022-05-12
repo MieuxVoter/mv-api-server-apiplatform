@@ -30,19 +30,14 @@
                     "200": {
                         "description": "Ballot resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Ballot:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Ballot-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Ballot-read"
+                                    "$ref": "#/components/schemas/Ballot:jsonld-read"
                                 }
                             }
                         }
@@ -103,19 +98,14 @@
                     "200": {
                         "description": "Grade resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Grade:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Grade-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Grade-read"
+                                    "$ref": "#/components/schemas/Grade:jsonld-read"
                                 }
                             }
                         }
@@ -137,6 +127,14 @@
                     "200": {
                         "description": "Invitation collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Invitation-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -215,22 +213,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Invitation-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Invitation-read"
-                                    }
-                                }
                             }
                         }
                     }
@@ -272,19 +254,14 @@
                     "200": {
                         "description": "Invitation resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Invitation:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Invitation-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Invitation-read"
+                                    "$ref": "#/components/schemas/Invitation:jsonld-read"
                                 }
                             }
                         }
@@ -306,6 +283,14 @@
                     "200": {
                         "description": "Poll collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Poll-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -384,22 +369,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Poll-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Poll-read"
-                                    }
-                                }
                             }
                         }
                     }
@@ -427,19 +396,14 @@
                     "201": {
                         "description": "Poll resource created",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Poll:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Poll-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Poll-read"
+                                    "$ref": "#/components/schemas/Poll:jsonld-read"
                                 }
                             }
                         },
@@ -462,19 +426,14 @@
                 },
                 "requestBody": {
                     "content": {
-                        "application/ld+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Poll:jsonld-create"
-                            }
-                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Poll-create"
                             }
                         },
-                        "text/html": {
+                        "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Poll-create"
+                                "$ref": "#/components/schemas/Poll:jsonld-create"
                             }
                         }
                     },
@@ -505,19 +464,14 @@
                     "200": {
                         "description": "Poll resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Poll:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Poll-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Poll-read"
+                                    "$ref": "#/components/schemas/Poll:jsonld-read"
                                 }
                             }
                         }
@@ -567,6 +521,14 @@
                     "200": {
                         "description": "Grade collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Grade-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -645,22 +607,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Grade-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Grade-read"
-                                    }
-                                }
                             }
                         }
                     },
@@ -719,12 +665,20 @@
                 "tags": [
                     "Invitation"
                 ],
-                "operationId": "get_for_pollInvitationCollection",
+                "operationId": "getForPollInvitationCollection",
                 "summary": "Retrieves the collection of Invitation resources.",
                 "responses": {
                     "200": {
                         "description": "Invitation collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Invitation-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -803,22 +757,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Invitation-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Invitation-read"
-                                    }
-                                }
                             }
                         }
                     }
@@ -837,6 +775,14 @@
                     "200": {
                         "description": "Proposal collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Proposal-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -915,22 +861,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Proposal-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Proposal-read"
-                                    }
-                                }
                             }
                         }
                     },
@@ -983,19 +913,14 @@
                     "201": {
                         "description": "Proposal resource created",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Proposal:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Proposal-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Proposal-read"
+                                    "$ref": "#/components/schemas/Proposal:jsonld-read"
                                 }
                             }
                         },
@@ -1018,19 +943,14 @@
                 },
                 "requestBody": {
                     "content": {
-                        "application/ld+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Proposal:jsonld-create"
-                            }
-                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Proposal-create"
                             }
                         },
-                        "text/html": {
+                        "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Proposal-create"
+                                "$ref": "#/components/schemas/Proposal:jsonld-create"
                             }
                         }
                     },
@@ -1062,19 +982,14 @@
                     "200": {
                         "description": "Result resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Result:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Result-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Result-read"
+                                    "$ref": "#/components/schemas/Result:jsonld-read"
                                 }
                             }
                         }
@@ -1119,19 +1034,14 @@
                     "201": {
                         "description": "Ballot resource created",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Ballot:jsonld-created"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Ballot-created"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Ballot-created"
+                                    "$ref": "#/components/schemas/Ballot:jsonld-created"
                                 }
                             }
                         },
@@ -1154,19 +1064,14 @@
                 },
                 "requestBody": {
                     "content": {
-                        "application/ld+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Ballot:jsonld-create"
-                            }
-                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Ballot-create"
                             }
                         },
-                        "text/html": {
+                        "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Ballot-create"
+                                "$ref": "#/components/schemas/Ballot:jsonld-create"
                             }
                         }
                     },
@@ -1184,6 +1089,14 @@
                     "200": {
                         "description": "Ballot collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -1261,22 +1174,6 @@
                                     "required": [
                                         "hydra:member"
                                     ]
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
                                 }
                             }
                         }
@@ -1342,19 +1239,14 @@
                     "200": {
                         "description": "Proposal resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Proposal:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Proposal-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Proposal-read"
+                                    "$ref": "#/components/schemas/Proposal:jsonld-read"
                                 }
                             }
                         }
@@ -1377,6 +1269,14 @@
                     "200": {
                         "description": "Ballot collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ballot"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -1455,22 +1355,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Ballot"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1515,6 +1399,14 @@
                     "200": {
                         "description": "User collection response",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User-read"
+                                    }
+                                }
+                            },
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
@@ -1593,22 +1485,6 @@
                                         "hydra:member"
                                     ]
                                 }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User-read"
-                                    }
-                                }
-                            },
-                            "text/html": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User-read"
-                                    }
-                                }
                             }
                         }
                     }
@@ -1638,19 +1514,14 @@
                     "201": {
                         "description": "User resource created",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/User-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User-read"
+                                    "$ref": "#/components/schemas/User:jsonld-read"
                                 }
                             }
                         },
@@ -1673,19 +1544,14 @@
                 },
                 "requestBody": {
                     "content": {
-                        "application/ld+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User:jsonld-create"
-                            }
-                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User-create"
                             }
                         },
-                        "text/html": {
+                        "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User-create"
+                                "$ref": "#/components/schemas/User:jsonld-create"
                             }
                         }
                     },
@@ -1717,19 +1583,14 @@
                     "200": {
                         "description": "User resource response",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/User-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User-read"
+                                    "$ref": "#/components/schemas/User:jsonld-read"
                                 }
                             }
                         }
@@ -1762,19 +1623,14 @@
                     "200": {
                         "description": "User resource updated",
                         "content": {
-                            "application/ld+json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User:jsonld-read"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/User-read"
                                 }
                             },
-                            "text/html": {
+                            "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User-read"
+                                    "$ref": "#/components/schemas/User:jsonld-read"
                                 }
                             }
                         }
@@ -1788,19 +1644,14 @@
                 },
                 "requestBody": {
                     "content": {
-                        "application/ld+json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User:jsonld-edit"
-                            }
-                        },
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User-edit"
                             }
                         },
-                        "text/html": {
+                        "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User-edit"
+                                "$ref": "#/components/schemas/User:jsonld-edit"
                             }
                         }
                     },

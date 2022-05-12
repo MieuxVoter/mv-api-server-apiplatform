@@ -1,10 +1,10 @@
-# the different stages of this Dockerfile are meant to be built into separate images
+# The different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
 # https://docs.docker.com/compose/compose-file/#target
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-# Note: some apk deps are hardcoded to 7 below
+# Note: some apk deps are hardcoded to php7 below
 ARG PHP_VERSION=7.4
 ARG NGINX_VERSION=1.17
 
@@ -12,7 +12,7 @@ ARG NGINX_VERSION=1.17
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 
-# persistent / runtime deps
+# Persistent / runtime deps
 RUN apk add --no-cache \
         acl \
         fcgi \
@@ -24,7 +24,7 @@ RUN apk add --no-cache \
 
 ARG APCU_VERSION=5.1.18
 
-# build deps that are deleted except for phpext deps
+# Build deps that are deleted except for phpext deps
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	    $PHPIZE_DEPS \
@@ -97,9 +97,9 @@ RUN set -eux; \
 	apk del .build-deps; \
     rm -rf /tmp/* /var/cache/apk/*
 
-# Right now this is composer 2, but composer 3 is on the way.
-# Perhaps replace "latest" by a 2 ?
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Right now this is composer 2, but composer 3 is on the way, and should be OK.
+# I'm not sure we want to use `:latest` in here, tho.  Best update manually for now.
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY docker/php/conf.d/symfony.ini $PHP_INI_DIR/conf.d/symfony.ini
@@ -165,7 +165,7 @@ VOLUME /srv/app/var
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
-HEALTHCHECK --interval=3600s --timeout=30s --retries=3 CMD ["docker-healthcheck"]
+HEALTHCHECK --interval=7200s --timeout=30s --retries=2 CMD ["docker-healthcheck"]
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
@@ -185,6 +185,8 @@ WORKDIR /srv/app
 
 COPY --from=symfony_php /srv/app/public public/
 
+
+########################################################################################################################
 # "h2-proxy-cert" stage
 FROM alpine:latest AS symfony_h2-proxy-cert
 
@@ -200,7 +202,7 @@ RUN openssl x509 -req -sha256 -days 365 -in server.csr -signkey server.key -out 
 
 
 ########################################################################################################################
-### "h2-proxy" stage
+### "h2-proxy" stage ; for dev (I don't use it, I use symfony serve and not docker)
 FROM nginx:${NGINX_VERSION}-alpine AS symfony_h2-proxy
 
 RUN mkdir -p /etc/nginx/ssl/
@@ -209,10 +211,10 @@ COPY ./docker/h2-proxy/default.conf /etc/nginx/conf.d/default.conf
 
 
 ########################################################################################################################
-# Dockerfile
-FROM symfony_php as symfony_php_dev
-
-RUN echo "Done!"
+# Mmmmh
+#FROM symfony_php as symfony_php_dev
+#
+#RUN echo "Done!"
 #ARG XDEBUG_VERSION=2.8.0
 #RUN set -eux; \
 #	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \

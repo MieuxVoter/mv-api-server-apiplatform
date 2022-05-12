@@ -1,7 +1,9 @@
-version: "3.4"
+# Example usage:
+#   docker-compose up --build --detach
+#   docker-compose down
 
-# docker-compose up --build
-# docker-compose down
+# Careful: MV server has an outdated version of docker-compose (3.4 works).
+version: "3.4"
 
 services:
   php:
@@ -14,8 +16,8 @@ services:
         STABILITY: ${STABILITY:-stable}
     healthcheck:
       interval: 3600s
-      timeout: 20s
-      retries: 3
+      timeout: 30s
+      retries: 2
       start_period: 30s
     volumes:
       # Comment out the next line in production
@@ -56,13 +58,18 @@ services:
     ports:
       - "443:443"
 
+  # Perhaps switch to postgres at some point?
   db:
     container_name: oas_db
     image: mariadb:10.5.5
+    env_file:
+      - .env
+      - .env.local
+      - .env.prod.local
     environment:
+      # Best not edit secrets in here ; edit .env.local after creating it from .env
       - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:-limaju}
       - MYSQL_USER=${MVOAS_MYSQL_USERNAME:-limaju}
-      # You should definitely change the password in production
       - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:-limaju}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     # If we need this, let's mount it somewhere other than ./var (conflicts with symfony)
