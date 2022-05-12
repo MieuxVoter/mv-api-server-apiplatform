@@ -10,12 +10,14 @@ GIT_HOST=github.com
 USER_ID=mieuxvoter
 REPO_PREFIX=mv-api-client-lib
 DEFAULT_OUTPUT_DIRECTORY=./openapi/generated
+# Overrides the values in dotenv for MVOAS_SERVER (it's localhost for me in dev)
+SERVER="https://oas.mieuxvoter.fr"
 # This is set by -t TARGET
 TARGET="php"
 # This is set by -o DIR
 OUTPUT_DIRECTORY=${DEFAULT_OUTPUT_DIRECTORY}
 
-# todo: fetch version from git describe
+# todo: fetch version from git describe once it's meaningful
 VERSION=0.0.0
 SPEC_FILEPATH_NOEXT=./openapi/spec/mvapi.${VERSION}.oas3
 
@@ -50,8 +52,9 @@ TEMPLATE_DIRECTORY=./openapi/generator/${TARGET}-templates
 
 ###
 
-bin/console api:openapi:export --spec-version=3 > ${SPEC_FILEPATH_NOEXT}.json
-bin/console api:openapi:export --spec-version=3 --yaml > ${SPEC_FILEPATH_NOEXT}.yaml
+# Override the MVOAS_SERVER value from dotenv, since it's going to be localhost
+MVOAS_SERVER=$SERVER bin/console api:openapi:export --spec-version=3 > ${SPEC_FILEPATH_NOEXT}.json
+MVOAS_SERVER=$SERVER bin/console api:openapi:export --spec-version=3 --yaml > ${SPEC_FILEPATH_NOEXT}.yaml
 
 ###
 
