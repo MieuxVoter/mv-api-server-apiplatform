@@ -51,6 +51,14 @@ use App\Controller\GetInvitationsStubController;
  *                             "type"="string",
  *                         },
  *                     },
+ *                     {
+ *                         "name": "limit",
+ *                         "in": "query",
+ *                         "required": false,
+ *                         "schema"={
+ *                             "type"="int",
+ *                         },
+ *                     },
  *                 },
  *             },
  *             "access_control"="is_granted('can_create_invitations', object)",
