@@ -1,5 +1,6 @@
 <?php
 
+namespace Features;
 
 /**
  * Useful steps during development.

@@ -1,5 +1,8 @@
 <?php /** @noinspection PhpDocSignatureInspection */
 
+namespace Features;
+
+use Exception;
 use Features\Steps\BasicGetTrait;
 use Features\Steps\DomCrawlerSteps;
 use Features\Steps\ResponseAnalysisSteps;

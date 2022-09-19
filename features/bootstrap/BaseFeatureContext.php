@@ -3,6 +3,8 @@
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpDocMissingThrowsInspection */ // stuff will fail in here, it's the point.
 
+namespace Features;
+
 use App\Application;
 use App\Entity\Poll;
 use App\Entity\Poll\Proposal;

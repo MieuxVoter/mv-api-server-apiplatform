@@ -1,5 +1,7 @@
 <?php
 
+namespace Features;
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeFeatureScope;
@@ -52,7 +54,7 @@ class HookFeatureContext extends BaseFeatureContext
 
 
     /**
-     * Train our inner pidgeon into enjoying Feature-Driven Development…
+     * Train our inner pigeon into enjoying Feature-Driven Development…
      *
      * @AfterSuite
      */

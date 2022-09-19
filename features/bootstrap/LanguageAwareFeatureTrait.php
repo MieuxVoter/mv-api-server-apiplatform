@@ -1,5 +1,7 @@
 <?php
 
+namespace Features;
+
 
 use App\Translator\TwiggyTranslator;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;

@@ -5,6 +5,7 @@
  * @noinspection PhpDocSignatureInspection
  */
 
+namespace Features;
 
 use App\Entity\Poll;
 use App\Entity\Poll\Grade;

@@ -1,5 +1,6 @@
 <?php
 
+namespace Features;
 
 /**
  * Definitions of steps that do nothing, but exist to make the scenarios more idiomatic, easier to understand.
