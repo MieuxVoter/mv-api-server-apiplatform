@@ -8,7 +8,7 @@ security:
 
     encoders:
         App\Entity\User: 
-            algorithm: 'argon2i'
+            algorithm: 'auto'
             # maximum memory (in KiB) that may be used to compute the Argon2 hash
             memory_cost: 1024
             #  number of times the Argon2 hash algorithm will be run
