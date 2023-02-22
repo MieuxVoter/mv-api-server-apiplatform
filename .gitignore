@@ -9,6 +9,8 @@
 /openapi-generator-cli.jar
 /gource-*.png
 
+# PHPENV
+.php-version
 
 
 ## BELOW IS MANAGED AUTOMATICALLY BY BUNDLES ##

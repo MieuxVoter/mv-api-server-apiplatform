@@ -1,3 +1,6 @@
+# Run with:
+#     docker compose -f docker-compose.yml -f docker-compose.debug.yml up
+# Doc: https://docs.docker.com/compose/extends/
 version: "3.4"
 
 services:

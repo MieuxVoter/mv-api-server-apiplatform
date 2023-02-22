@@ -111,16 +111,6 @@ You may also use the `symfony` utility, if you have it:
 
 _You should do this, it's mesmerizing._  :]
 
-First, copy `behat.yml.dist` to `behat.yml`:
-
-    cp behat.yml.dist behat.yml
-
-You do not need to edit it, but you may.
-
-> This step of copy will eventually be automated using composer hooks.
-> That's a good first issue if you feel like it ;)
-
-
 The features are in their own repositories,
 so make sure you cloned the submodules as well:
 

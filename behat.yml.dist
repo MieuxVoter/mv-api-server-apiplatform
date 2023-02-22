@@ -2,6 +2,9 @@
 # We should automate this copy with a hook on Composer?  NIH
 
 default:
+  calls:
+    error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
+
   suites:
     rest:
       # This is not the most comfortable way of adding new steps,
@@ -9,15 +12,15 @@ default:
       # We could perhaps remove these and use traits and only one Context.
       # The Actors are shared between all these contexts.
       contexts:
-        - MainFeatureContext:
+        - Features\MainFeatureContext:
             actors: '@App\Features\Actors'
-        - HookFeatureContext:
+        - Features\HookFeatureContext:
             actors: '@App\Features\Actors'
-        - ToolFeatureContext:
+        - Features\ToolFeatureContext:
             actors: '@App\Features\Actors'
-        - PoetryFeatureContext:
+        - Features\PoetryFeatureContext:
             actors: '@App\Features\Actors'
-        - ApiRestFeatureContext:
+        - Features\ApiRestFeatureContext:
             actors: '@App\Features\Actors'
 
   extensions:

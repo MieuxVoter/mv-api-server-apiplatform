@@ -2,6 +2,9 @@
 
 If you run the suite a lot like I do
 
+    bin/tmpfs4var
+
+
 ## Upgrading to newest ApiPlatform
 
 We're going to need to swap out the SwaggerDocumentationDecorator
