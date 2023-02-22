@@ -13,3 +13,12 @@ We're going to need to swap out the SwaggerDocumentationDecorator
 
 We're also going to have issues with `{uuid}` instead of `{id}` in routes.
 
+
+## Troubleshooting
+
+> Unable to create a signed JWT from the given configuration.
+
+Try to regenerate your JWT keypair:
+    bin/setup_jwt.bash
+
+And then check your `.env[.test].local` files to ensure they are well configured.
