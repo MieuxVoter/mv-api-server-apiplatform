@@ -33,7 +33,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^un(?:⋅?e)? (?:visit(?:eu[rs]⋅?e?|rice))(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a visitor named (?P<name>.+)$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function givenVisitorNamed($name)
     {
@@ -44,7 +44,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^un(?:⋅?e)? (?:juge|utilisat(?:eure?|rice)|élect(?:eure?|rice)|citoyen(?:⋅?ne)?)(?: .*)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a citizen named (?P<name>.+)$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function givenCitizenNamed($name)
     {
@@ -59,7 +59,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^(?P<actor>.+?) (?:suis|est?) un(?:⋅?e)? citoyen(?:⋅?ne)? nommé(?:⋅?e)? (?P<name>.+)$/u
      * @Given /^(?P<actor>.+?) (?:am|is|are) (?:a|the) citizen named (?P<name>.+)$/u
-     * @throws Exception
+     * @throws \Exception
      */
     public function givenActorIsCitizenNamed($actor, $name)
     {
@@ -74,7 +74,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Given /^un(?:⋅?e)? modérat(?:eur[⋅.]?e?|rice)(?: .*?)? (?:sur)?nommé(?:⋅?e)? (?P<name>.+)$/ui
      * @Given /^a moderator named (?P<name>.+)$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function givenModeratorNamed($name)
     {
@@ -101,7 +101,7 @@ class MainFeatureContext extends BaseFeatureContext
 
         $uuid = null;
         if ( isset($data['uuid'])) {
-            $uuid = Ramsey\Uuid\Uuid::fromString($data['uuid']);
+            $uuid = \Ramsey\Uuid\Uuid::fromString($data['uuid']);
         }
 
         $poll = new Poll($uuid);
@@ -187,7 +187,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? intitulé "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) propositions?$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function thereShouldBeSomeProposalsInThePoll($thatMuch, $pollSubject)
     {
@@ -202,7 +202,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * fixme: en step
      * @Then /^le scrutin(?: au jugement majoritaire)? (?:intitulé|assujettissant) "(?P<pollSubject>.+?)" d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) mentions?$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function thereShouldBeSomeGradesInThePoll($thatMuch, $pollSubject)
     {
@@ -218,7 +218,7 @@ class MainFeatureContext extends BaseFeatureContext
      * fixme: en step
      * Then /^there should(?: now)?(?: still)?(?: only)? be (?P<thatMuch>.+) majority judgment polls? in the database$/ui
      * @Then /^(?:que?' ?)?(?P<actor>.+?)(?: ne)? d(?:oi|evrai)t(?: maintenant)?(?: encore)? avoir (?P<thatMuch>.+) votes? sur le scrutin(?: au jugement majoritaire)? (?:titré|intitulé|assujetti(?:ssant)?) "(?P<title>.+?)"$/ui
-     * @throws Exception
+     * @throws \Exception
      */
     public function actorShouldHaveSomePollProposalVotesForPoll($actor, $thatMuch, $title)
     {
@@ -351,7 +351,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? avoir(?: qu[e'])? ?(?P<amount>.+?) invitations?$/iu
      * @Then /^(?P<actor>.+?) should(?: now)? have (?P<amount>.+?) invitations?$/iu
-     * @throws Exception
+     * @throws \Exception
      */
     public function actorShouldHaveInvitations($actor, $amount)
     {
@@ -365,7 +365,7 @@ class MainFeatureContext extends BaseFeatureContext
     /**
      * @Then /^(?P<actor>.+?)(?: ne)? devr(?:ai[st]|aient|ions)(?: encore| aussi)? voir(?: seulement| qu[e'])? ?(?P<amount>.+?) scrutins?$/iu
      * @Then /^(?P<actor>.+?) should(?: now)? see (?P<amount>.+?) polls?$/iu
-     * @throws Exception
+     * @throws \Exception
      */
     public function actorShouldSeeThatManyPolls($actor, $amount)
     {
@@ -377,7 +377,7 @@ class MainFeatureContext extends BaseFeatureContext
      * @param $actor string
      * @param $amount string
      * @param $entityClass string The short name of the class as used by ApiPlatform
-     * @throws Exception
+     * @throws \Exception
      */
     public function actorShouldSeeThatManyEntities($actor, $amount, $entityClass)
     {
