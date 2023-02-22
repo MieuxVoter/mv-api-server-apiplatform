@@ -27,14 +27,6 @@ final class GetOrCreateInvitationsController
     use Is\EntityAware;
     use Is\UserAware;
 
-//    public function __construct(
-//        EntityManagerInterface $entityManager,
-//        Security $security
-//    ) {
-//        $this->setEm($entityManager);
-//        $this->setSecurity($security);
-//    }
-
     /**
      * @param Request $request
      * @return Invitation[]
@@ -58,7 +50,7 @@ final class GetOrCreateInvitationsController
 
         // II. Read existing Invitations
         // We could order them by creation date instead of numerical id
-        $existingInvitations = $invitationsRepo->findBy(['poll'=>$poll], ['id' => 'ASC'], $limit, $offset);
+        $existingInvitations = $invitationsRepo->findBy(['poll' => $poll], ['id' => 'ASC'], $limit, $offset);
         $invitations = $invitations + $existingInvitations;
 
         $missingInvitationsAmount = $limit - count($invitations);
