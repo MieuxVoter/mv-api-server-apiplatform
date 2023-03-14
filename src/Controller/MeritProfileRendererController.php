@@ -184,6 +184,15 @@ final class MeritProfileRendererController extends AbstractController
         }
         $config->setWidth($img_w);
         $config->setHeight($img_h);
+        $css = <<<CSS
+
+.tally-watermark {
+    text-shadow: 0 0 10px white;
+    opacity: 1.0 !important;
+}
+
+CSS;
+        $config->setCustomCss($css);
 
         try {
             if ('png' === $type) {
@@ -201,8 +210,8 @@ final class MeritProfileRendererController extends AbstractController
             $contentType = 'image/png';
         }
         return new Response($img, Response::HTTP_OK, [
-            'Content-Disposition' => 'inline',
-            'Content-Type' => $contentType,
+//            'Content-Disposition' => 'inline',
+//            'Content-Type' => $contentType,
         ]);
     }
 
