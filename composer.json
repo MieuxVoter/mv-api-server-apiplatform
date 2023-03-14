@@ -24,7 +24,7 @@
         "phpdocumentor/reflection-docblock": "^4.3",
         "ramsey/uuid": "^3 || ^4",
         "ramsey/uuid-doctrine": "1.5.*",
-        "roipoussiere/miprem-php": "^0 || ^1",
+        "roipoussiere/miprem-php": "dev-fix-a11y",
         "sensio/framework-extra-bundle": "5.3.*",
         "stof/doctrine-extensions-bundle": "1.5.*",
         "symfony/asset": "4.4.*",
@@ -78,6 +78,10 @@
         {
           "type": "vcs",
           "url": "https://github.com/roipoussiere/php-svg.git"
+        },
+        {
+          "type": "vcs",
+          "url": "https://framagit.org/domi41/miprem-php.git"
         }
     ],
     "config": {
