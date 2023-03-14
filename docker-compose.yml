@@ -65,7 +65,7 @@ services:
     env_file:
       - .env
       - .env.local
-      - .env.prod.local
+      #- .env.prod.local
     environment:
       # Best not edit secrets in here ; edit .env.local after creating it from .env
       - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:-limaju}

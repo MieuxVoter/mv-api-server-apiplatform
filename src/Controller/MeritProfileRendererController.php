@@ -210,8 +210,8 @@ CSS;
             $contentType = 'image/png';
         }
         return new Response($img, Response::HTTP_OK, [
-//            'Content-Disposition' => 'inline',
-//            'Content-Type' => $contentType,
+            'Content-Disposition' => 'inline',
+            'Content-Type' => $contentType,
         ]);
     }
 
