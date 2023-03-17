@@ -205,7 +205,7 @@ CSS;
             return $this->respondDemoUsage($type, $img_w, $img_h, "Miprem:".$e->getMessage());
         }
 
-        $contentType = 'image/svg';
+        $contentType = 'image/svg+xml';
         if ('png' === $type) {
             $contentType = 'image/png';
         }
