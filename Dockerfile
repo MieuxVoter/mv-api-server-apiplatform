@@ -21,6 +21,14 @@ RUN apk add --no-cache \
         git \
         jq \
         librsvg \
+        terminus-font \
+        ttf-inconsolata \
+        ttf-dejavu \
+        font-bitstream-* \
+        font-noto \
+        font-noto-cjk \
+        ttf-font-awesome \
+        font-noto-extra \
     ;
 
 ARG APCU_VERSION=5.1.18
