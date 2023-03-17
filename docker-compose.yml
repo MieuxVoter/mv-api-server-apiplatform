@@ -20,7 +20,6 @@ services:
       retries: 2
       start_period: 30s
     volumes:
-      # Comment out the next line in production
       - ./:/srv/app:rw,cached
       # If you develop on Linux, comment out the following volumes to just use bind-mounted project directory from host
       # - /srv/app/var/
@@ -40,7 +39,6 @@ services:
     depends_on:
       - php
     volumes:
-      # Comment out the next line in production
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./public:/srv/app/public:ro
     ports:

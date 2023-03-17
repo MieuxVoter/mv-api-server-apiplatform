@@ -12,6 +12,7 @@
         "ext-mysqlnd": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
+        "ext-gd": "*",
         "api-platform/core": "2.5.*",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^1.12",

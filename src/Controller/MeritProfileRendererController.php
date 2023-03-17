@@ -7,6 +7,7 @@ namespace App\Controller;
 
 
 use App\Form\DataTransformer\TallyTransformer;
+use App\Renderer\PngRsvgRenderer;
 use Exception;
 use Miprem\Model\Poll;
 use Miprem\Model\SvgConfig;
@@ -33,6 +34,7 @@ use Miprem\Renderer\PngGDRenderer;
 //    imagick.shutdown_sleep_count => 10 => 10
 //    imagick.allow_zero_dimension_images => 0 => 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+use Miprem\Renderer\PngIMRenderer;
 use Miprem\Renderer\SvgRenderer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -196,7 +198,9 @@ CSS;
 
         try {
             if ('png' === $type) {
-                $miprem = new PngGdRenderer($config);
+//                $miprem = new PngIMRenderer($config);
+//                $miprem = new PngGdRenderer($config);
+                $miprem = new PngRsvgRenderer($config);
             } else {
                 $miprem = new SvgRenderer($config);
             }
@@ -236,7 +240,7 @@ CSS;
 DEMOSVG;
 
         return Response::create($svg, Response::HTTP_OK, [
-            'Content-Type' => 'text/svg',
+            'Content-Type' => 'text/svg+xml',
             'Content-Disposition' => 'inline',
         ]);
         // should we send back a 400 and not a 200?

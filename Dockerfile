@@ -20,6 +20,7 @@ RUN apk add --no-cache \
         gettext \
         git \
         jq \
+        librsvg \
     ;
 
 ARG APCU_VERSION=5.1.18
@@ -210,14 +211,3 @@ COPY --from=symfony_h2-proxy-cert server.key server.crt /etc/nginx/ssl/
 COPY ./docker/h2-proxy/default.conf /etc/nginx/conf.d/default.conf
 
 
-########################################################################################################################
-# Mmmmh
-#FROM symfony_php as symfony_php_dev
-#
-#RUN echo "Done!"
-#ARG XDEBUG_VERSION=2.8.0
-#RUN set -eux; \
-#	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
-#	pecl install xdebug-$XDEBUG_VERSION; \
-#	docker-php-ext-enable xdebug; \
-#	apk del .build-deps

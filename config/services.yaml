@@ -94,6 +94,7 @@ services:
         exclude:
             - '../src/{Features,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
             - '../src/Ranking/Options'
+            - '../src/Renderer'
 
     # Override the test client to get pretty responses for CLI, and perhaps store some config like URL prefixes.
     test.client:
