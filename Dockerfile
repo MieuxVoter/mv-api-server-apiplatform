@@ -22,12 +22,13 @@ RUN apk add --no-cache \
         jq \
         librsvg \
         ttf-dejavu \
+        font-noto-emoji \
 #        terminus-font \
 #        ttf-inconsolata \
 #        font-noto \
 #        font-noto-cjk \
-#        ttf-font-awesome \
 #        font-noto-extra \
+#        ttf-font-awesome \
     ;
 
 ARG APCU_VERSION=5.1.18
