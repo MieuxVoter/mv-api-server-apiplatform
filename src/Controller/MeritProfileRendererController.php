@@ -148,9 +148,9 @@ final class MeritProfileRendererController extends AbstractController
         $subject = $request->get('subject', "");
 
         $proposals = array_map(function ($i) {
-            $label = chr($i+65); // A, B, C, …
+            $label = chr($i + 65); // A, B, C, …
             return ['label' => $label];
-        }, range(0, count($tally)-1));
+        }, range(0, count($tally) - 1));
 
         $queryProposals = $request->get('proposals', []);
         if ( ! empty($queryProposals) && count($queryProposals) === count($tally)) {
@@ -198,8 +198,11 @@ CSS;
 
         try {
             if ('png' === $type) {
-//                $miprem = new PngIMRenderer($config);
-//                $miprem = new PngGdRenderer($config);
+                // Meh results
+                //$miprem = new PngIMRenderer($config);
+                // Prettier than IM, but no pattern fill
+                //$miprem = new PngGdRenderer($config);
+                // Best, but trickier to install
                 $miprem = new PngRsvgRenderer($config);
             } else {
                 $miprem = new SvgRenderer($config);
