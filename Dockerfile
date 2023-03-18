@@ -12,6 +12,12 @@ ARG NGINX_VERSION=1.17
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 
+# Enable edge for font-noto-emoji
+RUN apk add -X https://dl-cdn.alpinelinux.org/alpine/edge/main -u alpine-keys --allow-untrusted
+RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN apk update
+
 # Persistent / runtime deps
 RUN apk add --no-cache \
         acl \
@@ -22,12 +28,12 @@ RUN apk add --no-cache \
         jq \
         librsvg \
         ttf-dejavu \
-        font-noto-emoji \
-#        terminus-font \
-#        ttf-inconsolata \
+        font-noto-emoji@adge \
 #        font-noto \
 #        font-noto-cjk \
 #        font-noto-extra \
+#        terminus-font \
+#        ttf-inconsolata \
 #        ttf-font-awesome \
     ;
 
@@ -52,8 +58,6 @@ RUN set -eux; \
         imagemagick-libs \
         imagemagick-dev \
         oniguruma-dev \
-#        git \
-#        openssh-client \
         php7-json \
         php7-openssl \
         php7-pdo \
@@ -66,7 +70,6 @@ RUN set -eux; \
         php7-imagick \
         php7-pcntl \
         php7-zip \
-#        sqlite \
         zlib-dev \
 	; \
 	\
