@@ -145,14 +145,14 @@ final class MeritProfileRendererController extends AbstractController
 //            return new Response("Invalid request content.", Response::HTTP_BAD_REQUEST);
 //        }
 
-        $subject = $request->get('subject', "");
+        $subject = $this->getAnyFromRequest($request, ['subject', 's'], "");
 
         $proposals = array_map(function ($i) {
             $label = chr($i + 65); // A, B, C, …
             return ['label' => $label];
         }, range(0, count($tally) - 1));
 
-        $queryProposals = $request->get('proposals', []);
+        $queryProposals = $this->getAnyFromRequest($request, ['proposals', 'p'], []);
         if ( ! empty($queryProposals) && count($queryProposals) === count($tally)) {
             $proposals = array_map(function ($p) {
                 $label = mb_strimwidth($p, 0, 20);
@@ -246,7 +246,6 @@ DEMOSVG;
             'Content-Type' => 'text/svg+xml',
             'Content-Disposition' => 'inline',
         ]);
-        // should we send back a 400 and not a 200?
     }
 
     // RequestSugar trait?
