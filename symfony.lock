@@ -283,6 +283,9 @@
     "phpspec/prophecy": {
         "version": "1.8.1"
     },
+    "phpstan/phpdoc-parser": {
+        "version": "1.16.1"
+    },
     "phpunit/php-code-coverage": {
         "version": "6.1.4"
     },
