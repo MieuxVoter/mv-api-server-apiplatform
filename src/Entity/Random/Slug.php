@@ -15,7 +15,7 @@ class Slug
         // future possible parameters
         $lengths = [3, 2, 3];
         $separator = '-';
-        $pool = "abcdefghijkmnpqrstuvwxyz";
+        $pool = "abcdefghijkmnpqrstuvwxyz"; // l and o were removed
 
         $poolLength = strlen($pool);
 
@@ -26,11 +26,11 @@ class Slug
             }
 
             for ($n = 0; $n < $length; $n++) {
+                $dice_throw = 0;
                 try {
                     $dice_throw = random_int(0, $poolLength - 1);
                 } catch (Exception $e) {
                     trigger_error("Slug generation failed to use pseudo-random.", E_USER_ERROR);
-                    $dice_throw = 0;
                 }
 
                 $slug .= substr($pool, $dice_throw, 1);

@@ -1,41 +1,70 @@
 # Example usage:
+#   docker-compose up
 #   docker-compose up --build --detach
 #   docker-compose down
 
 # Careful: MV server has an outdated version of docker-compose (3.4 works).
-version: "3.4"
+# You can safely ignore the warning about this attribute being obsolete, it's benign.
+#version: "3.4"
 
 services:
   php:
     container_name: oas
     build:
       context: .
-      target: symfony_php
+      target: symfony_php_dev
       args:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         STABILITY: ${STABILITY:-stable}
-    healthcheck:
-      interval: 3600s
-      timeout: 30s
-      retries: 2
-      start_period: 30s
+        #GIT_TOKEN: "${GIT_TOKEN:-}"
+    restart: unless-stopped
+#    healthcheck:
+#      interval: 3600s
+#      timeout: 30s
+#      retries: 2
+#      start_period: 30s
+#      test:
+
     volumes:
       - ./:/srv/app:rw,cached
-      # If you develop on Linux, comment out the following volumes to just use bind-mounted project directory from host
-      # - /srv/app/var/
-      # - /srv/app/var/cache/
-      # - /srv/app/var/logs/
-      # - /srv/app/var/sessions/
     environment:
       - SYMFONY_VERSION
     depends_on:
       - db
+
+  # Perhaps switch to postgres at some point?
+  db:
+    container_name: oas_db
+    image: mariadb:12.2
+    restart: unless-stopped
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./.env.local
+        required: false
+      - path: ./.env.prod.local
+        required: false
+    environment:
+      # Best not write secrets in here ; edit .env.local after creating it from .env, or use real env vars.
+      - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:?error}
+      - MYSQL_USER=${MVOAS_MYSQL_USERNAME:?error}
+      - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:?error}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    # If you need a filesystem volume, best mount it somewhere other than ./var (conflicts with symfony).
+    #volumes:
+    #  - ./var/db/data:/var/lib/mysql:rw
+    # Named volumes work just fine.
+    volumes:
+      - mv_oas_db:/var/lib/mysql:rw
+    #ports:
+    #  - "3308:3306"
 
   nginx:
     container_name: oas_nginx
     build:
       context: .
       target: symfony_nginx
+    restart: unless-stopped
     depends_on:
       - php
     volumes:
@@ -45,6 +74,7 @@ services:
       - "80:80"
 
   # This HTTP/2 proxy is not secure: it should only be used in dev
+  # FIXME: remove this from here and use compose overrides instead
   h2-proxy:
     build:
       context: .
@@ -56,27 +86,6 @@ services:
     ports:
       - "443:443"
 
-  # Perhaps switch to postgres at some point?
-  db:
-    container_name: oas_db
-    image: mariadb:10.5.5
-    env_file:
-      - .env
-      - .env.local
-      #- .env.prod.local
-    environment:
-      # Best not edit secrets in here ; edit .env.local after creating it from .env
-      - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:-limaju}
-      - MYSQL_USER=${MVOAS_MYSQL_USERNAME:-limaju}
-      - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:-limaju}
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
-    # If we need this, let's mount it somewhere other than ./var (conflicts with symfony)
-    # Perhaps we do need to mount _some_ volumes to preserve the database.
-    # I noticed the database being reset last time I built.
-    #volumes:
-    #  - ./var/db/data:/var/lib/mysql:rw
-    #ports:
-    #  - "3308:3306"
-
-
+volumes:
+  mv_oas_db:
   

@@ -5,7 +5,9 @@
 #
 # Unmount when done with:
 #     umount ./var
-# Content of ./var will be lost!
+# Content of ./var will be lost!  Previous ./var will be restored.
+
+mkdir -p ./var
 
 USER_ID=$(id -u `whoami`)
 GROUP_ID=$(id -g `whoami`)

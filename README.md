@@ -31,13 +31,20 @@ It features:
 
 ## ⚙ Install
 
-### 🐋 Via docker
+### ⚙ Create your Configuration (mandatory)
+
+    cp .env .env.local
+
+Then, edit `.env.local` to your needs.
+
+
+### 🐋 Via Docker
 
 Install [Docker Compose](https://docs.docker.com/compose/install/).
 
 Run:
 
-    docker-compose up
+    docker compose up
 
 
 ### ✋ Manually
