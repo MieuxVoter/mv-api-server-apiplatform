@@ -9,7 +9,7 @@
 
 services:
   php:
-    container_name: oas
+    container_name: mvoas
     build:
       context: .
       target: symfony_php_dev
@@ -18,13 +18,6 @@ services:
         STABILITY: ${STABILITY:-stable}
         #GIT_TOKEN: "${GIT_TOKEN:-}"
     restart: unless-stopped
-#    healthcheck:
-#      interval: 3600s
-#      timeout: 30s
-#      retries: 2
-#      start_period: 30s
-#      test:
-
     volumes:
       - ./:/srv/app:rw,cached
     environment:
@@ -34,7 +27,7 @@ services:
 
   # Perhaps switch to postgres at some point?
   db:
-    container_name: oas_db
+    container_name: mvoas_db
     image: mariadb:12.2
     restart: unless-stopped
     env_file:
@@ -60,7 +53,7 @@ services:
     #  - "3308:3306"
 
   nginx:
-    container_name: oas_nginx
+    container_name: mvoas_nginx
     build:
       context: .
       target: symfony_nginx

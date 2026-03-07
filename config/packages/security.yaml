@@ -92,9 +92,8 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-        # Is the "main" even used, now that api matches ^/ ?
+        # FIXME: Is the "main" even used, now that api matches ^/ ?
         main:
-#            anonymous: true
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator

@@ -3,7 +3,7 @@ name: Full CI process
 on:
   push:
     branches:
-      - master
+      - main
 #env:
 #  ES_HTTP_PORT: 9209
 jobs:
@@ -100,8 +100,8 @@ jobs:
           bin/console lexik:jwt:check-config
 
       - name: Run integration tests
-        run: |
-          vendor/bin/behat -vv --tags='~wip&&~noci'
+        run: make test-ci
+#          vendor/bin/behat -vv --tags='~wip&&~noci'
 
 # Future Client Library Code Generation
 #  codegen:

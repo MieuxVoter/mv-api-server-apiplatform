@@ -23,10 +23,10 @@ endif
 	@echo "Running the feature suite…"
 	vendor/bin/behat
 
-inspection:  ## Run all the tests
+test:  ## Run all the tests
 	vendor/bin/behat -vv
 
-inspection-automated:  ## Run the subset of tests suitable for Continuous Integration
+test-ci:  ## Run the subset of tests suitable for Continuous Integration
 	vendor/bin/behat -vv --tags="~wip&&~noci"
 
 cuisine:  ## Run the subset of Work In Progress tests

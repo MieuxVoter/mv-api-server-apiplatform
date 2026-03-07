@@ -21,6 +21,7 @@ FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php_base
 # Persistent / runtime deps
 RUN apk add --no-cache \
         acl \
+        bash \
         fcgi \
         file \
         font-noto-emoji \
@@ -28,16 +29,17 @@ RUN apk add --no-cache \
         git \
         jq \
         librsvg \
+        make \
         ttf-dejavu \
         # SSH client can be needed to clone some PHP libs from github
         #openssh \
         # Fonts were used in the image generation of merit profiles I guess?
-#        font-noto \
-#        font-noto-cjk \
-#        font-noto-extra \
-#        terminus-font \
-#        ttf-inconsolata \
-#        ttf-font-awesome \
+        #font-noto \
+        #font-noto-cjk \
+        #font-noto-extra \
+        #terminus-font \
+        #ttf-inconsolata \
+        #ttf-font-awesome \
     ;
 
 ARG APCU_VERSION=5.1.18
@@ -61,7 +63,9 @@ RUN set -eux; \
         libxml2-dev \
         libzip-dev \
         oniguruma-dev \
-        # php7-xxxx ^packages were used in previous versions of alpine
+        zlib-dev \
+        # These php7-… packages were used in previous versions of alpine. \
+        # Keeping them commented here until we know for sure we won't need them again.
 #        php7-json \
 #        php7-openssl \
 #        php7-pdo \
@@ -74,7 +78,6 @@ RUN set -eux; \
 #        php7-imagick \
 #        php7-pcntl \
 #        php7-zip \
-        zlib-dev \
 	; \
 	\
 	docker-php-ext-configure zip; \

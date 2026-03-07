@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class TallyDeserializerTest extends TestCase
 {
-
     function testDemoUsage() {
         $data = [
             [
@@ -27,7 +26,6 @@ class TallyDeserializerTest extends TestCase
             ],
         ];
         foreach ($data as $datum) {
-
             foreach ($datum['strings'] as $string) {
                 $td = new TallyDeserializer();
                 $actual = $td->deserialize($string);

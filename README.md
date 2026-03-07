@@ -44,7 +44,8 @@ Install [Docker Compose](https://docs.docker.com/compose/install/).
 
 Run:
 
-    docker compose up
+    docker compose up --detach
+    docker compose exec php make install
 
 
 ### ✋ Manually
