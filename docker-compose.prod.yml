@@ -1,0 +1,9 @@
+# As its name implies, this file is meant to be used in prod.
+# You can either pass it manually to your docker compose commands,
+# or copy it to docker-compose.override.yml
+
+services:
+  nginx:
+    ports: !override
+      # Our server's reverse proxy config expects this service to be on port 9000.
+      - "9000:80"

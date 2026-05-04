@@ -25,7 +25,6 @@ services:
     depends_on:
       - db
 
-  # Perhaps switch to postgres at some point?
   db:
     container_name: mvoas_db
     image: mariadb:12.2
