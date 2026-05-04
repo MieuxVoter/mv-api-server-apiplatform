@@ -33,7 +33,9 @@ It features:
 
 ### ⚙ Create your Configuration (mandatory)
 
+```shell
     cp .env .env.local
+```
 
 Then, edit `.env.local` to your needs.
 
@@ -44,8 +46,10 @@ Install [Docker Compose](https://docs.docker.com/compose/install/).
 
 Run:
 
+```shell
     docker compose up --detach
     docker compose exec php make install
+```
 
 
 ### ✋ Manually
@@ -59,12 +63,14 @@ you should use `postgres` in production.
 
 Get [Composer](https://getcomposer.org).
 
+```shell
     composer install
+```
 
 
 ### 🔐 Setup JWT
 
-> php bin/console lexik:jwt:generate-keypair
+> `php bin/console lexik:jwt:generate-keypair`
 
 #### Using a BASH script
 

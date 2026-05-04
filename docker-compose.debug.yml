@@ -1,7 +1,8 @@
 # Run with:
 #     docker compose -f docker-compose.yml -f docker-compose.debug.yml up
 # Doc: https://docs.docker.com/compose/extends/
-version: "3.4"
+
+#version: "3.4"
 
 services:
   php:
@@ -14,9 +15,9 @@ services:
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       XDEBUG_CONFIG: >-
         remote_enable=1
-        remote_autostart = 1
+        remote_autostart=1
         remote_host=172.17.0.1
-        remote_connect_back = 0
+        remote_connect_back=0
         remote_port=9001
         remote_log="/tmp/xdebug_remote.log
         idekey=VSCODE

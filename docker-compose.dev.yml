@@ -1,0 +1,18 @@
+# As its name implies, this file should only be used in dev.
+# It contains handy overrides for development.
+# You can either pass it manually to your docker compose commands,
+# or copy it to docker-compose.override.yml
+
+services:
+  # This HTTP/2 proxy is not secure: it should only be used in dev.
+  h2-proxy:
+    container_name: mvoas_h2_proxy
+    build:
+      context: .
+      target: symfony_h2-proxy
+    depends_on:
+      - nginx
+    volumes:
+      - ./docker/h2-proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "443:443"

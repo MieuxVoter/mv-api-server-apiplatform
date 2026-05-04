@@ -1,16 +1,19 @@
-# Files described in here will be ignroed by git
+# Files described in here will be ignored by git.
 
 # OSes & IDEs
 .idea
 .directory
 .vscode
 
+# Docker
+docker-compose.override.yml
+
 # Misc
 /openapi-generator-cli.jar
 /gource-*.png
 
 # PHPENV
-.php-version
+/.php-version
 
 
 ## BELOW IS MANAGED AUTOMATICALLY BY BUNDLES ##

@@ -9,7 +9,7 @@
 
 services:
   php:
-    container_name: mvoas
+    container_name: mvoas_php
     build:
       context: .
       target: symfony_php_dev
@@ -38,19 +38,19 @@ services:
       - path: ./.env.prod.local
         required: false
     environment:
-      # Best not write secrets in here ; edit .env.local after creating it from .env, or use real env vars.
+      # Do not write secrets in here ; edit .env.local after creating it from .env, or use real env vars.
       - MYSQL_DATABASE=${MVOAS_MYSQL_DATABASE:?error}
       - MYSQL_USER=${MVOAS_MYSQL_USERNAME:?error}
       - MYSQL_PASSWORD=${MVOAS_MYSQL_PASSWORD:?error}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     # If you need a filesystem volume, best mount it somewhere other than ./var (conflicts with symfony).
-    #volumes:
-    #  - ./var/db/data:/var/lib/mysql:rw
-    # Named volumes work just fine.
+    # Named volumes work just fine, though, so we use those.
     volumes:
       - mv_oas_db:/var/lib/mysql:rw
+    # We do not need to expose this database to the host network.
+    # In case you do, however, its access port is 3306.
     #ports:
-    #  - "3308:3306"
+    #  - "3306:3306"
 
   nginx:
     container_name: mvoas_nginx
@@ -66,19 +66,6 @@ services:
     ports:
       - "80:80"
 
-  # This HTTP/2 proxy is not secure: it should only be used in dev
-  # FIXME: remove this from here and use compose overrides instead
-  h2-proxy:
-    build:
-      context: .
-      target: symfony_h2-proxy
-    depends_on:
-      - nginx
-    volumes:
-      - ./docker/h2-proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
-    ports:
-      - "443:443"
-
 volumes:
-  mv_oas_db:
+  mv_oas_db: {}
   

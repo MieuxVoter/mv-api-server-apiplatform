@@ -24,6 +24,7 @@ RUN apk add --no-cache \
         bash \
         fcgi \
         file \
+        font-noto \
         font-noto-emoji \
         gettext \
         git \
@@ -34,7 +35,6 @@ RUN apk add --no-cache \
         # SSH client can be needed to clone some PHP libs from github
         #openssh \
         # Fonts were used in the image generation of merit profiles I guess?
-        #font-noto \
         #font-noto-cjk \
         #font-noto-extra \
         #terminus-font \

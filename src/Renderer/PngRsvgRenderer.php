@@ -2,6 +2,8 @@
 
 namespace App\Renderer;
 
+use Exception;
+use Miprem\Model\Poll;
 use Miprem\Renderer\SvgRenderer;
 use SVG\SVG;
 
@@ -9,19 +11,21 @@ use SVG\SVG;
  * Provides accurate rasters.
  * Requires librsvg2-bin on Debian, librsvg on Alpine
  *
- * We may perhaps shave the shell_exec() call with https://github.com/gtkforphp/rsvg
+ * We may shave the shell_exec() call with https://github.com/gtkforphp/rsvg
  */
 class PngRsvgRenderer extends SvgRenderer
 {
-    public function render(\Miprem\Model\Poll $poll, array $opt = []): string
+    public function render(Poll $poll, array $opt = []): string
     {
         $svg = SVG::fromString(parent::render($poll, $opt));
+        /* // buggy & outdated
         $doc = $svg->getDocument();
         $doc->addFont(
             __DIR__ . '/../../vendor/roipoussiere/miprem-php/src/Renderer/DejaVuSans.ttf',
             null,
             'sans-serif'
         );
+        */
 
         $tmpSvg = tmpfile();
         fwrite($tmpSvg, $svg->toXMLString());
@@ -34,10 +38,10 @@ class PngRsvgRenderer extends SvgRenderer
         ];
         $out = shell_exec(join(" ", $command));
         if ($out === false) {
-            throw new \Exception("rsvg-convert failed (false)");
+            throw new Exception("rsvg-convert failed (false)");
         }
         if ($out === null) {
-            throw new \Exception("rsvg-convert failed (null)");
+            throw new Exception("rsvg-convert failed (null)");
         }
 
         fclose($tmpSvg); // this removes the tmp file
