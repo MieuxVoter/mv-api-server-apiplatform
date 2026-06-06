@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/MieuxVoter/mv-api-server-apiplatform?include_prereleases&style=for-the-badge)](https://github.com/MieuxVoter/mv-api-server-apiplatform/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/MieuxVoter/mv-api-server-apiplatform/symfony.yml?style=for-the-badge)](https://github.com/MieuxVoter/mv-api-server-apiplatform/actions/workflows/symfony.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/MieuxVoter/mv-api-server-apiplatform?style=for-the-badge&token=FEUB64HRNM)](https://app.codecov.io/gh/MieuxVoter/mv-api-server-apiplatform/)
-[![Discord Chat https://discord.gg/rAAQG9S](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/rAAQG9S)
+[![Discord Chat https://discord.gg/k9YRuZPSZs](https://img.shields.io/discord/705322981102190593.svg?style=for-the-badge)](https://discord.gg/k9YRuZPSZs)
 
 
 <!-- We'll use a badge for this -->
